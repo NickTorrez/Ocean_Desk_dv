@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
             btnBitacoras = new Button();
@@ -50,12 +51,19 @@
             lblAppName = new Label();
             pbLogo = new PictureBox();
             pnlHeader = new Panel();
+            lblFecha = new Label();
+            lblHora = new Label();
+            lblUser = new Label();
+            pictureBox2 = new PictureBox();
             pnlContent = new Panel();
+            tmrReloj = new System.Windows.Forms.Timer(components);
             pnlSidebar.SuspendLayout();
             pnlMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlSidebarHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
+            pnlHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // pnlSidebar
@@ -491,11 +499,56 @@
             // pnlHeader
             // 
             pnlHeader.BorderStyle = BorderStyle.FixedSingle;
+            pnlHeader.Controls.Add(lblFecha);
+            pnlHeader.Controls.Add(lblHora);
+            pnlHeader.Controls.Add(lblUser);
+            pnlHeader.Controls.Add(pictureBox2);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(230, 0);
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(770, 65);
             pnlHeader.TabIndex = 1;
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFecha.Location = new Point(24, 31);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(60, 21);
+            lblFecha.TabIndex = 3;
+            lblFecha.Text = "label3";
+            // 
+            // lblHora
+            // 
+            lblHora.AutoSize = true;
+            lblHora.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHora.Location = new Point(24, 8);
+            lblHora.Name = "lblHora";
+            lblHora.Size = new Size(72, 23);
+            lblHora.TabIndex = 2;
+            lblHora.Text = "label2";
+            // 
+            // lblUser
+            // 
+            lblUser.Anchor = AnchorStyles.None;
+            lblUser.AutoSize = true;
+            lblUser.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblUser.Location = new Point(573, 22);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(107, 21);
+            lblUser.TabIndex = 1;
+            lblUser.Text = "Rick Zorquin";
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox2.Image = Properties.Resources.admin_person_user_man_2839;
+            pictureBox2.Location = new Point(686, 7);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(48, 48);
+            pictureBox2.TabIndex = 0;
+            pictureBox2.TabStop = false;
             // 
             // pnlContent
             // 
@@ -506,6 +559,10 @@
             pnlContent.Padding = new Padding(20);
             pnlContent.Size = new Size(770, 835);
             pnlContent.TabIndex = 2;
+            // 
+            // tmrReloj
+            // 
+            tmrReloj.Tick += tmrReloj_Tick;
             // 
             // FrmMainMenu
             // 
@@ -528,6 +585,9 @@
             pnlSidebarHeader.ResumeLayout(false);
             pnlSidebarHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
+            pnlHeader.ResumeLayout(false);
+            pnlHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -556,5 +616,10 @@
         private Button btnEmpleados;
         private Button btnBitacoras;
         private Button btnCocina;
+        private PictureBox pictureBox2;
+        private Label lblUser;
+        private System.Windows.Forms.Timer tmrReloj;
+        private Label lblHora;
+        private Label lblFecha;
     }
 }

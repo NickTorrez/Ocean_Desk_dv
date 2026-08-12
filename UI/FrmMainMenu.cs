@@ -40,6 +40,9 @@ namespace Ocean_Desk_dv.UI
 
             pnlMenu.Controls.Add(indicadorActivo);
             indicadorActivo.BringToFront();
+
+            //Iniciar Timer
+            tmrReloj.Start();
         }
 
         /// <summary>
@@ -185,6 +188,13 @@ namespace Ocean_Desk_dv.UI
         private void btnBitacoras_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnBitacoras);
+        }
+
+        private void tmrReloj_Tick(object sender, EventArgs e)
+        {
+            // Actualiza la hora y la fecha cada segundo
+            lblHora.Text = DateTime.Now.ToString("hh:mm:ss tt"); // Formato 12 horas con AM/PM
+            lblFecha.Text = DateTime.Now.ToLongDateString(); // Ejemplo: "lunes, 24 de mayo de 2026"
         }
     }
 }

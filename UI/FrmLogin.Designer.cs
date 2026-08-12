@@ -43,7 +43,6 @@
             chkRemember = new CheckBox();
             btnLogin = new Button();
             pnlUsername = new Panel();
-            panel2 = new Panel();
             pictureBox1 = new PictureBox();
             txtUsername = new TextBox();
             lblLoginDescription = new Label();
@@ -53,6 +52,7 @@
             btnShowPassword = new Button();
             pictureBox2 = new PictureBox();
             txtPassword = new TextBox();
+            panel2 = new Panel();
             pnlBrand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlLogin.SuspendLayout();
@@ -239,14 +239,6 @@
             pnlUsername.Size = new Size(400, 55);
             pnlUsername.TabIndex = 2;
             // 
-            // panel2
-            // 
-            panel2.BackColor = Color.Cyan;
-            panel2.Location = new Point(61, 41);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(318, 5);
-            panel2.TabIndex = 4;
-            // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.White;
@@ -347,6 +339,14 @@
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Cyan;
+            panel2.Location = new Point(61, 41);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(318, 5);
+            panel2.TabIndex = 4;
+            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -398,9 +398,9 @@
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private Panel panel1;
-        private Panel panel2;
         private Button btnCancel;
         private Button btnShowPassword;
         private Label lblCopyright;
+        private Panel panel2;
     }
 }
