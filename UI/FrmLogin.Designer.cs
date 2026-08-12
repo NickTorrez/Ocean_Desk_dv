@@ -86,7 +86,6 @@
             lblCopyright.Size = new Size(247, 17);
             lblCopyright.TabIndex = 9;
             lblCopyright.Text = "©2026 OceanDesk. All rights reserved.";
-            lblCopyright.Click += lblCopyright_Click;
             // 
             // lblDescription
             // 
@@ -141,7 +140,6 @@
             pnlLogin.Name = "pnlLogin";
             pnlLogin.Size = new Size(582, 553);
             pnlLogin.TabIndex = 1;
-            pnlLogin.Paint += pnlLogin_Paint;
             // 
             // btnCancel
             // 

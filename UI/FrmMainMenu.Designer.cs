@@ -112,6 +112,9 @@
             btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
             btnBitacoras.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnBitacoras.UseVisualStyleBackColor = true;
+            btnBitacoras.Click += btnBitacoras_Click;
+            btnBitacoras.MouseEnter += Boton_MouseEnter;
+            btnBitacoras.MouseLeave += Boton_MouseLeave;
             // 
             // btnCocina
             // 
@@ -131,6 +134,9 @@
             btnCocina.TextAlign = ContentAlignment.MiddleLeft;
             btnCocina.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnCocina.UseVisualStyleBackColor = true;
+            btnCocina.Click += btnCocina_Click;
+            btnCocina.MouseEnter += Boton_MouseEnter;
+            btnCocina.MouseLeave += Boton_MouseLeave;
             // 
             // btnMesas
             // 
@@ -150,6 +156,9 @@
             btnMesas.TextAlign = ContentAlignment.MiddleLeft;
             btnMesas.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnMesas.UseVisualStyleBackColor = true;
+            btnMesas.Click += btnMesas_Click;
+            btnMesas.MouseEnter += Boton_MouseEnter;
+            btnMesas.MouseLeave += Boton_MouseLeave;
             // 
             // btnCerrarSesion
             // 
@@ -191,6 +200,9 @@
             btnEmpleados.TextAlign = ContentAlignment.MiddleLeft;
             btnEmpleados.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnEmpleados.UseVisualStyleBackColor = true;
+            btnEmpleados.Click += btnEmpleados_Click;
+            btnEmpleados.MouseEnter += Boton_MouseEnter;
+            btnEmpleados.MouseLeave += Boton_MouseLeave;
             // 
             // btnReportes
             // 
@@ -212,6 +224,9 @@
             btnReportes.TextAlign = ContentAlignment.MiddleLeft;
             btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnReportes.UseVisualStyleBackColor = false;
+            btnReportes.Click += btnReportes_Click;
+            btnReportes.MouseEnter += Boton_MouseEnter;
+            btnReportes.MouseLeave += Boton_MouseLeave;
             // 
             // btnProveedores
             // 
@@ -233,6 +248,9 @@
             btnProveedores.TextAlign = ContentAlignment.MiddleLeft;
             btnProveedores.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnProveedores.UseVisualStyleBackColor = false;
+            btnProveedores.Click += btnProveedores_Click;
+            btnProveedores.MouseEnter += Boton_MouseEnter;
+            btnProveedores.MouseLeave += Boton_MouseLeave;
             // 
             // btnFacturacion
             // 
@@ -254,6 +272,9 @@
             btnFacturacion.TextAlign = ContentAlignment.MiddleLeft;
             btnFacturacion.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnFacturacion.UseVisualStyleBackColor = false;
+            btnFacturacion.Click += btnFacturacion_Click;
+            btnFacturacion.MouseEnter += Boton_MouseEnter;
+            btnFacturacion.MouseLeave += Boton_MouseLeave;
             // 
             // btnVentas
             // 
@@ -275,6 +296,9 @@
             btnVentas.TextAlign = ContentAlignment.MiddleLeft;
             btnVentas.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnVentas.UseVisualStyleBackColor = false;
+            btnVentas.Click += btnVentas_Click;
+            btnVentas.MouseEnter += Boton_MouseEnter;
+            btnVentas.MouseLeave += Boton_MouseLeave;
             // 
             // btnCompras
             // 
@@ -296,6 +320,9 @@
             btnCompras.TextAlign = ContentAlignment.MiddleLeft;
             btnCompras.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnCompras.UseVisualStyleBackColor = false;
+            btnCompras.Click += btnCompras_Click;
+            btnCompras.MouseEnter += Boton_MouseEnter;
+            btnCompras.MouseLeave += Boton_MouseLeave;
             // 
             // btnInventario
             // 
@@ -317,6 +344,9 @@
             btnInventario.TextAlign = ContentAlignment.MiddleLeft;
             btnInventario.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInventario.UseVisualStyleBackColor = false;
+            btnInventario.Click += btnInventario_Click;
+            btnInventario.MouseEnter += Boton_MouseEnter;
+            btnInventario.MouseLeave += Boton_MouseLeave;
             // 
             // btnProductos
             // 
@@ -338,6 +368,9 @@
             btnProductos.TextAlign = ContentAlignment.MiddleLeft;
             btnProductos.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnProductos.UseVisualStyleBackColor = false;
+            btnProductos.Click += btnProductos_Click;
+            btnProductos.MouseEnter += Boton_MouseEnter;
+            btnProductos.MouseLeave += Boton_MouseLeave;
             // 
             // btnClientes
             // 
@@ -359,6 +392,9 @@
             btnClientes.TextAlign = ContentAlignment.MiddleLeft;
             btnClientes.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnClientes.UseVisualStyleBackColor = false;
+            btnClientes.Click += btnClientes_Click;
+            btnClientes.MouseEnter += Boton_MouseEnter;
+            btnClientes.MouseLeave += Boton_MouseLeave;
             // 
             // btnUsuarios
             // 
@@ -380,6 +416,9 @@
             btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
             btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Click += btnUsuarios_Click;
+            btnUsuarios.MouseEnter += Boton_MouseEnter;
+            btnUsuarios.MouseLeave += Boton_MouseLeave;
             // 
             // btnInicio
             // 
@@ -401,6 +440,9 @@
             btnInicio.TextAlign = ContentAlignment.MiddleLeft;
             btnInicio.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInicio.UseVisualStyleBackColor = false;
+            btnInicio.Click += btnInicio_Click;
+            btnInicio.MouseEnter += Boton_MouseEnter;
+            btnInicio.MouseLeave += Boton_MouseLeave;
             // 
             // pictureBox1
             // 
