@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             pnlBrand = new Panel();
+            lblCopyright = new Label();
             lblDescription = new Label();
             lblAppName = new Label();
             picLogo = new PictureBox();
@@ -52,7 +53,6 @@
             btnShowPassword = new Button();
             pictureBox2 = new PictureBox();
             txtPassword = new TextBox();
-            lblCopyright = new Label();
             pnlBrand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlLogin.SuspendLayout();
@@ -74,6 +74,19 @@
             pnlBrand.Name = "pnlBrand";
             pnlBrand.Size = new Size(400, 553);
             pnlBrand.TabIndex = 0;
+            // 
+            // lblCopyright
+            // 
+            lblCopyright.AutoSize = true;
+            lblCopyright.BackColor = Color.Transparent;
+            lblCopyright.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCopyright.ForeColor = SystemColors.AppWorkspace;
+            lblCopyright.Location = new Point(25, 527);
+            lblCopyright.Name = "lblCopyright";
+            lblCopyright.Size = new Size(247, 17);
+            lblCopyright.TabIndex = 9;
+            lblCopyright.Text = "©2026 OceanDesk. All rights reserved.";
+            lblCopyright.Click += lblCopyright_Click;
             // 
             // lblDescription
             // 
@@ -214,6 +227,7 @@
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Iniciar sesión";
             btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // pnlUsername
             // 
@@ -335,19 +349,6 @@
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
-            // lblCopyright
-            // 
-            lblCopyright.AutoSize = true;
-            lblCopyright.BackColor = Color.Transparent;
-            lblCopyright.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblCopyright.ForeColor = SystemColors.AppWorkspace;
-            lblCopyright.Location = new Point(25, 527);
-            lblCopyright.Name = "lblCopyright";
-            lblCopyright.Size = new Size(247, 17);
-            lblCopyright.TabIndex = 9;
-            lblCopyright.Text = "©2026 OceanDesk. All rights reserved.";
-            lblCopyright.Click += lblCopyright_Click;
-            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -357,6 +358,7 @@
             Controls.Add(pnlLogin);
             Controls.Add(pnlBrand);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmLogin";
