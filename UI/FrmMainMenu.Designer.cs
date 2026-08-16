@@ -61,10 +61,21 @@
             lblAppName = new Label();
             pbLogo = new PictureBox();
             pnlHeader = new Panel();
+            tblTop = new TableLayoutPanel();
+            pnlWindowControls = new Panel();
+            btnClose = new Button();
+            btnMaximize = new Button();
+            btnMinimize = new Button();
+            pnlModuleInfo = new Panel();
+            lblSeccion = new Label();
+            lblSubtitulo = new Label();
+            pnlDateTime = new Panel();
             lblFecha = new Label();
             lblHora = new Label();
-            lblUser = new Label();
+            pnlUsuario = new Panel();
             pictureBox2 = new PictureBox();
+            lblUsuario = new Label();
+            label1 = new Label();
             pnlContent = new Panel();
             tmrReloj = new System.Windows.Forms.Timer(components);
             pnlSidebar.SuspendLayout();
@@ -74,6 +85,11 @@
             pnlAppName.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             pnlHeader.SuspendLayout();
+            tblTop.SuspendLayout();
+            pnlWindowControls.SuspendLayout();
+            pnlModuleInfo.SuspendLayout();
+            pnlDateTime.SuspendLayout();
+            pnlUsuario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
@@ -668,56 +684,214 @@
             // pnlHeader
             // 
             pnlHeader.BorderStyle = BorderStyle.FixedSingle;
-            pnlHeader.Controls.Add(lblFecha);
-            pnlHeader.Controls.Add(lblHora);
-            pnlHeader.Controls.Add(lblUser);
-            pnlHeader.Controls.Add(pictureBox2);
+            pnlHeader.Controls.Add(tblTop);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(260, 0);
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(940, 70);
             pnlHeader.TabIndex = 1;
             // 
+            // tblTop
+            // 
+            tblTop.ColumnCount = 4;
+            tblTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
+            tblTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29F));
+            tblTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+            tblTop.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            tblTop.Controls.Add(pnlWindowControls, 3, 0);
+            tblTop.Controls.Add(pnlModuleInfo, 0, 0);
+            tblTop.Controls.Add(pnlDateTime, 1, 0);
+            tblTop.Controls.Add(pnlUsuario, 2, 0);
+            tblTop.Dock = DockStyle.Fill;
+            tblTop.Location = new Point(0, 0);
+            tblTop.Margin = new Padding(0);
+            tblTop.Name = "tblTop";
+            tblTop.RowCount = 1;
+            tblTop.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tblTop.Size = new Size(938, 68);
+            tblTop.TabIndex = 0;
+            // 
+            // pnlWindowControls
+            // 
+            pnlWindowControls.BackColor = Color.Transparent;
+            pnlWindowControls.Controls.Add(btnClose);
+            pnlWindowControls.Controls.Add(btnMaximize);
+            pnlWindowControls.Controls.Add(btnMinimize);
+            pnlWindowControls.Dock = DockStyle.Right;
+            pnlWindowControls.Location = new Point(800, 3);
+            pnlWindowControls.Name = "pnlWindowControls";
+            pnlWindowControls.Size = new Size(135, 62);
+            pnlWindowControls.TabIndex = 6;
+            // 
+            // btnClose
+            // 
+            btnClose.Cursor = Cursors.Hand;
+            btnClose.Dock = DockStyle.Left;
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClose.ForeColor = Color.FromArgb(18, 48, 71);
+            btnClose.Location = new Point(90, 0);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(45, 62);
+            btnClose.TabIndex = 2;
+            btnClose.TabStop = false;
+            btnClose.Text = "✕";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            btnClose.MouseEnter += btnClose_MouseEnter;
+            btnClose.MouseLeave += btnClose_MouseLeave;
+            // 
+            // btnMaximize
+            // 
+            btnMaximize.Cursor = Cursors.Hand;
+            btnMaximize.Dock = DockStyle.Left;
+            btnMaximize.FlatAppearance.BorderSize = 0;
+            btnMaximize.FlatStyle = FlatStyle.Flat;
+            btnMaximize.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMaximize.ForeColor = Color.FromArgb(18, 48, 71);
+            btnMaximize.Location = new Point(45, 0);
+            btnMaximize.Name = "btnMaximize";
+            btnMaximize.Size = new Size(45, 62);
+            btnMaximize.TabIndex = 1;
+            btnMaximize.TabStop = false;
+            btnMaximize.Text = "□";
+            btnMaximize.UseVisualStyleBackColor = true;
+            btnMaximize.Click += btnMaximize_Click;
+            btnMaximize.MouseEnter += WindowButton_MouseEnter;
+            btnMaximize.MouseLeave += WindowButton_MouseLeave;
+            // 
+            // btnMinimize
+            // 
+            btnMinimize.Cursor = Cursors.Hand;
+            btnMinimize.Dock = DockStyle.Left;
+            btnMinimize.FlatAppearance.BorderSize = 0;
+            btnMinimize.FlatStyle = FlatStyle.Flat;
+            btnMinimize.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMinimize.ForeColor = Color.FromArgb(18, 48, 71);
+            btnMinimize.Location = new Point(0, 0);
+            btnMinimize.Name = "btnMinimize";
+            btnMinimize.Size = new Size(45, 62);
+            btnMinimize.TabIndex = 0;
+            btnMinimize.TabStop = false;
+            btnMinimize.Text = "-";
+            btnMinimize.UseVisualStyleBackColor = true;
+            btnMinimize.Click += btnMinimize_Click;
+            btnMinimize.MouseEnter += WindowButton_MouseEnter;
+            btnMinimize.MouseLeave += WindowButton_MouseLeave;
+            // 
+            // pnlModuleInfo
+            // 
+            pnlModuleInfo.Controls.Add(lblSubtitulo);
+            pnlModuleInfo.Controls.Add(lblSeccion);
+            pnlModuleInfo.Dock = DockStyle.Left;
+            pnlModuleInfo.Location = new Point(3, 3);
+            pnlModuleInfo.Name = "pnlModuleInfo";
+            pnlModuleInfo.Size = new Size(294, 62);
+            pnlModuleInfo.TabIndex = 0;
+            // 
+            // lblSeccion
+            // 
+            lblSeccion.Dock = DockStyle.Top;
+            lblSeccion.Font = new Font("Century Gothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSeccion.ForeColor = Color.FromArgb(18, 48, 71);
+            lblSeccion.Location = new Point(0, 0);
+            lblSeccion.Name = "lblSeccion";
+            lblSeccion.Size = new Size(294, 40);
+            lblSeccion.TabIndex = 2;
+            lblSeccion.Text = "Reportes";
+            lblSeccion.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblSubtitulo
+            // 
+            lblSubtitulo.Dock = DockStyle.Top;
+            lblSubtitulo.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtitulo.ForeColor = Color.FromArgb(107, 124, 135);
+            lblSubtitulo.Location = new Point(0, 40);
+            lblSubtitulo.Name = "lblSubtitulo";
+            lblSubtitulo.Size = new Size(294, 22);
+            lblSubtitulo.TabIndex = 3;
+            lblSubtitulo.Text = "  Sistema de gestión";
+            lblSubtitulo.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // pnlDateTime
+            // 
+            pnlDateTime.BackColor = Color.Transparent;
+            pnlDateTime.Controls.Add(lblFecha);
+            pnlDateTime.Controls.Add(lblHora);
+            pnlDateTime.Dock = DockStyle.Fill;
+            pnlDateTime.Location = new Point(303, 3);
+            pnlDateTime.Name = "pnlDateTime";
+            pnlDateTime.Size = new Size(266, 62);
+            pnlDateTime.TabIndex = 0;
+            // 
             // lblFecha
             // 
-            lblFecha.AutoSize = true;
-            lblFecha.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFecha.Location = new Point(24, 31);
+            lblFecha.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFecha.ForeColor = Color.FromArgb(107, 124, 135);
+            lblFecha.Location = new Point(15, 31);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(60, 21);
+            lblFecha.Size = new Size(220, 22);
             lblFecha.TabIndex = 3;
-            lblFecha.Text = "label3";
+            lblFecha.Text = "Fecha";
+            lblFecha.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblHora
             // 
-            lblHora.AutoSize = true;
-            lblHora.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHora.Location = new Point(24, 8);
+            lblHora.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHora.ForeColor = Color.FromArgb(18, 48, 71);
+            lblHora.Location = new Point(20, 5);
             lblHora.Name = "lblHora";
-            lblHora.Size = new Size(72, 23);
+            lblHora.Size = new Size(210, 28);
             lblHora.TabIndex = 2;
-            lblHora.Text = "label2";
+            lblHora.Text = "Hora";
+            lblHora.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lblUser
+            // pnlUsuario
             // 
-            lblUser.Anchor = AnchorStyles.None;
-            lblUser.AutoSize = true;
-            lblUser.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblUser.Location = new Point(658, 25);
-            lblUser.Name = "lblUser";
-            lblUser.Size = new Size(107, 21);
-            lblUser.TabIndex = 1;
-            lblUser.Text = "Rick Zorquin";
+            pnlUsuario.BackColor = Color.Transparent;
+            pnlUsuario.Controls.Add(pictureBox2);
+            pnlUsuario.Controls.Add(lblUsuario);
+            pnlUsuario.Controls.Add(label1);
+            pnlUsuario.Dock = DockStyle.Right;
+            pnlUsuario.Location = new Point(575, 3);
+            pnlUsuario.Name = "pnlUsuario";
+            pnlUsuario.Size = new Size(219, 62);
+            pnlUsuario.TabIndex = 5;
             // 
             // pictureBox2
             // 
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox2.Image = Properties.Resources.admin_person_user_man_2839;
-            pictureBox2.Location = new Point(856, 7);
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(159, 6);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(48, 48);
+            pictureBox2.Size = new Size(56, 48);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 0;
             pictureBox2.TabStop = false;
+            // 
+            // lblUsuario
+            // 
+            lblUsuario.Anchor = AnchorStyles.None;
+            lblUsuario.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUsuario.ForeColor = Color.FromArgb(18, 48, 71);
+            lblUsuario.Location = new Point(3, 9);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(150, 25);
+            lblUsuario.TabIndex = 1;
+            lblUsuario.Text = "Rick Zorquin";
+            lblUsuario.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            label1.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(107, 124, 135);
+            label1.Location = new Point(3, 32);
+            label1.Name = "label1";
+            label1.Size = new Size(150, 20);
+            label1.TabIndex = 4;
+            label1.Text = "Administrador";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // pnlContent
             // 
@@ -732,6 +906,8 @@
             // 
             // tmrReloj
             // 
+            tmrReloj.Enabled = true;
+            tmrReloj.Interval = 1000;
             tmrReloj.Tick += tmrReloj_Tick;
             // 
             // FrmMainMenu
@@ -752,6 +928,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmMainMenu";
             WindowState = FormWindowState.Maximized;
+            Load += FrmMainMenu_Load;
             pnlSidebar.ResumeLayout(false);
             pnlMenu.ResumeLayout(false);
             pnlBottom.ResumeLayout(false);
@@ -760,7 +937,11 @@
             pnlAppName.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             pnlHeader.ResumeLayout(false);
-            pnlHeader.PerformLayout();
+            tblTop.ResumeLayout(false);
+            pnlWindowControls.ResumeLayout(false);
+            pnlModuleInfo.ResumeLayout(false);
+            pnlDateTime.ResumeLayout(false);
+            pnlUsuario.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
@@ -777,7 +958,7 @@
         private Panel pnlMenu;
         private Button btnCerrarSesion;
         private PictureBox pictureBox2;
-        private Label lblUser;
+        private Label lblUsuario;
         private System.Windows.Forms.Timer tmrReloj;
         private Label lblHora;
         private Label lblFecha;
@@ -804,5 +985,16 @@
         private Button btnFidelizacion;
         private Label lblSeguridad;
         private Label lblAdministracion;
+        private Panel pnlDateTime;
+        private Label lblSeccion;
+        private Label lblSubtitulo;
+        private Label label1;
+        private Panel pnlUsuario;
+        private Panel pnlWindowControls;
+        private Button btnMaximize;
+        private Button btnMinimize;
+        private Button btnClose;
+        private Panel pnlModuleInfo;
+        private TableLayoutPanel tblTop;
     }
 }

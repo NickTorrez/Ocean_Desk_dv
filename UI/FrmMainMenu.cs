@@ -13,6 +13,7 @@ namespace Ocean_Desk_dv.UI
 {
     public partial class FrmMainMenu : Form
     {
+        #region Variables 
         // Se creo el objeto Login para instanciar enviar la referencia del formulario de login al formulario principal
         private FrmLogin login;
 
@@ -25,6 +26,9 @@ namespace Ocean_Desk_dv.UI
         private Color colorBarraActivo = Color.FromArgb(0, 190, 220); // Color de la barra lateral para el botón activo
         private Panel indicadorActivo; // Panel para indicar el botón activo
 
+        #endregion
+
+        #region Constructor y Inicialización
         public FrmMainMenu(FrmLogin login)
         {
             InitializeComponent();
@@ -45,6 +49,16 @@ namespace Ocean_Desk_dv.UI
             tmrReloj.Start();
         }
 
+        private void FrmMainMenu_Load(object sender, EventArgs e)
+        {
+            //lblHora.Text = DateTime.Now.ToString("hh:mm:ss tt");// Formato 12 horas con AM/PM
+            //lblFecha.Text = DateTime.Now.ToLongDateString();// Ejemplo: "lunes, 24 de mayo de 2026"
+
+            //tmrReloj.Start();// Inicia el temporizador para actualizar la hora y la fecha
+        }
+        #endregion
+
+        #region Metodos de eventos
         /// <summary>
         /// Maneja el evento MouseEnter de los botones del menú, cambiando su color de fondo al color de hover.
         /// </summary>
@@ -100,6 +114,40 @@ namespace Ocean_Desk_dv.UI
             indicadorActivo.BringToFront();
         }
 
+        private void WindowButton_MouseEnter(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+
+            if (boton != null)
+            {
+                boton.BackColor = Color.FromArgb(235, 242, 247);
+            }
+        }
+
+        private void WindowButton_MouseLeave(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+
+            if (boton != null)
+            {
+                boton.BackColor = Color.Transparent;
+            }
+        }
+        private void btnClose_MouseEnter(object sender, EventArgs e)
+        {
+            btnClose.BackColor = Color.FromArgb(220, 70, 70);
+            btnClose.ForeColor = Color.White;
+        }
+
+        private void btnClose_MouseLeave(object sender, EventArgs e)
+        {
+            btnClose.BackColor = Color.Transparent;
+            btnClose.ForeColor = Color.FromArgb(18, 48, 71);
+        }
+
+        #endregion
+
+        #region Botones y Controles
         /// <summary>
         /// Maneja el evento Click del botón de cerrar sesión, limpiando los campos del formulario de login, ocultando el formulario principal y mostrando el formulario de login.
         /// </summary>
@@ -216,5 +264,31 @@ namespace Ocean_Desk_dv.UI
         {
             SeleccionarBoton(btnFidelizacion);
         }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                btnMaximize.Text = "❐";
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+                btnMaximize.Text = "□";
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
     }
 }
+
