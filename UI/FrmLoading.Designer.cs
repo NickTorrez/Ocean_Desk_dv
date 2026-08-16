@@ -79,7 +79,7 @@
             // lblAppName
             // 
             lblAppName.Font = new Font("Century Gothic", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAppName.ForeColor = Color.DarkBlue;
+            lblAppName.ForeColor = Color.FromArgb(8, 31, 63);
             lblAppName.Location = new Point(241, 264);
             lblAppName.Name = "lblAppName";
             lblAppName.Size = new Size(500, 45);
@@ -89,14 +89,15 @@
             // 
             // lblStatus
             // 
-            lblStatus.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStatus.Font = new Font("Century Gothic", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblStatus.ForeColor = Color.Gray;
-            lblStatus.Location = new Point(241, 384);
+            lblStatus.Location = new Point(241, 391);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(500, 40);
             lblStatus.TabIndex = 3;
             lblStatus.Text = "Iniciando sistema...";
             lblStatus.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatus.Click += lblStatus_Click;
             // 
             // progressbar
             // 
@@ -124,7 +125,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.DarkBlue;
+            panel1.BackColor = Color.FromArgb(8, 31, 63);
             panel1.Location = new Point(504, 120);
             panel1.Name = "panel1";
             panel1.Size = new Size(10, 125);
@@ -152,7 +153,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.DarkBlue;
+            panel2.BackColor = Color.FromArgb(8, 31, 63);
             panel2.Location = new Point(-2, -3);
             panel2.Name = "panel2";
             panel2.Size = new Size(988, 39);
@@ -160,7 +161,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.DarkBlue;
+            panel3.BackColor = Color.FromArgb(8, 31, 63);
             panel3.Location = new Point(-2, 517);
             panel3.Name = "panel3";
             panel3.Size = new Size(988, 39);
@@ -169,7 +170,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.sponge;
-            pictureBox2.Location = new Point(-29, 42);
+            pictureBox2.Location = new Point(-28, 39);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(182, 121);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
@@ -179,7 +180,7 @@
             // pictureBox3
             // 
             pictureBox3.Image = Properties.Resources.burbujas;
-            pictureBox3.Location = new Point(806, 361);
+            pictureBox3.Location = new Point(821, 377);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(164, 134);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -189,7 +190,7 @@
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(12, 334);
+            pictureBox4.Location = new Point(10, 346);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(206, 233);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
@@ -199,7 +200,7 @@
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(821, -57);
+            pictureBox5.Location = new Point(819, -58);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(206, 214);
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;

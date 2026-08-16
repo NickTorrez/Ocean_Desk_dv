@@ -32,6 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMainMenu));
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
+            btnBitacoras = new Button();
+            lblSeguridad = new Label();
+            btnUsuarios = new Button();
+            lblAdministracion = new Label();
+            btnFidelizacion = new Button();
             btnPromociones = new Button();
             btnClientes = new Button();
             lblGestion = new Label();
@@ -55,8 +60,6 @@
             pnlAppName = new Panel();
             lblAppName = new Label();
             pbLogo = new PictureBox();
-            btnBitacoras = new Button();
-            btnUsuarios = new Button();
             pnlHeader = new Panel();
             lblFecha = new Label();
             lblHora = new Label();
@@ -64,9 +67,6 @@
             pictureBox2 = new PictureBox();
             pnlContent = new Panel();
             tmrReloj = new System.Windows.Forms.Timer(components);
-            btnFidelizacion = new Button();
-            lblAdministracion = new Label();
-            lblSeguridad = new Label();
             pnlSidebar.SuspendLayout();
             pnlMenu.SuspendLayout();
             pnlBottom.SuspendLayout();
@@ -87,7 +87,7 @@
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(250, 900);
+            pnlSidebar.Size = new Size(260, 900);
             pnlSidebar.TabIndex = 0;
             // 
             // pnlMenu
@@ -117,11 +117,107 @@
             pnlMenu.Controls.Add(btnReportes);
             pnlMenu.Controls.Add(btnInicio);
             pnlMenu.Dock = DockStyle.Fill;
-            pnlMenu.Location = new Point(0, 140);
+            pnlMenu.Location = new Point(0, 150);
             pnlMenu.Name = "pnlMenu";
             pnlMenu.Padding = new Padding(8, 10, 8, 10);
-            pnlMenu.Size = new Size(250, 700);
+            pnlMenu.Size = new Size(260, 690);
             pnlMenu.TabIndex = 2;
+            // 
+            // btnBitacoras
+            // 
+            btnBitacoras.Dock = DockStyle.Top;
+            btnBitacoras.FlatAppearance.BorderSize = 0;
+            btnBitacoras.FlatStyle = FlatStyle.Flat;
+            btnBitacoras.Font = new Font("Century Gothic", 10.2F);
+            btnBitacoras.ForeColor = Color.White;
+            btnBitacoras.Image = Properties.Resources.manual;
+            btnBitacoras.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBitacoras.Location = new Point(8, 790);
+            btnBitacoras.Name = "btnBitacoras";
+            btnBitacoras.Padding = new Padding(15, 0, 0, 0);
+            btnBitacoras.Size = new Size(243, 45);
+            btnBitacoras.TabIndex = 14;
+            btnBitacoras.Text = "Auditoria";
+            btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
+            btnBitacoras.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBitacoras.UseVisualStyleBackColor = true;
+            btnBitacoras.Click += btnBitacoras_Click;
+            btnBitacoras.MouseEnter += Boton_MouseEnter;
+            btnBitacoras.MouseLeave += Boton_MouseLeave;
+            // 
+            // lblSeguridad
+            // 
+            lblSeguridad.Dock = DockStyle.Top;
+            lblSeguridad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSeguridad.ForeColor = Color.White;
+            lblSeguridad.Location = new Point(8, 760);
+            lblSeguridad.Name = "lblSeguridad";
+            lblSeguridad.Padding = new Padding(12, 0, 0, 0);
+            lblSeguridad.Size = new Size(243, 30);
+            lblSeguridad.TabIndex = 19;
+            lblSeguridad.Text = "SEGURIDAD";
+            lblSeguridad.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnUsuarios
+            // 
+            btnUsuarios.BackColor = Color.Transparent;
+            btnUsuarios.Cursor = Cursors.Hand;
+            btnUsuarios.Dock = DockStyle.Top;
+            btnUsuarios.FlatAppearance.BorderSize = 0;
+            btnUsuarios.FlatStyle = FlatStyle.Flat;
+            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
+            btnUsuarios.ForeColor = Color.White;
+            btnUsuarios.Image = Properties.Resources.group;
+            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.Location = new Point(8, 715);
+            btnUsuarios.Name = "btnUsuarios";
+            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
+            btnUsuarios.Size = new Size(243, 45);
+            btnUsuarios.TabIndex = 1;
+            btnUsuarios.Text = "Usuarios";
+            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Click += btnUsuarios_Click;
+            btnUsuarios.MouseEnter += Boton_MouseEnter;
+            btnUsuarios.MouseLeave += Boton_MouseLeave;
+            // 
+            // lblAdministracion
+            // 
+            lblAdministracion.Dock = DockStyle.Top;
+            lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAdministracion.ForeColor = Color.White;
+            lblAdministracion.Location = new Point(8, 685);
+            lblAdministracion.Name = "lblAdministracion";
+            lblAdministracion.Padding = new Padding(12, 0, 0, 0);
+            lblAdministracion.Size = new Size(243, 30);
+            lblAdministracion.TabIndex = 18;
+            lblAdministracion.Text = "ADMINISTRACIÓN";
+            lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnFidelizacion
+            // 
+            btnFidelizacion.BackColor = Color.Transparent;
+            btnFidelizacion.Cursor = Cursors.Hand;
+            btnFidelizacion.Dock = DockStyle.Top;
+            btnFidelizacion.FlatAppearance.BorderSize = 0;
+            btnFidelizacion.FlatStyle = FlatStyle.Flat;
+            btnFidelizacion.Font = new Font("Century Gothic", 10.2F);
+            btnFidelizacion.ForeColor = Color.White;
+            btnFidelizacion.Image = Properties.Resources.loyalty_program;
+            btnFidelizacion.ImageAlign = ContentAlignment.MiddleLeft;
+            btnFidelizacion.Location = new Point(8, 640);
+            btnFidelizacion.Name = "btnFidelizacion";
+            btnFidelizacion.Padding = new Padding(15, 0, 0, 0);
+            btnFidelizacion.Size = new Size(243, 45);
+            btnFidelizacion.TabIndex = 15;
+            btnFidelizacion.Text = "Fidelización";
+            btnFidelizacion.TextAlign = ContentAlignment.MiddleLeft;
+            btnFidelizacion.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFidelizacion.UseVisualStyleBackColor = false;
+            btnFidelizacion.Click += btnFidelizacion_Click;
+            btnFidelizacion.MouseEnter += Boton_MouseEnter;
+            btnFidelizacion.MouseLeave += Boton_MouseLeave;
             // 
             // btnPromociones
             // 
@@ -144,6 +240,8 @@
             btnPromociones.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnPromociones.UseVisualStyleBackColor = false;
             btnPromociones.Click += btnPromociones_Click;
+            btnPromociones.MouseEnter += Boton_MouseEnter;
+            btnPromociones.MouseLeave += Boton_MouseLeave;
             // 
             // btnClientes
             // 
@@ -293,6 +391,7 @@
             // 
             // btnCocina
             // 
+            btnCocina.Cursor = Cursors.Hand;
             btnCocina.Dock = DockStyle.Top;
             btnCocina.FlatAppearance.BorderSize = 0;
             btnCocina.FlatStyle = FlatStyle.Flat;
@@ -315,6 +414,7 @@
             // 
             // btnMesas
             // 
+            btnMesas.Cursor = Cursors.Hand;
             btnMesas.Dock = DockStyle.Top;
             btnMesas.FlatAppearance.BorderSize = 0;
             btnMesas.FlatStyle = FlatStyle.Flat;
@@ -337,6 +437,7 @@
             // 
             // btnCaja
             // 
+            btnCaja.Cursor = Cursors.Hand;
             btnCaja.Dock = DockStyle.Top;
             btnCaja.FlatAppearance.BorderSize = 0;
             btnCaja.FlatStyle = FlatStyle.Flat;
@@ -354,6 +455,8 @@
             btnCaja.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnCaja.UseVisualStyleBackColor = true;
             btnCaja.Click += btnCaja_Click;
+            btnCaja.MouseEnter += Boton_MouseEnter;
+            btnCaja.MouseLeave += Boton_MouseLeave;
             // 
             // btnFacturacion
             // 
@@ -469,7 +572,7 @@
             btnInicio.FlatStyle = FlatStyle.Flat;
             btnInicio.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnInicio.ForeColor = Color.White;
-            btnInicio.Image = Properties.Resources.house;
+            btnInicio.Image = Properties.Resources.report;
             btnInicio.ImageAlign = ContentAlignment.MiddleLeft;
             btnInicio.Location = new Point(8, 10);
             btnInicio.Name = "btnInicio";
@@ -492,7 +595,7 @@
             pnlBottom.Location = new Point(0, 840);
             pnlBottom.Name = "pnlBottom";
             pnlBottom.Padding = new Padding(8, 5, 8, 8);
-            pnlBottom.Size = new Size(250, 60);
+            pnlBottom.Size = new Size(260, 60);
             pnlBottom.TabIndex = 2;
             // 
             // btnCerrarSesion
@@ -509,7 +612,7 @@
             btnCerrarSesion.Location = new Point(8, 5);
             btnCerrarSesion.Name = "btnCerrarSesion";
             btnCerrarSesion.Padding = new Padding(15, 0, 0, 0);
-            btnCerrarSesion.Size = new Size(234, 47);
+            btnCerrarSesion.Size = new Size(244, 47);
             btnCerrarSesion.TabIndex = 10;
             btnCerrarSesion.Text = "Cerrar Sesión";
             btnCerrarSesion.TextAlign = ContentAlignment.MiddleLeft;
@@ -519,11 +622,12 @@
             // 
             // pbCeviche
             // 
+            pbCeviche.BorderStyle = BorderStyle.FixedSingle;
             pbCeviche.Dock = DockStyle.Top;
             pbCeviche.Image = Properties.Resources.LOGO;
             pbCeviche.Location = new Point(0, 70);
             pbCeviche.Name = "pbCeviche";
-            pbCeviche.Size = new Size(250, 70);
+            pbCeviche.Size = new Size(260, 80);
             pbCeviche.SizeMode = PictureBoxSizeMode.Zoom;
             pbCeviche.TabIndex = 0;
             pbCeviche.TabStop = false;
@@ -537,7 +641,7 @@
             pnlAppName.Dock = DockStyle.Top;
             pnlAppName.Location = new Point(0, 0);
             pnlAppName.Name = "pnlAppName";
-            pnlAppName.Size = new Size(250, 70);
+            pnlAppName.Size = new Size(260, 70);
             pnlAppName.TabIndex = 1;
             // 
             // lblAppName
@@ -545,7 +649,7 @@
             lblAppName.AutoSize = true;
             lblAppName.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblAppName.ForeColor = Color.FromArgb(8, 31, 63);
-            lblAppName.Location = new Point(93, 22);
+            lblAppName.Location = new Point(94, 24);
             lblAppName.Name = "lblAppName";
             lblAppName.Size = new Size(120, 22);
             lblAppName.TabIndex = 0;
@@ -554,58 +658,12 @@
             // pbLogo
             // 
             pbLogo.Image = Properties.Resources.Icon_Ocean_Desk;
-            pbLogo.Location = new Point(3, -18);
+            pbLogo.Location = new Point(5, -23);
             pbLogo.Name = "pbLogo";
-            pbLogo.Size = new Size(103, 110);
+            pbLogo.Size = new Size(103, 127);
             pbLogo.SizeMode = PictureBoxSizeMode.StretchImage;
             pbLogo.TabIndex = 1;
             pbLogo.TabStop = false;
-            // 
-            // btnBitacoras
-            // 
-            btnBitacoras.Dock = DockStyle.Top;
-            btnBitacoras.FlatAppearance.BorderSize = 0;
-            btnBitacoras.FlatStyle = FlatStyle.Flat;
-            btnBitacoras.Font = new Font("Century Gothic", 10.2F);
-            btnBitacoras.ForeColor = Color.White;
-            btnBitacoras.Image = Properties.Resources.manual;
-            btnBitacoras.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBitacoras.Location = new Point(8, 790);
-            btnBitacoras.Name = "btnBitacoras";
-            btnBitacoras.Padding = new Padding(15, 0, 0, 0);
-            btnBitacoras.Size = new Size(243, 45);
-            btnBitacoras.TabIndex = 14;
-            btnBitacoras.Text = "Auditoria";
-            btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
-            btnBitacoras.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnBitacoras.UseVisualStyleBackColor = true;
-            btnBitacoras.Click += btnBitacoras_Click;
-            btnBitacoras.MouseEnter += Boton_MouseEnter;
-            btnBitacoras.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnUsuarios
-            // 
-            btnUsuarios.BackColor = Color.Transparent;
-            btnUsuarios.Cursor = Cursors.Hand;
-            btnUsuarios.Dock = DockStyle.Top;
-            btnUsuarios.FlatAppearance.BorderSize = 0;
-            btnUsuarios.FlatStyle = FlatStyle.Flat;
-            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
-            btnUsuarios.ForeColor = Color.White;
-            btnUsuarios.Image = Properties.Resources.group;
-            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.Location = new Point(8, 715);
-            btnUsuarios.Name = "btnUsuarios";
-            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
-            btnUsuarios.Size = new Size(243, 45);
-            btnUsuarios.TabIndex = 1;
-            btnUsuarios.Text = "Usuarios";
-            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnUsuarios.UseVisualStyleBackColor = false;
-            btnUsuarios.Click += btnUsuarios_Click;
-            btnUsuarios.MouseEnter += Boton_MouseEnter;
-            btnUsuarios.MouseLeave += Boton_MouseLeave;
             // 
             // pnlHeader
             // 
@@ -615,9 +673,9 @@
             pnlHeader.Controls.Add(lblUser);
             pnlHeader.Controls.Add(pictureBox2);
             pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Location = new Point(250, 0);
+            pnlHeader.Location = new Point(260, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(950, 70);
+            pnlHeader.Size = new Size(940, 70);
             pnlHeader.TabIndex = 1;
             // 
             // lblFecha
@@ -645,7 +703,7 @@
             lblUser.Anchor = AnchorStyles.None;
             lblUser.AutoSize = true;
             lblUser.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblUser.Location = new Point(663, 25);
+            lblUser.Location = new Point(658, 25);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(107, 21);
             lblUser.TabIndex = 1;
@@ -655,7 +713,7 @@
             // 
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox2.Image = Properties.Resources.admin_person_user_man_2839;
-            pictureBox2.Location = new Point(866, 7);
+            pictureBox2.Location = new Point(856, 7);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(48, 48);
             pictureBox2.TabIndex = 0;
@@ -665,63 +723,16 @@
             // 
             pnlContent.BackColor = Color.FromArgb(245, 247, 250);
             pnlContent.Dock = DockStyle.Fill;
-            pnlContent.Location = new Point(250, 70);
+            pnlContent.Location = new Point(260, 70);
             pnlContent.Name = "pnlContent";
             pnlContent.Padding = new Padding(20);
-            pnlContent.Size = new Size(950, 830);
+            pnlContent.Size = new Size(940, 830);
             pnlContent.TabIndex = 2;
             pnlContent.Paint += pnlContent_Paint;
             // 
             // tmrReloj
             // 
             tmrReloj.Tick += tmrReloj_Tick;
-            // 
-            // btnFidelizacion
-            // 
-            btnFidelizacion.BackColor = Color.Transparent;
-            btnFidelizacion.Cursor = Cursors.Hand;
-            btnFidelizacion.Dock = DockStyle.Top;
-            btnFidelizacion.FlatAppearance.BorderSize = 0;
-            btnFidelizacion.FlatStyle = FlatStyle.Flat;
-            btnFidelizacion.Font = new Font("Century Gothic", 10.2F);
-            btnFidelizacion.ForeColor = Color.White;
-            btnFidelizacion.Image = Properties.Resources.loyalty_program;
-            btnFidelizacion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnFidelizacion.Location = new Point(8, 640);
-            btnFidelizacion.Name = "btnFidelizacion";
-            btnFidelizacion.Padding = new Padding(15, 0, 0, 0);
-            btnFidelizacion.Size = new Size(243, 45);
-            btnFidelizacion.TabIndex = 15;
-            btnFidelizacion.Text = "Fidelización";
-            btnFidelizacion.TextAlign = ContentAlignment.MiddleLeft;
-            btnFidelizacion.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnFidelizacion.UseVisualStyleBackColor = false;
-            // 
-            // lblAdministracion
-            // 
-            lblAdministracion.Dock = DockStyle.Top;
-            lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAdministracion.ForeColor = Color.White;
-            lblAdministracion.Location = new Point(8, 685);
-            lblAdministracion.Name = "lblAdministracion";
-            lblAdministracion.Padding = new Padding(12, 0, 0, 0);
-            lblAdministracion.Size = new Size(243, 30);
-            lblAdministracion.TabIndex = 18;
-            lblAdministracion.Text = "ADMINISTRACIÓN";
-            lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lblSeguridad
-            // 
-            lblSeguridad.Dock = DockStyle.Top;
-            lblSeguridad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSeguridad.ForeColor = Color.White;
-            lblSeguridad.Location = new Point(8, 760);
-            lblSeguridad.Name = "lblSeguridad";
-            lblSeguridad.Padding = new Padding(12, 0, 0, 0);
-            lblSeguridad.Size = new Size(243, 30);
-            lblSeguridad.TabIndex = 19;
-            lblSeguridad.Text = "SEGURIDAD";
-            lblSeguridad.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmMainMenu
             // 

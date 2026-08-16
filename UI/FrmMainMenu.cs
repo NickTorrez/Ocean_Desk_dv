@@ -204,12 +204,17 @@ namespace Ocean_Desk_dv.UI
 
         private void btnCaja_Click(object sender, EventArgs e)
         {
-            SeleccionarBoton(btnBitacoras);
+            SeleccionarBoton(btnCaja);
         }
 
         private void btnPromociones_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnPromociones);
+        }
+
+        private void btnFidelizacion_Click(object sender, EventArgs e)
+        {
+            SeleccionarBoton(btnFidelizacion);
         }
     }
 }

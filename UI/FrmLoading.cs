@@ -88,5 +88,10 @@ namespace Ocean_Desk_dv.UI
 
             this.Hide();
         }
+
+        private void lblStatus_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
