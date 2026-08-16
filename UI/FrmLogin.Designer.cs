@@ -43,6 +43,7 @@
             chkRemember = new CheckBox();
             btnLogin = new Button();
             pnlUsername = new Panel();
+            panel2 = new Panel();
             pictureBox1 = new PictureBox();
             txtUsername = new TextBox();
             lblLoginDescription = new Label();
@@ -52,7 +53,7 @@
             btnShowPassword = new Button();
             pictureBox2 = new PictureBox();
             txtPassword = new TextBox();
-            panel2 = new Panel();
+            pictureBox3 = new PictureBox();
             pnlBrand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlLogin.SuspendLayout();
@@ -60,6 +61,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // pnlBrand
@@ -135,6 +137,7 @@
             pnlLogin.Controls.Add(lblLoginDescription);
             pnlLogin.Controls.Add(lblWelcome);
             pnlLogin.Controls.Add(pnlPassword);
+            pnlLogin.Controls.Add(pictureBox3);
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Location = new Point(400, 0);
             pnlLogin.Name = "pnlLogin";
@@ -239,6 +242,14 @@
             pnlUsername.Size = new Size(400, 55);
             pnlUsername.TabIndex = 2;
             // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Cyan;
+            panel2.Location = new Point(61, 41);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(318, 5);
+            panel2.TabIndex = 4;
+            // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.White;
@@ -339,13 +350,16 @@
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
-            // panel2
+            // pictureBox3
             // 
-            panel2.BackColor = Color.Cyan;
-            panel2.Location = new Point(61, 41);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(318, 5);
-            panel2.TabIndex = 4;
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.Icon_Ocean_Desk;
+            pictureBox3.Location = new Point(328, 3);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(122, 151);
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.TabIndex = 9;
+            pictureBox3.TabStop = false;
             // 
             // FrmLogin
             // 
@@ -373,6 +387,7 @@
             pnlPassword.ResumeLayout(false);
             pnlPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 
@@ -402,5 +417,6 @@
         private Button btnShowPassword;
         private Label lblCopyright;
         private Panel panel2;
+        private PictureBox pictureBox3;
     }
 }

@@ -196,5 +196,20 @@ namespace Ocean_Desk_dv.UI
             lblHora.Text = DateTime.Now.ToString("hh:mm:ss tt"); // Formato 12 horas con AM/PM
             lblFecha.Text = DateTime.Now.ToLongDateString(); // Ejemplo: "lunes, 24 de mayo de 2026"
         }
+
+        private void pnlContent_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnCaja_Click(object sender, EventArgs e)
+        {
+            SeleccionarBoton(btnBitacoras);
+        }
+
+        private void btnPromociones_Click(object sender, EventArgs e)
+        {
+            SeleccionarBoton(btnPromociones);
+        }
     }
 }

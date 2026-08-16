@@ -95,8 +95,8 @@ namespace Ocean_Desk_dv
                 return;
             }
 
-            FrmMainMenu menuPrincipal = new FrmMainMenu(this); // Pasar la instancia de FrmLogin al constructor de FrmMainMenu
-            menuPrincipal.Show();
+            FrmLoading loading = new FrmLoading(this); // Crear una instancia del formulario de carga
+            loading.Show();
 
             this.Hide();
         }

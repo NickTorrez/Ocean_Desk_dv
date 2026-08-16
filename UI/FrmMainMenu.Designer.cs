@@ -29,27 +29,34 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMainMenu));
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
-            btnBitacoras = new Button();
-            btnCocina = new Button();
-            btnMesas = new Button();
-            btnCerrarSesion = new Button();
-            btnEmpleados = new Button();
-            btnReportes = new Button();
+            btnPromociones = new Button();
+            btnClientes = new Button();
+            lblGestion = new Label();
             btnProveedores = new Button();
-            btnFacturacion = new Button();
-            btnVentas = new Button();
             btnCompras = new Button();
             btnInventario = new Button();
             btnProductos = new Button();
-            btnClientes = new Button();
-            btnUsuarios = new Button();
+            lblInventario = new Label();
+            btnCocina = new Button();
+            btnMesas = new Button();
+            btnCaja = new Button();
+            btnFacturacion = new Button();
+            btnVentas = new Button();
+            lblOperaciones = new Label();
+            btnEmpleados = new Button();
+            btnReportes = new Button();
             btnInicio = new Button();
-            pictureBox1 = new PictureBox();
-            pnlSidebarHeader = new Panel();
+            pnlBottom = new Panel();
+            btnCerrarSesion = new Button();
+            pbCeviche = new PictureBox();
+            pnlAppName = new Panel();
             lblAppName = new Label();
             pbLogo = new PictureBox();
+            btnBitacoras = new Button();
+            btnUsuarios = new Button();
             pnlHeader = new Panel();
             lblFecha = new Label();
             lblHora = new Label();
@@ -57,10 +64,14 @@
             pictureBox2 = new PictureBox();
             pnlContent = new Panel();
             tmrReloj = new System.Windows.Forms.Timer(components);
+            btnFidelizacion = new Button();
+            lblAdministracion = new Label();
+            lblSeguridad = new Label();
             pnlSidebar.SuspendLayout();
             pnlMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            pnlSidebarHeader.SuspendLayout();
+            pnlBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCeviche).BeginInit();
+            pnlAppName.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -70,171 +81,106 @@
             // 
             pnlSidebar.BackColor = Color.FromArgb(8, 31, 63);
             pnlSidebar.Controls.Add(pnlMenu);
-            pnlSidebar.Controls.Add(pictureBox1);
-            pnlSidebar.Controls.Add(pnlSidebarHeader);
+            pnlSidebar.Controls.Add(pnlBottom);
+            pnlSidebar.Controls.Add(pbCeviche);
+            pnlSidebar.Controls.Add(pnlAppName);
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(230, 900);
+            pnlSidebar.Size = new Size(250, 900);
             pnlSidebar.TabIndex = 0;
             // 
             // pnlMenu
             // 
+            pnlMenu.AutoScroll = true;
+            pnlMenu.BackColor = Color.Transparent;
             pnlMenu.Controls.Add(btnBitacoras);
-            pnlMenu.Controls.Add(btnCocina);
-            pnlMenu.Controls.Add(btnMesas);
-            pnlMenu.Controls.Add(btnCerrarSesion);
-            pnlMenu.Controls.Add(btnEmpleados);
-            pnlMenu.Controls.Add(btnReportes);
+            pnlMenu.Controls.Add(lblSeguridad);
+            pnlMenu.Controls.Add(btnUsuarios);
+            pnlMenu.Controls.Add(lblAdministracion);
+            pnlMenu.Controls.Add(btnFidelizacion);
+            pnlMenu.Controls.Add(btnPromociones);
+            pnlMenu.Controls.Add(btnClientes);
+            pnlMenu.Controls.Add(lblGestion);
             pnlMenu.Controls.Add(btnProveedores);
-            pnlMenu.Controls.Add(btnFacturacion);
-            pnlMenu.Controls.Add(btnVentas);
             pnlMenu.Controls.Add(btnCompras);
             pnlMenu.Controls.Add(btnInventario);
             pnlMenu.Controls.Add(btnProductos);
-            pnlMenu.Controls.Add(btnClientes);
-            pnlMenu.Controls.Add(btnUsuarios);
+            pnlMenu.Controls.Add(lblInventario);
+            pnlMenu.Controls.Add(btnCocina);
+            pnlMenu.Controls.Add(btnMesas);
+            pnlMenu.Controls.Add(btnCaja);
+            pnlMenu.Controls.Add(btnFacturacion);
+            pnlMenu.Controls.Add(btnVentas);
+            pnlMenu.Controls.Add(lblOperaciones);
+            pnlMenu.Controls.Add(btnEmpleados);
+            pnlMenu.Controls.Add(btnReportes);
             pnlMenu.Controls.Add(btnInicio);
             pnlMenu.Dock = DockStyle.Fill;
-            pnlMenu.Location = new Point(0, 130);
+            pnlMenu.Location = new Point(0, 140);
             pnlMenu.Name = "pnlMenu";
             pnlMenu.Padding = new Padding(8, 10, 8, 10);
-            pnlMenu.Size = new Size(230, 770);
+            pnlMenu.Size = new Size(250, 700);
             pnlMenu.TabIndex = 2;
             // 
-            // btnBitacoras
+            // btnPromociones
             // 
-            btnBitacoras.Dock = DockStyle.Top;
-            btnBitacoras.FlatAppearance.BorderSize = 0;
-            btnBitacoras.FlatStyle = FlatStyle.Flat;
-            btnBitacoras.Font = new Font("Century Gothic", 10.2F);
-            btnBitacoras.ForeColor = Color.White;
-            btnBitacoras.Image = Properties.Resources.manual;
-            btnBitacoras.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBitacoras.Location = new Point(8, 595);
-            btnBitacoras.Name = "btnBitacoras";
-            btnBitacoras.Padding = new Padding(15, 0, 0, 0);
-            btnBitacoras.Size = new Size(214, 45);
-            btnBitacoras.TabIndex = 14;
-            btnBitacoras.Text = "Bítacoras";
-            btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
-            btnBitacoras.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnBitacoras.UseVisualStyleBackColor = true;
-            btnBitacoras.Click += btnBitacoras_Click;
-            btnBitacoras.MouseEnter += Boton_MouseEnter;
-            btnBitacoras.MouseLeave += Boton_MouseLeave;
+            btnPromociones.BackColor = Color.Transparent;
+            btnPromociones.Cursor = Cursors.Hand;
+            btnPromociones.Dock = DockStyle.Top;
+            btnPromociones.FlatAppearance.BorderSize = 0;
+            btnPromociones.FlatStyle = FlatStyle.Flat;
+            btnPromociones.Font = new Font("Century Gothic", 10.2F);
+            btnPromociones.ForeColor = Color.White;
+            btnPromociones.Image = Properties.Resources.tag;
+            btnPromociones.ImageAlign = ContentAlignment.MiddleLeft;
+            btnPromociones.Location = new Point(8, 595);
+            btnPromociones.Name = "btnPromociones";
+            btnPromociones.Padding = new Padding(15, 0, 0, 0);
+            btnPromociones.Size = new Size(243, 45);
+            btnPromociones.TabIndex = 15;
+            btnPromociones.Text = "Promociones";
+            btnPromociones.TextAlign = ContentAlignment.MiddleLeft;
+            btnPromociones.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnPromociones.UseVisualStyleBackColor = false;
+            btnPromociones.Click += btnPromociones_Click;
             // 
-            // btnCocina
+            // btnClientes
             // 
-            btnCocina.Dock = DockStyle.Top;
-            btnCocina.FlatAppearance.BorderSize = 0;
-            btnCocina.FlatStyle = FlatStyle.Flat;
-            btnCocina.Font = new Font("Century Gothic", 10.2F);
-            btnCocina.ForeColor = Color.White;
-            btnCocina.Image = Properties.Resources.mobile_app;
-            btnCocina.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCocina.Location = new Point(8, 550);
-            btnCocina.Name = "btnCocina";
-            btnCocina.Padding = new Padding(15, 0, 0, 0);
-            btnCocina.Size = new Size(214, 45);
-            btnCocina.TabIndex = 12;
-            btnCocina.Text = "Cocina";
-            btnCocina.TextAlign = ContentAlignment.MiddleLeft;
-            btnCocina.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnCocina.UseVisualStyleBackColor = true;
-            btnCocina.Click += btnCocina_Click;
-            btnCocina.MouseEnter += Boton_MouseEnter;
-            btnCocina.MouseLeave += Boton_MouseLeave;
+            btnClientes.BackColor = Color.Transparent;
+            btnClientes.Cursor = Cursors.Hand;
+            btnClientes.Dock = DockStyle.Top;
+            btnClientes.FlatAppearance.BorderSize = 0;
+            btnClientes.FlatStyle = FlatStyle.Flat;
+            btnClientes.Font = new Font("Century Gothic", 10.2F);
+            btnClientes.ForeColor = Color.White;
+            btnClientes.Image = Properties.Resources.customer_review;
+            btnClientes.ImageAlign = ContentAlignment.MiddleLeft;
+            btnClientes.Location = new Point(8, 550);
+            btnClientes.Name = "btnClientes";
+            btnClientes.Padding = new Padding(15, 0, 0, 0);
+            btnClientes.Size = new Size(243, 45);
+            btnClientes.TabIndex = 2;
+            btnClientes.Text = "Clientes";
+            btnClientes.TextAlign = ContentAlignment.MiddleLeft;
+            btnClientes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnClientes.UseVisualStyleBackColor = false;
+            btnClientes.Click += btnClientes_Click;
+            btnClientes.MouseEnter += Boton_MouseEnter;
+            btnClientes.MouseLeave += Boton_MouseLeave;
             // 
-            // btnMesas
+            // lblGestion
             // 
-            btnMesas.Dock = DockStyle.Top;
-            btnMesas.FlatAppearance.BorderSize = 0;
-            btnMesas.FlatStyle = FlatStyle.Flat;
-            btnMesas.Font = new Font("Century Gothic", 10.2F);
-            btnMesas.ForeColor = Color.White;
-            btnMesas.Image = Properties.Resources.table;
-            btnMesas.ImageAlign = ContentAlignment.MiddleLeft;
-            btnMesas.Location = new Point(8, 505);
-            btnMesas.Name = "btnMesas";
-            btnMesas.Padding = new Padding(15, 0, 0, 0);
-            btnMesas.Size = new Size(214, 45);
-            btnMesas.TabIndex = 12;
-            btnMesas.Text = "Mesas";
-            btnMesas.TextAlign = ContentAlignment.MiddleLeft;
-            btnMesas.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnMesas.UseVisualStyleBackColor = true;
-            btnMesas.Click += btnMesas_Click;
-            btnMesas.MouseEnter += Boton_MouseEnter;
-            btnMesas.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnCerrarSesion
-            // 
-            btnCerrarSesion.BackColor = Color.Red;
-            btnCerrarSesion.Cursor = Cursors.Hand;
-            btnCerrarSesion.Dock = DockStyle.Bottom;
-            btnCerrarSesion.FlatAppearance.BorderSize = 0;
-            btnCerrarSesion.FlatStyle = FlatStyle.Flat;
-            btnCerrarSesion.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCerrarSesion.ForeColor = Color.White;
-            btnCerrarSesion.Image = Properties.Resources.out_log_icon_255959;
-            btnCerrarSesion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCerrarSesion.Location = new Point(8, 715);
-            btnCerrarSesion.Name = "btnCerrarSesion";
-            btnCerrarSesion.Padding = new Padding(15, 0, 0, 0);
-            btnCerrarSesion.Size = new Size(214, 45);
-            btnCerrarSesion.TabIndex = 10;
-            btnCerrarSesion.Text = "Cerrar Sesión";
-            btnCerrarSesion.TextAlign = ContentAlignment.MiddleLeft;
-            btnCerrarSesion.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnCerrarSesion.UseVisualStyleBackColor = false;
-            btnCerrarSesion.Click += btnCerrarSesion_Click;
-            // 
-            // btnEmpleados
-            // 
-            btnEmpleados.Dock = DockStyle.Top;
-            btnEmpleados.FlatAppearance.BorderSize = 0;
-            btnEmpleados.FlatStyle = FlatStyle.Flat;
-            btnEmpleados.Font = new Font("Century Gothic", 10.2F);
-            btnEmpleados.ForeColor = Color.White;
-            btnEmpleados.Image = Properties.Resources.manager;
-            btnEmpleados.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEmpleados.Location = new Point(8, 460);
-            btnEmpleados.Name = "btnEmpleados";
-            btnEmpleados.Padding = new Padding(15, 0, 0, 0);
-            btnEmpleados.Size = new Size(214, 45);
-            btnEmpleados.TabIndex = 11;
-            btnEmpleados.Text = "Empleados";
-            btnEmpleados.TextAlign = ContentAlignment.MiddleLeft;
-            btnEmpleados.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnEmpleados.UseVisualStyleBackColor = true;
-            btnEmpleados.Click += btnEmpleados_Click;
-            btnEmpleados.MouseEnter += Boton_MouseEnter;
-            btnEmpleados.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnReportes
-            // 
-            btnReportes.BackColor = Color.Transparent;
-            btnReportes.Cursor = Cursors.Hand;
-            btnReportes.Dock = DockStyle.Top;
-            btnReportes.FlatAppearance.BorderSize = 0;
-            btnReportes.FlatStyle = FlatStyle.Flat;
-            btnReportes.Font = new Font("Century Gothic", 10.2F);
-            btnReportes.ForeColor = Color.White;
-            btnReportes.Image = Properties.Resources.statisctics;
-            btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReportes.Location = new Point(8, 415);
-            btnReportes.Name = "btnReportes";
-            btnReportes.Padding = new Padding(15, 0, 0, 0);
-            btnReportes.Size = new Size(214, 45);
-            btnReportes.TabIndex = 9;
-            btnReportes.Text = "Reportes";
-            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
-            btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnReportes.UseVisualStyleBackColor = false;
-            btnReportes.Click += btnReportes_Click;
-            btnReportes.MouseEnter += Boton_MouseEnter;
-            btnReportes.MouseLeave += Boton_MouseLeave;
+            lblGestion.Dock = DockStyle.Top;
+            lblGestion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblGestion.ForeColor = Color.White;
+            lblGestion.Location = new Point(8, 520);
+            lblGestion.Name = "lblGestion";
+            lblGestion.Padding = new Padding(12, 0, 0, 0);
+            lblGestion.Size = new Size(243, 30);
+            lblGestion.TabIndex = 17;
+            lblGestion.Text = "GESTIÓN";
+            lblGestion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnProveedores
             // 
@@ -247,10 +193,10 @@
             btnProveedores.ForeColor = Color.White;
             btnProveedores.Image = Properties.Resources.value_chain;
             btnProveedores.ImageAlign = ContentAlignment.MiddleLeft;
-            btnProveedores.Location = new Point(8, 370);
+            btnProveedores.Location = new Point(8, 475);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Padding = new Padding(15, 0, 0, 0);
-            btnProveedores.Size = new Size(214, 45);
+            btnProveedores.Size = new Size(243, 45);
             btnProveedores.TabIndex = 8;
             btnProveedores.Text = "Proveedores";
             btnProveedores.TextAlign = ContentAlignment.MiddleLeft;
@@ -259,54 +205,6 @@
             btnProveedores.Click += btnProveedores_Click;
             btnProveedores.MouseEnter += Boton_MouseEnter;
             btnProveedores.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnFacturacion
-            // 
-            btnFacturacion.BackColor = Color.Transparent;
-            btnFacturacion.Cursor = Cursors.Hand;
-            btnFacturacion.Dock = DockStyle.Top;
-            btnFacturacion.FlatAppearance.BorderSize = 0;
-            btnFacturacion.FlatStyle = FlatStyle.Flat;
-            btnFacturacion.Font = new Font("Century Gothic", 10.2F);
-            btnFacturacion.ForeColor = Color.White;
-            btnFacturacion.Image = Properties.Resources.payment;
-            btnFacturacion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnFacturacion.Location = new Point(8, 325);
-            btnFacturacion.Name = "btnFacturacion";
-            btnFacturacion.Padding = new Padding(15, 0, 0, 0);
-            btnFacturacion.Size = new Size(214, 45);
-            btnFacturacion.TabIndex = 7;
-            btnFacturacion.Text = "Facturación";
-            btnFacturacion.TextAlign = ContentAlignment.MiddleLeft;
-            btnFacturacion.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnFacturacion.UseVisualStyleBackColor = false;
-            btnFacturacion.Click += btnFacturacion_Click;
-            btnFacturacion.MouseEnter += Boton_MouseEnter;
-            btnFacturacion.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnVentas
-            // 
-            btnVentas.BackColor = Color.Transparent;
-            btnVentas.Cursor = Cursors.Hand;
-            btnVentas.Dock = DockStyle.Top;
-            btnVentas.FlatAppearance.BorderSize = 0;
-            btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Font = new Font("Century Gothic", 10.2F);
-            btnVentas.ForeColor = Color.White;
-            btnVentas.Image = Properties.Resources.point_of_sale;
-            btnVentas.ImageAlign = ContentAlignment.MiddleLeft;
-            btnVentas.Location = new Point(8, 280);
-            btnVentas.Name = "btnVentas";
-            btnVentas.Padding = new Padding(15, 0, 0, 0);
-            btnVentas.Size = new Size(214, 45);
-            btnVentas.TabIndex = 6;
-            btnVentas.Text = "Punto de Venta";
-            btnVentas.TextAlign = ContentAlignment.MiddleLeft;
-            btnVentas.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnVentas.UseVisualStyleBackColor = false;
-            btnVentas.Click += btnVentas_Click;
-            btnVentas.MouseEnter += Boton_MouseEnter;
-            btnVentas.MouseLeave += Boton_MouseLeave;
             // 
             // btnCompras
             // 
@@ -319,10 +217,10 @@
             btnCompras.ForeColor = Color.White;
             btnCompras.Image = Properties.Resources.money_bag;
             btnCompras.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCompras.Location = new Point(8, 235);
+            btnCompras.Location = new Point(8, 430);
             btnCompras.Name = "btnCompras";
             btnCompras.Padding = new Padding(15, 0, 0, 0);
-            btnCompras.Size = new Size(214, 45);
+            btnCompras.Size = new Size(243, 45);
             btnCompras.TabIndex = 5;
             btnCompras.Text = "Compras";
             btnCompras.TextAlign = ContentAlignment.MiddleLeft;
@@ -343,10 +241,10 @@
             btnInventario.ForeColor = Color.White;
             btnInventario.Image = Properties.Resources.inventory;
             btnInventario.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventario.Location = new Point(8, 190);
+            btnInventario.Location = new Point(8, 385);
             btnInventario.Name = "btnInventario";
             btnInventario.Padding = new Padding(15, 0, 0, 0);
-            btnInventario.Size = new Size(214, 45);
+            btnInventario.Size = new Size(243, 45);
             btnInventario.TabIndex = 4;
             btnInventario.Text = "Inventario";
             btnInventario.TextAlign = ContentAlignment.MiddleLeft;
@@ -367,10 +265,10 @@
             btnProductos.ForeColor = Color.White;
             btnProductos.Image = Properties.Resources.products;
             btnProductos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnProductos.Location = new Point(8, 145);
+            btnProductos.Location = new Point(8, 340);
             btnProductos.Name = "btnProductos";
             btnProductos.Padding = new Padding(15, 0, 0, 0);
-            btnProductos.Size = new Size(214, 45);
+            btnProductos.Size = new Size(243, 45);
             btnProductos.TabIndex = 3;
             btnProductos.Text = "Productos";
             btnProductos.TextAlign = ContentAlignment.MiddleLeft;
@@ -380,53 +278,187 @@
             btnProductos.MouseEnter += Boton_MouseEnter;
             btnProductos.MouseLeave += Boton_MouseLeave;
             // 
-            // btnClientes
+            // lblInventario
             // 
-            btnClientes.BackColor = Color.Transparent;
-            btnClientes.Cursor = Cursors.Hand;
-            btnClientes.Dock = DockStyle.Top;
-            btnClientes.FlatAppearance.BorderSize = 0;
-            btnClientes.FlatStyle = FlatStyle.Flat;
-            btnClientes.Font = new Font("Century Gothic", 10.2F);
-            btnClientes.ForeColor = Color.White;
-            btnClientes.Image = Properties.Resources.customer_review;
-            btnClientes.ImageAlign = ContentAlignment.MiddleLeft;
-            btnClientes.Location = new Point(8, 100);
-            btnClientes.Name = "btnClientes";
-            btnClientes.Padding = new Padding(15, 0, 0, 0);
-            btnClientes.Size = new Size(214, 45);
-            btnClientes.TabIndex = 2;
-            btnClientes.Text = "Clientes";
-            btnClientes.TextAlign = ContentAlignment.MiddleLeft;
-            btnClientes.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnClientes.UseVisualStyleBackColor = false;
-            btnClientes.Click += btnClientes_Click;
-            btnClientes.MouseEnter += Boton_MouseEnter;
-            btnClientes.MouseLeave += Boton_MouseLeave;
+            lblInventario.Dock = DockStyle.Top;
+            lblInventario.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblInventario.ForeColor = Color.White;
+            lblInventario.Location = new Point(8, 310);
+            lblInventario.Name = "lblInventario";
+            lblInventario.Padding = new Padding(12, 0, 0, 0);
+            lblInventario.Size = new Size(243, 30);
+            lblInventario.TabIndex = 16;
+            lblInventario.Text = "INVENTARIO";
+            lblInventario.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnUsuarios
+            // btnCocina
             // 
-            btnUsuarios.BackColor = Color.Transparent;
-            btnUsuarios.Cursor = Cursors.Hand;
-            btnUsuarios.Dock = DockStyle.Top;
-            btnUsuarios.FlatAppearance.BorderSize = 0;
-            btnUsuarios.FlatStyle = FlatStyle.Flat;
-            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
-            btnUsuarios.ForeColor = Color.White;
-            btnUsuarios.Image = Properties.Resources.group;
-            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.Location = new Point(8, 55);
-            btnUsuarios.Name = "btnUsuarios";
-            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
-            btnUsuarios.Size = new Size(214, 45);
-            btnUsuarios.TabIndex = 1;
-            btnUsuarios.Text = "Usuarios";
-            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnUsuarios.UseVisualStyleBackColor = false;
-            btnUsuarios.Click += btnUsuarios_Click;
-            btnUsuarios.MouseEnter += Boton_MouseEnter;
-            btnUsuarios.MouseLeave += Boton_MouseLeave;
+            btnCocina.Dock = DockStyle.Top;
+            btnCocina.FlatAppearance.BorderSize = 0;
+            btnCocina.FlatStyle = FlatStyle.Flat;
+            btnCocina.Font = new Font("Century Gothic", 10.2F);
+            btnCocina.ForeColor = Color.White;
+            btnCocina.Image = Properties.Resources.mobile_app;
+            btnCocina.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCocina.Location = new Point(8, 265);
+            btnCocina.Name = "btnCocina";
+            btnCocina.Padding = new Padding(15, 0, 0, 0);
+            btnCocina.Size = new Size(243, 45);
+            btnCocina.TabIndex = 12;
+            btnCocina.Text = "Cocina y Pedidos";
+            btnCocina.TextAlign = ContentAlignment.MiddleLeft;
+            btnCocina.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnCocina.UseVisualStyleBackColor = true;
+            btnCocina.Click += btnCocina_Click;
+            btnCocina.MouseEnter += Boton_MouseEnter;
+            btnCocina.MouseLeave += Boton_MouseLeave;
+            // 
+            // btnMesas
+            // 
+            btnMesas.Dock = DockStyle.Top;
+            btnMesas.FlatAppearance.BorderSize = 0;
+            btnMesas.FlatStyle = FlatStyle.Flat;
+            btnMesas.Font = new Font("Century Gothic", 10.2F);
+            btnMesas.ForeColor = Color.White;
+            btnMesas.Image = Properties.Resources.table;
+            btnMesas.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMesas.Location = new Point(8, 220);
+            btnMesas.Name = "btnMesas";
+            btnMesas.Padding = new Padding(15, 0, 0, 0);
+            btnMesas.Size = new Size(243, 45);
+            btnMesas.TabIndex = 12;
+            btnMesas.Text = "Mesas y Reservas";
+            btnMesas.TextAlign = ContentAlignment.MiddleLeft;
+            btnMesas.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnMesas.UseVisualStyleBackColor = true;
+            btnMesas.Click += btnMesas_Click;
+            btnMesas.MouseEnter += Boton_MouseEnter;
+            btnMesas.MouseLeave += Boton_MouseLeave;
+            // 
+            // btnCaja
+            // 
+            btnCaja.Dock = DockStyle.Top;
+            btnCaja.FlatAppearance.BorderSize = 0;
+            btnCaja.FlatStyle = FlatStyle.Flat;
+            btnCaja.Font = new Font("Century Gothic", 10.2F);
+            btnCaja.ForeColor = Color.White;
+            btnCaja.Image = Properties.Resources.wallet;
+            btnCaja.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCaja.Location = new Point(8, 175);
+            btnCaja.Name = "btnCaja";
+            btnCaja.Padding = new Padding(15, 0, 0, 0);
+            btnCaja.Size = new Size(243, 45);
+            btnCaja.TabIndex = 15;
+            btnCaja.Text = "Caja";
+            btnCaja.TextAlign = ContentAlignment.MiddleLeft;
+            btnCaja.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnCaja.UseVisualStyleBackColor = true;
+            btnCaja.Click += btnCaja_Click;
+            // 
+            // btnFacturacion
+            // 
+            btnFacturacion.BackColor = Color.Transparent;
+            btnFacturacion.Cursor = Cursors.Hand;
+            btnFacturacion.Dock = DockStyle.Top;
+            btnFacturacion.FlatAppearance.BorderSize = 0;
+            btnFacturacion.FlatStyle = FlatStyle.Flat;
+            btnFacturacion.Font = new Font("Century Gothic", 10.2F);
+            btnFacturacion.ForeColor = Color.White;
+            btnFacturacion.Image = Properties.Resources.payment;
+            btnFacturacion.ImageAlign = ContentAlignment.MiddleLeft;
+            btnFacturacion.Location = new Point(8, 130);
+            btnFacturacion.Name = "btnFacturacion";
+            btnFacturacion.Padding = new Padding(15, 0, 0, 0);
+            btnFacturacion.Size = new Size(243, 45);
+            btnFacturacion.TabIndex = 7;
+            btnFacturacion.Text = "Facturación";
+            btnFacturacion.TextAlign = ContentAlignment.MiddleLeft;
+            btnFacturacion.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFacturacion.UseVisualStyleBackColor = false;
+            btnFacturacion.Click += btnFacturacion_Click;
+            btnFacturacion.MouseEnter += Boton_MouseEnter;
+            btnFacturacion.MouseLeave += Boton_MouseLeave;
+            // 
+            // btnVentas
+            // 
+            btnVentas.BackColor = Color.Transparent;
+            btnVentas.Cursor = Cursors.Hand;
+            btnVentas.Dock = DockStyle.Top;
+            btnVentas.FlatAppearance.BorderSize = 0;
+            btnVentas.FlatStyle = FlatStyle.Flat;
+            btnVentas.Font = new Font("Century Gothic", 10.2F);
+            btnVentas.ForeColor = Color.White;
+            btnVentas.Image = Properties.Resources.point_of_sale;
+            btnVentas.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVentas.Location = new Point(8, 85);
+            btnVentas.Name = "btnVentas";
+            btnVentas.Padding = new Padding(15, 0, 0, 0);
+            btnVentas.Size = new Size(243, 45);
+            btnVentas.TabIndex = 6;
+            btnVentas.Text = "Punto de Venta";
+            btnVentas.TextAlign = ContentAlignment.MiddleLeft;
+            btnVentas.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnVentas.UseVisualStyleBackColor = false;
+            btnVentas.Click += btnVentas_Click;
+            btnVentas.MouseEnter += Boton_MouseEnter;
+            btnVentas.MouseLeave += Boton_MouseLeave;
+            // 
+            // lblOperaciones
+            // 
+            lblOperaciones.Dock = DockStyle.Top;
+            lblOperaciones.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOperaciones.ForeColor = Color.White;
+            lblOperaciones.Location = new Point(8, 55);
+            lblOperaciones.Name = "lblOperaciones";
+            lblOperaciones.Padding = new Padding(12, 0, 0, 0);
+            lblOperaciones.Size = new Size(243, 30);
+            lblOperaciones.TabIndex = 0;
+            lblOperaciones.Text = "OPERACIONES";
+            lblOperaciones.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnEmpleados
+            // 
+            btnEmpleados.FlatAppearance.BorderSize = 0;
+            btnEmpleados.FlatStyle = FlatStyle.Flat;
+            btnEmpleados.Font = new Font("Century Gothic", 10.2F);
+            btnEmpleados.ForeColor = Color.White;
+            btnEmpleados.Image = Properties.Resources.manager;
+            btnEmpleados.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEmpleados.Location = new Point(25, 432);
+            btnEmpleados.Name = "btnEmpleados";
+            btnEmpleados.Padding = new Padding(15, 0, 0, 0);
+            btnEmpleados.Size = new Size(234, 45);
+            btnEmpleados.TabIndex = 11;
+            btnEmpleados.Text = "Empleados";
+            btnEmpleados.TextAlign = ContentAlignment.MiddleLeft;
+            btnEmpleados.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnEmpleados.UseVisualStyleBackColor = true;
+            btnEmpleados.Click += btnEmpleados_Click;
+            btnEmpleados.MouseEnter += Boton_MouseEnter;
+            btnEmpleados.MouseLeave += Boton_MouseLeave;
+            // 
+            // btnReportes
+            // 
+            btnReportes.BackColor = Color.Transparent;
+            btnReportes.Cursor = Cursors.Hand;
+            btnReportes.FlatAppearance.BorderSize = 0;
+            btnReportes.FlatStyle = FlatStyle.Flat;
+            btnReportes.Font = new Font("Century Gothic", 10.2F);
+            btnReportes.ForeColor = Color.White;
+            btnReportes.Image = Properties.Resources.statisctics;
+            btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReportes.Location = new Point(14, 432);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Padding = new Padding(15, 0, 0, 0);
+            btnReportes.Size = new Size(234, 45);
+            btnReportes.TabIndex = 9;
+            btnReportes.Text = "Reportes";
+            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
+            btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnReportes.UseVisualStyleBackColor = false;
+            btnReportes.Click += btnReportes_Click;
+            btnReportes.MouseEnter += Boton_MouseEnter;
+            btnReportes.MouseLeave += Boton_MouseLeave;
             // 
             // btnInicio
             // 
@@ -442,9 +474,9 @@
             btnInicio.Location = new Point(8, 10);
             btnInicio.Name = "btnInicio";
             btnInicio.Padding = new Padding(12, 0, 0, 0);
-            btnInicio.Size = new Size(214, 45);
+            btnInicio.Size = new Size(243, 45);
             btnInicio.TabIndex = 0;
-            btnInicio.Text = "Inicio";
+            btnInicio.Text = "Reportes";
             btnInicio.TextAlign = ContentAlignment.MiddleLeft;
             btnInicio.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInicio.UseVisualStyleBackColor = false;
@@ -452,28 +484,61 @@
             btnInicio.MouseEnter += Boton_MouseEnter;
             btnInicio.MouseLeave += Boton_MouseLeave;
             // 
-            // pictureBox1
+            // pnlBottom
             // 
-            pictureBox1.Dock = DockStyle.Top;
-            pictureBox1.Image = Properties.Resources.LOGO;
-            pictureBox1.Location = new Point(0, 65);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(230, 65);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            pnlBottom.BackColor = Color.Transparent;
+            pnlBottom.Controls.Add(btnCerrarSesion);
+            pnlBottom.Dock = DockStyle.Bottom;
+            pnlBottom.Location = new Point(0, 840);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.Padding = new Padding(8, 5, 8, 8);
+            pnlBottom.Size = new Size(250, 60);
+            pnlBottom.TabIndex = 2;
             // 
-            // pnlSidebarHeader
+            // btnCerrarSesion
             // 
-            pnlSidebarHeader.BackColor = Color.White;
-            pnlSidebarHeader.BorderStyle = BorderStyle.FixedSingle;
-            pnlSidebarHeader.Controls.Add(lblAppName);
-            pnlSidebarHeader.Controls.Add(pbLogo);
-            pnlSidebarHeader.Dock = DockStyle.Top;
-            pnlSidebarHeader.Location = new Point(0, 0);
-            pnlSidebarHeader.Name = "pnlSidebarHeader";
-            pnlSidebarHeader.Size = new Size(230, 65);
-            pnlSidebarHeader.TabIndex = 1;
+            btnCerrarSesion.BackColor = Color.Red;
+            btnCerrarSesion.Cursor = Cursors.Hand;
+            btnCerrarSesion.Dock = DockStyle.Fill;
+            btnCerrarSesion.FlatAppearance.BorderSize = 0;
+            btnCerrarSesion.FlatStyle = FlatStyle.Flat;
+            btnCerrarSesion.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCerrarSesion.ForeColor = Color.White;
+            btnCerrarSesion.Image = (Image)resources.GetObject("btnCerrarSesion.Image");
+            btnCerrarSesion.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCerrarSesion.Location = new Point(8, 5);
+            btnCerrarSesion.Name = "btnCerrarSesion";
+            btnCerrarSesion.Padding = new Padding(15, 0, 0, 0);
+            btnCerrarSesion.Size = new Size(234, 47);
+            btnCerrarSesion.TabIndex = 10;
+            btnCerrarSesion.Text = "Cerrar Sesión";
+            btnCerrarSesion.TextAlign = ContentAlignment.MiddleLeft;
+            btnCerrarSesion.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnCerrarSesion.UseVisualStyleBackColor = false;
+            btnCerrarSesion.Click += btnCerrarSesion_Click;
+            // 
+            // pbCeviche
+            // 
+            pbCeviche.Dock = DockStyle.Top;
+            pbCeviche.Image = Properties.Resources.LOGO;
+            pbCeviche.Location = new Point(0, 70);
+            pbCeviche.Name = "pbCeviche";
+            pbCeviche.Size = new Size(250, 70);
+            pbCeviche.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCeviche.TabIndex = 0;
+            pbCeviche.TabStop = false;
+            // 
+            // pnlAppName
+            // 
+            pnlAppName.BackColor = Color.White;
+            pnlAppName.BorderStyle = BorderStyle.FixedSingle;
+            pnlAppName.Controls.Add(lblAppName);
+            pnlAppName.Controls.Add(pbLogo);
+            pnlAppName.Dock = DockStyle.Top;
+            pnlAppName.Location = new Point(0, 0);
+            pnlAppName.Name = "pnlAppName";
+            pnlAppName.Size = new Size(250, 70);
+            pnlAppName.TabIndex = 1;
             // 
             // lblAppName
             // 
@@ -496,6 +561,52 @@
             pbLogo.TabIndex = 1;
             pbLogo.TabStop = false;
             // 
+            // btnBitacoras
+            // 
+            btnBitacoras.Dock = DockStyle.Top;
+            btnBitacoras.FlatAppearance.BorderSize = 0;
+            btnBitacoras.FlatStyle = FlatStyle.Flat;
+            btnBitacoras.Font = new Font("Century Gothic", 10.2F);
+            btnBitacoras.ForeColor = Color.White;
+            btnBitacoras.Image = Properties.Resources.manual;
+            btnBitacoras.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBitacoras.Location = new Point(8, 790);
+            btnBitacoras.Name = "btnBitacoras";
+            btnBitacoras.Padding = new Padding(15, 0, 0, 0);
+            btnBitacoras.Size = new Size(243, 45);
+            btnBitacoras.TabIndex = 14;
+            btnBitacoras.Text = "Auditoria";
+            btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
+            btnBitacoras.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBitacoras.UseVisualStyleBackColor = true;
+            btnBitacoras.Click += btnBitacoras_Click;
+            btnBitacoras.MouseEnter += Boton_MouseEnter;
+            btnBitacoras.MouseLeave += Boton_MouseLeave;
+            // 
+            // btnUsuarios
+            // 
+            btnUsuarios.BackColor = Color.Transparent;
+            btnUsuarios.Cursor = Cursors.Hand;
+            btnUsuarios.Dock = DockStyle.Top;
+            btnUsuarios.FlatAppearance.BorderSize = 0;
+            btnUsuarios.FlatStyle = FlatStyle.Flat;
+            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
+            btnUsuarios.ForeColor = Color.White;
+            btnUsuarios.Image = Properties.Resources.group;
+            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.Location = new Point(8, 715);
+            btnUsuarios.Name = "btnUsuarios";
+            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
+            btnUsuarios.Size = new Size(243, 45);
+            btnUsuarios.TabIndex = 1;
+            btnUsuarios.Text = "Usuarios";
+            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Click += btnUsuarios_Click;
+            btnUsuarios.MouseEnter += Boton_MouseEnter;
+            btnUsuarios.MouseLeave += Boton_MouseLeave;
+            // 
             // pnlHeader
             // 
             pnlHeader.BorderStyle = BorderStyle.FixedSingle;
@@ -504,9 +615,9 @@
             pnlHeader.Controls.Add(lblUser);
             pnlHeader.Controls.Add(pictureBox2);
             pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Location = new Point(230, 0);
+            pnlHeader.Location = new Point(250, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(770, 65);
+            pnlHeader.Size = new Size(950, 70);
             pnlHeader.TabIndex = 1;
             // 
             // lblFecha
@@ -534,7 +645,7 @@
             lblUser.Anchor = AnchorStyles.None;
             lblUser.AutoSize = true;
             lblUser.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblUser.Location = new Point(573, 22);
+            lblUser.Location = new Point(663, 25);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(107, 21);
             lblUser.TabIndex = 1;
@@ -544,7 +655,7 @@
             // 
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox2.Image = Properties.Resources.admin_person_user_man_2839;
-            pictureBox2.Location = new Point(686, 7);
+            pictureBox2.Location = new Point(866, 7);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(48, 48);
             pictureBox2.TabIndex = 0;
@@ -554,36 +665,88 @@
             // 
             pnlContent.BackColor = Color.FromArgb(245, 247, 250);
             pnlContent.Dock = DockStyle.Fill;
-            pnlContent.Location = new Point(230, 65);
+            pnlContent.Location = new Point(250, 70);
             pnlContent.Name = "pnlContent";
             pnlContent.Padding = new Padding(20);
-            pnlContent.Size = new Size(770, 835);
+            pnlContent.Size = new Size(950, 830);
             pnlContent.TabIndex = 2;
+            pnlContent.Paint += pnlContent_Paint;
             // 
             // tmrReloj
             // 
             tmrReloj.Tick += tmrReloj_Tick;
+            // 
+            // btnFidelizacion
+            // 
+            btnFidelizacion.BackColor = Color.Transparent;
+            btnFidelizacion.Cursor = Cursors.Hand;
+            btnFidelizacion.Dock = DockStyle.Top;
+            btnFidelizacion.FlatAppearance.BorderSize = 0;
+            btnFidelizacion.FlatStyle = FlatStyle.Flat;
+            btnFidelizacion.Font = new Font("Century Gothic", 10.2F);
+            btnFidelizacion.ForeColor = Color.White;
+            btnFidelizacion.Image = Properties.Resources.loyalty_program;
+            btnFidelizacion.ImageAlign = ContentAlignment.MiddleLeft;
+            btnFidelizacion.Location = new Point(8, 640);
+            btnFidelizacion.Name = "btnFidelizacion";
+            btnFidelizacion.Padding = new Padding(15, 0, 0, 0);
+            btnFidelizacion.Size = new Size(243, 45);
+            btnFidelizacion.TabIndex = 15;
+            btnFidelizacion.Text = "Fidelización";
+            btnFidelizacion.TextAlign = ContentAlignment.MiddleLeft;
+            btnFidelizacion.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFidelizacion.UseVisualStyleBackColor = false;
+            // 
+            // lblAdministracion
+            // 
+            lblAdministracion.Dock = DockStyle.Top;
+            lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAdministracion.ForeColor = Color.White;
+            lblAdministracion.Location = new Point(8, 685);
+            lblAdministracion.Name = "lblAdministracion";
+            lblAdministracion.Padding = new Padding(12, 0, 0, 0);
+            lblAdministracion.Size = new Size(243, 30);
+            lblAdministracion.TabIndex = 18;
+            lblAdministracion.Text = "ADMINISTRACIÓN";
+            lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblSeguridad
+            // 
+            lblSeguridad.Dock = DockStyle.Top;
+            lblSeguridad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSeguridad.ForeColor = Color.White;
+            lblSeguridad.Location = new Point(8, 760);
+            lblSeguridad.Name = "lblSeguridad";
+            lblSeguridad.Padding = new Padding(12, 0, 0, 0);
+            lblSeguridad.Size = new Size(243, 30);
+            lblSeguridad.TabIndex = 19;
+            lblSeguridad.Text = "SEGURIDAD";
+            lblSeguridad.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmMainMenu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1000, 900);
+            ClientSize = new Size(1200, 900);
             Controls.Add(pnlContent);
             Controls.Add(pnlHeader);
             Controls.Add(pnlSidebar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
+            MinimumSize = new Size(1200, 700);
             Name = "FrmMainMenu";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmMainMenu";
             WindowState = FormWindowState.Maximized;
             pnlSidebar.ResumeLayout(false);
             pnlMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            pnlSidebarHeader.ResumeLayout(false);
-            pnlSidebarHeader.PerformLayout();
+            pnlBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbCeviche).EndInit();
+            pnlAppName.ResumeLayout(false);
+            pnlAppName.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
@@ -596,30 +759,39 @@
         private Panel pnlSidebar;
         private Panel pnlHeader;
         private Panel pnlContent;
-        private PictureBox pictureBox1;
+        private PictureBox pbCeviche;
         private PictureBox pbLogo;
         private Label lblAppName;
-        private Panel pnlSidebarHeader;
+        private Panel pnlAppName;
         private Panel pnlMenu;
-        private Button btnInicio;
-        private Button btnCompras;
-        private Button btnInventario;
-        private Button btnProductos;
-        private Button btnClientes;
-        private Button btnUsuarios;
-        private Button btnReportes;
-        private Button btnProveedores;
-        private Button btnFacturacion;
-        private Button btnVentas;
         private Button btnCerrarSesion;
-        private Button btnMesas;
-        private Button btnEmpleados;
-        private Button btnBitacoras;
-        private Button btnCocina;
         private PictureBox pictureBox2;
         private Label lblUser;
         private System.Windows.Forms.Timer tmrReloj;
         private Label lblHora;
         private Label lblFecha;
+        private Button btnBitacoras;
+        private Button btnCompras;
+        private Button btnCocina;
+        private Button btnInicio;
+        private Button btnMesas;
+        private Button btnUsuarios;
+        private Button btnClientes;
+        private Button btnEmpleados;
+        private Button btnProductos;
+        private Button btnReportes;
+        private Button btnInventario;
+        private Button btnProveedores;
+        private Button btnVentas;
+        private Button btnFacturacion;
+        private Panel pnlBottom;
+        private Label lblOperaciones;
+        private Button btnCaja;
+        private Label lblInventario;
+        private Button btnPromociones;
+        private Label lblGestion;
+        private Button btnFidelizacion;
+        private Label lblSeguridad;
+        private Label lblAdministracion;
     }
 }
