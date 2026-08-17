@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ocean_Desk_dv;
+using Ocean_Desk_dv.UI.Catalogs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ocean_Desk_dv;
 
 namespace Ocean_Desk_dv.UI
 {
@@ -38,7 +39,7 @@ namespace Ocean_Desk_dv.UI
             indicadorActivo = new Panel();
 
             indicadorActivo.Width = 4;
-            indicadorActivo.Height = btnInicio.Height;
+            indicadorActivo.Height = btnReportes.Height;
             indicadorActivo.BackColor = colorBarraActivo;
             indicadorActivo.Visible = false;
 
@@ -51,10 +52,29 @@ namespace Ocean_Desk_dv.UI
 
         private void FrmMainMenu_Load(object sender, EventArgs e)
         {
-            //lblHora.Text = DateTime.Now.ToString("hh:mm:ss tt");// Formato 12 horas con AM/PM
-            //lblFecha.Text = DateTime.Now.ToLongDateString();// Ejemplo: "lunes, 24 de mayo de 2026"
 
-            //tmrReloj.Start();// Inicia el temporizador para actualizar la hora y la fecha
+            lblSeccion.Text = "Inicio";
+            lblSubtitulo.Text = "Seleccione un módulo para comenzar";
+        }
+
+        private void AbrirFormularioEnPanel(Form formulario)
+        {
+            // Limpiar el contenido actual
+            pnlContent.Controls.Clear();
+
+            // El formulario no se mostrará como ventana independiente
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.Fill;
+
+            // Agregarlo al panel principal
+            pnlContent.Controls.Add(formulario);
+
+            // Llevarlo al frente
+            formulario.BringToFront();
+
+            // Mostrarlo
+            formulario.Show();
         }
         #endregion
 
@@ -168,11 +188,6 @@ namespace Ocean_Desk_dv.UI
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void btnInicio_Click(object sender, EventArgs e)
-        {
-            SeleccionarBoton(btnInicio);
-        }
-
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnUsuarios);
@@ -211,11 +226,6 @@ namespace Ocean_Desk_dv.UI
         private void btnProveedores_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnProveedores);
-        }
-
-        private void btnReportes_Click(object sender, EventArgs e)
-        {
-            SeleccionarBoton(btnReportes);
         }
 
         private void btnEmpleados_Click(object sender, EventArgs e)
@@ -289,6 +299,18 @@ namespace Ocean_Desk_dv.UI
             Application.Exit();
         }
         #endregion
+
+        private void btnReportes_Click_1(object sender, EventArgs e)
+        {
+            SeleccionarBoton(btnReportes);
+
+            lblSeccion.Text = "Reportes";
+            lblSubtitulo.Text = "Indicadores y comportamiento general";
+
+            FrmReportes reportes = new FrmReportes();
+
+            AbrirFormularioEnPanel(reportes);
+        }
     }
 }
 

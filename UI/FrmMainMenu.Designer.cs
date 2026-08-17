@@ -53,7 +53,6 @@
             lblOperaciones = new Label();
             btnEmpleados = new Button();
             btnReportes = new Button();
-            btnInicio = new Button();
             pnlBottom = new Panel();
             btnCerrarSesion = new Button();
             pbCeviche = new PictureBox();
@@ -67,8 +66,8 @@
             btnMaximize = new Button();
             btnMinimize = new Button();
             pnlModuleInfo = new Panel();
-            lblSeccion = new Label();
             lblSubtitulo = new Label();
+            lblSeccion = new Label();
             pnlDateTime = new Panel();
             lblFecha = new Label();
             lblHora = new Label();
@@ -131,7 +130,6 @@
             pnlMenu.Controls.Add(lblOperaciones);
             pnlMenu.Controls.Add(btnEmpleados);
             pnlMenu.Controls.Add(btnReportes);
-            pnlMenu.Controls.Add(btnInicio);
             pnlMenu.Dock = DockStyle.Fill;
             pnlMenu.Location = new Point(0, 150);
             pnlMenu.Name = "pnlMenu";
@@ -560,48 +558,25 @@
             // 
             btnReportes.BackColor = Color.Transparent;
             btnReportes.Cursor = Cursors.Hand;
+            btnReportes.Dock = DockStyle.Top;
             btnReportes.FlatAppearance.BorderSize = 0;
             btnReportes.FlatStyle = FlatStyle.Flat;
-            btnReportes.Font = new Font("Century Gothic", 10.2F);
+            btnReportes.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnReportes.ForeColor = Color.White;
-            btnReportes.Image = Properties.Resources.statisctics;
+            btnReportes.Image = Properties.Resources.report;
             btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReportes.Location = new Point(14, 432);
+            btnReportes.Location = new Point(8, 10);
             btnReportes.Name = "btnReportes";
-            btnReportes.Padding = new Padding(15, 0, 0, 0);
-            btnReportes.Size = new Size(234, 45);
-            btnReportes.TabIndex = 9;
+            btnReportes.Padding = new Padding(12, 0, 0, 0);
+            btnReportes.Size = new Size(243, 45);
+            btnReportes.TabIndex = 0;
             btnReportes.Text = "Reportes";
             btnReportes.TextAlign = ContentAlignment.MiddleLeft;
             btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnReportes.UseVisualStyleBackColor = false;
-            btnReportes.Click += btnReportes_Click;
+            btnReportes.Click += btnReportes_Click_1;
             btnReportes.MouseEnter += Boton_MouseEnter;
             btnReportes.MouseLeave += Boton_MouseLeave;
-            // 
-            // btnInicio
-            // 
-            btnInicio.BackColor = Color.Transparent;
-            btnInicio.Cursor = Cursors.Hand;
-            btnInicio.Dock = DockStyle.Top;
-            btnInicio.FlatAppearance.BorderSize = 0;
-            btnInicio.FlatStyle = FlatStyle.Flat;
-            btnInicio.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnInicio.ForeColor = Color.White;
-            btnInicio.Image = Properties.Resources.report;
-            btnInicio.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInicio.Location = new Point(8, 10);
-            btnInicio.Name = "btnInicio";
-            btnInicio.Padding = new Padding(12, 0, 0, 0);
-            btnInicio.Size = new Size(243, 45);
-            btnInicio.TabIndex = 0;
-            btnInicio.Text = "Reportes";
-            btnInicio.TextAlign = ContentAlignment.MiddleLeft;
-            btnInicio.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnInicio.UseVisualStyleBackColor = false;
-            btnInicio.Click += btnInicio_Click;
-            btnInicio.MouseEnter += Boton_MouseEnter;
-            btnInicio.MouseLeave += Boton_MouseLeave;
             // 
             // pnlBottom
             // 
@@ -790,18 +765,6 @@
             pnlModuleInfo.Size = new Size(294, 62);
             pnlModuleInfo.TabIndex = 0;
             // 
-            // lblSeccion
-            // 
-            lblSeccion.Dock = DockStyle.Top;
-            lblSeccion.Font = new Font("Century Gothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSeccion.ForeColor = Color.FromArgb(18, 48, 71);
-            lblSeccion.Location = new Point(0, 0);
-            lblSeccion.Name = "lblSeccion";
-            lblSeccion.Size = new Size(294, 40);
-            lblSeccion.TabIndex = 2;
-            lblSeccion.Text = "Reportes";
-            lblSeccion.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // lblSubtitulo
             // 
             lblSubtitulo.Dock = DockStyle.Top;
@@ -813,6 +776,18 @@
             lblSubtitulo.TabIndex = 3;
             lblSubtitulo.Text = "  Sistema de gestión";
             lblSubtitulo.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblSeccion
+            // 
+            lblSeccion.Dock = DockStyle.Top;
+            lblSeccion.Font = new Font("Century Gothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSeccion.ForeColor = Color.FromArgb(18, 48, 71);
+            lblSeccion.Location = new Point(0, 0);
+            lblSeccion.Name = "lblSeccion";
+            lblSeccion.Size = new Size(294, 40);
+            lblSeccion.TabIndex = 2;
+            lblSeccion.Text = "Inicio";
+            lblSeccion.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlDateTime
             // 
@@ -965,7 +940,6 @@
         private Button btnBitacoras;
         private Button btnCompras;
         private Button btnCocina;
-        private Button btnInicio;
         private Button btnMesas;
         private Button btnUsuarios;
         private Button btnClientes;
