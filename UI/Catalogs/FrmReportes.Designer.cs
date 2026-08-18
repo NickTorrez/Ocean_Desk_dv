@@ -187,7 +187,7 @@
             // 
             lblStockBajo.Dock = DockStyle.Top;
             lblStockBajo.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblStockBajo.ForeColor = Color.FromArgb(217, 140, 0);
+            lblStockBajo.ForeColor = Color.Red;
             lblStockBajo.Location = new Point(15, 36);
             lblStockBajo.Name = "lblStockBajo";
             lblStockBajo.Size = new Size(189, 38);
@@ -287,7 +287,7 @@
             // 
             lblIngresos.Dock = DockStyle.Top;
             lblIngresos.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblIngresos.ForeColor = Color.FromArgb(8, 126, 164);
+            lblIngresos.ForeColor = Color.YellowGreen;
             lblIngresos.Location = new Point(15, 36);
             lblIngresos.Name = "lblIngresos";
             lblIngresos.Size = new Size(189, 38);

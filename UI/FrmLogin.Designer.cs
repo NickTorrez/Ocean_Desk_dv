@@ -186,6 +186,7 @@
             // 
             lnkForgotPassword.AutoSize = true;
             lnkForgotPassword.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lnkForgotPassword.LinkColor = Color.MidnightBlue;
             lnkForgotPassword.Location = new Point(191, 485);
             lnkForgotPassword.Name = "lnkForgotPassword";
             lnkForgotPassword.Size = new Size(234, 21);
@@ -244,10 +245,10 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.Cyan;
+            panel2.BackColor = Color.MidnightBlue;
             panel2.Location = new Point(61, 41);
             panel2.Name = "panel2";
-            panel2.Size = new Size(318, 5);
+            panel2.Size = new Size(318, 2);
             panel2.TabIndex = 4;
             // 
             // pictureBox1
@@ -307,10 +308,10 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Cyan;
+            panel1.BackColor = Color.MidnightBlue;
             panel1.Location = new Point(62, 41);
             panel1.Name = "panel1";
-            panel1.Size = new Size(318, 5);
+            panel1.Size = new Size(318, 2);
             panel1.TabIndex = 3;
             // 
             // btnShowPassword
