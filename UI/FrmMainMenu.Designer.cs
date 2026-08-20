@@ -786,7 +786,7 @@
             lblSeccion.Name = "lblSeccion";
             lblSeccion.Size = new Size(294, 40);
             lblSeccion.TabIndex = 2;
-            lblSeccion.Text = "Inicio";
+            lblSeccion.Text = "Home";
             lblSeccion.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlDateTime
