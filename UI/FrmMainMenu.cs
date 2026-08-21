@@ -298,7 +298,7 @@ namespace Ocean_Desk_dv.UI
         {
             Application.Exit();
         }
-        #endregion
+     
 
         private void btnReportes_Click_1(object sender, EventArgs e)
         {
@@ -311,6 +311,7 @@ namespace Ocean_Desk_dv.UI
 
             AbrirFormularioEnPanel(reportes);
         }
+        #endregion
     }
 }
 
