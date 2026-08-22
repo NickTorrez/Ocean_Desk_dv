@@ -103,6 +103,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Coctel_Ceviche {
+            get {
+                object obj = ResourceManager.GetObject("Coctel Ceviche", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap customer_review {
             get {
                 object obj = ResourceManager.GetObject("customer-review", resourceCulture);
@@ -266,6 +276,16 @@ namespace Ocean_Desk_dv.Properties {
         internal static System.Drawing.Bitmap point_of_sale {
             get {
                 object obj = ResourceManager.GetObject("point-of-sale", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Primer_Ceviche {
+            get {
+                object obj = ResourceManager.GetObject("Primer Ceviche", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
