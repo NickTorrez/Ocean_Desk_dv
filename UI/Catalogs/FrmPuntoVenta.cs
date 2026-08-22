@@ -45,7 +45,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             AgregarProductoCard(
                 4,
                 "Tostones",
-                80.00m);
+                80.00m,
+                null,
+                false);
 
             AgregarProductoCard(
                 5,
@@ -62,7 +64,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
         int productoId,
         string nombre,
         decimal precio,
-        Image imagen = null)
+        Image imagen = null,
+        bool disponible = true)
         {
             UcProductoCard card = new UcProductoCard();
 
@@ -70,6 +73,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             card.NombreProducto = nombre;
             card.Precio = precio;
             card.ImagenProducto = imagen;
+            card.Disponible = disponible;
 
             card.ProductoAgregado += Card_ProductoAgregado;
 

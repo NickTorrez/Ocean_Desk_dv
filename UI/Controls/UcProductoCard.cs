@@ -15,10 +15,17 @@ namespace Ocean_Desk_dv.UI.Controls
     {
         public event EventHandler ProductoAgregado; //Evento Reutilizable
 
-        #region Propiedades de Tarjetas
+        #region Propiedades y Clases de Tarjeta
         private int _productoId;
         private string _nombreProducto = string.Empty;
         private decimal _precio;
+        private bool _disponible = true;
+
+        private readonly Color _colorNormal = Color.White;
+        private readonly Color _colorHover = Color.FromArgb(245, 249, 252);
+
+        private readonly Color _colorBotonNormal = Color.FromArgb(8, 126, 164);
+        private readonly Color _colorBotonHover = Color.FromArgb(6, 105, 138);
 
         public int ProductoId
         {
@@ -29,9 +36,10 @@ namespace Ocean_Desk_dv.UI.Controls
         public string NombreProducto
         {
             get => _nombreProducto;
+
             set
             {
-                _nombreProducto = value ?? string.Empty;
+                _nombreProducto = value?.Trim() ?? string.Empty;
                 lblNombreProducto.Text = _nombreProducto;
             }
         }
@@ -51,7 +59,28 @@ namespace Ocean_Desk_dv.UI.Controls
         public Image ImagenProducto
         {
             get => picProducto.Image;
-            set => picProducto.Image = value;
+            set
+            {
+                if (value == null)
+                {
+                    picProducto.Image = Properties.Resources.producto_default;
+                }
+                else
+                {
+                    picProducto.Image = value;
+                }
+            }
+        }
+
+        public bool Disponible
+        {
+            get => _disponible;
+
+            set
+            {
+                _disponible = value;
+                ActualizarEstadoDisponibilidad();
+            }
         }
         #endregion
 
@@ -69,29 +98,95 @@ namespace Ocean_Desk_dv.UI.Controls
         #region Configurar Eventos
         private void ConfigurarEventos()
         {
+            // Click
             btnAgregar.Click += ControlProducto_Click;
             picProducto.Click += ControlProducto_Click;
             lblNombreProducto.Click += ControlProducto_Click;
             lblPrecio.Click += ControlProducto_Click;
+
+            // Hover de toda la tarjeta
+            MouseEnter += Control_MouseEnter;
+            MouseLeave += Control_MouseLeave;
+
+            picProducto.MouseEnter += Control_MouseEnter;
+            picProducto.MouseLeave += Control_MouseLeave;
+
+            lblNombreProducto.MouseEnter += Control_MouseEnter;
+            lblNombreProducto.MouseLeave += Control_MouseLeave;
+
+            lblPrecio.MouseEnter += Control_MouseEnter;
+            lblPrecio.MouseLeave += Control_MouseLeave;
+
+            btnAgregar.MouseEnter += Control_MouseEnter;
+            btnAgregar.MouseLeave += Control_MouseLeave;
         }
         #endregion
 
         #region Evento General del Producto
         private void ControlProducto_Click(object sender, EventArgs e)
         {
+            if (!_disponible)
+                return;
+
             ProductoAgregado?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 
         #region Ajustes en la Apariencia
-        private void UcProductoCard_MouseEnter(object sender, EventArgs e)
+        private void Control_MouseEnter(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(245, 249, 252);
+            if (!_disponible)
+                return;
+
+            BackColor = _colorHover;
+            btnAgregar.BackColor = _colorBotonHover;
         }
 
-        private void UcProductoCard_MouseLeave(object sender, EventArgs e)
+        private void Control_MouseLeave(object sender, EventArgs e)
         {
-            BackColor = Color.White;
+            if (!_disponible)
+                return;
+
+            BackColor = _colorNormal;
+            btnAgregar.BackColor = _colorBotonNormal;
+        }
+        #endregion
+
+        #region Metodo de Agotamiento
+        private void ActualizarEstadoDisponibilidad()
+        {
+            if (_disponible)
+            {
+                BackColor = _colorNormal;
+
+                btnAgregar.Enabled = true;
+                btnAgregar.Text = "AGREGAR";
+                btnAgregar.BackColor = _colorBotonNormal;
+                btnAgregar.ForeColor = Color.White;
+
+                lblNombreProducto.ForeColor = Color.FromArgb(8, 31, 63);
+                lblPrecio.ForeColor = Color.FromArgb(11, 120, 166);
+
+                picProducto.Enabled = true;
+
+                Cursor = Cursors.Hand;
+            }
+            else
+            {
+                BackColor = Color.FromArgb(248, 248, 248);
+
+                btnAgregar.Enabled = false;
+                btnAgregar.Text = "AGOTADO";
+                btnAgregar.BackColor = Color.FromArgb(190, 196, 201);
+                btnAgregar.ForeColor = Color.FromArgb(90, 95, 100);
+
+                lblNombreProducto.ForeColor = Color.FromArgb(130, 135, 140);
+                lblPrecio.ForeColor = Color.FromArgb(150, 155, 160);
+
+                picProducto.Enabled = false;
+
+                Cursor = Cursors.Default;
+            }
         }
         #endregion
 

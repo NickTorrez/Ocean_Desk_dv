@@ -216,6 +216,12 @@ namespace Ocean_Desk_dv.UI
         private void btnVentas_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnVentas);
+
+            lblSeccion.Text = "Punto de Venta";
+            lblSubtitulo.Text = "Toma de Orden y Facturación";
+
+            FrmPuntoVenta ventas = new FrmPuntoVenta();
+            AbrirFormularioEnPanel(ventas);
         }
 
         private void btnFacturacion_Click(object sender, EventArgs e)

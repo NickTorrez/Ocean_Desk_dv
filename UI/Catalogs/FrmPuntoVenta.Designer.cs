@@ -37,7 +37,7 @@
             pnlProducts = new Panel();
             flpProducts = new FlowLayoutPanel();
             pnlCategories = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            tlpCategories = new TableLayoutPanel();
             btnCatExtras = new Button();
             btnCatBebidas = new Button();
             btnCatEntradas = new Button();
@@ -51,7 +51,7 @@
             pnlTop.SuspendLayout();
             pnlProducts.SuspendLayout();
             pnlCategories.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            tlpCategories.SuspendLayout();
             pnlOrder.SuspendLayout();
             pnlOrderHeader.SuspendLayout();
             SuspendLayout();
@@ -147,103 +147,113 @@
             // pnlCategories
             // 
             pnlCategories.BackColor = Color.Transparent;
-            pnlCategories.Controls.Add(tableLayoutPanel1);
+            pnlCategories.Controls.Add(tlpCategories);
             pnlCategories.Dock = DockStyle.Top;
             pnlCategories.Location = new Point(15, 15);
             pnlCategories.Name = "pnlCategories";
             pnlCategories.Size = new Size(530, 50);
             pnlCategories.TabIndex = 1;
             // 
-            // tableLayoutPanel1
+            // tlpCategories
             // 
-            tableLayoutPanel1.ColumnCount = 5;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.Controls.Add(btnCatExtras, 4, 0);
-            tableLayoutPanel1.Controls.Add(btnCatBebidas, 3, 0);
-            tableLayoutPanel1.Controls.Add(btnCatEntradas, 2, 0);
-            tableLayoutPanel1.Controls.Add(button1, 0, 0);
-            tableLayoutPanel1.Controls.Add(btnCatMariscos, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.Padding = new Padding(2, 6, 2, 6);
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(530, 50);
-            tableLayoutPanel1.TabIndex = 0;
+            tlpCategories.ColumnCount = 5;
+            tlpCategories.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpCategories.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpCategories.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpCategories.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpCategories.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpCategories.Controls.Add(btnCatExtras, 4, 0);
+            tlpCategories.Controls.Add(btnCatBebidas, 3, 0);
+            tlpCategories.Controls.Add(btnCatEntradas, 2, 0);
+            tlpCategories.Controls.Add(button1, 0, 0);
+            tlpCategories.Controls.Add(btnCatMariscos, 1, 0);
+            tlpCategories.Dock = DockStyle.Top;
+            tlpCategories.Location = new Point(0, 0);
+            tlpCategories.Name = "tlpCategories";
+            tlpCategories.Padding = new Padding(2, 6, 2, 6);
+            tlpCategories.RowCount = 1;
+            tlpCategories.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpCategories.Size = new Size(530, 50);
+            tlpCategories.TabIndex = 0;
             // 
             // btnCatExtras
             // 
+            btnCatExtras.BackColor = Color.FromArgb(8, 31, 63);
             btnCatExtras.Cursor = Cursors.Hand;
             btnCatExtras.FlatAppearance.BorderSize = 0;
             btnCatExtras.FlatStyle = FlatStyle.Flat;
             btnCatExtras.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCatExtras.ForeColor = Color.White;
             btnCatExtras.Location = new Point(425, 9);
             btnCatExtras.Name = "btnCatExtras";
             btnCatExtras.Size = new Size(94, 32);
             btnCatExtras.TabIndex = 4;
             btnCatExtras.Text = "Extras";
-            btnCatExtras.UseVisualStyleBackColor = true;
+            btnCatExtras.UseVisualStyleBackColor = false;
             // 
             // btnCatBebidas
             // 
+            btnCatBebidas.BackColor = Color.FromArgb(8, 31, 63);
             btnCatBebidas.Cursor = Cursors.Hand;
             btnCatBebidas.FlatAppearance.BorderSize = 0;
             btnCatBebidas.FlatStyle = FlatStyle.Flat;
             btnCatBebidas.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCatBebidas.ForeColor = Color.White;
             btnCatBebidas.Location = new Point(320, 9);
             btnCatBebidas.Name = "btnCatBebidas";
             btnCatBebidas.Size = new Size(94, 32);
             btnCatBebidas.TabIndex = 3;
             btnCatBebidas.Text = "Bebidas";
-            btnCatBebidas.UseVisualStyleBackColor = true;
+            btnCatBebidas.UseVisualStyleBackColor = false;
             // 
             // btnCatEntradas
             // 
+            btnCatEntradas.BackColor = Color.FromArgb(8, 31, 63);
             btnCatEntradas.Cursor = Cursors.Hand;
             btnCatEntradas.FlatAppearance.BorderSize = 0;
             btnCatEntradas.FlatStyle = FlatStyle.Flat;
             btnCatEntradas.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCatEntradas.ForeColor = Color.White;
             btnCatEntradas.Location = new Point(215, 9);
             btnCatEntradas.Name = "btnCatEntradas";
             btnCatEntradas.Size = new Size(94, 32);
             btnCatEntradas.TabIndex = 2;
             btnCatEntradas.Text = "Entradas";
-            btnCatEntradas.UseVisualStyleBackColor = true;
+            btnCatEntradas.UseVisualStyleBackColor = false;
             // 
             // button1
             // 
+            button1.BackColor = Color.FromArgb(8, 31, 63);
             button1.Cursor = Cursors.Hand;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.White;
             button1.Location = new Point(5, 9);
             button1.Name = "button1";
             button1.Size = new Size(94, 32);
             button1.TabIndex = 5;
             button1.Text = "Ceviches";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             // 
             // btnCatMariscos
             // 
+            btnCatMariscos.BackColor = Color.FromArgb(8, 31, 63);
             btnCatMariscos.Cursor = Cursors.Hand;
             btnCatMariscos.FlatAppearance.BorderSize = 0;
             btnCatMariscos.FlatStyle = FlatStyle.Flat;
             btnCatMariscos.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCatMariscos.ForeColor = Color.White;
             btnCatMariscos.Location = new Point(110, 9);
             btnCatMariscos.Name = "btnCatMariscos";
             btnCatMariscos.Size = new Size(94, 32);
             btnCatMariscos.TabIndex = 1;
             btnCatMariscos.Text = "Mariscos";
-            btnCatMariscos.UseVisualStyleBackColor = true;
+            btnCatMariscos.UseVisualStyleBackColor = false;
             // 
             // pnlOrder
             // 
-            pnlOrder.BackColor = Color.White;
+            pnlOrder.BackColor = Color.FromArgb(8, 31, 63);
             pnlOrder.Controls.Add(flpOrderItems);
             pnlOrder.Controls.Add(pnlOrderFooter);
             pnlOrder.Controls.Add(pnlOrderHeader);
@@ -258,6 +268,7 @@
             // 
             flpOrderItems.AutoScroll = true;
             flpOrderItems.BackColor = Color.Transparent;
+            flpOrderItems.BorderStyle = BorderStyle.FixedSingle;
             flpOrderItems.Dock = DockStyle.Fill;
             flpOrderItems.Location = new Point(15, 70);
             flpOrderItems.Name = "flpOrderItems";
@@ -268,6 +279,7 @@
             // pnlOrderFooter
             // 
             pnlOrderFooter.BackColor = Color.Transparent;
+            pnlOrderFooter.BorderStyle = BorderStyle.FixedSingle;
             pnlOrderFooter.Dock = DockStyle.Bottom;
             pnlOrderFooter.Location = new Point(15, 565);
             pnlOrderFooter.Name = "pnlOrderFooter";
@@ -277,6 +289,7 @@
             // pnlOrderHeader
             // 
             pnlOrderHeader.BackColor = Color.Transparent;
+            pnlOrderHeader.BorderStyle = BorderStyle.FixedSingle;
             pnlOrderHeader.Controls.Add(lblOrderTitle);
             pnlOrderHeader.Dock = DockStyle.Top;
             pnlOrderHeader.Location = new Point(15, 15);
@@ -288,7 +301,8 @@
             // 
             lblOrderTitle.AutoSize = true;
             lblOrderTitle.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblOrderTitle.Location = new Point(87, 14);
+            lblOrderTitle.ForeColor = Color.White;
+            lblOrderTitle.Location = new Point(89, 13);
             lblOrderTitle.Name = "lblOrderTitle";
             lblOrderTitle.Size = new Size(176, 27);
             lblOrderTitle.TabIndex = 0;
@@ -311,7 +325,7 @@
             pnlTop.PerformLayout();
             pnlProducts.ResumeLayout(false);
             pnlCategories.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
+            tlpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
             pnlOrderHeader.PerformLayout();
@@ -329,7 +343,7 @@
         private ComboBox comboBox1;
         private Label lblCliente;
         private Panel pnlCategories;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tlpCategories;
         private Button btnCatExtras;
         private Button btnCatBebidas;
         private Button btnCatEntradas;
@@ -337,8 +351,8 @@
         private FlowLayoutPanel flpProducts;
         private Button button1;
         private Panel pnlOrderHeader;
-        private Label lblOrderTitle;
         private FlowLayoutPanel flpOrderItems;
         private Panel pnlOrderFooter;
+        private Label lblOrderTitle;
     }
 }

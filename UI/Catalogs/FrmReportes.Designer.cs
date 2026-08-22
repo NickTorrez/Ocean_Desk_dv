@@ -122,9 +122,9 @@
             lblTituloReportes.ForeColor = Color.FromArgb(18, 48, 71);
             lblTituloReportes.Location = new Point(0, 0);
             lblTituloReportes.Name = "lblTituloReportes";
-            lblTituloReportes.Size = new Size(383, 40);
+            lblTituloReportes.Size = new Size(581, 40);
             lblTituloReportes.TabIndex = 0;
-            lblTituloReportes.Text = "Resumen del Negocio";
+            lblTituloReportes.Text = "Resumen Económico del Negocio";
             // 
             // pnlIndicadores
             // 

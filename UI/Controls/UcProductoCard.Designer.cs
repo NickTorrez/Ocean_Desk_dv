@@ -49,13 +49,12 @@
             // lblNombreProducto
             // 
             lblNombreProducto.AutoEllipsis = true;
-            lblNombreProducto.AutoSize = true;
             lblNombreProducto.Dock = DockStyle.Top;
             lblNombreProducto.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNombreProducto.ForeColor = Color.FromArgb(8, 31, 63);
             lblNombreProducto.Location = new Point(10, 125);
             lblNombreProducto.Name = "lblNombreProducto";
-            lblNombreProducto.Size = new Size(128, 19);
+            lblNombreProducto.Size = new Size(160, 22);
             lblNombreProducto.TabIndex = 1;
             lblNombreProducto.Text = "Ceviche Mixto";
             lblNombreProducto.TextAlign = ContentAlignment.MiddleLeft;
@@ -65,7 +64,7 @@
             lblPrecio.Dock = DockStyle.Top;
             lblPrecio.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPrecio.ForeColor = Color.FromArgb(8, 31, 63);
-            lblPrecio.Location = new Point(10, 144);
+            lblPrecio.Location = new Point(10, 147);
             lblPrecio.Name = "lblPrecio";
             lblPrecio.Size = new Size(160, 25);
             lblPrecio.TabIndex = 2;
@@ -101,11 +100,8 @@
             Name = "UcProductoCard";
             Padding = new Padding(10);
             Size = new Size(180, 220);
-            MouseEnter += UcProductoCard_MouseEnter;
-            MouseLeave += UcProductoCard_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)picProducto).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

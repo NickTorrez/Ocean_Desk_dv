@@ -293,6 +293,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap producto_default {
+            get {
+                object obj = ResourceManager.GetObject("producto_default", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap products {
             get {
                 object obj = ResourceManager.GetObject("products", resourceCulture);
