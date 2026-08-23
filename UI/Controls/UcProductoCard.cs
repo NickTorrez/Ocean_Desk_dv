@@ -15,15 +15,14 @@ namespace Ocean_Desk_dv.UI.Controls
     {
         public event EventHandler ProductoAgregado; //Evento Reutilizable
 
-        #region Propiedades y Clases de Tarjeta
+        #region Campos y Propiedades de Tarjeta
         private int _productoId;
         private string _nombreProducto = string.Empty;
         private decimal _precio;
         private bool _disponible = true;
-
+        private decimal _stock;
         private readonly Color _colorNormal = Color.White;
         private readonly Color _colorHover = Color.FromArgb(245, 249, 252);
-
         private readonly Color _colorBotonNormal = Color.FromArgb(8, 126, 164);
         private readonly Color _colorBotonHover = Color.FromArgb(6, 105, 138);
 
@@ -80,6 +79,21 @@ namespace Ocean_Desk_dv.UI.Controls
             {
                 _disponible = value;
                 ActualizarEstadoDisponibilidad();
+            }
+        }
+
+        public decimal Stock
+        {
+            get => _stock;
+
+            set
+            {
+                _stock = value;
+
+                if (_stock <= 0)
+                {
+                    Disponible = false;
+                }
             }
         }
         #endregion

@@ -267,14 +267,16 @@
             // flpOrderItems
             // 
             flpOrderItems.AutoScroll = true;
-            flpOrderItems.BackColor = Color.Transparent;
+            flpOrderItems.BackColor = Color.FromArgb(245, 247, 250);
             flpOrderItems.BorderStyle = BorderStyle.FixedSingle;
             flpOrderItems.Dock = DockStyle.Fill;
+            flpOrderItems.FlowDirection = FlowDirection.TopDown;
             flpOrderItems.Location = new Point(15, 70);
             flpOrderItems.Name = "flpOrderItems";
             flpOrderItems.Padding = new Padding(5);
             flpOrderItems.Size = new Size(350, 495);
             flpOrderItems.TabIndex = 1;
+            flpOrderItems.WrapContents = false;
             // 
             // pnlOrderFooter
             // 
@@ -289,7 +291,6 @@
             // pnlOrderHeader
             // 
             pnlOrderHeader.BackColor = Color.Transparent;
-            pnlOrderHeader.BorderStyle = BorderStyle.FixedSingle;
             pnlOrderHeader.Controls.Add(lblOrderTitle);
             pnlOrderHeader.Dock = DockStyle.Top;
             pnlOrderHeader.Location = new Point(15, 15);
@@ -299,14 +300,15 @@
             // 
             // lblOrderTitle
             // 
-            lblOrderTitle.AutoSize = true;
-            lblOrderTitle.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblOrderTitle.Dock = DockStyle.Fill;
+            lblOrderTitle.Font = new Font("Century Gothic", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblOrderTitle.ForeColor = Color.White;
-            lblOrderTitle.Location = new Point(89, 13);
+            lblOrderTitle.Location = new Point(0, 0);
             lblOrderTitle.Name = "lblOrderTitle";
-            lblOrderTitle.Size = new Size(176, 27);
+            lblOrderTitle.Size = new Size(350, 55);
             lblOrderTitle.TabIndex = 0;
             lblOrderTitle.Text = "Pedido Actual";
+            lblOrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmPuntoVenta
             // 
@@ -328,7 +330,6 @@
             tlpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
-            pnlOrderHeader.PerformLayout();
             ResumeLayout(false);
         }
 
