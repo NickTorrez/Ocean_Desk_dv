@@ -22,6 +22,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
             InitializeComponent();
 
             CargarProductosPrueba(); //Prueba de Productos
+
+            ActualizarResumenPedido(); //Prueba de Orden a Cobrar
         }
         #endregion
 
@@ -138,15 +140,39 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 subtotal += item.Subtotal;
             }
 
-            // Temporal
-            this.Text =
-                $"Punto de Venta - Total: " +
-                subtotal.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            decimal descuento = 0;
+
+            decimal total = subtotal - descuento;
+
+            lblSubtotal.Text = subtotal.ToString(
+                "C",
+                System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            lblDescuento.Text = descuento.ToString(
+                "C",
+                System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            lblTotal.Text = total.ToString(
+                "C",
+                System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            btnCobrar.Text = $"COBRAR {total.ToString("C",
+                System.Globalization.CultureInfo.GetCultureInfo("es-NI"))}";
+            btnCobrar.Enabled = _orderItems.Count > 0;
+
+            if (_orderItems.Count > 0)
+            {
+                btnCobrar.Enabled = true;
+                btnCobrar.BackColor = Color.FromArgb(8, 126, 164);
+            }
+            else
+            {
+                btnCobrar.Enabled = false;
+                btnCobrar.BackColor = Color.FromArgb(190, 196, 201);
+            }
         }
 
-        private void OrderItem_ProductoEliminado(object sender,EventArgs e)
+        private void OrderItem_ProductoEliminado(object sender, EventArgs e)
         {
             if (sender is UcOrderItem item)
             {
@@ -161,5 +187,48 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
+
+
+        private void btnCobrar_MouseEnter(object sender, EventArgs e)
+        {
+            btnCobrar.BackColor = Color.FromArgb(6, 105, 138);
+        }
+
+        private void btnCobrar_MouseLeave(object sender, EventArgs e)
+        {
+            btnCobrar.BackColor = Color.FromArgb(8, 126, 164);
+        }
+
+        private void btnCancelarVenta_MouseEnter(object sender, EventArgs e)
+        {
+            btnCancelarVenta.BackColor = Color.FromArgb(224, 234, 240);
+        }
+
+        private void btnCancelarVenta_MouseLeave(object sender, EventArgs e)
+        {
+            btnCancelarVenta.BackColor = Color.FromArgb(238, 243, 247);
+        }
+
+        private void btnCancelarVenta_Click(object sender, EventArgs e)
+        {
+            if (_orderItems.Count == 0)
+                return;
+
+            DialogResult resultado =
+                MessageBox.Show(
+                    "¿Desea cancelar la venta actual?",
+                    "Cancelar venta",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            _orderItems.Clear();
+
+            flpOrderItems.Controls.Clear();
+
+            ActualizarResumenPedido();
+        }
     }
 }

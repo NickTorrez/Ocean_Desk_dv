@@ -41,27 +41,35 @@
             btnCatExtras = new Button();
             btnCatBebidas = new Button();
             btnCatEntradas = new Button();
-            button1 = new Button();
             btnCatMariscos = new Button();
+            btnCatCeviche = new Button();
             pnlOrder = new Panel();
             flpOrderItems = new FlowLayoutPanel();
             pnlOrderFooter = new Panel();
-            pnlOrderHeader = new Panel();
-            lblOrderTitle = new Label();
+            pnlAcciones = new Panel();
+            btnCobrar = new Button();
+            btnCancelarVenta = new Button();
+            tlpTotal = new TableLayoutPanel();
+            lblTotalTexto = new Label();
+            lblTotal = new Label();
+            pnlSeparador = new Panel();
+            tlpOrderFooter = new TableLayoutPanel();
             lblSubtotalTexto = new Label();
             lblSubtotal = new Label();
             lblDescuentoTexto = new Label();
             lblDescuento = new Label();
-            tlpOrderFooter = new TableLayoutPanel();
-            pnlSeparador = new Panel();
+            pnlOrderHeader = new Panel();
+            lblOrderTitle = new Label();
             pnlTop.SuspendLayout();
             pnlProducts.SuspendLayout();
             pnlCategories.SuspendLayout();
             tlpCategories.SuspendLayout();
             pnlOrder.SuspendLayout();
             pnlOrderFooter.SuspendLayout();
-            pnlOrderHeader.SuspendLayout();
+            pnlAcciones.SuspendLayout();
+            tlpTotal.SuspendLayout();
             tlpOrderFooter.SuspendLayout();
+            pnlOrderHeader.SuspendLayout();
             SuspendLayout();
             // 
             // pnlTop
@@ -173,8 +181,8 @@
             tlpCategories.Controls.Add(btnCatExtras, 4, 0);
             tlpCategories.Controls.Add(btnCatBebidas, 3, 0);
             tlpCategories.Controls.Add(btnCatEntradas, 2, 0);
-            tlpCategories.Controls.Add(button1, 0, 0);
             tlpCategories.Controls.Add(btnCatMariscos, 1, 0);
+            tlpCategories.Controls.Add(btnCatCeviche, 0, 0);
             tlpCategories.Dock = DockStyle.Top;
             tlpCategories.Location = new Point(0, 0);
             tlpCategories.Name = "tlpCategories";
@@ -229,21 +237,6 @@
             btnCatEntradas.Text = "Entradas";
             btnCatEntradas.UseVisualStyleBackColor = false;
             // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(8, 31, 63);
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(5, 9);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 32);
-            button1.TabIndex = 5;
-            button1.Text = "Ceviches";
-            button1.UseVisualStyleBackColor = false;
-            // 
             // btnCatMariscos
             // 
             btnCatMariscos.BackColor = Color.FromArgb(8, 31, 63);
@@ -258,6 +251,21 @@
             btnCatMariscos.TabIndex = 1;
             btnCatMariscos.Text = "Mariscos";
             btnCatMariscos.UseVisualStyleBackColor = false;
+            // 
+            // btnCatCeviche
+            // 
+            btnCatCeviche.BackColor = Color.FromArgb(8, 31, 63);
+            btnCatCeviche.Cursor = Cursors.Hand;
+            btnCatCeviche.FlatAppearance.BorderSize = 0;
+            btnCatCeviche.FlatStyle = FlatStyle.Flat;
+            btnCatCeviche.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCatCeviche.ForeColor = Color.White;
+            btnCatCeviche.Location = new Point(5, 9);
+            btnCatCeviche.Name = "btnCatCeviche";
+            btnCatCeviche.Size = new Size(94, 32);
+            btnCatCeviche.TabIndex = 5;
+            btnCatCeviche.Text = "Ceviches";
+            btnCatCeviche.UseVisualStyleBackColor = false;
             // 
             // pnlOrder
             // 
@@ -289,7 +297,8 @@
             // pnlOrderFooter
             // 
             pnlOrderFooter.BackColor = Color.Transparent;
-            pnlOrderFooter.BorderStyle = BorderStyle.FixedSingle;
+            pnlOrderFooter.Controls.Add(pnlAcciones);
+            pnlOrderFooter.Controls.Add(tlpTotal);
             pnlOrderFooter.Controls.Add(pnlSeparador);
             pnlOrderFooter.Controls.Add(tlpOrderFooter);
             pnlOrderFooter.Dock = DockStyle.Bottom;
@@ -298,6 +307,161 @@
             pnlOrderFooter.Padding = new Padding(10, 10, 5, 5);
             pnlOrderFooter.Size = new Size(350, 180);
             pnlOrderFooter.TabIndex = 2;
+            // 
+            // pnlAcciones
+            // 
+            pnlAcciones.Controls.Add(btnCobrar);
+            pnlAcciones.Controls.Add(btnCancelarVenta);
+            pnlAcciones.Dock = DockStyle.Bottom;
+            pnlAcciones.Location = new Point(10, 125);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(335, 50);
+            pnlAcciones.TabIndex = 9;
+            // 
+            // btnCobrar
+            // 
+            btnCobrar.BackColor = Color.FromArgb(8, 126, 164);
+            btnCobrar.Cursor = Cursors.Hand;
+            btnCobrar.Dock = DockStyle.Right;
+            btnCobrar.FlatAppearance.BorderSize = 0;
+            btnCobrar.FlatStyle = FlatStyle.Flat;
+            btnCobrar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCobrar.ForeColor = Color.White;
+            btnCobrar.Location = new Point(185, 0);
+            btnCobrar.Name = "btnCobrar";
+            btnCobrar.Size = new Size(150, 50);
+            btnCobrar.TabIndex = 10;
+            btnCobrar.Text = "COBRAR";
+            btnCobrar.UseVisualStyleBackColor = false;
+            btnCobrar.MouseEnter += btnCobrar_MouseEnter;
+            btnCobrar.MouseLeave += btnCobrar_MouseLeave;
+            // 
+            // btnCancelarVenta
+            // 
+            btnCancelarVenta.BackColor = Color.FromArgb(238, 243, 247);
+            btnCancelarVenta.Cursor = Cursors.Hand;
+            btnCancelarVenta.Dock = DockStyle.Left;
+            btnCancelarVenta.FlatAppearance.BorderSize = 0;
+            btnCancelarVenta.FlatStyle = FlatStyle.Flat;
+            btnCancelarVenta.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelarVenta.ForeColor = Color.FromArgb(8, 31, 63);
+            btnCancelarVenta.Location = new Point(0, 0);
+            btnCancelarVenta.Name = "btnCancelarVenta";
+            btnCancelarVenta.Size = new Size(110, 50);
+            btnCancelarVenta.TabIndex = 9;
+            btnCancelarVenta.Text = "CANCELAR";
+            btnCancelarVenta.UseVisualStyleBackColor = false;
+            btnCancelarVenta.Click += btnCancelarVenta_Click;
+            btnCancelarVenta.MouseEnter += btnCancelarVenta_MouseEnter;
+            btnCancelarVenta.MouseLeave += btnCancelarVenta_MouseLeave;
+            // 
+            // tlpTotal
+            // 
+            tlpTotal.ColumnCount = 2;
+            tlpTotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tlpTotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tlpTotal.Controls.Add(lblTotalTexto, 0, 0);
+            tlpTotal.Controls.Add(lblTotal, 1, 0);
+            tlpTotal.Dock = DockStyle.Top;
+            tlpTotal.Location = new Point(10, 83);
+            tlpTotal.Name = "tlpTotal";
+            tlpTotal.RowCount = 1;
+            tlpTotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpTotal.Size = new Size(335, 29);
+            tlpTotal.TabIndex = 8;
+            // 
+            // lblTotalTexto
+            // 
+            lblTotalTexto.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTexto.ForeColor = Color.WhiteSmoke;
+            lblTotalTexto.Location = new Point(3, 0);
+            lblTotalTexto.Name = "lblTotalTexto";
+            lblTotalTexto.Size = new Size(120, 28);
+            lblTotalTexto.TabIndex = 6;
+            lblTotalTexto.Text = "TOTAL:";
+            lblTotalTexto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblTotal
+            // 
+            lblTotal.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotal.ForeColor = Color.Gainsboro;
+            lblTotal.Location = new Point(137, 0);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(120, 28);
+            lblTotal.TabIndex = 7;
+            lblTotal.Text = "C$ 0.00";
+            lblTotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // pnlSeparador
+            // 
+            pnlSeparador.BackColor = Color.FromArgb(225, 230, 235);
+            pnlSeparador.Dock = DockStyle.Top;
+            pnlSeparador.Location = new Point(10, 80);
+            pnlSeparador.Name = "pnlSeparador";
+            pnlSeparador.Size = new Size(335, 3);
+            pnlSeparador.TabIndex = 5;
+            // 
+            // tlpOrderFooter
+            // 
+            tlpOrderFooter.ColumnCount = 2;
+            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tlpOrderFooter.Controls.Add(lblSubtotalTexto, 0, 0);
+            tlpOrderFooter.Controls.Add(lblSubtotal, 1, 0);
+            tlpOrderFooter.Controls.Add(lblDescuentoTexto, 0, 1);
+            tlpOrderFooter.Controls.Add(lblDescuento, 1, 1);
+            tlpOrderFooter.Dock = DockStyle.Top;
+            tlpOrderFooter.Location = new Point(10, 10);
+            tlpOrderFooter.Name = "tlpOrderFooter";
+            tlpOrderFooter.RowCount = 2;
+            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpOrderFooter.Size = new Size(335, 70);
+            tlpOrderFooter.TabIndex = 4;
+            // 
+            // lblSubtotalTexto
+            // 
+            lblSubtotalTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSubtotalTexto.ForeColor = Color.Gainsboro;
+            lblSubtotalTexto.Location = new Point(3, 0);
+            lblSubtotalTexto.Name = "lblSubtotalTexto";
+            lblSubtotalTexto.Size = new Size(120, 28);
+            lblSubtotalTexto.TabIndex = 0;
+            lblSubtotalTexto.Text = "Subtotal:";
+            lblSubtotalTexto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblSubtotal
+            // 
+            lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtotal.ForeColor = Color.WhiteSmoke;
+            lblSubtotal.Location = new Point(137, 0);
+            lblSubtotal.Name = "lblSubtotal";
+            lblSubtotal.Size = new Size(120, 28);
+            lblSubtotal.TabIndex = 1;
+            lblSubtotal.Text = "C$ 0.00";
+            lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblDescuentoTexto
+            // 
+            lblDescuentoTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDescuentoTexto.ForeColor = Color.Gainsboro;
+            lblDescuentoTexto.Location = new Point(3, 35);
+            lblDescuentoTexto.Name = "lblDescuentoTexto";
+            lblDescuentoTexto.Size = new Size(120, 28);
+            lblDescuentoTexto.TabIndex = 2;
+            lblDescuentoTexto.Text = "Descuento:";
+            lblDescuentoTexto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblDescuento
+            // 
+            lblDescuento.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDescuento.ForeColor = Color.WhiteSmoke;
+            lblDescuento.Location = new Point(137, 35);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(120, 28);
+            lblDescuento.TabIndex = 3;
+            lblDescuento.Text = "C$ 0.00";
+            lblDescuento.TextAlign = ContentAlignment.MiddleRight;
             // 
             // pnlOrderHeader
             // 
@@ -321,77 +485,6 @@
             lblOrderTitle.Text = "Pedido Actual";
             lblOrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lblSubtotalTexto
-            // 
-            lblSubtotalTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSubtotalTexto.ForeColor = Color.Gainsboro;
-            lblSubtotalTexto.Location = new Point(3, 0);
-            lblSubtotalTexto.Name = "lblSubtotalTexto";
-            lblSubtotalTexto.Size = new Size(120, 28);
-            lblSubtotalTexto.TabIndex = 0;
-            lblSubtotalTexto.Text = "Subtotal:";
-            lblSubtotalTexto.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblSubtotal
-            // 
-            lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSubtotal.ForeColor = Color.WhiteSmoke;
-            lblSubtotal.Location = new Point(136, 0);
-            lblSubtotal.Name = "lblSubtotal";
-            lblSubtotal.Size = new Size(100, 28);
-            lblSubtotal.TabIndex = 1;
-            lblSubtotal.Text = "C$ 0.00";
-            lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // lblDescuentoTexto
-            // 
-            lblDescuentoTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDescuentoTexto.ForeColor = Color.Gainsboro;
-            lblDescuentoTexto.Location = new Point(3, 35);
-            lblDescuentoTexto.Name = "lblDescuentoTexto";
-            lblDescuentoTexto.Size = new Size(120, 28);
-            lblDescuentoTexto.TabIndex = 2;
-            lblDescuentoTexto.Text = "Descuento:";
-            lblDescuentoTexto.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblDescuento
-            // 
-            lblDescuento.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDescuento.ForeColor = Color.WhiteSmoke;
-            lblDescuento.Location = new Point(136, 35);
-            lblDescuento.Name = "lblDescuento";
-            lblDescuento.Size = new Size(100, 28);
-            lblDescuento.TabIndex = 3;
-            lblDescuento.Text = "C$ 0.00";
-            lblDescuento.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // tlpOrderFooter
-            // 
-            tlpOrderFooter.ColumnCount = 2;
-            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            tlpOrderFooter.Controls.Add(lblSubtotalTexto, 0, 0);
-            tlpOrderFooter.Controls.Add(lblDescuento, 1, 1);
-            tlpOrderFooter.Controls.Add(lblDescuentoTexto, 0, 1);
-            tlpOrderFooter.Controls.Add(lblSubtotal, 1, 0);
-            tlpOrderFooter.Dock = DockStyle.Top;
-            tlpOrderFooter.Location = new Point(10, 10);
-            tlpOrderFooter.Name = "tlpOrderFooter";
-            tlpOrderFooter.RowCount = 2;
-            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpOrderFooter.Size = new Size(333, 70);
-            tlpOrderFooter.TabIndex = 4;
-            // 
-            // pnlSeparador
-            // 
-            pnlSeparador.BackColor = Color.FromArgb(225, 230, 235);
-            pnlSeparador.Dock = DockStyle.Top;
-            pnlSeparador.Location = new Point(10, 80);
-            pnlSeparador.Name = "pnlSeparador";
-            pnlSeparador.Size = new Size(333, 3);
-            pnlSeparador.TabIndex = 5;
-            // 
             // FrmPuntoVenta
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -412,8 +505,10 @@
             tlpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
             pnlOrderFooter.ResumeLayout(false);
-            pnlOrderHeader.ResumeLayout(false);
+            pnlAcciones.ResumeLayout(false);
+            tlpTotal.ResumeLayout(false);
             tlpOrderFooter.ResumeLayout(false);
+            pnlOrderHeader.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -434,7 +529,7 @@
         private Button btnCatEntradas;
         private Button btnCatMariscos;
         private FlowLayoutPanel flpProducts;
-        private Button button1;
+        private Button btnCatCeviche;
         private Panel pnlOrderHeader;
         private FlowLayoutPanel flpOrderItems;
         private Panel pnlOrderFooter;
@@ -443,7 +538,13 @@
         private Label lblSubtotal;
         private Label lblSubtotalTexto;
         private Label lblDescuento;
-        private TableLayoutPanel tlpOrderFooter;
         private Panel pnlSeparador;
+        private Label lblTotal;
+        private Label lblTotalTexto;
+        private TableLayoutPanel tlpTotal;
+        private Button btnCancelarVenta;
+        private Button btnCobrar;
+        private Panel pnlAcciones;
+        public TableLayoutPanel tlpOrderFooter;
     }
 }
