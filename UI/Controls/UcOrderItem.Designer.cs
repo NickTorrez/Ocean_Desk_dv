@@ -101,7 +101,7 @@
             lblCantidad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCantidad.Location = new Point(48, 0);
             lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(109, 28);
+            lblCantidad.Size = new Size(95, 28);
             lblCantidad.TabIndex = 4;
             lblCantidad.Text = "1";
             lblCantidad.TextAlign = ContentAlignment.MiddleCenter;
@@ -113,7 +113,7 @@
             btnAumentar.FlatAppearance.BorderSize = 0;
             btnAumentar.FlatStyle = FlatStyle.Flat;
             btnAumentar.Font = new Font("Century Gothic", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            btnAumentar.Location = new Point(157, 0);
+            btnAumentar.Location = new Point(143, 0);
             btnAumentar.Name = "btnAumentar";
             btnAumentar.Size = new Size(28, 28);
             btnAumentar.TabIndex = 5;
@@ -130,7 +130,7 @@
             pnlBottom.Location = new Point(10, 57);
             pnlBottom.Name = "pnlBottom";
             pnlBottom.Padding = new Padding(20, 0, 20, 0);
-            pnlBottom.Size = new Size(205, 28);
+            pnlBottom.Size = new Size(191, 28);
             pnlBottom.TabIndex = 6;
             // 
             // lblSubtotal
@@ -138,9 +138,9 @@
             lblSubtotal.Dock = DockStyle.Right;
             lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSubtotal.ForeColor = Color.FromArgb(11, 120, 166);
-            lblSubtotal.Location = new Point(215, 57);
+            lblSubtotal.Location = new Point(201, 57);
             lblSubtotal.Name = "lblSubtotal";
-            lblSubtotal.Size = new Size(85, 28);
+            lblSubtotal.Size = new Size(99, 28);
             lblSubtotal.TabIndex = 7;
             lblSubtotal.Text = "C$ 0.00";
             lblSubtotal.TextAlign = ContentAlignment.MiddleRight;

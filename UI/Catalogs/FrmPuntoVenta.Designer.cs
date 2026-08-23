@@ -48,12 +48,20 @@
             pnlOrderFooter = new Panel();
             pnlOrderHeader = new Panel();
             lblOrderTitle = new Label();
+            lblSubtotalTexto = new Label();
+            lblSubtotal = new Label();
+            lblDescuentoTexto = new Label();
+            lblDescuento = new Label();
+            tlpOrderFooter = new TableLayoutPanel();
+            pnlSeparador = new Panel();
             pnlTop.SuspendLayout();
             pnlProducts.SuspendLayout();
             pnlCategories.SuspendLayout();
             tlpCategories.SuspendLayout();
             pnlOrder.SuspendLayout();
+            pnlOrderFooter.SuspendLayout();
             pnlOrderHeader.SuspendLayout();
+            tlpOrderFooter.SuspendLayout();
             SuspendLayout();
             // 
             // pnlTop
@@ -282,9 +290,12 @@
             // 
             pnlOrderFooter.BackColor = Color.Transparent;
             pnlOrderFooter.BorderStyle = BorderStyle.FixedSingle;
+            pnlOrderFooter.Controls.Add(pnlSeparador);
+            pnlOrderFooter.Controls.Add(tlpOrderFooter);
             pnlOrderFooter.Dock = DockStyle.Bottom;
             pnlOrderFooter.Location = new Point(15, 565);
             pnlOrderFooter.Name = "pnlOrderFooter";
+            pnlOrderFooter.Padding = new Padding(10, 10, 5, 5);
             pnlOrderFooter.Size = new Size(350, 180);
             pnlOrderFooter.TabIndex = 2;
             // 
@@ -310,6 +321,77 @@
             lblOrderTitle.Text = "Pedido Actual";
             lblOrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // lblSubtotalTexto
+            // 
+            lblSubtotalTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSubtotalTexto.ForeColor = Color.Gainsboro;
+            lblSubtotalTexto.Location = new Point(3, 0);
+            lblSubtotalTexto.Name = "lblSubtotalTexto";
+            lblSubtotalTexto.Size = new Size(120, 28);
+            lblSubtotalTexto.TabIndex = 0;
+            lblSubtotalTexto.Text = "Subtotal:";
+            lblSubtotalTexto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblSubtotal
+            // 
+            lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtotal.ForeColor = Color.WhiteSmoke;
+            lblSubtotal.Location = new Point(136, 0);
+            lblSubtotal.Name = "lblSubtotal";
+            lblSubtotal.Size = new Size(100, 28);
+            lblSubtotal.TabIndex = 1;
+            lblSubtotal.Text = "C$ 0.00";
+            lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblDescuentoTexto
+            // 
+            lblDescuentoTexto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDescuentoTexto.ForeColor = Color.Gainsboro;
+            lblDescuentoTexto.Location = new Point(3, 35);
+            lblDescuentoTexto.Name = "lblDescuentoTexto";
+            lblDescuentoTexto.Size = new Size(120, 28);
+            lblDescuentoTexto.TabIndex = 2;
+            lblDescuentoTexto.Text = "Descuento:";
+            lblDescuentoTexto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblDescuento
+            // 
+            lblDescuento.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDescuento.ForeColor = Color.WhiteSmoke;
+            lblDescuento.Location = new Point(136, 35);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(100, 28);
+            lblDescuento.TabIndex = 3;
+            lblDescuento.Text = "C$ 0.00";
+            lblDescuento.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // tlpOrderFooter
+            // 
+            tlpOrderFooter.ColumnCount = 2;
+            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tlpOrderFooter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tlpOrderFooter.Controls.Add(lblSubtotalTexto, 0, 0);
+            tlpOrderFooter.Controls.Add(lblDescuento, 1, 1);
+            tlpOrderFooter.Controls.Add(lblDescuentoTexto, 0, 1);
+            tlpOrderFooter.Controls.Add(lblSubtotal, 1, 0);
+            tlpOrderFooter.Dock = DockStyle.Top;
+            tlpOrderFooter.Location = new Point(10, 10);
+            tlpOrderFooter.Name = "tlpOrderFooter";
+            tlpOrderFooter.RowCount = 2;
+            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpOrderFooter.Size = new Size(333, 70);
+            tlpOrderFooter.TabIndex = 4;
+            // 
+            // pnlSeparador
+            // 
+            pnlSeparador.BackColor = Color.FromArgb(225, 230, 235);
+            pnlSeparador.Dock = DockStyle.Top;
+            pnlSeparador.Location = new Point(10, 80);
+            pnlSeparador.Name = "pnlSeparador";
+            pnlSeparador.Size = new Size(333, 3);
+            pnlSeparador.TabIndex = 5;
+            // 
             // FrmPuntoVenta
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -329,7 +411,9 @@
             pnlCategories.ResumeLayout(false);
             tlpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
+            pnlOrderFooter.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
+            tlpOrderFooter.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -355,5 +439,11 @@
         private FlowLayoutPanel flpOrderItems;
         private Panel pnlOrderFooter;
         private Label lblOrderTitle;
+        private Label lblDescuentoTexto;
+        private Label lblSubtotal;
+        private Label lblSubtotalTexto;
+        private Label lblDescuento;
+        private TableLayoutPanel tlpOrderFooter;
+        private Panel pnlSeparador;
     }
 }
