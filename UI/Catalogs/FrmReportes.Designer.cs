@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             pnlHeaderReportes = new Panel();
             lblSubtituloReportes = new Label();
             lblTituloReportes = new Label();
@@ -400,17 +400,17 @@
             // chartVentas
             // 
             chartVentas.BorderlineWidth = 0;
-            chartArea1.Name = "ChartArea1";
-            chartVentas.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            chartVentas.ChartAreas.Add(chartArea3);
             chartVentas.Dock = DockStyle.Fill;
-            legend1.Name = "Legend1";
-            chartVentas.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            chartVentas.Legends.Add(legend3);
             chartVentas.Location = new Point(15, 51);
             chartVentas.Name = "chartVentas";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chartVentas.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            chartVentas.Series.Add(series3);
             chartVentas.Size = new Size(420, 468);
             chartVentas.TabIndex = 2;
             chartVentas.Text = "chart1";
@@ -456,17 +456,17 @@
             // chartProductos
             // 
             chartProductos.BorderlineWidth = 0;
-            chartArea2.Name = "ChartArea1";
-            chartProductos.ChartAreas.Add(chartArea2);
+            chartArea4.Name = "ChartArea1";
+            chartProductos.ChartAreas.Add(chartArea4);
             chartProductos.Dock = DockStyle.Fill;
-            legend2.Name = "Legend1";
-            chartProductos.Legends.Add(legend2);
+            legend4.Name = "Legend1";
+            chartProductos.Legends.Add(legend4);
             chartProductos.Location = new Point(15, 51);
             chartProductos.Name = "chartProductos";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chartProductos.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            chartProductos.Series.Add(series4);
             chartProductos.Size = new Size(420, 468);
             chartProductos.TabIndex = 3;
             chartProductos.Text = "chart1";
@@ -577,7 +577,7 @@
             comboBox1.FlatStyle = FlatStyle.Flat;
             comboBox1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Hoy", "", "Últimos 7 días", "", "Este mes", "", "Este año", "", "Personalizado" });
+            comboBox1.Items.AddRange(new object[] { "Hoy", "Últimos 7 días", "Este mes", "Este año", "Personalizado" });
             comboBox1.Location = new Point(95, 3);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(178, 28);

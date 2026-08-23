@@ -21,6 +21,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
         {
             InitializeComponent();
 
+            ConfigurarTipoOrden(); //Relacion entre cmbTipoOrden y cmbMesa
+
             CargarProductosPrueba(); //Prueba de Productos
 
             ActualizarResumenPedido(); //Prueba de Orden a Cobrar
@@ -58,6 +60,34 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 80.00m,
                 null,
                 false);
+        }
+        #endregion
+
+        #region Metodo de configuración y coordinacion entre el Tipo de Orden y la Mesa
+        private void ConfigurarTipoOrden()
+        {
+            cmbTipoOrden.Items.Clear();
+
+            cmbTipoOrden.Items.Add("Local");
+            cmbTipoOrden.Items.Add("Delivery");
+
+            cmbTipoOrden.SelectedIndex = 0;
+
+            CargarMesasPrueba();
+        }
+
+        private void CargarMesasPrueba()
+        {
+            cmbMesa.Items.Clear();
+
+            for (int i = 1; i <= 8; i++)
+            {
+                cmbMesa.Items.Add(
+                    $"{i:00}");
+            }
+
+            if (cmbMesa.Items.Count > 0)
+                cmbMesa.SelectedIndex = 0;
         }
         #endregion
 
@@ -187,8 +217,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-
-
+        #region Apariencia y Funcion de Botones de OrederFooter
         private void btnCobrar_MouseEnter(object sender, EventArgs e)
         {
             btnCobrar.BackColor = Color.FromArgb(6, 105, 138);
@@ -229,6 +258,23 @@ namespace Ocean_Desk_dv.UI.Catalogs
             flpOrderItems.Controls.Clear();
 
             ActualizarResumenPedido();
+        }
+        #endregion
+
+        private void cmbTipoOrden_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool esLocal = cmbTipoOrden.SelectedItem?.ToString() == "Local";
+
+            cmbMesa.Enabled = esLocal;
+
+            if (!esLocal)
+            {
+                cmbMesa.SelectedIndex = -1;
+            }
+            else if (cmbMesa.Items.Count > 0)
+            {
+                cmbMesa.SelectedIndex = 0;
+            }
         }
     }
 }
