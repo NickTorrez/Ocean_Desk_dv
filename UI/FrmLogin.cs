@@ -1,3 +1,5 @@
+using Ocean_Desk_dv.UI;
+using Ocean_Desk_dv.UI.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ocean_Desk_dv.UI;
 
 namespace Ocean_Desk_dv
 {
@@ -15,10 +16,12 @@ namespace Ocean_Desk_dv
     {
         private bool passwordVisible = false; // Variable para controlar la visibilidad de la contraseña
 
+        #region Constructor
         public FrmLogin()
         {
             InitializeComponent();
         }
+        #endregion
 
         /// <summary>
         /// Maneja el evento Click del botón de cerrar, cerrando la aplicación.
@@ -71,12 +74,10 @@ namespace Ocean_Desk_dv
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                MessageBox.Show(
-                    "Ingrese su nombre de usuario.",
-                    "Campo requerido",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                FrmMessageBox.Show(
+                "Ingrese su nombre de usuario.",
+                "Campo requerido",
+                MessageType.Warning);
 
                 txtUsername.Focus();
                 return;
@@ -84,12 +85,10 @@ namespace Ocean_Desk_dv
 
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                MessageBox.Show(
-                    "Ingrese su contraseña.",
-                    "Campo requerido",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                FrmMessageBox.Show(
+                "Ingrese su contraseña.",
+                "Campo requerido",
+                MessageType.Warning);
 
                 txtPassword.Focus();
                 return;

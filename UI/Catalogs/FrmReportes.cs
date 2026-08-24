@@ -25,6 +25,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         #region Contrucción de Gráficos
+
         private void ConfigurarGraficos()
         {
             ConfigurarGraficoVentas();

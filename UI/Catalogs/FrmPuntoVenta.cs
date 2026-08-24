@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Controls;
 
 
@@ -244,11 +245,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
 
             DialogResult resultado =
-                MessageBox.Show(
+                FrmMessageBox.Show(
                     "¿Desea cancelar la venta actual?",
                     "Cancelar venta",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    MessageType.Confirmation);
 
             if (resultado != DialogResult.Yes)
                 return;

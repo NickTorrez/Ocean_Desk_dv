@@ -45,7 +45,7 @@
             pnlProducts = new Panel();
             flpProducts = new FlowLayoutPanel();
             pnlCategories = new Panel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpCategories = new FlowLayoutPanel();
             btnCatCeviche = new Button();
             btnCatMariscos = new Button();
             btnCatEntradas = new Button();
@@ -75,7 +75,7 @@
             pnlCliente.SuspendLayout();
             pnlProducts.SuspendLayout();
             pnlCategories.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
+            flpCategories.SuspendLayout();
             pnlOrder.SuspendLayout();
             pnlOrderFooter.SuspendLayout();
             pnlAcciones.SuspendLayout();
@@ -153,22 +153,20 @@
             // 
             // lblTipoOrden
             // 
-            lblTipoOrden.Dock = DockStyle.Left;
             lblTipoOrden.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTipoOrden.Location = new Point(0, 5);
+            lblTipoOrden.Location = new Point(6, 12);
             lblTipoOrden.Name = "lblTipoOrden";
-            lblTipoOrden.Size = new Size(113, 44);
+            lblTipoOrden.Size = new Size(113, 31);
             lblTipoOrden.TabIndex = 9;
             lblTipoOrden.Text = "Tipo de orden:";
             lblTipoOrden.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbTipoOrden
             // 
-            cmbTipoOrden.Dock = DockStyle.Right;
             cmbTipoOrden.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTipoOrden.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbTipoOrden.FormattingEnabled = true;
-            cmbTipoOrden.Location = new Point(115, 5);
+            cmbTipoOrden.Location = new Point(119, 13);
             cmbTipoOrden.Name = "cmbTipoOrden";
             cmbTipoOrden.RightToLeft = RightToLeft.No;
             cmbTipoOrden.Size = new Size(115, 29);
@@ -263,7 +261,7 @@
             // pnlCategories
             // 
             pnlCategories.BackColor = Color.Transparent;
-            pnlCategories.Controls.Add(flowLayoutPanel1);
+            pnlCategories.Controls.Add(flpCategories);
             pnlCategories.Dock = DockStyle.Top;
             pnlCategories.Location = new Point(15, 15);
             pnlCategories.Name = "pnlCategories";
@@ -271,20 +269,20 @@
             pnlCategories.Size = new Size(530, 50);
             pnlCategories.TabIndex = 1;
             // 
-            // flowLayoutPanel1
+            // flpCategories
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Controls.Add(btnCatCeviche);
-            flowLayoutPanel1.Controls.Add(btnCatMariscos);
-            flowLayoutPanel1.Controls.Add(btnCatEntradas);
-            flowLayoutPanel1.Controls.Add(btnCatBebidas);
-            flowLayoutPanel1.Controls.Add(btnCatExtras);
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.Location = new Point(0, 5);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(530, 40);
-            flowLayoutPanel1.TabIndex = 0;
-            flowLayoutPanel1.WrapContents = false;
+            flpCategories.AutoScroll = true;
+            flpCategories.Controls.Add(btnCatCeviche);
+            flpCategories.Controls.Add(btnCatMariscos);
+            flpCategories.Controls.Add(btnCatEntradas);
+            flpCategories.Controls.Add(btnCatBebidas);
+            flpCategories.Controls.Add(btnCatExtras);
+            flpCategories.Dock = DockStyle.Fill;
+            flpCategories.Location = new Point(0, 5);
+            flpCategories.Name = "flpCategories";
+            flpCategories.Size = new Size(530, 40);
+            flpCategories.TabIndex = 0;
+            flpCategories.WrapContents = false;
             // 
             // btnCatCeviche
             // 
@@ -612,7 +610,7 @@
             pnlCliente.PerformLayout();
             pnlProducts.ResumeLayout(false);
             pnlCategories.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
+            flpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
             pnlOrderFooter.ResumeLayout(false);
             pnlAcciones.ResumeLayout(false);
@@ -655,7 +653,7 @@
         private Button btnCobrar;
         private Panel pnlAcciones;
         public TableLayoutPanel tlpOrderFooter;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpCategories;
         private ComboBox cmbTipoOrden;
         private Label lblTipoOrden;
         private ComboBox cmbMesa;
