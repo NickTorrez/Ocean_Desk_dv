@@ -241,8 +241,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private void btnCancelarVenta_Click(object sender, EventArgs e)
         {
+
             if (_orderItems.Count == 0)
                 return;
+
 
             DialogResult resultado =
                 FrmMessageBox.Show(
@@ -251,11 +253,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
                     MessageType.Confirmation);
 
             if (resultado != DialogResult.Yes)
-                return;
 
-            _orderItems.Clear();
+                _orderItems.Clear();
 
-            flpOrderItems.Controls.Clear();
+                flpOrderItems.Controls.Clear();
+
+            return;
+
+            //_orderItems.Clear();
+
+            //flpOrderItems.Controls.Clear();
 
             ActualizarResumenPedido();
         }

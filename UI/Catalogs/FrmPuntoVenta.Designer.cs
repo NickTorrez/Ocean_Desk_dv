@@ -51,6 +51,12 @@
             btnCatEntradas = new Button();
             btnCatBebidas = new Button();
             btnCatExtras = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
+            button5 = new Button();
+            button6 = new Button();
             pnlOrder = new Panel();
             flpOrderItems = new FlowLayoutPanel();
             pnlOrderFooter = new Panel();
@@ -251,11 +257,11 @@
             flpProducts.AutoScroll = true;
             flpProducts.BackColor = Color.Transparent;
             flpProducts.Dock = DockStyle.Fill;
-            flpProducts.Location = new Point(15, 65);
+            flpProducts.Location = new Point(15, 85);
             flpProducts.Margin = new Padding(0);
             flpProducts.Name = "flpProducts";
             flpProducts.Padding = new Padding(5);
-            flpProducts.Size = new Size(530, 680);
+            flpProducts.Size = new Size(530, 660);
             flpProducts.TabIndex = 2;
             // 
             // pnlCategories
@@ -266,7 +272,7 @@
             pnlCategories.Location = new Point(15, 15);
             pnlCategories.Name = "pnlCategories";
             pnlCategories.Padding = new Padding(0, 5, 0, 5);
-            pnlCategories.Size = new Size(530, 50);
+            pnlCategories.Size = new Size(530, 70);
             pnlCategories.TabIndex = 1;
             // 
             // flpCategories
@@ -277,10 +283,16 @@
             flpCategories.Controls.Add(btnCatEntradas);
             flpCategories.Controls.Add(btnCatBebidas);
             flpCategories.Controls.Add(btnCatExtras);
+            flpCategories.Controls.Add(button1);
+            flpCategories.Controls.Add(button2);
+            flpCategories.Controls.Add(button3);
+            flpCategories.Controls.Add(button4);
+            flpCategories.Controls.Add(button5);
+            flpCategories.Controls.Add(button6);
             flpCategories.Dock = DockStyle.Fill;
             flpCategories.Location = new Point(0, 5);
             flpCategories.Name = "flpCategories";
-            flpCategories.Size = new Size(530, 40);
+            flpCategories.Size = new Size(530, 60);
             flpCategories.TabIndex = 0;
             flpCategories.WrapContents = false;
             // 
@@ -369,6 +381,108 @@
             btnCatExtras.Text = "Extras";
             btnCatExtras.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(8, 31, 63);
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(594, 2);
+            button1.Margin = new Padding(4, 2, 4, 2);
+            button1.Name = "button1";
+            button1.Size = new Size(110, 38);
+            button1.TabIndex = 6;
+            button1.TabStop = false;
+            button1.Text = "Extras";
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(8, 31, 63);
+            button2.Cursor = Cursors.Hand;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(712, 2);
+            button2.Margin = new Padding(4, 2, 4, 2);
+            button2.Name = "button2";
+            button2.Size = new Size(110, 38);
+            button2.TabIndex = 7;
+            button2.TabStop = false;
+            button2.Text = "Extras";
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(8, 31, 63);
+            button3.Cursor = Cursors.Hand;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button3.ForeColor = Color.White;
+            button3.Location = new Point(830, 2);
+            button3.Margin = new Padding(4, 2, 4, 2);
+            button3.Name = "button3";
+            button3.Size = new Size(110, 38);
+            button3.TabIndex = 8;
+            button3.TabStop = false;
+            button3.Text = "Extras";
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.FromArgb(8, 31, 63);
+            button4.Cursor = Cursors.Hand;
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button4.ForeColor = Color.White;
+            button4.Location = new Point(948, 2);
+            button4.Margin = new Padding(4, 2, 4, 2);
+            button4.Name = "button4";
+            button4.Size = new Size(110, 38);
+            button4.TabIndex = 9;
+            button4.TabStop = false;
+            button4.Text = "Extras";
+            button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.FromArgb(8, 31, 63);
+            button5.Cursor = Cursors.Hand;
+            button5.FlatAppearance.BorderSize = 0;
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button5.ForeColor = Color.White;
+            button5.Location = new Point(1066, 2);
+            button5.Margin = new Padding(4, 2, 4, 2);
+            button5.Name = "button5";
+            button5.Size = new Size(110, 38);
+            button5.TabIndex = 10;
+            button5.TabStop = false;
+            button5.Text = "Extras";
+            button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            button6.BackColor = Color.FromArgb(8, 31, 63);
+            button6.Cursor = Cursors.Hand;
+            button6.FlatAppearance.BorderSize = 0;
+            button6.FlatStyle = FlatStyle.Flat;
+            button6.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button6.ForeColor = Color.White;
+            button6.Location = new Point(1184, 2);
+            button6.Margin = new Padding(4, 2, 4, 2);
+            button6.Name = "button6";
+            button6.Size = new Size(110, 38);
+            button6.TabIndex = 11;
+            button6.TabStop = false;
+            button6.Text = "Extras";
+            button6.UseVisualStyleBackColor = false;
+            // 
             // pnlOrder
             // 
             pnlOrder.BackColor = Color.FromArgb(8, 31, 63);
@@ -429,9 +543,9 @@
             btnCobrar.FlatStyle = FlatStyle.Flat;
             btnCobrar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCobrar.ForeColor = Color.White;
-            btnCobrar.Location = new Point(185, 0);
+            btnCobrar.Location = new Point(155, 0);
             btnCobrar.Name = "btnCobrar";
-            btnCobrar.Size = new Size(150, 50);
+            btnCobrar.Size = new Size(180, 50);
             btnCobrar.TabIndex = 10;
             btnCobrar.Text = "COBRAR";
             btnCobrar.UseVisualStyleBackColor = false;
@@ -449,7 +563,7 @@
             btnCancelarVenta.ForeColor = Color.FromArgb(8, 31, 63);
             btnCancelarVenta.Location = new Point(0, 0);
             btnCancelarVenta.Name = "btnCancelarVenta";
-            btnCancelarVenta.Size = new Size(110, 50);
+            btnCancelarVenta.Size = new Size(130, 50);
             btnCancelarVenta.TabIndex = 9;
             btnCancelarVenta.Text = "CANCELAR";
             btnCancelarVenta.UseVisualStyleBackColor = false;
@@ -474,7 +588,7 @@
             // 
             // lblTotalTexto
             // 
-            lblTotalTexto.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTexto.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalTexto.ForeColor = Color.WhiteSmoke;
             lblTotalTexto.Location = new Point(3, 0);
             lblTotalTexto.Name = "lblTotalTexto";
@@ -485,13 +599,13 @@
             // 
             // lblTotal
             // 
-            lblTotal.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotal.Font = new Font("Century Gothic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotal.ForeColor = Color.Gainsboro;
             lblTotal.Location = new Point(137, 0);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(120, 28);
+            lblTotal.Size = new Size(190, 28);
             lblTotal.TabIndex = 7;
-            lblTotal.Text = "C$ 0.00";
+            lblTotal.Text = "C$  0.00";
             lblTotal.TextAlign = ContentAlignment.MiddleRight;
             // 
             // pnlSeparador
@@ -534,13 +648,13 @@
             // 
             // lblSubtotal
             // 
-            lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtotal.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblSubtotal.ForeColor = Color.WhiteSmoke;
             lblSubtotal.Location = new Point(137, 0);
             lblSubtotal.Name = "lblSubtotal";
-            lblSubtotal.Size = new Size(120, 28);
+            lblSubtotal.Size = new Size(190, 28);
             lblSubtotal.TabIndex = 1;
-            lblSubtotal.Text = "C$ 0.00";
+            lblSubtotal.Text = "C$  0.00";
             lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblDescuentoTexto
@@ -556,13 +670,13 @@
             // 
             // lblDescuento
             // 
-            lblDescuento.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDescuento.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDescuento.ForeColor = Color.WhiteSmoke;
             lblDescuento.Location = new Point(137, 35);
             lblDescuento.Name = "lblDescuento";
-            lblDescuento.Size = new Size(120, 28);
+            lblDescuento.Size = new Size(190, 28);
             lblDescuento.TabIndex = 3;
-            lblDescuento.Text = "C$ 0.00";
+            lblDescuento.Text = "C$  0.00";
             lblDescuento.TextAlign = ContentAlignment.MiddleRight;
             // 
             // pnlOrderHeader
@@ -662,5 +776,11 @@
         private Panel pnlCliente;
         private Panel pnlTipoOrden;
         private Panel pnlMesa;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
+        private Button button5;
+        private Button button6;
     }
 }

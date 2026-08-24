@@ -121,13 +121,29 @@ namespace Ocean_Desk_dv.UI.MessageBox
         #region Eventos de Buttons Aceptar y Cancelar
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            if (_messageType == MessageType.Confirmation)
+            {
+                DialogResult = DialogResult.Yes;
+            }
+            else
+            {
+                DialogResult = DialogResult.OK;
+            }
+
             Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            if (_messageType == MessageType.Confirmation)
+            {
+                DialogResult = DialogResult.No;
+            }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+
             Close();
         }
         #endregion
