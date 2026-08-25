@@ -218,7 +218,7 @@ namespace Ocean_Desk_dv.UI
             SeleccionarBoton(btnVentas);
 
             lblSeccion.Text = "Punto de Venta";
-            lblSubtitulo.Text = "Toma de Orden y Facturación";
+            lblSubtitulo.Text = "Control y Toma de Ordenes";
 
             FrmPuntoVenta ventas = new FrmPuntoVenta();
             AbrirFormularioEnPanel(ventas);
@@ -227,6 +227,12 @@ namespace Ocean_Desk_dv.UI
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnFacturacion);
+
+            lblSeccion.Text = "Facturación";
+            lblSubtitulo.Text = "Gestión y Consultas de Comprobantes";
+
+            FrmFacturacion facturacion = new FrmFacturacion();
+            AbrirFormularioEnPanel(facturacion);
         }
 
         private void btnProveedores_Click(object sender, EventArgs e)
@@ -259,11 +265,6 @@ namespace Ocean_Desk_dv.UI
             // Actualiza la hora y la fecha cada segundo
             lblHora.Text = DateTime.Now.ToString("hh:mm:ss tt"); // Formato 12 horas con AM/PM
             lblFecha.Text = DateTime.Now.ToLongDateString(); // Ejemplo: "lunes, 24 de mayo de 2026"
-        }
-
-        private void pnlContent_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void btnCaja_Click(object sender, EventArgs e)

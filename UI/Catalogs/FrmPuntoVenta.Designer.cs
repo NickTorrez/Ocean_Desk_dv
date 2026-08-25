@@ -169,11 +169,12 @@
             // 
             cmbMesa.Dock = DockStyle.Fill;
             cmbMesa.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMesa.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbMesa.FormattingEnabled = true;
             cmbMesa.Items.AddRange(new object[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" });
             cmbMesa.Location = new Point(0, 23);
             cmbMesa.Name = "cmbMesa";
-            cmbMesa.Size = new Size(174, 28);
+            cmbMesa.Size = new Size(174, 29);
             cmbMesa.TabIndex = 12;
             // 
             // lblMesa

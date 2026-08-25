@@ -877,7 +877,6 @@
             pnlContent.Padding = new Padding(20);
             pnlContent.Size = new Size(940, 830);
             pnlContent.TabIndex = 2;
-            pnlContent.Paint += pnlContent_Paint;
             // 
             // tmrReloj
             // 
