@@ -38,10 +38,12 @@
             btnCancel = new Button();
             btnAccept = new Button();
             pnlContainer = new Panel();
+            pnlButtons = new Panel();
             pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picIcon).BeginInit();
             pnlBody.SuspendLayout();
             pnlFooter.SuspendLayout();
+            pnlButtons.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeader
@@ -125,8 +127,7 @@
             // pnlFooter
             // 
             pnlFooter.BackColor = Color.FromArgb(245, 247, 250);
-            pnlFooter.Controls.Add(btnCancel);
-            pnlFooter.Controls.Add(btnAccept);
+            pnlFooter.Controls.Add(pnlButtons);
             pnlFooter.Dock = DockStyle.Bottom;
             pnlFooter.Location = new Point(0, 170);
             pnlFooter.Name = "pnlFooter";
@@ -137,12 +138,12 @@
             // btnCancel
             // 
             btnCancel.BackColor = Color.Red;
-            btnCancel.Dock = DockStyle.Right;
+            btnCancel.Dock = DockStyle.Left;
             btnCancel.FlatAppearance.BorderSize = 0;
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(215, 10);
+            btnCancel.Location = new Point(0, 0);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(115, 40);
             btnCancel.TabIndex = 1;
@@ -159,7 +160,7 @@
             btnAccept.FlatStyle = FlatStyle.Flat;
             btnAccept.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAccept.ForeColor = Color.White;
-            btnAccept.Location = new Point(330, 10);
+            btnAccept.Location = new Point(125, 0);
             btnAccept.Name = "btnAccept";
             btnAccept.Size = new Size(115, 40);
             btnAccept.TabIndex = 0;
@@ -175,6 +176,16 @@
             pnlContainer.Padding = new Padding(1);
             pnlContainer.Size = new Size(460, 230);
             pnlContainer.TabIndex = 1;
+            // 
+            // pnlButtons
+            // 
+            pnlButtons.Controls.Add(btnAccept);
+            pnlButtons.Controls.Add(btnCancel);
+            pnlButtons.Dock = DockStyle.Right;
+            pnlButtons.Location = new Point(205, 10);
+            pnlButtons.Name = "pnlButtons";
+            pnlButtons.Size = new Size(240, 40);
+            pnlButtons.TabIndex = 2;
             // 
             // FrmMessageBox
             // 
@@ -201,6 +212,7 @@
             ((System.ComponentModel.ISupportInitialize)picIcon).EndInit();
             pnlBody.ResumeLayout(false);
             pnlFooter.ResumeLayout(false);
+            pnlButtons.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -216,5 +228,6 @@
         private Button btnAccept;
         private Button btnCancel;
         private Panel pnlContainer;
+        private Panel pnlButtons;
     }
 }

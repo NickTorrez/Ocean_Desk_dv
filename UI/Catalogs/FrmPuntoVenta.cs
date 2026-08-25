@@ -27,6 +27,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CargarProductosPrueba(); //Prueba de Productos
 
             ActualizarResumenPedido(); //Prueba de Orden a Cobrar
+
+            ConfigurarBotonesCategorias(); //Colores y Efectos de las Categorias
+
         }
         #endregion
 
@@ -245,29 +248,25 @@ namespace Ocean_Desk_dv.UI.Catalogs
             if (_orderItems.Count == 0)
                 return;
 
-
             DialogResult resultado =
                 FrmMessageBox.Show(
                     "¿Desea cancelar la venta actual?",
                     "Cancelar venta",
                     MessageType.Confirmation);
 
+
             if (resultado != DialogResult.Yes)
+                return;
 
-                _orderItems.Clear();
+            _orderItems.Clear();
 
-                flpOrderItems.Controls.Clear();
-
-            return;
-
-            //_orderItems.Clear();
-
-            //flpOrderItems.Controls.Clear();
+            flpOrderItems.Controls.Clear();
 
             ActualizarResumenPedido();
         }
         #endregion
 
+        #region Relación entre la tipo de orden y disponibilidad de mesa
         private void cmbTipoOrden_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool esLocal = cmbTipoOrden.SelectedItem?.ToString() == "Local";
@@ -282,6 +281,102 @@ namespace Ocean_Desk_dv.UI.Catalogs
             {
                 cmbMesa.SelectedIndex = 0;
             }
+        }
+        #endregion
+
+        // Estado normal
+        private readonly Color _colorNormal = Color.FromArgb(8, 31, 63);
+
+        // Hover
+        private readonly Color _colorHover = Color.FromArgb(20, 52, 90);
+
+        // Activo
+        private readonly Color _colorActivo = Color.FromArgb(8, 126, 164);
+
+        // Texto normal
+        private readonly Color _colorTextoNormal = Color.White;
+
+        // Texto activo
+        private readonly Color _colorTextoActivo = Color.White;
+
+        private Button _categoriaActiva;
+
+        private void ActivarCategoria(Button boton)
+        {
+            // Restaurar botón anteriormente activo
+            if (_categoriaActiva != null)
+            {
+                _categoriaActiva.BackColor = _colorNormal;
+                _categoriaActiva.ForeColor = _colorTextoNormal;
+            }
+
+            // Activar nuevo botón
+            _categoriaActiva = boton;
+
+            _categoriaActiva.BackColor = _colorActivo;
+            _categoriaActiva.ForeColor = _colorTextoActivo;
+        }
+
+        private void Categoria_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is not Button boton)
+                return;
+
+            // Si ya está activo, no modificarlo
+            if (boton == _categoriaActiva)
+                return;
+
+            boton.BackColor = _colorHover;
+        }
+
+        private void Categoria_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is not Button boton)
+                return;
+
+            // Si está activo, conservar su estado
+            if (boton == _categoriaActiva)
+                return;
+
+            boton.BackColor = _colorNormal;
+        }
+
+        private void Categoria_Click(object sender, EventArgs e)
+        {
+            if (sender is not Button boton)
+                return;
+
+            ActivarCategoria(boton);
+        }
+
+        private void ConfigurarBotonesCategorias()
+        {
+            Button[] botones =
+            {
+                btnCatCeviche,
+                btnCatMariscos,
+                btnCatEntradas,
+                btnCatBebidas,
+                btnCatExtras,
+                btnCatPostres
+            };
+
+            foreach (Button boton in botones)
+            {
+                boton.BackColor = _colorNormal;
+                boton.ForeColor = _colorTextoNormal;
+
+                boton.FlatStyle = FlatStyle.Flat;
+                boton.FlatAppearance.BorderSize = 0;
+                boton.Cursor = Cursors.Hand;
+                boton.UseVisualStyleBackColor = false;
+
+                boton.MouseEnter += Categoria_MouseEnter;
+                boton.MouseLeave += Categoria_MouseLeave;
+                boton.Click += Categoria_Click;
+            }
+
+            ActivarCategoria(btnCatCeviche);
         }
     }
 }

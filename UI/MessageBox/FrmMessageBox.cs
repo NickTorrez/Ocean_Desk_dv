@@ -30,11 +30,12 @@ namespace Ocean_Desk_dv.UI.MessageBox
 
             lblTitle.Text = title;
             lblMessage.Text = message;
+            _messageType = type;
 
             ConfigurarTipo(type);
             ConfigurarBotones(type);
         }
-        #endregion
+        #endregion  
 
         #region Metodo del Constructor
         private void ConfigurarTipo(MessageType type)
@@ -129,7 +130,7 @@ namespace Ocean_Desk_dv.UI.MessageBox
             {
                 DialogResult = DialogResult.OK;
             }
-
+                
             Close();
         }
 
