@@ -30,36 +30,58 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnlFilters = new Panel();
             tlpFilters = new TableLayoutPanel();
             pnlSearch = new Panel();
+            pnlSearchInput = new Panel();
             panel1 = new Panel();
-            textBox1 = new TextBox();
+            txtBuscar = new TextBox();
             picSearch = new PictureBox();
-            pnlDesde = new Panel();
-            dateTimePicker1 = new DateTimePicker();
-            lblDesde = new Label();
-            pnlHasta = new Panel();
-            dateTimePicker2 = new DateTimePicker();
-            lblHasta = new Label();
+            pnlFechaDesde = new Panel();
+            dtpFechaDesde = new DateTimePicker();
+            lblFechaDesde = new Label();
+            pnlFechaHasta = new Panel();
+            dtpFechaHasta = new DateTimePicker();
+            lblFechaHasta = new Label();
             pnlEstado = new Panel();
             cmbEstado = new ComboBox();
             lblEstado = new Label();
             pnlListado = new Panel();
             dgvFacturas = new DataGridView();
+            colFactura = new DataGridViewTextBoxColumn();
+            colFecha = new DataGridViewTextBoxColumn();
+            colCliente = new DataGridViewTextBoxColumn();
+            colTipo = new DataGridViewTextBoxColumn();
+            colTotal = new DataGridViewTextBoxColumn();
+            colEstado = new DataGridViewTextBoxColumn();
             pnlActions = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            button1 = new Button();
+            tlpButtonsAction = new TableLayoutPanel();
             btnVerDetalle = new Button();
+            btnImprimir = new Button();
             pnlFilters.SuspendLayout();
             tlpFilters.SuspendLayout();
             pnlSearch.SuspendLayout();
+            pnlSearchInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
-            pnlDesde.SuspendLayout();
-            pnlHasta.SuspendLayout();
+            pnlFechaDesde.SuspendLayout();
+            pnlFechaHasta.SuspendLayout();
             pnlEstado.SuspendLayout();
             pnlListado.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvFacturas).BeginInit();
             pnlActions.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            tlpButtonsAction.SuspendLayout();
             SuspendLayout();
             // 
             // pnlFilters
@@ -69,141 +91,168 @@
             pnlFilters.Dock = DockStyle.Top;
             pnlFilters.Location = new Point(0, 0);
             pnlFilters.Name = "pnlFilters";
-            pnlFilters.Padding = new Padding(15, 10, 15, 10);
-            pnlFilters.Size = new Size(940, 85);
+            pnlFilters.Padding = new Padding(12, 8, 12, 8);
+            pnlFilters.Size = new Size(940, 78);
             pnlFilters.TabIndex = 0;
             // 
             // tlpFilters
             // 
             tlpFilters.ColumnCount = 4;
-            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 41F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 19F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tlpFilters.Controls.Add(pnlSearch, 0, 0);
-            tlpFilters.Controls.Add(pnlDesde, 1, 0);
-            tlpFilters.Controls.Add(pnlHasta, 2, 0);
+            tlpFilters.Controls.Add(pnlFechaDesde, 1, 0);
+            tlpFilters.Controls.Add(pnlFechaHasta, 2, 0);
             tlpFilters.Controls.Add(pnlEstado, 3, 0);
             tlpFilters.Dock = DockStyle.Fill;
-            tlpFilters.Location = new Point(15, 10);
+            tlpFilters.Location = new Point(12, 8);
             tlpFilters.Margin = new Padding(0);
             tlpFilters.Name = "tlpFilters";
-            tlpFilters.Padding = new Padding(0, 3, 0, 3);
             tlpFilters.RowCount = 1;
             tlpFilters.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpFilters.Size = new Size(910, 65);
+            tlpFilters.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpFilters.Size = new Size(916, 62);
             tlpFilters.TabIndex = 0;
             // 
             // pnlSearch
             // 
-            pnlSearch.Controls.Add(panel1);
-            pnlSearch.Controls.Add(textBox1);
-            pnlSearch.Controls.Add(picSearch);
+            pnlSearch.BackColor = Color.FromArgb(245, 247, 250);
+            pnlSearch.Controls.Add(pnlSearchInput);
             pnlSearch.Dock = DockStyle.Fill;
-            pnlSearch.Location = new Point(3, 6);
+            pnlSearch.Location = new Point(0, 0);
+            pnlSearch.Margin = new Padding(0);
             pnlSearch.Name = "pnlSearch";
-            pnlSearch.Size = new Size(367, 53);
+            pnlSearch.Padding = new Padding(8, 5, 8, 5);
+            pnlSearch.Size = new Size(366, 62);
             pnlSearch.TabIndex = 0;
+            // 
+            // pnlSearchInput
+            // 
+            pnlSearchInput.BackColor = Color.White;
+            pnlSearchInput.Controls.Add(panel1);
+            pnlSearchInput.Controls.Add(txtBuscar);
+            pnlSearchInput.Controls.Add(picSearch);
+            pnlSearchInput.Dock = DockStyle.Top;
+            pnlSearchInput.Location = new Point(8, 5);
+            pnlSearchInput.Margin = new Padding(0);
+            pnlSearchInput.Name = "pnlSearchInput";
+            pnlSearchInput.Size = new Size(350, 32);
+            pnlSearchInput.TabIndex = 2;
             // 
             // panel1
             // 
             panel1.BackColor = Color.MidnightBlue;
-            panel1.Location = new Point(54, 42);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(35, 30);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(290, 2);
+            panel1.Size = new Size(315, 2);
             panel1.TabIndex = 2;
             // 
-            // textBox1
+            // txtBuscar
             // 
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(54, 19);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Buscar Producto...";
-            textBox1.Size = new Size(290, 21);
-            textBox1.TabIndex = 1;
+            txtBuscar.BorderStyle = BorderStyle.None;
+            txtBuscar.Dock = DockStyle.Fill;
+            txtBuscar.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtBuscar.Location = new Point(35, 0);
+            txtBuscar.Margin = new Padding(0);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.PlaceholderText = "Buscar Producto...";
+            txtBuscar.Size = new Size(315, 21);
+            txtBuscar.TabIndex = 1;
             // 
             // picSearch
             // 
+            picSearch.Dock = DockStyle.Left;
             picSearch.Image = Properties.Resources.search_32;
-            picSearch.Location = new Point(13, 13);
+            picSearch.Location = new Point(0, 0);
+            picSearch.Margin = new Padding(0);
             picSearch.Name = "picSearch";
-            picSearch.Size = new Size(35, 35);
+            picSearch.Size = new Size(35, 32);
+            picSearch.SizeMode = PictureBoxSizeMode.Zoom;
             picSearch.TabIndex = 0;
             picSearch.TabStop = false;
             // 
-            // pnlDesde
+            // pnlFechaDesde
             // 
-            pnlDesde.Controls.Add(dateTimePicker1);
-            pnlDesde.Controls.Add(lblDesde);
-            pnlDesde.Dock = DockStyle.Fill;
-            pnlDesde.Location = new Point(376, 6);
-            pnlDesde.Name = "pnlDesde";
-            pnlDesde.Padding = new Padding(0, 3, 0, 3);
-            pnlDesde.Size = new Size(176, 53);
-            pnlDesde.TabIndex = 1;
+            pnlFechaDesde.Controls.Add(dtpFechaDesde);
+            pnlFechaDesde.Controls.Add(lblFechaDesde);
+            pnlFechaDesde.Dock = DockStyle.Fill;
+            pnlFechaDesde.Location = new Point(366, 0);
+            pnlFechaDesde.Margin = new Padding(0);
+            pnlFechaDesde.Name = "pnlFechaDesde";
+            pnlFechaDesde.Padding = new Padding(8, 5, 8, 5);
+            pnlFechaDesde.Size = new Size(183, 62);
+            pnlFechaDesde.TabIndex = 1;
             // 
-            // dateTimePicker1
+            // dtpFechaDesde
             // 
-            dateTimePicker1.Dock = DockStyle.Fill;
-            dateTimePicker1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(0, 23);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(176, 26);
-            dateTimePicker1.TabIndex = 0;
+            dtpFechaDesde.Dock = DockStyle.Fill;
+            dtpFechaDesde.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpFechaDesde.Format = DateTimePickerFormat.Short;
+            dtpFechaDesde.Location = new Point(8, 23);
+            dtpFechaDesde.Name = "dtpFechaDesde";
+            dtpFechaDesde.Size = new Size(167, 26);
+            dtpFechaDesde.TabIndex = 0;
             // 
-            // lblDesde
+            // lblFechaDesde
             // 
-            lblDesde.AutoSize = true;
-            lblDesde.Dock = DockStyle.Top;
-            lblDesde.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDesde.Location = new Point(0, 3);
-            lblDesde.Name = "lblDesde";
-            lblDesde.Size = new Size(60, 20);
-            lblDesde.TabIndex = 1;
-            lblDesde.Text = "Desde:";
+            lblFechaDesde.Dock = DockStyle.Top;
+            lblFechaDesde.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFechaDesde.ForeColor = Color.FromArgb(95, 104, 114);
+            lblFechaDesde.Location = new Point(8, 5);
+            lblFechaDesde.Name = "lblFechaDesde";
+            lblFechaDesde.Size = new Size(167, 18);
+            lblFechaDesde.TabIndex = 1;
+            lblFechaDesde.Text = "Desde:";
+            lblFechaDesde.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // pnlHasta
+            // pnlFechaHasta
             // 
-            pnlHasta.Controls.Add(dateTimePicker2);
-            pnlHasta.Controls.Add(lblHasta);
-            pnlHasta.Location = new Point(558, 6);
-            pnlHasta.Name = "pnlHasta";
-            pnlHasta.Padding = new Padding(0, 3, 0, 3);
-            pnlHasta.Size = new Size(176, 53);
-            pnlHasta.TabIndex = 2;
+            pnlFechaHasta.Controls.Add(dtpFechaHasta);
+            pnlFechaHasta.Controls.Add(lblFechaHasta);
+            pnlFechaHasta.Dock = DockStyle.Fill;
+            pnlFechaHasta.Location = new Point(549, 0);
+            pnlFechaHasta.Margin = new Padding(0);
+            pnlFechaHasta.Name = "pnlFechaHasta";
+            pnlFechaHasta.Padding = new Padding(8, 5, 8, 5);
+            pnlFechaHasta.Size = new Size(183, 62);
+            pnlFechaHasta.TabIndex = 2;
             // 
-            // dateTimePicker2
+            // dtpFechaHasta
             // 
-            dateTimePicker2.Dock = DockStyle.Fill;
-            dateTimePicker2.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(0, 23);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(176, 26);
-            dateTimePicker2.TabIndex = 0;
+            dtpFechaHasta.Dock = DockStyle.Fill;
+            dtpFechaHasta.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpFechaHasta.Format = DateTimePickerFormat.Short;
+            dtpFechaHasta.Location = new Point(8, 23);
+            dtpFechaHasta.Name = "dtpFechaHasta";
+            dtpFechaHasta.Size = new Size(167, 26);
+            dtpFechaHasta.TabIndex = 0;
             // 
-            // lblHasta
+            // lblFechaHasta
             // 
-            lblHasta.AutoSize = true;
-            lblHasta.Dock = DockStyle.Top;
-            lblHasta.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHasta.Location = new Point(0, 3);
-            lblHasta.Name = "lblHasta";
-            lblHasta.Size = new Size(54, 20);
-            lblHasta.TabIndex = 1;
-            lblHasta.Text = "Hasta:";
+            lblFechaHasta.Dock = DockStyle.Top;
+            lblFechaHasta.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFechaHasta.ForeColor = Color.FromArgb(95, 104, 114);
+            lblFechaHasta.Location = new Point(8, 5);
+            lblFechaHasta.Name = "lblFechaHasta";
+            lblFechaHasta.Size = new Size(167, 18);
+            lblFechaHasta.TabIndex = 1;
+            lblFechaHasta.Text = "Hasta:";
+            lblFechaHasta.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlEstado
             // 
             pnlEstado.Controls.Add(cmbEstado);
             pnlEstado.Controls.Add(lblEstado);
             pnlEstado.Dock = DockStyle.Fill;
-            pnlEstado.Location = new Point(740, 6);
+            pnlEstado.Location = new Point(732, 0);
+            pnlEstado.Margin = new Padding(0);
             pnlEstado.Name = "pnlEstado";
-            pnlEstado.Padding = new Padding(0, 3, 0, 3);
-            pnlEstado.Size = new Size(167, 53);
+            pnlEstado.Padding = new Padding(8, 5, 8, 5);
+            pnlEstado.Size = new Size(184, 62);
             pnlEstado.TabIndex = 3;
             // 
             // cmbEstado
@@ -212,22 +261,23 @@
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbEstado.FormattingEnabled = true;
-            cmbEstado.Items.AddRange(new object[] { "Todos", "", "Pagada", "", "Anulada" });
-            cmbEstado.Location = new Point(0, 23);
+            cmbEstado.Items.AddRange(new object[] { "Todos", "Pagada", "Anulada" });
+            cmbEstado.Location = new Point(8, 23);
             cmbEstado.Name = "cmbEstado";
-            cmbEstado.Size = new Size(167, 28);
+            cmbEstado.Size = new Size(168, 28);
             cmbEstado.TabIndex = 4;
             // 
             // lblEstado
             // 
-            lblEstado.AutoSize = true;
             lblEstado.Dock = DockStyle.Top;
             lblEstado.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblEstado.Location = new Point(0, 3);
+            lblEstado.ForeColor = Color.FromArgb(95, 104, 114);
+            lblEstado.Location = new Point(8, 5);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(62, 20);
+            lblEstado.Size = new Size(168, 18);
             lblEstado.TabIndex = 3;
             lblEstado.Text = "Estado:";
+            lblEstado.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlListado
             // 
@@ -235,10 +285,10 @@
             pnlListado.Controls.Add(dgvFacturas);
             pnlListado.Controls.Add(pnlActions);
             pnlListado.Dock = DockStyle.Fill;
-            pnlListado.Location = new Point(0, 85);
+            pnlListado.Location = new Point(0, 78);
             pnlListado.Name = "pnlListado";
-            pnlListado.Padding = new Padding(0, 15, 0, 10);
-            pnlListado.Size = new Size(940, 745);
+            pnlListado.Padding = new Padding(0, 12, 0, 10);
+            pnlListado.Size = new Size(940, 752);
             pnlListado.TabIndex = 1;
             // 
             // dgvFacturas
@@ -246,62 +296,217 @@
             dgvFacturas.AllowUserToAddRows = false;
             dgvFacturas.AllowUserToDeleteRows = false;
             dgvFacturas.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvFacturas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFacturas.BackgroundColor = Color.White;
             dgvFacturas.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvFacturas.CellBorderStyle = DataGridViewCellBorderStyle.RaisedHorizontal;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvFacturas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvFacturas.Columns.AddRange(new DataGridViewColumn[] { colFactura, colFecha, colCliente, colTipo, colTotal, colEstado });
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dgvFacturas.DefaultCellStyle = dataGridViewCellStyle9;
             dgvFacturas.Dock = DockStyle.Fill;
-            dgvFacturas.Location = new Point(0, 15);
+            dgvFacturas.EnableHeadersVisualStyles = false;
+            dgvFacturas.GridColor = Color.FromArgb(230, 234, 238);
+            dgvFacturas.Location = new Point(0, 12);
             dgvFacturas.MultiSelect = false;
             dgvFacturas.Name = "dgvFacturas";
             dgvFacturas.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = Color.White;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle10.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dgvFacturas.RowHeadersVisible = false;
             dgvFacturas.RowHeadersWidth = 51;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dgvFacturas.RowTemplate.Height = 38;
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvFacturas.Size = new Size(940, 655);
+            dgvFacturas.Size = new Size(940, 665);
             dgvFacturas.TabIndex = 0;
+            // 
+            // colFactura
+            // 
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colFactura.DefaultCellStyle = dataGridViewCellStyle3;
+            colFactura.FillWeight = 15F;
+            colFactura.HeaderText = "Factura";
+            colFactura.MinimumWidth = 6;
+            colFactura.Name = "colFactura";
+            colFactura.ReadOnly = true;
+            // 
+            // colFecha
+            // 
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle4;
+            colFecha.FillWeight = 15F;
+            colFecha.HeaderText = "Fecha";
+            colFecha.MinimumWidth = 6;
+            colFecha.Name = "colFecha";
+            colFecha.ReadOnly = true;
+            // 
+            // colCliente
+            // 
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCliente.DefaultCellStyle = dataGridViewCellStyle5;
+            colCliente.FillWeight = 30F;
+            colCliente.HeaderText = "Cliente";
+            colCliente.MinimumWidth = 6;
+            colCliente.Name = "colCliente";
+            colCliente.ReadOnly = true;
+            // 
+            // colTipo
+            // 
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle6;
+            colTipo.FillWeight = 15F;
+            colTipo.HeaderText = "Tipo";
+            colTipo.MinimumWidth = 6;
+            colTipo.Name = "colTipo";
+            colTipo.ReadOnly = true;
+            // 
+            // colTotal
+            // 
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.TopRight;
+            colTotal.DefaultCellStyle = dataGridViewCellStyle7;
+            colTotal.FillWeight = 15F;
+            colTotal.HeaderText = "Total";
+            colTotal.MinimumWidth = 6;
+            colTotal.Name = "colTotal";
+            colTotal.ReadOnly = true;
+            // 
+            // colEstado
+            // 
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstado.DefaultCellStyle = dataGridViewCellStyle8;
+            colEstado.FillWeight = 10F;
+            colEstado.HeaderText = "Estado";
+            colEstado.MinimumWidth = 6;
+            colEstado.Name = "colEstado";
+            colEstado.ReadOnly = true;
             // 
             // pnlActions
             // 
             pnlActions.BackColor = Color.White;
-            pnlActions.Controls.Add(btnVerDetalle);
+            pnlActions.Controls.Add(tableLayoutPanel2);
+            pnlActions.Controls.Add(tlpButtonsAction);
             pnlActions.Dock = DockStyle.Bottom;
-            pnlActions.Location = new Point(0, 670);
+            pnlActions.Location = new Point(0, 677);
             pnlActions.Name = "pnlActions";
-            pnlActions.Padding = new Padding(10, 10, 0, 0);
+            pnlActions.Padding = new Padding(10);
             pnlActions.Size = new Size(940, 65);
             pnlActions.TabIndex = 1;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Controls.Add(button1, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Right;
+            tableLayoutPanel2.Location = new Point(745, 10);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(185, 45);
+            tableLayoutPanel2.TabIndex = 4;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(248, 234, 234);
+            button1.Cursor = Cursors.Hand;
+            button1.Dock = DockStyle.Fill;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.FromArgb(163, 61, 61);
+            button1.Location = new Point(5, 5);
+            button1.Margin = new Padding(5);
+            button1.Name = "button1";
+            button1.Size = new Size(175, 35);
+            button1.TabIndex = 2;
+            button1.Text = "ANULAR";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // tlpButtonsAction
+            // 
+            tlpButtonsAction.ColumnCount = 2;
+            tlpButtonsAction.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.99999F));
+            tlpButtonsAction.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0000076F));
+            tlpButtonsAction.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tlpButtonsAction.Controls.Add(btnVerDetalle, 0, 0);
+            tlpButtonsAction.Controls.Add(btnImprimir, 1, 0);
+            tlpButtonsAction.Dock = DockStyle.Left;
+            tlpButtonsAction.Location = new Point(10, 10);
+            tlpButtonsAction.Margin = new Padding(5);
+            tlpButtonsAction.Name = "tlpButtonsAction";
+            tlpButtonsAction.RowCount = 1;
+            tlpButtonsAction.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpButtonsAction.Size = new Size(380, 45);
+            tlpButtonsAction.TabIndex = 3;
             // 
             // btnVerDetalle
             // 
             btnVerDetalle.BackColor = Color.FromArgb(238, 243, 247);
-            btnVerDetalle.Location = new Point(618, 23);
+            btnVerDetalle.Cursor = Cursors.Hand;
+            btnVerDetalle.Dock = DockStyle.Fill;
+            btnVerDetalle.FlatAppearance.BorderSize = 0;
+            btnVerDetalle.FlatStyle = FlatStyle.Flat;
+            btnVerDetalle.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnVerDetalle.ForeColor = Color.FromArgb(8, 31, 63);
+            btnVerDetalle.Location = new Point(3, 3);
             btnVerDetalle.Name = "btnVerDetalle";
-            btnVerDetalle.Size = new Size(120, 38);
+            btnVerDetalle.Size = new Size(183, 39);
             btnVerDetalle.TabIndex = 0;
-            btnVerDetalle.Text = "button1";
+            btnVerDetalle.Text = "VER DETALLE";
             btnVerDetalle.UseVisualStyleBackColor = false;
+            // 
+            // btnImprimir
+            // 
+            btnImprimir.BackColor = Color.FromArgb(238, 243, 247);
+            btnImprimir.Cursor = Cursors.Hand;
+            btnImprimir.Dock = DockStyle.Fill;
+            btnImprimir.FlatAppearance.BorderSize = 0;
+            btnImprimir.FlatStyle = FlatStyle.Flat;
+            btnImprimir.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnImprimir.ForeColor = Color.FromArgb(8, 31, 63);
+            btnImprimir.Location = new Point(192, 3);
+            btnImprimir.Name = "btnImprimir";
+            btnImprimir.Size = new Size(185, 39);
+            btnImprimir.TabIndex = 1;
+            btnImprimir.Text = "IMPRIMIR";
+            btnImprimir.UseVisualStyleBackColor = false;
             // 
             // FrmFacturacion
             // 
@@ -318,17 +523,17 @@
             pnlFilters.ResumeLayout(false);
             tlpFilters.ResumeLayout(false);
             pnlSearch.ResumeLayout(false);
-            pnlSearch.PerformLayout();
+            pnlSearchInput.ResumeLayout(false);
+            pnlSearchInput.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
-            pnlDesde.ResumeLayout(false);
-            pnlDesde.PerformLayout();
-            pnlHasta.ResumeLayout(false);
-            pnlHasta.PerformLayout();
+            pnlFechaDesde.ResumeLayout(false);
+            pnlFechaHasta.ResumeLayout(false);
             pnlEstado.ResumeLayout(false);
-            pnlEstado.PerformLayout();
             pnlListado.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvFacturas).EndInit();
             pnlActions.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tlpButtonsAction.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -338,14 +543,14 @@
         private TableLayoutPanel tlpFilters;
         private Panel pnlSearch;
         private PictureBox picSearch;
-        private TextBox textBox1;
+        private TextBox txtBuscar;
         private Panel panel1;
-        private Panel pnlDesde;
-        private Panel pnlHasta;
-        private Label lblDesde;
-        private DateTimePicker dateTimePicker1;
-        private DateTimePicker dateTimePicker2;
-        private Label lblHasta;
+        private Panel pnlFechaDesde;
+        private Panel pnlFechaHasta;
+        private Label lblFechaDesde;
+        private DateTimePicker dtpFechaDesde;
+        private DateTimePicker dtpFechaHasta;
+        private Label lblFechaHasta;
         private Panel pnlEstado;
         private ComboBox cmbEstado;
         private Label lblEstado;
@@ -353,5 +558,16 @@
         private DataGridView dgvFacturas;
         private Panel pnlActions;
         private Button btnVerDetalle;
+        private Button btnImprimir;
+        private TableLayoutPanel tlpButtonsAction;
+        private Button button1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Panel pnlSearchInput;
+        private DataGridViewTextBoxColumn colFactura;
+        private DataGridViewTextBoxColumn colFecha;
+        private DataGridViewTextBoxColumn colCliente;
+        private DataGridViewTextBoxColumn colTipo;
+        private DataGridViewTextBoxColumn colTotal;
+        private DataGridViewTextBoxColumn colEstado;
     }
 }

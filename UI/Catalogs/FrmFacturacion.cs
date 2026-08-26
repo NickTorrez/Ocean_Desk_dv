@@ -17,5 +17,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
