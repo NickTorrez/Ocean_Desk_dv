@@ -21,6 +21,9 @@ namespace Ocean_Desk_dv.UI.Controls
         private decimal _precio;
         private bool _disponible = true;
         private decimal _stock;
+        private string _categoria = string.Empty;
+
+        // Colores de Tarjeta y Boton
         private readonly Color _colorNormal = Color.White;
         private readonly Color _colorHover = Color.FromArgb(245, 249, 252);
         private readonly Color _colorBotonNormal = Color.FromArgb(8, 126, 164);
@@ -94,6 +97,16 @@ namespace Ocean_Desk_dv.UI.Controls
                 {
                     Disponible = false;
                 }
+            }
+        }
+
+        public string Categoria
+        {
+            get => _categoria;
+
+            set
+            {
+                _categoria = value?.Trim() ?? string.Empty;
             }
         }
         #endregion

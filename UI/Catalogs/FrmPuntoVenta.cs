@@ -33,7 +33,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Adicion de Productos (Prueba)
+        #region Adicion de Productos (Prueba con UcProductoCard)
         private void CargarProductosPrueba()
         {
             flpProducts.Controls.Clear();
@@ -41,6 +41,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 1,
                 "Ceviche Mixto",
                 120.50m,
+                "Ceviches",
                 Properties.Resources.Primer_Ceviche,
                 true);
 
@@ -48,6 +49,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 2,
                 "Camarones al Ajillo",
                 100.00m,
+                "Mariscos",
                 Properties.Resources.Coctel_Ceviche,
                 true);
 
@@ -55,6 +57,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 3,
                 "Pargo Frito Especial de la Casa con Salsa de Mariscos",
                 150.00m,
+                "Mariscos",
                 null,
                 true);
 
@@ -62,8 +65,25 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 4,
                 "Tostones",
                 80.00m,
+                "Entradas",
                 null,
                 false);
+
+            AgregarProductoCard(
+               5,
+               "Coca Cola",
+               18.50m,
+               "Bebidas",
+               null,
+               true);
+
+            AgregarProductoCard(
+               5,
+               "Limonada",
+               28.10m,
+               "Bebidas",
+               null,
+               true);
         }
         #endregion
 
@@ -100,6 +120,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         int productoId,
         string nombre,
         decimal precio,
+        string categoria,
         Image imagen = null,
         bool disponible = true)
         {
@@ -108,6 +129,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             card.ProductoId = productoId;
             card.NombreProducto = nombre;
             card.Precio = precio;
+            card.Categoria = categoria;
             card.ImagenProducto = imagen;
             card.Disponible = disponible;
 
@@ -190,8 +212,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 "C",
                 System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
 
-            btnCobrar.Text = $"COBRAR {total.ToString("C",
-                System.Globalization.CultureInfo.GetCultureInfo("es-NI"))}";
+            btnCobrar.Text = $"COBRAR {total.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-NI"))}";
             btnCobrar.Enabled = _orderItems.Count > 0;
 
             if (_orderItems.Count > 0)
@@ -221,7 +242,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Apariencia y Funcion de Botones de OrederFooter
+        #region Apariencia y Funcion de Botones de OrderFooter
         private void btnCobrar_MouseEnter(object sender, EventArgs e)
         {
             btnCobrar.BackColor = Color.FromArgb(6, 105, 138);
@@ -264,6 +285,55 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             ActualizarResumenPedido();
         }
+
+        private decimal ObtenerTotalVenta()
+        {
+            decimal subtotal = 0;
+
+            foreach (UcOrderItem item in _orderItems)
+            {
+                subtotal += item.Subtotal;
+            }
+
+            decimal descuento = 0;
+
+            return subtotal - descuento;
+        }
+
+        private void btnCobrar_Click(object sender, EventArgs e)
+        {
+            if (_orderItems.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "No hay productos en el pedido actual.",
+                    "Venta vacía",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            decimal total = ObtenerTotalVenta();
+
+            string totalFormateado = total.ToString(
+                "C",
+                System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            DialogResult resultado =
+                FrmMessageBox.Show(
+                    $"¿Desea proceder con el cobro por " +
+                    $"{totalFormateado}?",
+                    "Confirmar cobro",
+                    MessageType.Confirmation);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            FrmMessageBox.Show(
+                $"El cobro por {totalFormateado} " +
+                "ha sido preparado correctamente.",
+                "Cobro preparado",
+                MessageType.Information);
+        }
         #endregion
 
         #region Relación entre la tipo de orden y disponibilidad de mesa
@@ -284,6 +354,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
+        #region Metodos y Colores para Buttons de Categoria
         // Estado normal
         private readonly Color _colorNormal = Color.FromArgb(8, 31, 63);
 
@@ -301,6 +372,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private Button _categoriaActiva;
 
+        private string _categoriaSeleccionada = string.Empty;
+
         private void ActivarCategoria(Button boton)
         {
             // Restaurar botón anteriormente activo
@@ -315,6 +388,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             _categoriaActiva.BackColor = _colorActivo;
             _categoriaActiva.ForeColor = _colorTextoActivo;
+
+            _categoriaSeleccionada = boton.Tag?.ToString() ?? string.Empty;
+
+            FiltrarProductos();
         }
 
         private void Categoria_MouseEnter(object sender, EventArgs e)
@@ -351,14 +428,22 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private void ConfigurarBotonesCategorias()
         {
+            btnCatTodos.Tag = "";
+            btnCatCeviche.Tag = "Ceviches";
+            btnCatMariscos.Tag = "Mariscos";
+            btnCatEntradas.Tag = "Entradas";
+            btnCatBebidas.Tag = "Bebidas";
+            btnCatExtras.Tag = "Extras";
+
+
             Button[] botones =
             {
+                btnCatTodos,
                 btnCatCeviche,
                 btnCatMariscos,
                 btnCatEntradas,
                 btnCatBebidas,
-                btnCatExtras,
-                btnCatPostres
+                btnCatExtras
             };
 
             foreach (Button boton in botones)
@@ -376,7 +461,38 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 boton.Click += Categoria_Click;
             }
 
-            ActivarCategoria(btnCatCeviche);
+            ActivarCategoria(btnCatTodos);
         }
+        #endregion
+
+        #region Metodo para busqueda + categoria
+        private void txtBuscarProducto_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarProductos();
+        }
+
+        private void FiltrarProductos()
+        {
+            string textoBusqueda = txtBuscarProducto.Text.Trim();
+
+            foreach (Control control in flpProducts.Controls)
+            {
+                if (control is not UcProductoCard card)
+                    continue;
+
+                bool coincideTexto = string.IsNullOrWhiteSpace(textoBusqueda)
+                    ||
+                    card.NombreProducto.Contains(textoBusqueda, StringComparison.OrdinalIgnoreCase);
+
+                bool coincideCategoria = string.IsNullOrWhiteSpace(_categoriaSeleccionada)
+                    ||
+                    card.Categoria.Equals(_categoriaSeleccionada, StringComparison.OrdinalIgnoreCase);
+
+                card.Visible = coincideTexto && coincideCategoria;
+            }
+        }
+        #endregion
+
+       
     }
 }

@@ -43,8 +43,9 @@
             tlpFilters = new TableLayoutPanel();
             pnlSearch = new Panel();
             pnlSearchInput = new Panel();
-            panel1 = new Panel();
+            pnlLine = new Panel();
             txtBuscar = new TextBox();
+            lblGhost = new Label();
             picSearch = new PictureBox();
             pnlFechaDesde = new Panel();
             dtpFechaDesde = new DateTimePicker();
@@ -120,6 +121,8 @@
             // 
             pnlSearch.BackColor = Color.FromArgb(245, 247, 250);
             pnlSearch.Controls.Add(pnlSearchInput);
+            pnlSearch.Controls.Add(lblGhost);
+            pnlSearch.Controls.Add(picSearch);
             pnlSearch.Dock = DockStyle.Fill;
             pnlSearch.Location = new Point(0, 0);
             pnlSearch.Margin = new Padding(0);
@@ -131,47 +134,56 @@
             // pnlSearchInput
             // 
             pnlSearchInput.BackColor = Color.White;
-            pnlSearchInput.Controls.Add(panel1);
+            pnlSearchInput.Controls.Add(pnlLine);
             pnlSearchInput.Controls.Add(txtBuscar);
-            pnlSearchInput.Controls.Add(picSearch);
             pnlSearchInput.Dock = DockStyle.Top;
-            pnlSearchInput.Location = new Point(8, 5);
-            pnlSearchInput.Margin = new Padding(0);
+            pnlSearchInput.Location = new Point(43, 15);
+            pnlSearchInput.Margin = new Padding(5, 0, 0, 0);
             pnlSearchInput.Name = "pnlSearchInput";
-            pnlSearchInput.Size = new Size(350, 32);
+            pnlSearchInput.Size = new Size(315, 32);
             pnlSearchInput.TabIndex = 2;
             // 
-            // panel1
+            // pnlLine
             // 
-            panel1.BackColor = Color.MidnightBlue;
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(35, 30);
-            panel1.Margin = new Padding(0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(315, 2);
-            panel1.TabIndex = 2;
+            pnlLine.BackColor = Color.MidnightBlue;
+            pnlLine.Dock = DockStyle.Bottom;
+            pnlLine.Location = new Point(0, 30);
+            pnlLine.Margin = new Padding(0);
+            pnlLine.Name = "pnlLine";
+            pnlLine.Size = new Size(315, 2);
+            pnlLine.TabIndex = 2;
             // 
             // txtBuscar
             // 
             txtBuscar.BorderStyle = BorderStyle.None;
             txtBuscar.Dock = DockStyle.Fill;
             txtBuscar.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtBuscar.Location = new Point(35, 0);
+            txtBuscar.Location = new Point(0, 0);
             txtBuscar.Margin = new Padding(0);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.PlaceholderText = "Buscar Producto...";
+            txtBuscar.PlaceholderText = "Buscar Factura...";
             txtBuscar.Size = new Size(315, 21);
             txtBuscar.TabIndex = 1;
+            // 
+            // lblGhost
+            // 
+            lblGhost.Dock = DockStyle.Top;
+            lblGhost.ForeColor = Color.FromArgb(245, 247, 250);
+            lblGhost.Location = new Point(43, 5);
+            lblGhost.Name = "lblGhost";
+            lblGhost.Size = new Size(315, 10);
+            lblGhost.TabIndex = 3;
+            lblGhost.Text = "label1";
             // 
             // picSearch
             // 
             picSearch.Dock = DockStyle.Left;
-            picSearch.Image = Properties.Resources.search_32;
-            picSearch.Location = new Point(0, 0);
+            picSearch.Image = Properties.Resources.magnifier;
+            picSearch.Location = new Point(8, 5);
             picSearch.Margin = new Padding(0);
             picSearch.Name = "picSearch";
-            picSearch.Size = new Size(35, 32);
-            picSearch.SizeMode = PictureBoxSizeMode.Zoom;
+            picSearch.Size = new Size(35, 52);
+            picSearch.SizeMode = PictureBoxSizeMode.CenterImage;
             picSearch.TabIndex = 0;
             picSearch.TabStop = false;
             // 
@@ -457,7 +469,6 @@
             button1.TabIndex = 2;
             button1.Text = "ANULAR";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
             // 
             // tlpButtonsAction
             // 
@@ -544,7 +555,7 @@
         private Panel pnlSearch;
         private PictureBox picSearch;
         private TextBox txtBuscar;
-        private Panel panel1;
+        private Panel pnlLine;
         private Panel pnlFechaDesde;
         private Panel pnlFechaHasta;
         private Label lblFechaDesde;
@@ -569,5 +580,6 @@
         private DataGridViewTextBoxColumn colTipo;
         private DataGridViewTextBoxColumn colTotal;
         private DataGridViewTextBoxColumn colEstado;
+        private Label lblGhost;
     }
 }
