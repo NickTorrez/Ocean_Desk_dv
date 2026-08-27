@@ -22,13 +22,21 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CargarFacturasPrueba(); //Cargamos las Facturas
             MostrarFacturas(); //Se mjuestran las facturas en el dgv
             ActualizarEstadoBotones(); //Comportamiento entre botones y dgv
+            ConfigurarFiltroEstado();
+            ConfigurarFiltroFechas();
         }
 
         #region Metodos para Cargar y Mostrar Facturas de Prueba
         private void MostrarFacturas()
         {
-            dgvFacturas.DataSource = null;
+            dgvFacturas.DataSource = null;  
             dgvFacturas.DataSource = _facturas;
+
+            dgvFacturas.CurrentCell = null;
+
+            dgvFacturas.ClearSelection();
+
+            ActualizarEstadoBotones();
         }
 
         private void CargarFacturasPrueba()
@@ -102,6 +110,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         {
             bool haySeleccion = dgvFacturas.SelectedRows.Count > 0;
 
+            // No hay factura seleccionada
             if (!haySeleccion)
             {
                 ConfigurarEstadoBoton(
@@ -125,12 +134,35 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
             }
 
+            // Obtener la factura seleccionada directamente
             DataGridViewRow fila = dgvFacturas.SelectedRows[0];
 
-            string estado = fila.Cells["colEstado"].Value?.ToString();
+            FacturaPrueba factura = fila.DataBoundItem as FacturaPrueba;
 
-            bool facturaAnulada = estado == "Anulada";
+            if (factura == null)
+            {
+                ConfigurarEstadoBoton(
+                    btnVerDetalle,
+                    false,
+                    _colorBotonNormal,
+                    _colorBotonTexto);
 
+                ConfigurarEstadoBoton(
+                    btnImprimir,
+                    false,
+                    _colorBotonNormal,
+                    _colorBotonTexto);
+
+                ConfigurarEstadoBoton(
+                    btnAnular,
+                    false,
+                    _colorAnularNormal,
+                    _colorAnularTexto);
+
+                return;
+            }
+
+            // Hay una factura seleccionada
             ConfigurarEstadoBoton(
                 btnVerDetalle,
                 true,
@@ -143,9 +175,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 _colorBotonNormal,
                 _colorBotonTexto);
 
+            // Una factura anulada no puede volver a anularse
+            bool puedeAnular =
+                !string.Equals(
+                    factura.Estado,
+                    "Anulada",
+                    StringComparison.OrdinalIgnoreCase);
+
             ConfigurarEstadoBoton(
                 btnAnular,
-                !facturaAnulada,
+                puedeAnular,
                 _colorAnularNormal,
                 _colorAnularTexto);
         }
@@ -156,6 +195,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
+        #region Colores y Metodos para Botones, y DGV
         private readonly Color _colorBotonNormal = Color.FromArgb(238, 243, 247);
 
         private readonly Color _colorBotonTexto = Color.FromArgb(8, 31, 63);
@@ -168,7 +208,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private readonly Color _colorAnularTexto = Color.FromArgb(163, 61, 61);
 
-        private void ConfigurarEstadoBoton(Button boton,bool habilitado,Color colorNormal,Color colorTexto)
+        private void ConfigurarEstadoBoton(Button boton, bool habilitado, Color colorNormal, Color colorTexto)
         {
             boton.Enabled = habilitado;
 
@@ -183,5 +223,128 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 boton.ForeColor = _colorTextoDisabled;
             }
         }
+
+        private void dgvFacturas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex != 5)
+                return;
+
+            if (e.Value == null)
+                return;
+
+            string estado = e.Value.ToString();
+
+            if (estado == "Pagada")
+            {
+                e.CellStyle.ForeColor =
+                    Color.FromArgb(42, 122, 82);
+
+                e.CellStyle.Font =
+                    new Font(
+                        dgvFacturas.Font,
+                        FontStyle.Bold);
+            }
+            else if (estado == "Anulada")
+            {
+                e.CellStyle.ForeColor =
+                    Color.FromArgb(163, 61, 61);
+
+                e.CellStyle.Font =
+                    new Font(
+                        dgvFacturas.Font,
+                        FontStyle.Bold);
+            }
+        }
+
+        private void FiltrarFacturas()
+        {
+            string texto =
+                txtBuscar.Text.Trim();
+
+            DateTime fechaDesde =
+                dtpFechaDesde.Value.Date;
+
+            DateTime fechaHasta =
+                dtpFechaHasta.Value.Date;
+
+            string estadoSeleccionado =
+                cmbEstado.SelectedItem?.ToString() ?? "Todos";
+
+            List<FacturaPrueba> facturasFiltradas =
+                _facturas
+                .Where(factura =>
+                    (
+                        string.IsNullOrWhiteSpace(texto)
+                        ||
+                        factura.NumeroFactura.Contains(
+                            texto,
+                            StringComparison.OrdinalIgnoreCase)
+                        ||
+                        factura.Cliente.Contains(
+                            texto,
+                            StringComparison.OrdinalIgnoreCase)
+                    )
+                    &&
+                    factura.Fecha.Date >= fechaDesde
+                    &&
+                    factura.Fecha.Date <= fechaHasta
+                    &&
+                    (
+                        estadoSeleccionado == "Todos"
+                        ||
+                        factura.Estado.Equals(
+                            estadoSeleccionado,
+                            StringComparison.OrdinalIgnoreCase)
+                    )
+                )
+                .ToList();
+
+            dgvFacturas.DataSource = null;
+            dgvFacturas.DataSource = facturasFiltradas;
+
+            ActualizarEstadoBotones();
+        }
+
+        private void ConfigurarFiltroEstado()
+        {
+            cmbEstado.Items.Clear();
+
+            cmbEstado.Items.Add("Todos");
+            cmbEstado.Items.Add("Pagada");
+            cmbEstado.Items.Add("Anulada");
+
+            cmbEstado.SelectedIndex = 0;
+        }
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
+
+        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
+
+        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
+
+        private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
+
+        private void ConfigurarFiltroFechas()
+        {
+            dtpFechaDesde.Value = DateTime.Today.AddDays(-30);
+
+            dtpFechaHasta.Value = DateTime.Today;
+        }
+        #endregion
     }
 }

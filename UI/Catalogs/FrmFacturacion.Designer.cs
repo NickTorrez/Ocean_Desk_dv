@@ -164,6 +164,7 @@
             txtBuscar.PlaceholderText = "Buscar Factura...";
             txtBuscar.Size = new Size(315, 21);
             txtBuscar.TabIndex = 1;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // lblGhost
             // 
@@ -208,6 +209,7 @@
             dtpFechaDesde.Name = "dtpFechaDesde";
             dtpFechaDesde.Size = new Size(167, 26);
             dtpFechaDesde.TabIndex = 0;
+            dtpFechaDesde.ValueChanged += dtpFechaDesde_ValueChanged;
             // 
             // lblFechaDesde
             // 
@@ -242,6 +244,7 @@
             dtpFechaHasta.Name = "dtpFechaHasta";
             dtpFechaHasta.Size = new Size(167, 26);
             dtpFechaHasta.TabIndex = 0;
+            dtpFechaHasta.ValueChanged += dtpFechaHasta_ValueChanged;
             // 
             // lblFechaHasta
             // 
@@ -273,11 +276,11 @@
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbEstado.FormattingEnabled = true;
-            cmbEstado.Items.AddRange(new object[] { "Todos", "Pagada", "Anulada" });
             cmbEstado.Location = new Point(8, 23);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(168, 28);
             cmbEstado.TabIndex = 4;
+            cmbEstado.SelectedIndexChanged += cmbEstado_SelectedIndexChanged;
             // 
             // lblEstado
             // 
@@ -364,6 +367,7 @@
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFacturas.Size = new Size(930, 665);
             dgvFacturas.TabIndex = 0;
+            dgvFacturas.CellFormatting += dgvFacturas_CellFormatting;
             dgvFacturas.SelectionChanged += dgvFacturas_SelectionChanged;
             // 
             // colFactura
