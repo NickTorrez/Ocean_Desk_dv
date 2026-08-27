@@ -58,6 +58,9 @@
             pnlOrder = new Panel();
             flpOrderItems = new FlowLayoutPanel();
             pnlOrderFooter = new Panel();
+            pnlMetodoPago = new Panel();
+            cmbMetodoPago = new ComboBox();
+            lblMetodoPago = new Label();
             pnlAcciones = new Panel();
             btnCobrar = new Button();
             btnCancelarVenta = new Button();
@@ -85,6 +88,7 @@
             tlpCategories.SuspendLayout();
             pnlOrder.SuspendLayout();
             pnlOrderFooter.SuspendLayout();
+            pnlMetodoPago.SuspendLayout();
             pnlAcciones.SuspendLayout();
             tlpTotal.SuspendLayout();
             tlpOrderFooter.SuspendLayout();
@@ -486,30 +490,70 @@
             flpOrderItems.Location = new Point(15, 70);
             flpOrderItems.Name = "flpOrderItems";
             flpOrderItems.Padding = new Padding(5);
-            flpOrderItems.Size = new Size(350, 490);
+            flpOrderItems.Size = new Size(350, 420);
             flpOrderItems.TabIndex = 1;
             flpOrderItems.WrapContents = false;
             // 
             // pnlOrderFooter
             // 
             pnlOrderFooter.BackColor = Color.Transparent;
+            pnlOrderFooter.Controls.Add(pnlMetodoPago);
             pnlOrderFooter.Controls.Add(pnlAcciones);
             pnlOrderFooter.Controls.Add(tlpTotal);
             pnlOrderFooter.Controls.Add(pnlSeparador);
             pnlOrderFooter.Controls.Add(tlpOrderFooter);
             pnlOrderFooter.Dock = DockStyle.Bottom;
-            pnlOrderFooter.Location = new Point(15, 560);
+            pnlOrderFooter.Location = new Point(15, 490);
             pnlOrderFooter.Name = "pnlOrderFooter";
             pnlOrderFooter.Padding = new Padding(10, 10, 5, 5);
-            pnlOrderFooter.Size = new Size(350, 180);
+            pnlOrderFooter.Size = new Size(350, 250);
             pnlOrderFooter.TabIndex = 2;
+            // 
+            // pnlMetodoPago
+            // 
+            pnlMetodoPago.Controls.Add(cmbMetodoPago);
+            pnlMetodoPago.Controls.Add(lblMetodoPago);
+            pnlMetodoPago.Dock = DockStyle.Top;
+            pnlMetodoPago.Location = new Point(10, 112);
+            pnlMetodoPago.Margin = new Padding(0);
+            pnlMetodoPago.Name = "pnlMetodoPago";
+            pnlMetodoPago.Padding = new Padding(0, 10, 0, 5);
+            pnlMetodoPago.Size = new Size(335, 60);
+            pnlMetodoPago.TabIndex = 10;
+            // 
+            // cmbMetodoPago
+            // 
+            cmbMetodoPago.BackColor = Color.White;
+            cmbMetodoPago.Cursor = Cursors.Hand;
+            cmbMetodoPago.Dock = DockStyle.Fill;
+            cmbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMetodoPago.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbMetodoPago.ForeColor = Color.FromArgb(8, 31, 63);
+            cmbMetodoPago.FormattingEnabled = true;
+            cmbMetodoPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
+            cmbMetodoPago.Location = new Point(0, 29);
+            cmbMetodoPago.Name = "cmbMetodoPago";
+            cmbMetodoPago.Size = new Size(335, 28);
+            cmbMetodoPago.TabIndex = 1;
+            // 
+            // lblMetodoPago
+            // 
+            lblMetodoPago.Dock = DockStyle.Top;
+            lblMetodoPago.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMetodoPago.ForeColor = Color.Gainsboro;
+            lblMetodoPago.Location = new Point(0, 10);
+            lblMetodoPago.Name = "lblMetodoPago";
+            lblMetodoPago.Size = new Size(335, 19);
+            lblMetodoPago.TabIndex = 0;
+            lblMetodoPago.Text = "Metodo de Pago:";
+            lblMetodoPago.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlAcciones
             // 
             pnlAcciones.Controls.Add(btnCobrar);
             pnlAcciones.Controls.Add(btnCancelarVenta);
             pnlAcciones.Dock = DockStyle.Bottom;
-            pnlAcciones.Location = new Point(10, 125);
+            pnlAcciones.Location = new Point(10, 195);
             pnlAcciones.Name = "pnlAcciones";
             pnlAcciones.Size = new Size(335, 50);
             pnlAcciones.TabIndex = 9;
@@ -711,6 +755,7 @@
             tlpCategories.ResumeLayout(false);
             pnlOrder.ResumeLayout(false);
             pnlOrderFooter.ResumeLayout(false);
+            pnlMetodoPago.ResumeLayout(false);
             pnlAcciones.ResumeLayout(false);
             tlpTotal.ResumeLayout(false);
             tlpOrderFooter.ResumeLayout(false);
@@ -764,5 +809,8 @@
         private Panel pnlSearchInput;
         private PictureBox pictureBox1;
         private Label lblGhost;
+        private Panel pnlMetodoPago;
+        private Label lblMetodoPago;
+        private ComboBox cmbMetodoPago;
     }
 }

@@ -66,7 +66,7 @@
             colEstado = new DataGridViewTextBoxColumn();
             pnlActions = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            button1 = new Button();
+            btnAnular = new Button();
             tlpButtonsAction = new TableLayoutPanel();
             btnVerDetalle = new Button();
             btnImprimir = new Button();
@@ -299,7 +299,7 @@
             pnlListado.Dock = DockStyle.Fill;
             pnlListado.Location = new Point(0, 78);
             pnlListado.Name = "pnlListado";
-            pnlListado.Padding = new Padding(0, 12, 0, 10);
+            pnlListado.Padding = new Padding(5, 12, 5, 10);
             pnlListado.Size = new Size(940, 752);
             pnlListado.TabIndex = 1;
             // 
@@ -308,11 +308,10 @@
             dgvFacturas.AllowUserToAddRows = false;
             dgvFacturas.AllowUserToDeleteRows = false;
             dgvFacturas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
             dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.LightCyan;
             dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(8, 31, 63);
             dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvFacturas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -341,7 +340,7 @@
             dgvFacturas.Dock = DockStyle.Fill;
             dgvFacturas.EnableHeadersVisualStyles = false;
             dgvFacturas.GridColor = Color.FromArgb(230, 234, 238);
-            dgvFacturas.Location = new Point(0, 12);
+            dgvFacturas.Location = new Point(5, 12);
             dgvFacturas.MultiSelect = false;
             dgvFacturas.Name = "dgvFacturas";
             dgvFacturas.ReadOnly = true;
@@ -363,11 +362,13 @@
             dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvFacturas.RowTemplate.Height = 38;
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvFacturas.Size = new Size(940, 665);
+            dgvFacturas.Size = new Size(930, 665);
             dgvFacturas.TabIndex = 0;
+            dgvFacturas.SelectionChanged += dgvFacturas_SelectionChanged;
             // 
             // colFactura
             // 
+            colFactura.DataPropertyName = "NumeroFactura";
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colFactura.DefaultCellStyle = dataGridViewCellStyle3;
             colFactura.FillWeight = 15F;
@@ -378,7 +379,10 @@
             // 
             // colFecha
             // 
+            colFecha.DataPropertyName = "Fecha";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
             colFecha.DefaultCellStyle = dataGridViewCellStyle4;
             colFecha.FillWeight = 15F;
             colFecha.HeaderText = "Fecha";
@@ -388,6 +392,7 @@
             // 
             // colCliente
             // 
+            colCliente.DataPropertyName = "Cliente";
             dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
             colCliente.DefaultCellStyle = dataGridViewCellStyle5;
             colCliente.FillWeight = 30F;
@@ -398,6 +403,7 @@
             // 
             // colTipo
             // 
+            colTipo.DataPropertyName = "TipoOrden";
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colTipo.DefaultCellStyle = dataGridViewCellStyle6;
             colTipo.FillWeight = 15F;
@@ -408,7 +414,10 @@
             // 
             // colTotal
             // 
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.TopRight;
+            colTotal.DataPropertyName = "Total";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
             colTotal.DefaultCellStyle = dataGridViewCellStyle7;
             colTotal.FillWeight = 15F;
             colTotal.HeaderText = "Total";
@@ -418,6 +427,7 @@
             // 
             // colEstado
             // 
+            colEstado.DataPropertyName = "Estado";
             dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colEstado.DefaultCellStyle = dataGridViewCellStyle8;
             colEstado.FillWeight = 10F;
@@ -432,10 +442,10 @@
             pnlActions.Controls.Add(tableLayoutPanel2);
             pnlActions.Controls.Add(tlpButtonsAction);
             pnlActions.Dock = DockStyle.Bottom;
-            pnlActions.Location = new Point(0, 677);
+            pnlActions.Location = new Point(5, 677);
             pnlActions.Name = "pnlActions";
-            pnlActions.Padding = new Padding(10);
-            pnlActions.Size = new Size(940, 65);
+            pnlActions.Padding = new Padding(6);
+            pnlActions.Size = new Size(930, 65);
             pnlActions.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -443,32 +453,32 @@
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Controls.Add(button1, 0, 0);
+            tableLayoutPanel2.Controls.Add(btnAnular, 0, 0);
             tableLayoutPanel2.Dock = DockStyle.Right;
-            tableLayoutPanel2.Location = new Point(745, 10);
+            tableLayoutPanel2.Location = new Point(739, 6);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(185, 45);
+            tableLayoutPanel2.Size = new Size(185, 53);
             tableLayoutPanel2.TabIndex = 4;
             // 
-            // button1
+            // btnAnular
             // 
-            button1.BackColor = Color.FromArgb(248, 234, 234);
-            button1.Cursor = Cursors.Hand;
-            button1.Dock = DockStyle.Fill;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.FromArgb(163, 61, 61);
-            button1.Location = new Point(5, 5);
-            button1.Margin = new Padding(5);
-            button1.Name = "button1";
-            button1.Size = new Size(175, 35);
-            button1.TabIndex = 2;
-            button1.Text = "ANULAR";
-            button1.UseVisualStyleBackColor = false;
+            btnAnular.BackColor = Color.FromArgb(248, 234, 234);
+            btnAnular.Cursor = Cursors.Hand;
+            btnAnular.Dock = DockStyle.Fill;
+            btnAnular.FlatAppearance.BorderSize = 0;
+            btnAnular.FlatStyle = FlatStyle.Flat;
+            btnAnular.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAnular.ForeColor = Color.FromArgb(163, 61, 61);
+            btnAnular.Location = new Point(5, 5);
+            btnAnular.Margin = new Padding(5);
+            btnAnular.Name = "btnAnular";
+            btnAnular.Size = new Size(175, 43);
+            btnAnular.TabIndex = 2;
+            btnAnular.Text = "ANULAR";
+            btnAnular.UseVisualStyleBackColor = false;
             // 
             // tlpButtonsAction
             // 
@@ -479,12 +489,12 @@
             tlpButtonsAction.Controls.Add(btnVerDetalle, 0, 0);
             tlpButtonsAction.Controls.Add(btnImprimir, 1, 0);
             tlpButtonsAction.Dock = DockStyle.Left;
-            tlpButtonsAction.Location = new Point(10, 10);
+            tlpButtonsAction.Location = new Point(6, 6);
             tlpButtonsAction.Margin = new Padding(5);
             tlpButtonsAction.Name = "tlpButtonsAction";
             tlpButtonsAction.RowCount = 1;
             tlpButtonsAction.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpButtonsAction.Size = new Size(380, 45);
+            tlpButtonsAction.Size = new Size(380, 53);
             tlpButtonsAction.TabIndex = 3;
             // 
             // btnVerDetalle
@@ -498,7 +508,7 @@
             btnVerDetalle.ForeColor = Color.FromArgb(8, 31, 63);
             btnVerDetalle.Location = new Point(3, 3);
             btnVerDetalle.Name = "btnVerDetalle";
-            btnVerDetalle.Size = new Size(183, 39);
+            btnVerDetalle.Size = new Size(183, 47);
             btnVerDetalle.TabIndex = 0;
             btnVerDetalle.Text = "VER DETALLE";
             btnVerDetalle.UseVisualStyleBackColor = false;
@@ -514,7 +524,7 @@
             btnImprimir.ForeColor = Color.FromArgb(8, 31, 63);
             btnImprimir.Location = new Point(192, 3);
             btnImprimir.Name = "btnImprimir";
-            btnImprimir.Size = new Size(185, 39);
+            btnImprimir.Size = new Size(185, 47);
             btnImprimir.TabIndex = 1;
             btnImprimir.Text = "IMPRIMIR";
             btnImprimir.UseVisualStyleBackColor = false;
@@ -571,15 +581,15 @@
         private Button btnVerDetalle;
         private Button btnImprimir;
         private TableLayoutPanel tlpButtonsAction;
-        private Button button1;
+        private Button btnAnular;
         private TableLayoutPanel tableLayoutPanel2;
         private Panel pnlSearchInput;
+        private Label lblGhost;
         private DataGridViewTextBoxColumn colFactura;
         private DataGridViewTextBoxColumn colFecha;
         private DataGridViewTextBoxColumn colCliente;
         private DataGridViewTextBoxColumn colTipo;
         private DataGridViewTextBoxColumn colTotal;
         private DataGridViewTextBoxColumn colEstado;
-        private Label lblGhost;
     }
 }

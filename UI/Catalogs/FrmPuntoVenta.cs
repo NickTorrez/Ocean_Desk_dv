@@ -30,6 +30,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             ConfigurarBotonesCategorias(); //Colores y Efectos de las Categorias
 
+            ConfigurarMetodosPago(); //Configuración del contenido del combobox Metodo de Pago
+
         }
         #endregion
 
@@ -78,7 +80,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                true);
 
             AgregarProductoCard(
-               5,
+               6,
                "Limonada",
                28.10m,
                "Bebidas",
@@ -283,6 +285,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             flpOrderItems.Controls.Clear();
 
+            cmbMetodoPago.SelectedIndex = -1;
+
             ActualizarResumenPedido();
         }
 
@@ -312,26 +316,39 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
             }
 
+            if (cmbMetodoPago.SelectedIndex == -1)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione un método de pago.",
+                    "Método de pago requerido",
+                    MessageType.Warning);
+
+                return;
+            }
+
             decimal total = ObtenerTotalVenta();
 
             string totalFormateado = total.ToString(
                 "C",
                 System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
 
+            string metodoPago = cmbMetodoPago.SelectedItem.ToString();
+
             DialogResult resultado =
                 FrmMessageBox.Show(
-                    $"¿Desea proceder con el cobro por " +
-                    $"{totalFormateado}?",
-                    "Confirmar cobro",
+                    $"¿Desea confirmar la venta por " +
+                    $"{totalFormateado} mediante {metodoPago}?",
+                    "Confirmar venta",
                     MessageType.Confirmation);
 
             if (resultado != DialogResult.Yes)
                 return;
 
             FrmMessageBox.Show(
-                $"El cobro por {totalFormateado} " +
-                "ha sido preparado correctamente.",
-                "Cobro preparado",
+                $"La venta ha sido preparada correctamente.\n\n" +
+                $"Total: {totalFormateado}\n" +
+                $"Método de pago: {metodoPago}",
+                "Venta preparada",
                 MessageType.Information);
         }
         #endregion
@@ -493,6 +510,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-       
+        private void ConfigurarMetodosPago()
+        {
+            cmbMetodoPago.Items.Clear();
+
+            cmbMetodoPago.Items.Add("Efectivo");
+            cmbMetodoPago.Items.Add("Tarjeta");
+            cmbMetodoPago.Items.Add("Transferencia");
+
+            cmbMetodoPago.SelectedIndex = 0;
+        }
+
     }
 }
