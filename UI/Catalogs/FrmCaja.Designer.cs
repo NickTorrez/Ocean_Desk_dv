@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             pnlEstadoCaja = new Panel();
             lblDetalleCaja = new Label();
             lblEstadoCaja = new Label();
@@ -35,26 +40,32 @@
             pnlResumen = new Panel();
             tlpResumen = new TableLayoutPanel();
             pnlResumenApertura = new Panel();
-            pnlResumenIngresos = new Panel();
-            pnlResumenEgresos = new Panel();
-            pnlResumenEsperado = new Panel();
-            lblTituloApertura = new Label();
             lblValorApertura = new Label();
-            lblTituloIngresos = new Label();
-            lblTituloEgresos = new Label();
-            lblTituloEsperado = new Label();
+            lblTituloApertura = new Label();
+            pnlResumenIngresos = new Panel();
             lblValorIngresos = new Label();
+            lblTituloIngresos = new Label();
+            pnlResumenEgresos = new Panel();
             lblValorEgresos = new Label();
+            lblTituloEgresos = new Label();
+            pnlResumenEsperado = new Panel();
             lblValorEsperado = new Label();
+            lblTituloEsperado = new Label();
             pnlMovimientos = new Panel();
             dgvMovimientosCaja = new DataGridView();
+            colFecha = new DataGridViewTextBoxColumn();
+            colTipo = new DataGridViewTextBoxColumn();
+            colConcepto = new DataGridViewTextBoxColumn();
+            colMetodo = new DataGridViewTextBoxColumn();
+            colMonto = new DataGridViewTextBoxColumn();
+            colUsuario = new DataGridViewTextBoxColumn();
             pnlAcciones = new Panel();
-            btnAbrirCaja = new Button();
-            btnRegistrarIngreso = new Button();
-            btnRegistrarEgreso = new Button();
+            pnlCerrar = new Panel();
             btnCerrarCaja = new Button();
             tlpButtons = new TableLayoutPanel();
-            pnlCerrar = new Panel();
+            btnAbrirCaja = new Button();
+            btnRegistrarEgreso = new Button();
+            btnRegistrarIngreso = new Button();
             pnlEstadoCaja.SuspendLayout();
             pnlResumen.SuspendLayout();
             tlpResumen.SuspendLayout();
@@ -65,8 +76,8 @@
             pnlMovimientos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCaja).BeginInit();
             pnlAcciones.SuspendLayout();
-            tlpButtons.SuspendLayout();
             pnlCerrar.SuspendLayout();
+            tlpButtons.SuspendLayout();
             SuspendLayout();
             // 
             // pnlEstadoCaja
@@ -166,6 +177,28 @@
             pnlResumenApertura.Size = new Size(225, 75);
             pnlResumenApertura.TabIndex = 0;
             // 
+            // lblValorApertura
+            // 
+            lblValorApertura.Dock = DockStyle.Fill;
+            lblValorApertura.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblValorApertura.ForeColor = Color.FromArgb(8, 31, 63);
+            lblValorApertura.Location = new Point(12, 32);
+            lblValorApertura.Name = "lblValorApertura";
+            lblValorApertura.Size = new Size(201, 31);
+            lblValorApertura.TabIndex = 1;
+            lblValorApertura.Text = "C$ 0.00";
+            // 
+            // lblTituloApertura
+            // 
+            lblTituloApertura.Dock = DockStyle.Top;
+            lblTituloApertura.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTituloApertura.ForeColor = Color.FromArgb(111, 119, 128);
+            lblTituloApertura.Location = new Point(12, 12);
+            lblTituloApertura.Name = "lblTituloApertura";
+            lblTituloApertura.Size = new Size(201, 20);
+            lblTituloApertura.TabIndex = 0;
+            lblTituloApertura.Text = "Apertura";
+            // 
             // pnlResumenIngresos
             // 
             pnlResumenIngresos.BackColor = Color.White;
@@ -178,6 +211,28 @@
             pnlResumenIngresos.Padding = new Padding(12);
             pnlResumenIngresos.Size = new Size(225, 75);
             pnlResumenIngresos.TabIndex = 1;
+            // 
+            // lblValorIngresos
+            // 
+            lblValorIngresos.Dock = DockStyle.Fill;
+            lblValorIngresos.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblValorIngresos.ForeColor = Color.FromArgb(42, 122, 82);
+            lblValorIngresos.Location = new Point(12, 32);
+            lblValorIngresos.Name = "lblValorIngresos";
+            lblValorIngresos.Size = new Size(201, 31);
+            lblValorIngresos.TabIndex = 2;
+            lblValorIngresos.Text = "C$ 0.00";
+            // 
+            // lblTituloIngresos
+            // 
+            lblTituloIngresos.Dock = DockStyle.Top;
+            lblTituloIngresos.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTituloIngresos.ForeColor = Color.FromArgb(111, 119, 128);
+            lblTituloIngresos.Location = new Point(12, 12);
+            lblTituloIngresos.Name = "lblTituloIngresos";
+            lblTituloIngresos.Size = new Size(201, 20);
+            lblTituloIngresos.TabIndex = 2;
+            lblTituloIngresos.Text = "Ingresos";
             // 
             // pnlResumenEgresos
             // 
@@ -192,6 +247,28 @@
             pnlResumenEgresos.Size = new Size(225, 75);
             pnlResumenEgresos.TabIndex = 2;
             // 
+            // lblValorEgresos
+            // 
+            lblValorEgresos.Dock = DockStyle.Fill;
+            lblValorEgresos.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblValorEgresos.ForeColor = Color.FromArgb(163, 61, 61);
+            lblValorEgresos.Location = new Point(12, 32);
+            lblValorEgresos.Name = "lblValorEgresos";
+            lblValorEgresos.Size = new Size(201, 31);
+            lblValorEgresos.TabIndex = 3;
+            lblValorEgresos.Text = "C$ 0.00";
+            // 
+            // lblTituloEgresos
+            // 
+            lblTituloEgresos.Dock = DockStyle.Top;
+            lblTituloEgresos.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTituloEgresos.ForeColor = Color.FromArgb(111, 119, 128);
+            lblTituloEgresos.Location = new Point(12, 12);
+            lblTituloEgresos.Name = "lblTituloEgresos";
+            lblTituloEgresos.Size = new Size(201, 20);
+            lblTituloEgresos.TabIndex = 3;
+            lblTituloEgresos.Text = "Egresos";
+            // 
             // pnlResumenEsperado
             // 
             pnlResumenEsperado.BackColor = Color.White;
@@ -205,49 +282,16 @@
             pnlResumenEsperado.Size = new Size(225, 75);
             pnlResumenEsperado.TabIndex = 3;
             // 
-            // lblTituloApertura
+            // lblValorEsperado
             // 
-            lblTituloApertura.Dock = DockStyle.Top;
-            lblTituloApertura.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTituloApertura.ForeColor = Color.FromArgb(111, 119, 128);
-            lblTituloApertura.Location = new Point(12, 12);
-            lblTituloApertura.Name = "lblTituloApertura";
-            lblTituloApertura.Size = new Size(201, 20);
-            lblTituloApertura.TabIndex = 0;
-            lblTituloApertura.Text = "Apertura";
-            // 
-            // lblValorApertura
-            // 
-            lblValorApertura.Dock = DockStyle.Fill;
-            lblValorApertura.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblValorApertura.ForeColor = Color.FromArgb(8, 31, 63);
-            lblValorApertura.Location = new Point(12, 32);
-            lblValorApertura.Name = "lblValorApertura";
-            lblValorApertura.Size = new Size(201, 31);
-            lblValorApertura.TabIndex = 1;
-            lblValorApertura.Text = "C$ 0.00";
-            // 
-            // lblTituloIngresos
-            // 
-            lblTituloIngresos.Dock = DockStyle.Top;
-            lblTituloIngresos.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTituloIngresos.ForeColor = Color.FromArgb(111, 119, 128);
-            lblTituloIngresos.Location = new Point(12, 12);
-            lblTituloIngresos.Name = "lblTituloIngresos";
-            lblTituloIngresos.Size = new Size(201, 20);
-            lblTituloIngresos.TabIndex = 2;
-            lblTituloIngresos.Text = "Ingresos";
-            // 
-            // lblTituloEgresos
-            // 
-            lblTituloEgresos.Dock = DockStyle.Top;
-            lblTituloEgresos.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTituloEgresos.ForeColor = Color.FromArgb(111, 119, 128);
-            lblTituloEgresos.Location = new Point(12, 12);
-            lblTituloEgresos.Name = "lblTituloEgresos";
-            lblTituloEgresos.Size = new Size(201, 20);
-            lblTituloEgresos.TabIndex = 3;
-            lblTituloEgresos.Text = "Egresos";
+            lblValorEsperado.Dock = DockStyle.Fill;
+            lblValorEsperado.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblValorEsperado.ForeColor = Color.FromArgb(8, 126, 164);
+            lblValorEsperado.Location = new Point(12, 32);
+            lblValorEsperado.Name = "lblValorEsperado";
+            lblValorEsperado.Size = new Size(201, 31);
+            lblValorEsperado.TabIndex = 4;
+            lblValorEsperado.Text = "C$ 0.00";
             // 
             // lblTituloEsperado
             // 
@@ -260,49 +304,15 @@
             lblTituloEsperado.TabIndex = 4;
             lblTituloEsperado.Text = "Esperado";
             // 
-            // lblValorIngresos
-            // 
-            lblValorIngresos.Dock = DockStyle.Fill;
-            lblValorIngresos.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblValorIngresos.ForeColor = Color.FromArgb(42, 122, 82);
-            lblValorIngresos.Location = new Point(12, 32);
-            lblValorIngresos.Name = "lblValorIngresos";
-            lblValorIngresos.Size = new Size(201, 31);
-            lblValorIngresos.TabIndex = 2;
-            lblValorIngresos.Text = "C$ 0.00";
-            // 
-            // lblValorEgresos
-            // 
-            lblValorEgresos.Dock = DockStyle.Fill;
-            lblValorEgresos.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblValorEgresos.ForeColor = Color.FromArgb(163, 61, 61);
-            lblValorEgresos.Location = new Point(12, 32);
-            lblValorEgresos.Name = "lblValorEgresos";
-            lblValorEgresos.Size = new Size(201, 31);
-            lblValorEgresos.TabIndex = 3;
-            lblValorEgresos.Text = "C$ 0.00";
-            // 
-            // lblValorEsperado
-            // 
-            lblValorEsperado.Dock = DockStyle.Fill;
-            lblValorEsperado.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblValorEsperado.ForeColor = Color.FromArgb(8, 126, 164);
-            lblValorEsperado.Location = new Point(12, 32);
-            lblValorEsperado.Name = "lblValorEsperado";
-            lblValorEsperado.Size = new Size(201, 31);
-            lblValorEsperado.TabIndex = 4;
-            lblValorEsperado.Text = "C$ 0.00";
-            // 
             // pnlMovimientos
             // 
             pnlMovimientos.BackColor = Color.Transparent;
             pnlMovimientos.Controls.Add(dgvMovimientosCaja);
-            pnlMovimientos.Controls.Add(pnlAcciones);
             pnlMovimientos.Dock = DockStyle.Fill;
             pnlMovimientos.Location = new Point(0, 175);
             pnlMovimientos.Name = "pnlMovimientos";
-            pnlMovimientos.Padding = new Padding(0, 0, 0, 10);
-            pnlMovimientos.Size = new Size(940, 655);
+            pnlMovimientos.Padding = new Padding(3, 0, 3, 10);
+            pnlMovimientos.Size = new Size(940, 590);
             pnlMovimientos.TabIndex = 2;
             // 
             // dgvMovimientosCaja
@@ -310,20 +320,105 @@
             dgvMovimientosCaja.AllowUserToAddRows = false;
             dgvMovimientosCaja.AllowUserToDeleteRows = false;
             dgvMovimientosCaja.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle1.SelectionBackColor = Color.LightCyan;
+            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dgvMovimientosCaja.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvMovimientosCaja.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvMovimientosCaja.BackgroundColor = Color.White;
             dgvMovimientosCaja.BorderStyle = BorderStyle.None;
+            dgvMovimientosCaja.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvMovimientosCaja.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvMovimientosCaja.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMovimientosCaja.Columns.AddRange(new DataGridViewColumn[] { colFecha, colTipo, colConcepto, colMetodo, colMonto, colUsuario });
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvMovimientosCaja.DefaultCellStyle = dataGridViewCellStyle3;
             dgvMovimientosCaja.Dock = DockStyle.Fill;
             dgvMovimientosCaja.EnableHeadersVisualStyles = false;
-            dgvMovimientosCaja.Location = new Point(0, 0);
+            dgvMovimientosCaja.GridColor = Color.FromArgb(230, 234, 238);
+            dgvMovimientosCaja.Location = new Point(3, 0);
             dgvMovimientosCaja.MultiSelect = false;
             dgvMovimientosCaja.Name = "dgvMovimientosCaja";
             dgvMovimientosCaja.ReadOnly = true;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgvMovimientosCaja.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgvMovimientosCaja.RowHeadersVisible = false;
             dgvMovimientosCaja.RowHeadersWidth = 51;
+            dataGridViewCellStyle5.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle5;
             dgvMovimientosCaja.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMovimientosCaja.Size = new Size(940, 580);
+            dgvMovimientosCaja.Size = new Size(934, 580);
             dgvMovimientosCaja.TabIndex = 0;
+            // 
+            // colFecha
+            // 
+            colFecha.FillWeight = 15F;
+            colFecha.HeaderText = "Fecha";
+            colFecha.MinimumWidth = 6;
+            colFecha.Name = "colFecha";
+            colFecha.ReadOnly = true;
+            // 
+            // colTipo
+            // 
+            colTipo.FillWeight = 15F;
+            colTipo.HeaderText = "Tipo";
+            colTipo.MinimumWidth = 6;
+            colTipo.Name = "colTipo";
+            colTipo.ReadOnly = true;
+            // 
+            // colConcepto
+            // 
+            colConcepto.FillWeight = 30F;
+            colConcepto.HeaderText = "Concepto";
+            colConcepto.MinimumWidth = 6;
+            colConcepto.Name = "colConcepto";
+            colConcepto.ReadOnly = true;
+            // 
+            // colMetodo
+            // 
+            colMetodo.FillWeight = 15F;
+            colMetodo.HeaderText = "Método";
+            colMetodo.MinimumWidth = 6;
+            colMetodo.Name = "colMetodo";
+            colMetodo.ReadOnly = true;
+            // 
+            // colMonto
+            // 
+            colMonto.FillWeight = 15F;
+            colMonto.HeaderText = "Monto";
+            colMonto.MinimumWidth = 6;
+            colMonto.Name = "colMonto";
+            colMonto.ReadOnly = true;
+            // 
+            // colUsuario
+            // 
+            colUsuario.FillWeight = 10F;
+            colUsuario.HeaderText = "Usuario";
+            colUsuario.MinimumWidth = 6;
+            colUsuario.Name = "colUsuario";
+            colUsuario.ReadOnly = true;
             // 
             // pnlAcciones
             // 
@@ -331,56 +426,20 @@
             pnlAcciones.Controls.Add(pnlCerrar);
             pnlAcciones.Controls.Add(tlpButtons);
             pnlAcciones.Dock = DockStyle.Bottom;
-            pnlAcciones.Location = new Point(0, 580);
+            pnlAcciones.Location = new Point(0, 765);
             pnlAcciones.Name = "pnlAcciones";
-            pnlAcciones.Padding = new Padding(15, 6, 15, 6);
+            pnlAcciones.Padding = new Padding(15, 6, 15, 8);
             pnlAcciones.Size = new Size(940, 65);
             pnlAcciones.TabIndex = 1;
             // 
-            // btnAbrirCaja
+            // pnlCerrar
             // 
-            btnAbrirCaja.BackColor = Color.FromArgb(238, 243, 247);
-            btnAbrirCaja.Dock = DockStyle.Fill;
-            btnAbrirCaja.FlatAppearance.BorderSize = 0;
-            btnAbrirCaja.FlatStyle = FlatStyle.Flat;
-            btnAbrirCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAbrirCaja.ForeColor = Color.FromArgb(8, 31, 63);
-            btnAbrirCaja.Location = new Point(3, 3);
-            btnAbrirCaja.Name = "btnAbrirCaja";
-            btnAbrirCaja.Size = new Size(127, 47);
-            btnAbrirCaja.TabIndex = 0;
-            btnAbrirCaja.Text = "ABRIR CAJA";
-            btnAbrirCaja.UseVisualStyleBackColor = false;
-            // 
-            // btnRegistrarIngreso
-            // 
-            btnRegistrarIngreso.BackColor = Color.FromArgb(238, 243, 247);
-            btnRegistrarIngreso.Dock = DockStyle.Fill;
-            btnRegistrarIngreso.FlatAppearance.BorderSize = 0;
-            btnRegistrarIngreso.FlatStyle = FlatStyle.Flat;
-            btnRegistrarIngreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRegistrarIngreso.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarIngreso.Location = new Point(136, 3);
-            btnRegistrarIngreso.Name = "btnRegistrarIngreso";
-            btnRegistrarIngreso.Size = new Size(127, 47);
-            btnRegistrarIngreso.TabIndex = 1;
-            btnRegistrarIngreso.Text = "INGRESO";
-            btnRegistrarIngreso.UseVisualStyleBackColor = false;
-            // 
-            // btnRegistrarEgreso
-            // 
-            btnRegistrarEgreso.BackColor = Color.FromArgb(238, 243, 247);
-            btnRegistrarEgreso.Dock = DockStyle.Fill;
-            btnRegistrarEgreso.FlatAppearance.BorderSize = 0;
-            btnRegistrarEgreso.FlatStyle = FlatStyle.Flat;
-            btnRegistrarEgreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRegistrarEgreso.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarEgreso.Location = new Point(269, 3);
-            btnRegistrarEgreso.Name = "btnRegistrarEgreso";
-            btnRegistrarEgreso.Size = new Size(128, 47);
-            btnRegistrarEgreso.TabIndex = 2;
-            btnRegistrarEgreso.Text = "EGRESO";
-            btnRegistrarEgreso.UseVisualStyleBackColor = false;
+            pnlCerrar.Controls.Add(btnCerrarCaja);
+            pnlCerrar.Dock = DockStyle.Right;
+            pnlCerrar.Location = new Point(725, 6);
+            pnlCerrar.Name = "pnlCerrar";
+            pnlCerrar.Size = new Size(200, 51);
+            pnlCerrar.TabIndex = 5;
             // 
             // btnCerrarCaja
             // 
@@ -392,7 +451,7 @@
             btnCerrarCaja.ForeColor = Color.White;
             btnCerrarCaja.Location = new Point(0, 0);
             btnCerrarCaja.Name = "btnCerrarCaja";
-            btnCerrarCaja.Size = new Size(150, 53);
+            btnCerrarCaja.Size = new Size(200, 51);
             btnCerrarCaja.TabIndex = 3;
             btnCerrarCaja.Text = "CERRAR CAJA";
             btnCerrarCaja.UseVisualStyleBackColor = false;
@@ -408,22 +467,58 @@
             tlpButtons.Controls.Add(btnRegistrarIngreso, 1, 0);
             tlpButtons.Dock = DockStyle.Left;
             tlpButtons.Location = new Point(15, 6);
-            tlpButtons.Margin = new Padding(5, 3, 3, 3);
+            tlpButtons.Margin = new Padding(10, 3, 3, 3);
             tlpButtons.Name = "tlpButtons";
             tlpButtons.RowCount = 1;
             tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpButtons.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpButtons.Size = new Size(400, 53);
+            tlpButtons.Size = new Size(450, 51);
             tlpButtons.TabIndex = 4;
             // 
-            // pnlCerrar
+            // btnAbrirCaja
             // 
-            pnlCerrar.Controls.Add(btnCerrarCaja);
-            pnlCerrar.Dock = DockStyle.Right;
-            pnlCerrar.Location = new Point(775, 6);
-            pnlCerrar.Name = "pnlCerrar";
-            pnlCerrar.Size = new Size(150, 53);
-            pnlCerrar.TabIndex = 5;
+            btnAbrirCaja.BackColor = Color.FromArgb(238, 243, 247);
+            btnAbrirCaja.Dock = DockStyle.Fill;
+            btnAbrirCaja.FlatAppearance.BorderSize = 0;
+            btnAbrirCaja.FlatStyle = FlatStyle.Flat;
+            btnAbrirCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAbrirCaja.ForeColor = Color.FromArgb(8, 31, 63);
+            btnAbrirCaja.Location = new Point(3, 3);
+            btnAbrirCaja.Name = "btnAbrirCaja";
+            btnAbrirCaja.Size = new Size(143, 45);
+            btnAbrirCaja.TabIndex = 0;
+            btnAbrirCaja.Text = "ABRIR CAJA";
+            btnAbrirCaja.UseVisualStyleBackColor = false;
+            // 
+            // btnRegistrarEgreso
+            // 
+            btnRegistrarEgreso.BackColor = Color.FromArgb(238, 243, 247);
+            btnRegistrarEgreso.Dock = DockStyle.Fill;
+            btnRegistrarEgreso.FlatAppearance.BorderSize = 0;
+            btnRegistrarEgreso.FlatStyle = FlatStyle.Flat;
+            btnRegistrarEgreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegistrarEgreso.ForeColor = Color.FromArgb(8, 31, 63);
+            btnRegistrarEgreso.Location = new Point(301, 3);
+            btnRegistrarEgreso.Name = "btnRegistrarEgreso";
+            btnRegistrarEgreso.Size = new Size(146, 45);
+            btnRegistrarEgreso.TabIndex = 2;
+            btnRegistrarEgreso.Text = "EGRESO";
+            btnRegistrarEgreso.UseVisualStyleBackColor = false;
+            // 
+            // btnRegistrarIngreso
+            // 
+            btnRegistrarIngreso.BackColor = Color.FromArgb(238, 243, 247);
+            btnRegistrarIngreso.Dock = DockStyle.Fill;
+            btnRegistrarIngreso.FlatAppearance.BorderSize = 0;
+            btnRegistrarIngreso.FlatStyle = FlatStyle.Flat;
+            btnRegistrarIngreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegistrarIngreso.ForeColor = Color.FromArgb(8, 31, 63);
+            btnRegistrarIngreso.Location = new Point(152, 3);
+            btnRegistrarIngreso.Name = "btnRegistrarIngreso";
+            btnRegistrarIngreso.Size = new Size(143, 45);
+            btnRegistrarIngreso.TabIndex = 1;
+            btnRegistrarIngreso.Text = "INGRESO";
+            btnRegistrarIngreso.UseVisualStyleBackColor = false;
             // 
             // FrmCaja
             // 
@@ -432,6 +527,7 @@
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
             Controls.Add(pnlMovimientos);
+            Controls.Add(pnlAcciones);
             Controls.Add(pnlResumen);
             Controls.Add(pnlEstadoCaja);
             FormBorderStyle = FormBorderStyle.None;
@@ -447,8 +543,8 @@
             pnlMovimientos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCaja).EndInit();
             pnlAcciones.ResumeLayout(false);
-            tlpButtons.ResumeLayout(false);
             pnlCerrar.ResumeLayout(false);
+            tlpButtons.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -481,5 +577,11 @@
         private Button btnCerrarCaja;
         private TableLayoutPanel tlpButtons;
         private Panel pnlCerrar;
+        private DataGridViewTextBoxColumn colFecha;
+        private DataGridViewTextBoxColumn colTipo;
+        private DataGridViewTextBoxColumn colConcepto;
+        private DataGridViewTextBoxColumn colMetodo;
+        private DataGridViewTextBoxColumn colMonto;
+        private DataGridViewTextBoxColumn colUsuario;
     }
 }

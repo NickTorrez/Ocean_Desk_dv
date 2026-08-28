@@ -270,6 +270,12 @@ namespace Ocean_Desk_dv.UI
         private void btnCaja_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnCaja);
+
+            lblSeccion.Text = "Manejo de Caja";
+            lblSubtitulo.Text = "Entrada, salida y cierre diario de dinero";
+
+            FrmCaja caja = new FrmCaja();
+            AbrirFormularioEnPanel(caja);
         }
 
         private void btnPromociones_Click(object sender, EventArgs e)

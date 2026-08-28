@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ocean_Desk_dv.UI.Models;
+using Ocean_Desk_dv.UI.MessageBox;
 
 namespace Ocean_Desk_dv.UI.Catalogs
 {
@@ -29,7 +30,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         #region Metodos para Cargar y Mostrar Facturas de Prueba
         private void MostrarFacturas()
         {
-            dgvFacturas.DataSource = null;  
+            dgvFacturas.DataSource = null;
             dgvFacturas.DataSource = _facturas;
 
             dgvFacturas.CurrentCell = null;
@@ -346,5 +347,90 @@ namespace Ocean_Desk_dv.UI.Catalogs
             dtpFechaHasta.Value = DateTime.Today;
         }
         #endregion
+
+        private void btnVerDetalle_Click(object sender, EventArgs e)
+        {
+            if (dgvFacturas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una factura para consultar su detalle.",
+                    "Factura no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            // Aquí posteriormente mostraremos el detalle.
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            if (dgvFacturas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una factura para imprimir el comprobante.",
+                    "Factura no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            // La impresión real se implementara posteriormente.
+        }
+
+        private void btnAnular_Click(object sender, EventArgs e)
+        {
+            if (dgvFacturas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una factura para realizar la anulación.",
+                    "Factura no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DataGridViewRow fila = dgvFacturas.SelectedRows[0];
+
+            FacturaPrueba factura = fila.DataBoundItem as FacturaPrueba;
+
+            if (factura == null)
+            {
+                FrmMessageBox.Show(
+                    "No fue posible obtener la información de la factura seleccionada.",
+                    "Error",
+                    MessageType.Error);
+
+                return;
+            }
+
+            if (factura.Estado == "Anulada")
+            {
+                FrmMessageBox.Show(
+                    "La factura seleccionada ya se encuentra anulada.",
+                    "Factura anulada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DialogResult resultado =
+                FrmMessageBox.Show(
+                    $"¿Desea anular la factura {factura.NumeroFactura}?",
+                    "Confirmar anulación",
+                    MessageType.Confirmation);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            factura.Estado = "Anulada";
+
+            MostrarFacturas();
+
+            FrmMessageBox.Show(
+                $"La factura {factura.NumeroFactura} ha sido anulada correctamente.",
+                "Anulación realizada",
+                MessageType.Information);
+        }
     }
 }
