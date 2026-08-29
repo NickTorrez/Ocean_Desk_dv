@@ -12,6 +12,9 @@ namespace Ocean_Desk_dv.UI.MessageBox
 {
     public partial class FrmMessageBox : Form
     {
+        private const int AlturaBase = 230;
+        private const int AlturaMaxima = 360;
+
         #region Propiedades
         private MessageType _messageType;
 
@@ -34,6 +37,9 @@ namespace Ocean_Desk_dv.UI.MessageBox
 
             ConfigurarTipo(type);
             ConfigurarBotones(type);
+
+            Shown += FrmMessageBox_Shown;
+
         }
         #endregion  
 
@@ -117,6 +123,34 @@ namespace Ocean_Desk_dv.UI.MessageBox
                 return form.ShowDialog();
             }
         }
+
+        private void AjustarAlturaMensaje()
+        {
+            using (Graphics g = lblMessage.CreateGraphics())
+            {
+                SizeF tamañoTexto = g.MeasureString(
+                    lblMessage.Text,
+                    lblMessage.Font,
+                    lblMessage.Width);
+
+                int alturaNecesaria =
+                    (int)Math.Ceiling(tamañoTexto.Height) + 10;
+
+                int alturaMinima = 55;
+                int alturaMaxima = 180;
+
+                pnlBody.Height = Math.Max(
+                    alturaMinima,
+                    Math.Min(
+                        alturaNecesaria,
+                        alturaMaxima));
+
+                Height =
+                    pnlHeader.Height +
+                    pnlBody.Height +
+                    pnlFooter.Height;
+            }
+        }
         #endregion
 
         #region Eventos de Buttons Aceptar y Cancelar
@@ -130,7 +164,7 @@ namespace Ocean_Desk_dv.UI.MessageBox
             {
                 DialogResult = DialogResult.OK;
             }
-                
+
             Close();
         }
 
@@ -148,5 +182,10 @@ namespace Ocean_Desk_dv.UI.MessageBox
             Close();
         }
         #endregion
+
+        private void FrmMessageBox_Shown(object sender, EventArgs e)
+        {
+            AjustarAlturaMensaje();
+        }
     }
 }

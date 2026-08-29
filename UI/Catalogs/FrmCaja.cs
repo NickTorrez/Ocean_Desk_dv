@@ -17,6 +17,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
     {
         private readonly List<MovimientoCajaPrueba> _movimientos = new List<MovimientoCajaPrueba>();
 
+        private readonly List<CierreCajaPrueba> _historialCierres = new List<CierreCajaPrueba>();
+
         private bool _cajaAbierta = true;
 
         public FrmCaja()
@@ -126,7 +128,52 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Cambios en el panel de estado de caja y botones
+        #region Crear datos de historial de prueba
+        private void CargarHistorialCierresPrueba()
+        {
+            _historialCierres.Clear();
+
+            _historialCierres.Add(
+                new CierreCajaPrueba
+                {
+                    FechaCierre = DateTime.Today.AddDays(-1)
+                        .AddHours(20)
+                        .AddMinutes(15),
+
+                    EfectivoEsperado = 5250.00m,
+                    EfectivoReal = 5250.00m,
+                    Diferencia = 0,
+                    Usuario = "Administrador"
+                });
+
+            _historialCierres.Add(
+                new CierreCajaPrueba
+                {
+                    FechaCierre = DateTime.Today.AddDays(-2)
+                        .AddHours(20)
+                        .AddMinutes(30),
+
+                    EfectivoEsperado = 4800.00m,
+                    EfectivoReal = 4775.00m,
+                    Diferencia = -25.00m,
+                    Usuario = "Cajero"
+                });
+
+            _historialCierres.Add(
+                new CierreCajaPrueba
+                {
+                    FechaCierre = DateTime.Today.AddDays(-3)
+                        .AddHours(21),
+
+                    EfectivoEsperado = 6100.00m,
+                    EfectivoReal = 6170.00m,
+                    Diferencia = 70.00m,
+                    Usuario = "Administrador"
+                });
+        }
+        #endregion
+
+        #region Color y Comportamiento en el panel de estado de caja y botones de acciones
         private void ActualizarEstadoCaja()
         {
             lblEstadoCaja.Text =
@@ -215,7 +262,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Eventos de Botones
+        #region Eventos y Funciones de los Botones
         private void btnAbrirCaja_Click(object sender, EventArgs e)
         {
             DialogResult resultado =
@@ -239,30 +286,107 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private void btnCerrarCaja_Click(object sender, EventArgs e)
         {
+            if (!_cajaAbierta)
+                return;
+
             decimal efectivoEsperado = ObtenerEfectivoEsperado();
 
-            string monto = efectivoEsperado.ToString(
-                "C",
-                System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            string esperadoFormateado = efectivoEsperado.ToString(
+                    "C",
+                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
 
-            DialogResult resultado =
+            string efectivoTexto =
+                Interaction.InputBox(
+                    $"Efectivo esperado: {esperadoFormateado}\n\n" +
+                    "Ingrese el efectivo contado físicamente:",
+                    "Conteo de efectivo");
+
+            if (string.IsNullOrWhiteSpace(efectivoTexto))
+                return;
+
+            if (!decimal.TryParse(
+                efectivoTexto,
+                out decimal efectivoReal))
+            {
                 FrmMessageBox.Show(
-                    $"¿Desea cerrar la caja?\n\n" +
-                    $"Efectivo esperado: {monto}",
-                    "Cerrar caja",
+                    "Ingrese un monto válido.",
+                    "Monto inválido",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            if (efectivoReal < 0)
+            {
+                FrmMessageBox.Show(
+                    "El efectivo contado no puede ser negativo.",
+                    "Monto inválido",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            decimal diferencia = efectivoReal - efectivoEsperado;
+
+            MostrarResumenCierre(efectivoEsperado,efectivoReal,diferencia);
+        }
+
+        private void MostrarResumenCierre(decimal efectivoEsperado,decimal efectivoReal,decimal diferencia)
+        {
+            string esperado = efectivoEsperado.ToString(
+                    "C",
+                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            string real = efectivoReal.ToString(
+                    "C",
+                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            string diferenciaTexto = diferencia.ToString(
+                    "C",
+                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
+            string mensaje =
+                $"Efectivo esperado: {esperado}\n" +
+                $"Efectivo contado: {real}\n" +
+                $"Diferencia: {diferenciaTexto}\n\n" +
+                "¿Desea confirmar el cierre de caja?";
+
+            DialogResult resultado = FrmMessageBox.Show(
+                    mensaje,
+                    "Resumen de cierre",
                     MessageType.Confirmation);
 
             if (resultado != DialogResult.Yes)
                 return;
 
+            FinalizarCierreCaja(efectivoEsperado,efectivoReal,diferencia);
+        }
+
+        private void FinalizarCierreCaja(decimal efectivoEsperado,decimal efectivoReal,decimal diferencia)
+        {
             _cajaAbierta = false;
 
+            lblValorEsperado.Text = efectivoEsperado.ToString(
+                    "C",
+                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+
             ActualizarEstadoCaja();
+
+            ActualizarResumenCaja();
 
             FrmMessageBox.Show(
                 "La caja ha sido cerrada correctamente.",
                 "Caja cerrada",
                 MessageType.Information);
+
+            _historialCierres.Add(new CierreCajaPrueba
+            {
+                FechaCierre = DateTime.Now,
+                EfectivoEsperado = efectivoEsperado,
+                EfectivoReal = efectivoReal,
+                Diferencia = diferencia,
+                Usuario = "Administrador"
+            });
         }
 
         private decimal ObtenerEfectivoEsperado()
