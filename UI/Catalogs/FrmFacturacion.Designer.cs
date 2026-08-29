@@ -349,9 +349,9 @@
             dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = Color.White;
             dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.ForeColor = Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
             dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
             dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dgvFacturas.RowHeadersVisible = false;

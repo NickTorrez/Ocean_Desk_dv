@@ -30,9 +30,15 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnlEstadoCaja = new Panel();
             lblDetalleCaja = new Label();
             lblEstadoCaja = new Label();
@@ -101,6 +107,7 @@
             lblDetalleCaja.ForeColor = Color.FromArgb(111, 119, 128);
             lblDetalleCaja.Location = new Point(225, 10);
             lblDetalleCaja.Name = "lblDetalleCaja";
+            lblDetalleCaja.Padding = new Padding(5, 0, 0, 0);
             lblDetalleCaja.Size = new Size(700, 50);
             lblDetalleCaja.TabIndex = 2;
             lblDetalleCaja.Text = "Apertura: 26/08/2026 08:00 a. m.";
@@ -341,14 +348,14 @@
             dgvMovimientosCaja.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvMovimientosCaja.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMovimientosCaja.Columns.AddRange(new DataGridViewColumn[] { colFecha, colTipo, colConcepto, colMetodo, colMonto, colUsuario });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvMovimientosCaja.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dgvMovimientosCaja.DefaultCellStyle = dataGridViewCellStyle9;
             dgvMovimientosCaja.Dock = DockStyle.Fill;
             dgvMovimientosCaja.EnableHeadersVisualStyles = false;
             dgvMovimientosCaja.GridColor = Color.FromArgb(230, 234, 238);
@@ -356,24 +363,29 @@
             dgvMovimientosCaja.MultiSelect = false;
             dgvMovimientosCaja.Name = "dgvMovimientosCaja";
             dgvMovimientosCaja.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvMovimientosCaja.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.Control;
+            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dgvMovimientosCaja.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dgvMovimientosCaja.RowHeadersVisible = false;
             dgvMovimientosCaja.RowHeadersWidth = 51;
-            dataGridViewCellStyle5.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvMovimientosCaja.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvMovimientosCaja.Size = new Size(934, 580);
             dgvMovimientosCaja.TabIndex = 0;
             // 
             // colFecha
             // 
+            colFecha.DataPropertyName = "Fecha";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle3;
             colFecha.FillWeight = 15F;
             colFecha.HeaderText = "Fecha";
             colFecha.MinimumWidth = 6;
@@ -382,6 +394,9 @@
             // 
             // colTipo
             // 
+            colTipo.DataPropertyName = "Tipo";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle4;
             colTipo.FillWeight = 15F;
             colTipo.HeaderText = "Tipo";
             colTipo.MinimumWidth = 6;
@@ -390,6 +405,9 @@
             // 
             // colConcepto
             // 
+            colConcepto.DataPropertyName = "Concepto";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colConcepto.DefaultCellStyle = dataGridViewCellStyle5;
             colConcepto.FillWeight = 30F;
             colConcepto.HeaderText = "Concepto";
             colConcepto.MinimumWidth = 6;
@@ -398,6 +416,9 @@
             // 
             // colMetodo
             // 
+            colMetodo.DataPropertyName = "MetodoPago";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colMetodo.DefaultCellStyle = dataGridViewCellStyle6;
             colMetodo.FillWeight = 15F;
             colMetodo.HeaderText = "Método";
             colMetodo.MinimumWidth = 6;
@@ -406,6 +427,11 @@
             // 
             // colMonto
             // 
+            colMonto.DataPropertyName = "Monto";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            colMonto.DefaultCellStyle = dataGridViewCellStyle7;
             colMonto.FillWeight = 15F;
             colMonto.HeaderText = "Monto";
             colMonto.MinimumWidth = 6;
@@ -414,6 +440,9 @@
             // 
             // colUsuario
             // 
+            colUsuario.DataPropertyName = "Usuario";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
             colUsuario.FillWeight = 10F;
             colUsuario.HeaderText = "Usuario";
             colUsuario.MinimumWidth = 6;
@@ -455,6 +484,7 @@
             btnCerrarCaja.TabIndex = 3;
             btnCerrarCaja.Text = "CERRAR CAJA";
             btnCerrarCaja.UseVisualStyleBackColor = false;
+            btnCerrarCaja.Click += btnCerrarCaja_Click;
             // 
             // tlpButtons
             // 
@@ -489,6 +519,7 @@
             btnAbrirCaja.TabIndex = 0;
             btnAbrirCaja.Text = "ABRIR CAJA";
             btnAbrirCaja.UseVisualStyleBackColor = false;
+            btnAbrirCaja.Click += btnAbrirCaja_Click;
             // 
             // btnRegistrarEgreso
             // 
@@ -504,6 +535,7 @@
             btnRegistrarEgreso.TabIndex = 2;
             btnRegistrarEgreso.Text = "EGRESO";
             btnRegistrarEgreso.UseVisualStyleBackColor = false;
+            btnRegistrarEgreso.Click += btnRegistrarEgreso_Click;
             // 
             // btnRegistrarIngreso
             // 
@@ -519,6 +551,7 @@
             btnRegistrarIngreso.TabIndex = 1;
             btnRegistrarIngreso.Text = "INGRESO";
             btnRegistrarIngreso.UseVisualStyleBackColor = false;
+            btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
             // 
             // FrmCaja
             // 

@@ -348,6 +348,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
+        #region MesaggeBoxes para los Botones
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
             if (dgvFacturas.SelectedRows.Count == 0)
@@ -432,5 +433,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 "Anulación realizada",
                 MessageType.Information);
         }
+        #endregion
     }
 }
