@@ -385,7 +385,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 EfectivoEsperado = efectivoEsperado,
                 EfectivoReal = efectivoReal,
                 Diferencia = diferencia,
-                Usuario = "Administrador"
+                Usuario = "Adm  inistrador"
             });
         }
 

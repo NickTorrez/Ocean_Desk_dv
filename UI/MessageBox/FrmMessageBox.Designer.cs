@@ -103,12 +103,13 @@
             // 
             // pnlBody
             // 
+            pnlBody.AutoSize = true;
             pnlBody.BackColor = Color.White;
             pnlBody.Controls.Add(lblMessage);
             pnlBody.Dock = DockStyle.Fill;
             pnlBody.Location = new Point(0, 52);
             pnlBody.Name = "pnlBody";
-            pnlBody.Padding = new Padding(20, 15, 20, 10);
+            pnlBody.Padding = new Padding(20, 10, 20, 10);
             pnlBody.Size = new Size(460, 118);
             pnlBody.TabIndex = 1;
             // 
@@ -117,9 +118,10 @@
             lblMessage.Dock = DockStyle.Fill;
             lblMessage.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblMessage.ForeColor = Color.FromArgb(62, 70, 80);
-            lblMessage.Location = new Point(20, 15);
+            lblMessage.Location = new Point(20, 10);
+            lblMessage.Margin = new Padding(0);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(420, 93);
+            lblMessage.Size = new Size(420, 98);
             lblMessage.TabIndex = 0;
             lblMessage.Text = "Ingrese su nombre de usuario.";
             lblMessage.TextAlign = ContentAlignment.MiddleLeft;
@@ -215,6 +217,7 @@
             pnlFooter.ResumeLayout(false);
             pnlButtons.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

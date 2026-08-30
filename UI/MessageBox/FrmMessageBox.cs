@@ -12,8 +12,7 @@ namespace Ocean_Desk_dv.UI.MessageBox
 {
     public partial class FrmMessageBox : Form
     {
-        private const int AlturaBase = 230;
-        private const int AlturaMaxima = 360;
+        private const int AlturaMinima = 230;
 
         #region Propiedades
         private MessageType _messageType;
@@ -124,32 +123,34 @@ namespace Ocean_Desk_dv.UI.MessageBox
             }
         }
 
-        private void AjustarAlturaMensaje()
+        private void AjustarTamanoAlMensaje()
         {
-            using (Graphics g = lblMessage.CreateGraphics())
+            const int anchoTexto = 400;
+
+            Size textoMedido = TextRenderer.MeasureText(
+                lblMessage.Text,
+                lblMessage.Font,
+                new Size(anchoTexto, 0),
+                TextFormatFlags.WordBreak);
+
+            int alturaMensaje = textoMedido.Height;
+
+            int alturaFormulario;
+
+            if (alturaMensaje <= 45)
             {
-                SizeF tamañoTexto = g.MeasureString(
-                    lblMessage.Text,
-                    lblMessage.Font,
-                    lblMessage.Width);
-
-                int alturaNecesaria =
-                    (int)Math.Ceiling(tamañoTexto.Height) + 10;
-
-                int alturaMinima = 55;
-                int alturaMaxima = 180;
-
-                pnlBody.Height = Math.Max(
-                    alturaMinima,
-                    Math.Min(
-                        alturaNecesaria,
-                        alturaMaxima));
-
-                Height =
-                    pnlHeader.Height +
-                    pnlBody.Height +
-                    pnlFooter.Height;
+                alturaFormulario = 230;
             }
+            else if (alturaMensaje <= 80)
+            {
+                alturaFormulario = 250;
+            }
+            else
+            {
+                alturaFormulario = 290;
+            }
+
+            Height = alturaFormulario;
         }
         #endregion
 
@@ -181,11 +182,15 @@ namespace Ocean_Desk_dv.UI.MessageBox
 
             Close();
         }
-        #endregion
 
         private void FrmMessageBox_Shown(object sender, EventArgs e)
         {
-            AjustarAlturaMensaje();
+            PerformLayout();
+
+            AjustarTamanoAlMensaje();
+
+            PerformLayout();
         }
+        #endregion
     }
 }

@@ -358,9 +358,9 @@
             dgvFacturas.RowHeadersWidth = 51;
             dataGridViewCellStyle11.BackColor = Color.White;
             dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dataGridViewCellStyle11.ForeColor = Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
             dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvFacturas.RowTemplate.Height = 38;
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

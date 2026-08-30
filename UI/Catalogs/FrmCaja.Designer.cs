@@ -59,12 +59,6 @@
             lblTituloEsperado = new Label();
             pnlMovimientos = new Panel();
             dgvMovimientosCaja = new DataGridView();
-            colFecha = new DataGridViewTextBoxColumn();
-            colTipo = new DataGridViewTextBoxColumn();
-            colConcepto = new DataGridViewTextBoxColumn();
-            colMetodo = new DataGridViewTextBoxColumn();
-            colMonto = new DataGridViewTextBoxColumn();
-            colUsuario = new DataGridViewTextBoxColumn();
             pnlAcciones = new Panel();
             pnlCerrar = new Panel();
             btnCerrarCaja = new Button();
@@ -72,6 +66,12 @@
             btnAbrirCaja = new Button();
             btnRegistrarEgreso = new Button();
             btnRegistrarIngreso = new Button();
+            colFecha = new DataGridViewTextBoxColumn();
+            colTipo = new DataGridViewTextBoxColumn();
+            colConcepto = new DataGridViewTextBoxColumn();
+            colMetodo = new DataGridViewTextBoxColumn();
+            colMonto = new DataGridViewTextBoxColumn();
+            colUsuario = new DataGridViewTextBoxColumn();
             pnlEstadoCaja.SuspendLayout();
             pnlResumen.SuspendLayout();
             tlpResumen.SuspendLayout();
@@ -379,76 +379,6 @@
             dgvMovimientosCaja.Size = new Size(934, 580);
             dgvMovimientosCaja.TabIndex = 0;
             // 
-            // colFecha
-            // 
-            colFecha.DataPropertyName = "Fecha";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Format = "g";
-            dataGridViewCellStyle3.NullValue = null;
-            colFecha.DefaultCellStyle = dataGridViewCellStyle3;
-            colFecha.FillWeight = 15F;
-            colFecha.HeaderText = "Fecha";
-            colFecha.MinimumWidth = 6;
-            colFecha.Name = "colFecha";
-            colFecha.ReadOnly = true;
-            // 
-            // colTipo
-            // 
-            colTipo.DataPropertyName = "Tipo";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTipo.DefaultCellStyle = dataGridViewCellStyle4;
-            colTipo.FillWeight = 15F;
-            colTipo.HeaderText = "Tipo";
-            colTipo.MinimumWidth = 6;
-            colTipo.Name = "colTipo";
-            colTipo.ReadOnly = true;
-            // 
-            // colConcepto
-            // 
-            colConcepto.DataPropertyName = "Concepto";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colConcepto.DefaultCellStyle = dataGridViewCellStyle5;
-            colConcepto.FillWeight = 30F;
-            colConcepto.HeaderText = "Concepto";
-            colConcepto.MinimumWidth = 6;
-            colConcepto.Name = "colConcepto";
-            colConcepto.ReadOnly = true;
-            // 
-            // colMetodo
-            // 
-            colMetodo.DataPropertyName = "MetodoPago";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colMetodo.DefaultCellStyle = dataGridViewCellStyle6;
-            colMetodo.FillWeight = 15F;
-            colMetodo.HeaderText = "Método";
-            colMetodo.MinimumWidth = 6;
-            colMetodo.Name = "colMetodo";
-            colMetodo.ReadOnly = true;
-            // 
-            // colMonto
-            // 
-            colMonto.DataPropertyName = "Monto";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "C2";
-            dataGridViewCellStyle7.NullValue = null;
-            colMonto.DefaultCellStyle = dataGridViewCellStyle7;
-            colMonto.FillWeight = 15F;
-            colMonto.HeaderText = "Monto";
-            colMonto.MinimumWidth = 6;
-            colMonto.Name = "colMonto";
-            colMonto.ReadOnly = true;
-            // 
-            // colUsuario
-            // 
-            colUsuario.DataPropertyName = "Usuario";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
-            colUsuario.FillWeight = 10F;
-            colUsuario.HeaderText = "Usuario";
-            colUsuario.MinimumWidth = 6;
-            colUsuario.Name = "colUsuario";
-            colUsuario.ReadOnly = true;
-            // 
             // pnlAcciones
             // 
             pnlAcciones.BackColor = Color.White;
@@ -552,6 +482,76 @@
             btnRegistrarIngreso.Text = "INGRESO";
             btnRegistrarIngreso.UseVisualStyleBackColor = false;
             btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
+            // 
+            // colFecha
+            // 
+            colFecha.DataPropertyName = "Fecha";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle3;
+            colFecha.FillWeight = 15F;
+            colFecha.HeaderText = "Fecha";
+            colFecha.MinimumWidth = 6;
+            colFecha.Name = "colFecha";
+            colFecha.ReadOnly = true;
+            // 
+            // colTipo
+            // 
+            colTipo.DataPropertyName = "Tipo";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle4;
+            colTipo.FillWeight = 15F;
+            colTipo.HeaderText = "Tipo";
+            colTipo.MinimumWidth = 6;
+            colTipo.Name = "colTipo";
+            colTipo.ReadOnly = true;
+            // 
+            // colConcepto
+            // 
+            colConcepto.DataPropertyName = "Concepto";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colConcepto.DefaultCellStyle = dataGridViewCellStyle5;
+            colConcepto.FillWeight = 30F;
+            colConcepto.HeaderText = "Concepto";
+            colConcepto.MinimumWidth = 6;
+            colConcepto.Name = "colConcepto";
+            colConcepto.ReadOnly = true;
+            // 
+            // colMetodo
+            // 
+            colMetodo.DataPropertyName = "MetodoPago";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colMetodo.DefaultCellStyle = dataGridViewCellStyle6;
+            colMetodo.FillWeight = 15F;
+            colMetodo.HeaderText = "Método";
+            colMetodo.MinimumWidth = 6;
+            colMetodo.Name = "colMetodo";
+            colMetodo.ReadOnly = true;
+            // 
+            // colMonto
+            // 
+            colMonto.DataPropertyName = "Monto";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            colMonto.DefaultCellStyle = dataGridViewCellStyle7;
+            colMonto.FillWeight = 15F;
+            colMonto.HeaderText = "Monto";
+            colMonto.MinimumWidth = 6;
+            colMonto.Name = "colMonto";
+            colMonto.ReadOnly = true;
+            // 
+            // colUsuario
+            // 
+            colUsuario.DataPropertyName = "Usuario";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
+            colUsuario.FillWeight = 10F;
+            colUsuario.HeaderText = "Usuario";
+            colUsuario.MinimumWidth = 6;
+            colUsuario.Name = "colUsuario";
+            colUsuario.ReadOnly = true;
             // 
             // FrmCaja
             // 
