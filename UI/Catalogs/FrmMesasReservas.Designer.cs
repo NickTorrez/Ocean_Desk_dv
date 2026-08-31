@@ -44,6 +44,22 @@
             lblSubtituloMesas = new Label();
             lblTituloMesas = new Label();
             pnlReservas = new Panel();
+            pnlNuevaReserva = new Panel();
+            tlpNuevaReserva = new TableLayoutPanel();
+            lblCliente = new Label();
+            lblFechaReserva = new Label();
+            lblHoraReserva = new Label();
+            lblPersonasReserva = new Label();
+            lblMesaReserva = new Label();
+            txtClienteReserva = new TextBox();
+            dtpFechaNuevaReserva = new DateTimePicker();
+            dtpHoraNuevaReserva = new DateTimePicker();
+            nudPersonas = new NumericUpDown();
+            cmbMesaReserva = new ComboBox();
+            pnlAccionesNuevaReserva = new Panel();
+            btnGuardarNuevaReserva = new Button();
+            btnCancelarNuevaReserva = new Button();
+            lblTituloNuevaReserva = new Label();
             dgvReservas = new DataGridView();
             colReservaCliente = new DataGridViewTextBoxColumn();
             colReservaFecha = new DataGridViewTextBoxColumn();
@@ -79,6 +95,10 @@
             tlpMain.SuspendLayout();
             pnlMesas.SuspendLayout();
             pnlReservas.SuspendLayout();
+            pnlNuevaReserva.SuspendLayout();
+            tlpNuevaReserva.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPersonas).BeginInit();
+            pnlAccionesNuevaReserva.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvReservas).BeginInit();
             pnlAccionesReserva.SuspendLayout();
             tlpAsignacionMesa.SuspendLayout();
@@ -161,6 +181,7 @@
             // pnlReservas
             // 
             pnlReservas.BackColor = Color.White;
+            pnlReservas.Controls.Add(pnlNuevaReserva);
             pnlReservas.Controls.Add(dgvReservas);
             pnlReservas.Controls.Add(pnlAccionesReserva);
             pnlReservas.Controls.Add(pnlFiltrosReservas);
@@ -173,6 +194,221 @@
             pnlReservas.Padding = new Padding(15, 10, 15, 10);
             pnlReservas.Size = new Size(940, 498);
             pnlReservas.TabIndex = 1;
+            // 
+            // pnlNuevaReserva
+            // 
+            pnlNuevaReserva.BackColor = Color.White;
+            pnlNuevaReserva.Controls.Add(tlpNuevaReserva);
+            pnlNuevaReserva.Controls.Add(pnlAccionesNuevaReserva);
+            pnlNuevaReserva.Controls.Add(lblTituloNuevaReserva);
+            pnlNuevaReserva.Location = new Point(650, 24);
+            pnlNuevaReserva.Name = "pnlNuevaReserva";
+            pnlNuevaReserva.Padding = new Padding(22);
+            pnlNuevaReserva.Size = new Size(325, 14);
+            pnlNuevaReserva.TabIndex = 0;
+            pnlNuevaReserva.Visible = false;
+            // 
+            // tlpNuevaReserva
+            // 
+            tlpNuevaReserva.BackColor = Color.Transparent;
+            tlpNuevaReserva.ColumnCount = 2;
+            tlpNuevaReserva.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
+            tlpNuevaReserva.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68F));
+            tlpNuevaReserva.Controls.Add(lblCliente, 0, 0);
+            tlpNuevaReserva.Controls.Add(lblFechaReserva, 0, 1);
+            tlpNuevaReserva.Controls.Add(lblHoraReserva, 0, 2);
+            tlpNuevaReserva.Controls.Add(lblPersonasReserva, 0, 3);
+            tlpNuevaReserva.Controls.Add(lblMesaReserva, 0, 4);
+            tlpNuevaReserva.Controls.Add(txtClienteReserva, 1, 0);
+            tlpNuevaReserva.Controls.Add(dtpFechaNuevaReserva, 1, 1);
+            tlpNuevaReserva.Controls.Add(dtpHoraNuevaReserva, 1, 2);
+            tlpNuevaReserva.Controls.Add(nudPersonas, 1, 3);
+            tlpNuevaReserva.Controls.Add(cmbMesaReserva, 1, 4);
+            tlpNuevaReserva.Dock = DockStyle.Fill;
+            tlpNuevaReserva.Location = new Point(22, 52);
+            tlpNuevaReserva.Name = "tlpNuevaReserva";
+            tlpNuevaReserva.RowCount = 5;
+            tlpNuevaReserva.RowStyles.Add(new RowStyle(SizeType.Percent, 16.66461F));
+            tlpNuevaReserva.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6646118F));
+            tlpNuevaReserva.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6646118F));
+            tlpNuevaReserva.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6646118F));
+            tlpNuevaReserva.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6679459F));
+            tlpNuevaReserva.Size = new Size(281, 0);
+            tlpNuevaReserva.TabIndex = 0;
+            // 
+            // lblCliente
+            // 
+            lblCliente.AutoSize = true;
+            lblCliente.Dock = DockStyle.Fill;
+            lblCliente.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCliente.Location = new Point(3, 0);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new Size(83, 1);
+            lblCliente.TabIndex = 1;
+            lblCliente.Text = "Cliente";
+            lblCliente.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblFechaReserva
+            // 
+            lblFechaReserva.AutoSize = true;
+            lblFechaReserva.Dock = DockStyle.Fill;
+            lblFechaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFechaReserva.Location = new Point(3, 0);
+            lblFechaReserva.Name = "lblFechaReserva";
+            lblFechaReserva.Size = new Size(83, 1);
+            lblFechaReserva.TabIndex = 2;
+            lblFechaReserva.Text = "Fecha";
+            lblFechaReserva.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblHoraReserva
+            // 
+            lblHoraReserva.AutoSize = true;
+            lblHoraReserva.Dock = DockStyle.Fill;
+            lblHoraReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHoraReserva.Location = new Point(3, 0);
+            lblHoraReserva.Name = "lblHoraReserva";
+            lblHoraReserva.Size = new Size(83, 1);
+            lblHoraReserva.TabIndex = 3;
+            lblHoraReserva.Text = "Hora";
+            lblHoraReserva.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblPersonasReserva
+            // 
+            lblPersonasReserva.AutoSize = true;
+            lblPersonasReserva.Dock = DockStyle.Fill;
+            lblPersonasReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPersonasReserva.Location = new Point(3, 0);
+            lblPersonasReserva.Name = "lblPersonasReserva";
+            lblPersonasReserva.Size = new Size(83, 1);
+            lblPersonasReserva.TabIndex = 7;
+            lblPersonasReserva.Text = "Personas";
+            lblPersonasReserva.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblMesaReserva
+            // 
+            lblMesaReserva.AutoSize = true;
+            lblMesaReserva.Dock = DockStyle.Fill;
+            lblMesaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMesaReserva.Location = new Point(3, 0);
+            lblMesaReserva.Name = "lblMesaReserva";
+            lblMesaReserva.Size = new Size(83, 1);
+            lblMesaReserva.TabIndex = 9;
+            lblMesaReserva.Text = "N° Mesa";
+            lblMesaReserva.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txtClienteReserva
+            // 
+            txtClienteReserva.BorderStyle = BorderStyle.FixedSingle;
+            txtClienteReserva.Dock = DockStyle.Fill;
+            txtClienteReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtClienteReserva.Location = new Point(92, 3);
+            txtClienteReserva.Name = "txtClienteReserva";
+            txtClienteReserva.Size = new Size(186, 26);
+            txtClienteReserva.TabIndex = 4;
+            // 
+            // dtpFechaNuevaReserva
+            // 
+            dtpFechaNuevaReserva.Dock = DockStyle.Fill;
+            dtpFechaNuevaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpFechaNuevaReserva.Format = DateTimePickerFormat.Short;
+            dtpFechaNuevaReserva.Location = new Point(92, 3);
+            dtpFechaNuevaReserva.Name = "dtpFechaNuevaReserva";
+            dtpFechaNuevaReserva.Size = new Size(186, 26);
+            dtpFechaNuevaReserva.TabIndex = 5;
+            // 
+            // dtpHoraNuevaReserva
+            // 
+            dtpHoraNuevaReserva.CustomFormat = "HH:mm ";
+            dtpHoraNuevaReserva.Dock = DockStyle.Fill;
+            dtpHoraNuevaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpHoraNuevaReserva.Format = DateTimePickerFormat.Time;
+            dtpHoraNuevaReserva.Location = new Point(92, 3);
+            dtpHoraNuevaReserva.Name = "dtpHoraNuevaReserva";
+            dtpHoraNuevaReserva.ShowUpDown = true;
+            dtpHoraNuevaReserva.Size = new Size(186, 26);
+            dtpHoraNuevaReserva.TabIndex = 6;
+            // 
+            // nudPersonas
+            // 
+            nudPersonas.Dock = DockStyle.Fill;
+            nudPersonas.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            nudPersonas.Location = new Point(92, 3);
+            nudPersonas.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            nudPersonas.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudPersonas.Name = "nudPersonas";
+            nudPersonas.Size = new Size(186, 26);
+            nudPersonas.TabIndex = 8;
+            nudPersonas.TextAlign = HorizontalAlignment.Center;
+            nudPersonas.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // cmbMesaReserva
+            // 
+            cmbMesaReserva.Dock = DockStyle.Fill;
+            cmbMesaReserva.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMesaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbMesaReserva.FormattingEnabled = true;
+            cmbMesaReserva.Location = new Point(92, 3);
+            cmbMesaReserva.Name = "cmbMesaReserva";
+            cmbMesaReserva.Size = new Size(186, 28);
+            cmbMesaReserva.TabIndex = 10;
+            // 
+            // pnlAccionesNuevaReserva
+            // 
+            pnlAccionesNuevaReserva.BackColor = Color.White;
+            pnlAccionesNuevaReserva.Controls.Add(btnGuardarNuevaReserva);
+            pnlAccionesNuevaReserva.Controls.Add(btnCancelarNuevaReserva);
+            pnlAccionesNuevaReserva.Dock = DockStyle.Bottom;
+            pnlAccionesNuevaReserva.ForeColor = Color.FromArgb(8, 31, 63);
+            pnlAccionesNuevaReserva.Location = new Point(22, -63);
+            pnlAccionesNuevaReserva.Name = "pnlAccionesNuevaReserva";
+            pnlAccionesNuevaReserva.Padding = new Padding(0, 8, 0, 0);
+            pnlAccionesNuevaReserva.Size = new Size(281, 55);
+            pnlAccionesNuevaReserva.TabIndex = 1;
+            // 
+            // btnGuardarNuevaReserva
+            // 
+            btnGuardarNuevaReserva.BackColor = Color.FromArgb(8, 126, 164);
+            btnGuardarNuevaReserva.Dock = DockStyle.Right;
+            btnGuardarNuevaReserva.FlatAppearance.BorderSize = 0;
+            btnGuardarNuevaReserva.FlatStyle = FlatStyle.Flat;
+            btnGuardarNuevaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarNuevaReserva.ForeColor = Color.White;
+            btnGuardarNuevaReserva.Location = new Point(121, 8);
+            btnGuardarNuevaReserva.Name = "btnGuardarNuevaReserva";
+            btnGuardarNuevaReserva.Size = new Size(160, 47);
+            btnGuardarNuevaReserva.TabIndex = 1;
+            btnGuardarNuevaReserva.Text = "GUARDAR RESERVA";
+            btnGuardarNuevaReserva.UseVisualStyleBackColor = false;
+            btnGuardarNuevaReserva.Click += btnGuardarNuevaReserva_Click;
+            // 
+            // btnCancelarNuevaReserva
+            // 
+            btnCancelarNuevaReserva.BackColor = Color.FromArgb(238, 243, 247);
+            btnCancelarNuevaReserva.Cursor = Cursors.Hand;
+            btnCancelarNuevaReserva.Dock = DockStyle.Left;
+            btnCancelarNuevaReserva.FlatAppearance.BorderSize = 0;
+            btnCancelarNuevaReserva.FlatStyle = FlatStyle.Flat;
+            btnCancelarNuevaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelarNuevaReserva.Location = new Point(0, 8);
+            btnCancelarNuevaReserva.Name = "btnCancelarNuevaReserva";
+            btnCancelarNuevaReserva.Size = new Size(112, 47);
+            btnCancelarNuevaReserva.TabIndex = 0;
+            btnCancelarNuevaReserva.Text = "CANCELAR";
+            btnCancelarNuevaReserva.UseVisualStyleBackColor = false;
+            btnCancelarNuevaReserva.Click += btnCancelarNuevaReserva_Click;
+            // 
+            // lblTituloNuevaReserva
+            // 
+            lblTituloNuevaReserva.Dock = DockStyle.Top;
+            lblTituloNuevaReserva.Font = new Font("Century Gothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTituloNuevaReserva.ForeColor = Color.FromArgb(8, 31, 63);
+            lblTituloNuevaReserva.Location = new Point(22, 22);
+            lblTituloNuevaReserva.Margin = new Padding(3, 0, 3, 5);
+            lblTituloNuevaReserva.Name = "lblTituloNuevaReserva";
+            lblTituloNuevaReserva.Size = new Size(281, 30);
+            lblTituloNuevaReserva.TabIndex = 0;
+            lblTituloNuevaReserva.Text = "Nueva Reserva";
+            lblTituloNuevaReserva.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // dgvReservas
             // 
@@ -406,6 +642,7 @@
             btnNuevaReserva.TabIndex = 0;
             btnNuevaReserva.Text = "NUEVA RESERVA";
             btnNuevaReserva.UseVisualStyleBackColor = false;
+            btnNuevaReserva.Click += btnNuevaReserva_Click;
             // 
             // pnlFiltrosReservas
             // 
@@ -624,6 +861,11 @@
             tlpMain.ResumeLayout(false);
             pnlMesas.ResumeLayout(false);
             pnlReservas.ResumeLayout(false);
+            pnlNuevaReserva.ResumeLayout(false);
+            tlpNuevaReserva.ResumeLayout(false);
+            tlpNuevaReserva.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPersonas).EndInit();
+            pnlAccionesNuevaReserva.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvReservas).EndInit();
             pnlAccionesReserva.ResumeLayout(false);
             tlpAsignacionMesa.ResumeLayout(false);
@@ -679,5 +921,21 @@
         private DataGridViewTextBoxColumn colReservaPersonas;
         private DataGridViewTextBoxColumn colReservaMesa;
         private DataGridViewTextBoxColumn colReservaEstado;
+        private Panel pnlNuevaReserva;
+        private TableLayoutPanel tlpNuevaReserva;
+        private Label lblTituloNuevaReserva;
+        private Label lblCliente;
+        private Label lblFechaReserva;
+        private Label lblHoraReserva;
+        private TextBox txtClienteReserva;
+        private DateTimePicker dtpFechaNuevaReserva;
+        private DateTimePicker dtpHoraNuevaReserva;
+        private Label lblMesaReserva;
+        private ComboBox cmbMesaReserva;
+        private Label lblPersonasReserva;
+        private NumericUpDown nudPersonas;
+        private Panel pnlAccionesNuevaReserva;
+        private Button btnGuardarNuevaReserva;
+        private Button btnCancelarNuevaReserva;
     }
 }

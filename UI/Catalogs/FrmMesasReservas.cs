@@ -1,5 +1,6 @@
-﻿using Ocean_Desk_dv.UI.Models;
-using Ocean_Desk_dv.UI.Controls;
+﻿using Ocean_Desk_dv.UI.Controls;
+using Ocean_Desk_dv.UI.MessageBox;
+using Ocean_Desk_dv.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -230,8 +231,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             if (e.RowIndex < 0)
                 return;
 
-            if (e.ColumnIndex ==
-                colReservaMesa.Index)
+            if (e.ColumnIndex == colReservaMesa.Index)
             {
                 if (e.Value == null ||
                     e.Value == DBNull.Value)
@@ -246,8 +246,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 if (e.Value == null)
                     return;
 
-                string estado =
-                    e.Value.ToString();
+                string estado = e.Value.ToString();
 
                 if (estado == "Pendiente")
                 {
@@ -286,6 +285,144 @@ namespace Ocean_Desk_dv.UI.Catalogs
                             FontStyle.Bold);
                 }
             }
+        }
+        #endregion
+
+        #region Metodos para Panel de Nueva Reserva
+        private void CargarMesasParaReserva()
+        {
+            cmbMesaReserva.Items.Clear();
+
+            cmbMesaReserva.Items.Add("Sin asignar");
+
+            foreach (Control control in flpMesas.Controls)
+            {
+                if (control is UcMesaCard mesa &&
+                    mesa.Estado == EstadoMesa.Disponible)
+                {
+                    cmbMesaReserva.Items.Add(
+                        $"Mesa {mesa.NumeroMesa:00}");  
+                }
+            }
+
+            if (cmbMesaReserva.Items.Count > 0)
+            {
+                cmbMesaReserva.SelectedIndex = 0;
+            }
+        }
+
+        private void btnNuevaReserva_Click(object sender, EventArgs e)
+        {
+            CargarMesasParaReserva();
+
+            LimpiarFormularioNuevaReserva();
+
+            pnlReservas.Visible = false;
+            pnlNuevaReserva.Visible = true;
+        }
+
+        private void LimpiarFormularioNuevaReserva()
+        {
+            txtClienteReserva.Clear();
+
+            dtpFechaNuevaReserva.Value =
+                DateTime.Today;
+
+            dtpHoraNuevaReserva.Value =
+                DateTime.Today.AddHours(19);
+
+            nudPersonas.Value = 2;
+
+            if (cmbMesaReserva.Items.Count > 0)
+            {
+                cmbMesaReserva.SelectedIndex = 0;
+            }
+            else
+            {
+                cmbMesaReserva.SelectedIndex = -1;
+            }
+        }
+
+        private void btnGuardarNuevaReserva_Click(object sender, EventArgs e)
+        {
+            string cliente = txtClienteReserva.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(cliente))
+            {
+                FrmMessageBox.Show(
+                    "Ingrese el nombre del cliente.",
+                    "Cliente requerido",
+                    MessageType.Warning);
+
+                txtClienteReserva.Focus();
+
+                return;
+            }
+
+            if (dtpFechaNuevaReserva.Value.Date < DateTime.Today)
+            {
+                FrmMessageBox.Show(
+                    "La fecha de la reserva no puede ser anterior a la fecha actual.",
+                    "Fecha inválida",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            string mesaSeleccionada = cmbMesaReserva.SelectedItem?.ToString() ?? "Sin asignar";
+
+            int? mesa = null;
+
+            if (mesaSeleccionada != "Sin asignar")
+            {
+                string numeroTexto =
+                    mesaSeleccionada.Replace("Mesa ", "");
+
+                if (int.TryParse(
+                    numeroTexto,
+                    out int numeroMesa))
+                {
+                    mesa = numeroMesa;
+                }
+            }
+
+            ReservaPrueba nuevaReserva = new ReservaPrueba
+            {
+                ReservaId = _reservas.Count == 0 ? 1 : _reservas.Max(r => r.ReservaId) + 1,
+
+                Cliente = cliente,
+
+                Fecha =
+                        dtpFechaNuevaReserva.Value.Date,
+
+                Hora =
+                        dtpHoraNuevaReserva.Value.TimeOfDay,
+
+                Personas =
+                        (int)nudPersonas.Value,
+
+                Mesa = mesa,
+
+                Estado = "Pendiente"
+            };
+
+            _reservas.Add(nuevaReserva);
+
+            MostrarReservas();
+
+            pnlNuevaReserva.Visible = false;
+            pnlReservas.Visible = true;
+
+            FrmMessageBox.Show(
+                "La reserva ha sido registrada correctamente.",
+                "Reserva registrada",
+                MessageType.Information);
+        }
+
+        private void btnCancelarNuevaReserva_Click(object sender, EventArgs e)
+        {
+            pnlNuevaReserva.Visible = false;
+            pnlReservas.Visible = true;
         }
         #endregion
     }
