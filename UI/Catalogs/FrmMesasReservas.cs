@@ -22,6 +22,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
         {
             InitializeComponent();
 
+            dgvReservas.AutoGenerateColumns = false;
+
+            ConfigurarColumnasReservas();
+
             CargarMesasPrueba();
 
             CargarReservasPrueba();
@@ -109,6 +113,17 @@ namespace Ocean_Desk_dv.UI.Catalogs
         #endregion
 
         #region Metodos para Carga de Datos en dgvReservas
+        private void ConfigurarColumnasReservas()
+        {
+            dgvReservas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            colReservaCliente.DisplayIndex = 0;
+            colReservaFecha.DisplayIndex = 1;
+            colReservaHora.DisplayIndex = 2;
+            colReservaPersonas.DisplayIndex = 3;
+            colReservaMesa.DisplayIndex = 4;
+            colReservaEstado.DisplayIndex = 5;
+        }
         private void CargarReservasPrueba()
         {
             _reservas.Clear();
@@ -289,6 +304,17 @@ namespace Ocean_Desk_dv.UI.Catalogs
         #endregion
 
         #region Metodos para Panel de Nueva Reserva
+        private void CentrarNuevaReserva()
+        {
+            pnlNuevaReserva.Left =
+                (pnlNuevaReservaContainer.Width -
+                 pnlNuevaReserva.Width) / 2;
+
+            pnlNuevaReserva.Top =
+                (pnlNuevaReservaContainer.Height -
+                 pnlNuevaReserva.Height) / 2;
+        }
+
         private void CargarMesasParaReserva()
         {
             cmbMesaReserva.Items.Clear();
@@ -301,7 +327,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                     mesa.Estado == EstadoMesa.Disponible)
                 {
                     cmbMesaReserva.Items.Add(
-                        $"Mesa {mesa.NumeroMesa:00}");  
+                        $"Mesa {mesa.NumeroMesa:00}");
                 }
             }
 
@@ -318,7 +344,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             LimpiarFormularioNuevaReserva();
 
             pnlReservas.Visible = false;
-            pnlNuevaReserva.Visible = true;
+            pnlNuevaReservaContainer.Visible = true;
+
+            CentrarNuevaReserva();
         }
 
         private void LimpiarFormularioNuevaReserva()
@@ -410,7 +438,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             MostrarReservas();
 
-            pnlNuevaReserva.Visible = false;
+            pnlNuevaReservaContainer.Visible = false;
             pnlReservas.Visible = true;
 
             FrmMessageBox.Show(
@@ -421,9 +449,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private void btnCancelarNuevaReserva_Click(object sender, EventArgs e)
         {
-            pnlNuevaReserva.Visible = false;
+            pnlNuevaReservaContainer.Visible = false;
             pnlReservas.Visible = true;
         }
         #endregion
+
+
     }
 }

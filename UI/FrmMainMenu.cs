@@ -248,6 +248,12 @@ namespace Ocean_Desk_dv.UI
         private void btnMesas_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnMesas);
+
+            lblSeccion.Text = "Gestión de Mesas";
+            lblSubtitulo.Text = "Control de disponibilidad y asignación de mesas";
+
+            FrmMesasReservas mesas = new FrmMesasReservas();
+            AbrirFormularioEnPanel(mesas);
         }
 
         private void btnCocina_Click(object sender, EventArgs e)
