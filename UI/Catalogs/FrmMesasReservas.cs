@@ -31,6 +31,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CargarReservasPrueba();
 
             MostrarReservas();
+
+            SincronizarMesasConReservas();
         }
         #endregion
 
@@ -88,8 +90,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             mesa.Capacidad = capacidad;
             mesa.Estado = estado;
 
-            mesa.MesaSeleccionada +=
-                Mesa_MesaSeleccionada;
+            mesa.MesaSeleccionada += Mesa_MesaSeleccionada;
 
             flpMesas.Controls.Add(mesa);
         }
@@ -99,20 +100,30 @@ namespace Ocean_Desk_dv.UI.Catalogs
             if (sender is not UcMesaCard mesa)
                 return;
 
-            if (_mesaSeleccionada != null)
+            // Si la mesa no está disponible, no se puede seleccionar
+            if (mesa.Estado != EstadoMesa.Disponible)
             {
-                _mesaSeleccionada.Seleccionada =
-                    false;
+                FrmMessageBox.Show(
+                    "Solo puede seleccionar una mesa disponible.",
+                    "Mesa no disponible",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            // Quitar selección anterior
+            if (_mesaSeleccionada != null &&
+                _mesaSeleccionada != mesa)
+            {
+                _mesaSeleccionada.Seleccionada = false;
             }
 
             _mesaSeleccionada = mesa;
-
-            _mesaSeleccionada.Seleccionada =
-                true;
+            _mesaSeleccionada.Seleccionada = true;
         }
         #endregion
 
-        #region Metodos para Carga de Datos en dgvReservas
+        #region Metodos para Carga de Datos en dgvReservas y apariencia de celdas/botones
         private ReservaPrueba _reservaEditando;
 
         private void ConfigurarColumnasReservas()
@@ -214,28 +225,22 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             btnEditarReserva.Enabled = haySeleccion;
             btnCancelarReserva.Enabled = haySeleccion;
+            btnAsignarMesa.Enabled = false;
 
             if (!haySeleccion)
-            {
-                btnAsignarMesa.Enabled = false;
                 return;
-            }
+
 
             DataGridViewRow fila = dgvReservas.SelectedRows[0];
 
             ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
 
             if (reserva == null)
-            {
-                btnAsignarMesa.Enabled = false;
                 return;
-            }
 
-            bool puedeAsignar =
-                reserva.Estado == "Pendiente" ||
-                reserva.Estado == "Confirmada";
+            bool estadoValido = reserva.Estado == "Pendiente" || reserva.Estado == "Confirmada";
 
-            btnAsignarMesa.Enabled = puedeAsignar;
+            btnAsignarMesa.Enabled = estadoValido && !reserva.Mesa.HasValue;
         }
 
         private void dgvReservas_SelectionChanged(object sender, EventArgs e)
@@ -318,7 +323,44 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Metodos para Panel de Nueva Reserva
+        #region Metodos para Panel de Reservas y Nuevas Reservas    
+        private void SincronizarMesasConReservas()
+        {
+            // Primero quitamos las reservas anteriores de las tarjetas.
+            foreach (Control control in flpMesas.Controls)
+            {
+                if (control is UcMesaCard mesa &&
+                    mesa.Estado == EstadoMesa.Reservada)
+                {
+                    mesa.Estado = EstadoMesa.Disponible;
+                }
+            }
+
+            // Volvemos a aplicar las reservas activas.
+            foreach (ReservaPrueba reserva in _reservas)
+            {
+                if (reserva.Estado == "Cancelada" ||
+                    reserva.Estado == "Atendida")
+                {
+                    continue;
+                }
+
+                if (!reserva.Mesa.HasValue)
+                    continue;
+
+                UcMesaCard mesaCard =
+                    flpMesas.Controls
+                        .OfType<UcMesaCard>()
+                        .FirstOrDefault(
+                            m => m.NumeroMesa == reserva.Mesa.Value);
+
+                if (mesaCard != null)
+                {
+                    mesaCard.Estado = EstadoMesa.Reservada;
+                }
+            }
+        }
+
         /// <summary>
         /// Centra el panel de nueva reserva dentro del contenedor.
         /// </summary>
@@ -334,9 +376,25 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
-        /// Carga las mesas disponibles en el ComboBox de selección de mesa para la nueva reserva.
+        /// Abre el panel de nueva reserva.
         /// </summary>
-        private void CargarMesasParaReserva()
+        private void AbrirPanelNuevaReserva()
+        {
+            pnlReservas.Visible = false;
+
+            pnlNuevaReservaContainer.Visible = true;
+            pnlNuevaReserva.Visible = true;
+
+            pnlNuevaReserva.BringToFront();
+
+            CentrarNuevaReserva();
+        }
+
+        /// <summary>
+        /// Carga las mesas disponibles en el ComboBox de selección de mesa para la reserva, incluyendo la mesa actual si se está editando una reserva.
+        /// </summary>
+        /// <param name="mesaActual"></param>
+        private void CargarMesasParaReserva(int? mesaActual = null)
         {
             cmbMesaReserva.Items.Clear();
 
@@ -344,45 +402,26 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             foreach (Control control in flpMesas.Controls)
             {
-                if (control is UcMesaCard mesa &&
-                    mesa.Estado == EstadoMesa.Disponible)
+                if (control is not UcMesaCard mesa)
+                    continue;
+
+                bool disponible = mesa.Estado == EstadoMesa.Disponible;
+
+                bool esMesaActual =
+                    mesaActual.HasValue &&
+                    mesa.NumeroMesa == mesaActual.Value;
+
+                if (disponible || esMesaActual)
                 {
                     cmbMesaReserva.Items.Add(
                         $"Mesa {mesa.NumeroMesa:00}");
                 }
-
             }
 
             if (cmbMesaReserva.Items.Count > 0)
             {
                 cmbMesaReserva.SelectedIndex = 0;
             }
-        }
-
-        /// <summary>
-        /// Muestra el panel de nueva reserva y oculta el panel de reservas
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnNuevaReserva_Click(object sender, EventArgs e)
-        {
-            _reservaEditando = null;
-
-            CargarMesasParaReserva();
-
-            LimpiarFormularioNuevaReserva();
-
-            pnlReservas.Visible = false;
-            pnlNuevaReservaContainer.Visible = true;
-
-            pnlNuevaReserva.Visible = true;
-            pnlNuevaReserva.BringToFront();
-
-            CentrarNuevaReserva();
-
-            lblTituloNuevaReserva.Text = "Nueva reserva";
-
-            btnGuardarNuevaReserva.Text = "GUARDAR RESERVA";
         }
 
         /// <summary>
@@ -411,21 +450,41 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
-        /// Maneja el evento de clic del botón de guardar nueva reserva, creando una nueva reserva o guardando los cambios en una reserva existente según corresponda.
+        /// Muestra el panel de nueva reserva y oculta el panel de reservas
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnGuardarNuevaReserva_Click(object sender, EventArgs e)
+        private void btnNuevaReserva_Click(object sender, EventArgs e)
         {
-            if (_reservaEditando == null)
+            _reservaEditando = null;
+
+            lblTituloNuevaReserva.Text = "Nueva reserva";
+            btnGuardarNuevaReserva.Text = "GUARDAR RESERVA";
+
+            CargarMesasParaReserva();
+            LimpiarFormularioNuevaReserva();
+
+            AbrirPanelNuevaReserva();
+        }
+
+        /// <summary>
+        /// Obtiene el número de la mesa seleccionada a partir de su texto representativo.
+        /// </summary>
+        /// <param name="mesaSeleccionada"></param>
+        /// <returns></returns>
+        private int? ObtenerNumeroMesaSeleccionada(string mesaSeleccionada)
+        {
+            if (mesaSeleccionada == "Sin asignar")
+                return null;
+
+            string numeroTexto = mesaSeleccionada.Replace("Mesa", "");
+
+            if (int.TryParse(numeroTexto, out int numeroMesa))
             {
-                CrearNuevaReserva();
-            }
-            else
-            {
-                GuardarCambiosReserva();
+                return numeroMesa;
             }
 
+            return null;
         }
 
         /// <summary>
@@ -504,171 +563,19 @@ namespace Ocean_Desk_dv.UI.Catalogs
             //Agregar Reserva a la Lista y Actualizar Estado de la Mesa si es necesario
             _reservas.Add(nuevaReserva);
 
-            if (mesa.HasValue)
-            {
-                ActualizarEstadoMesa(mesa.Value,EstadoMesa.Reservada);
-            }
-
             //Actualizar DGV
             MostrarReservas();
 
-            //Regresar a las Reservas y Mostrar Mensaje de Éxito
-            pnlNuevaReservaContainer.Visible = false;
-            pnlReservas.Visible = true;
+            //Actualizar Estado de la Mesa si es necesario
+            SincronizarMesasConReservas();
+
+            // Cerrar Panel de Nueva Reserva
+            CerrarPanelReserva();
 
             FrmMessageBox.Show(
                 "La reserva ha sido registrada correctamente.",
                 "Reserva registrada",
                 MessageType.Information);
-        }
-
-        /// <summary>
-        /// Cancela la creación o edición de una reserva y regresa al panel de reservas.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancelarNuevaReserva_Click(object sender, EventArgs e)
-        {
-            pnlNuevaReservaContainer.Visible = false;
-            pnlReservas.Visible = true;
-        }
-
-        /// <summary>
-        /// Permite editar una reserva seleccionada en el DataGridView de reservas.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnEditarReserva_Click(object sender, EventArgs e)
-        {
-            if (dgvReservas.SelectedRows.Count == 0)
-            {
-                FrmMessageBox.Show(
-                    "Seleccione una reserva para editar.",
-                    "Reserva no seleccionada",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            DataGridViewRow fila =
-                dgvReservas.SelectedRows[0];
-
-            ReservaPrueba reserva =
-                fila.DataBoundItem as ReservaPrueba;
-
-            if (reserva == null)
-            {
-                FrmMessageBox.Show(
-                    "No fue posible obtener la información de la reserva seleccionada.",
-                    "Error",
-                    MessageType.Error);
-
-                return;
-            }
-
-            _reservaEditando = reserva;
-
-            CargarMesasParaReserva(reserva.Mesa);
-            CargarDatosReserva(reserva);
-
-            pnlReservas.Visible = false;
-            pnlNuevaReservaContainer.Visible = true;
-
-            pnlNuevaReserva.BringToFront();
-
-            CentrarNuevaReserva();
-
-            lblTituloNuevaReserva.Text = "Editar reserva";
-            btnGuardarNuevaReserva.Text = "GUARDAR CAMBIOS";
-        }
-
-        /// <summary>
-        /// Carga los datos de la reserva seleccionada en los controles del formulario de edición.
-        /// </summary>
-        /// <param name="reserva"></param>
-        private void CargarDatosReserva(ReservaPrueba reserva)
-        {
-            txtClienteReserva.Text = reserva.Cliente;
-
-            dtpFechaNuevaReserva.Value = reserva.Fecha;
-
-            dtpHoraNuevaReserva.Value = DateTime.Today.Add(reserva.Hora);
-
-            nudPersonas.Value = reserva.Personas;
-
-            if (reserva.Mesa.HasValue)
-            {
-                string mesaTexto = $"Mesa {reserva.Mesa.Value:00}";
-
-                int indice = cmbMesaReserva.Items.IndexOf(mesaTexto);
-
-                if (indice >= 0)
-                {
-                    cmbMesaReserva.SelectedIndex = indice;
-                }
-                else
-                {
-                    cmbMesaReserva.SelectedIndex = 0;
-                }
-            }
-            else
-            {
-                cmbMesaReserva.SelectedIndex = 0;
-            }
-        }
-
-        /// <summary>
-        /// Carga las mesas disponibles en el ComboBox de selección de mesa para la reserva, incluyendo la mesa actual si se está editando una reserva.
-        /// </summary>
-        /// <param name="mesaActual"></param>
-        private void CargarMesasParaReserva(int? mesaActual = null)
-        {
-            cmbMesaReserva.Items.Clear();
-
-            cmbMesaReserva.Items.Add("Sin asignar");
-
-            foreach (Control control in flpMesas.Controls)
-            {
-                if (control is not UcMesaCard mesa)
-                    continue;
-
-                bool disponible = mesa.Estado == EstadoMesa.Disponible;
-
-                bool esMesaActual =
-                    mesaActual.HasValue &&
-                    mesa.NumeroMesa == mesaActual.Value;
-
-                if (disponible || esMesaActual)
-                {
-                    cmbMesaReserva.Items.Add(
-                        $"Mesa {mesa.NumeroMesa:00}");
-                }
-            }
-
-            if (cmbMesaReserva.Items.Count > 0)
-            {
-                cmbMesaReserva.SelectedIndex = 0;
-            }
-        }
-
-        /// <summary>
-        /// Obtiene el número de la mesa seleccionada a partir de su texto representativo.
-        /// </summary>
-        /// <param name="mesaSeleccionada"></param>
-        /// <returns></returns>
-        private int? ObtenerNumeroMesaSeleccionada(string mesaSeleccionada)
-        {
-            if (mesaSeleccionada == "Sin asignar")
-                return null;
-
-            string numeroTexto = mesaSeleccionada.Replace("Mesa","");
-
-            if (int.TryParse(numeroTexto, out int numeroMesa))
-            {
-                return numeroMesa;
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -757,29 +664,303 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             _reservaEditando.Mesa = nuevaMesa;
 
-            if (mesaAnterior.HasValue &&
-                mesaAnterior != nuevaMesa)
-            {
-                ActualizarEstadoMesa(
-                    mesaAnterior.Value,
-                    EstadoMesa.Disponible);
-            }
+            MostrarReservas(); // Actualiza el DataGridView con los cambios realizados en la reserva
 
-            if (nuevaMesa.HasValue &&
-                mesaAnterior != nuevaMesa)
-            {
-                ActualizarEstadoMesa(
-                    nuevaMesa.Value,
-                    EstadoMesa.Reservada);
-            }
-
-            MostrarReservas();
+            SincronizarMesasConReservas(); // Actualiza el estado de las mesas según la nueva asignación de la reserva
 
             CerrarPanelReserva();
 
             FrmMessageBox.Show(
                 "La reserva ha sido actualizada correctamente.",
                 "Reserva actualizada",
+                MessageType.Information);
+        }
+
+        /// <summary>
+        /// Maneja el evento de clic del botón de guardar nueva reserva, creando una nueva reserva o guardando los cambios en una reserva existente según corresponda.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGuardarNuevaReserva_Click(object sender, EventArgs e)
+        {
+            if (_reservaEditando == null)
+            {
+                CrearNuevaReserva();
+            }
+            else
+            {
+                GuardarCambiosReserva();
+            }
+
+        }
+
+        /// <summary>
+        /// Cancela la creación o edición de una reserva y regresa al panel de reservas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancelarNuevaReserva_Click(object sender, EventArgs e)
+        {
+            CerrarPanelReserva();
+        }
+
+        /// <summary>
+        /// Carga los datos de la reserva seleccionada en los controles del formulario de edición.
+        /// </summary>
+        /// <param name="reserva"></param>
+        private void CargarDatosReserva(ReservaPrueba reserva)
+        {
+            txtClienteReserva.Text = reserva.Cliente;
+
+            dtpFechaNuevaReserva.Value = reserva.Fecha;
+
+            dtpHoraNuevaReserva.Value = DateTime.Today.Add(reserva.Hora);
+
+            nudPersonas.Value = reserva.Personas;
+
+            if (reserva.Mesa.HasValue)
+            {
+                string mesaTexto = $"Mesa {reserva.Mesa.Value:00}";
+
+                int indice = cmbMesaReserva.Items.IndexOf(mesaTexto);
+
+                if (indice >= 0)
+                {
+                    cmbMesaReserva.SelectedIndex = indice;
+                }
+                else
+                {
+                    cmbMesaReserva.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                cmbMesaReserva.SelectedIndex = 0;
+            }
+        }
+
+        /// <summary>
+        /// Permite editar una reserva seleccionada en el DataGridView de reservas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEditarReserva_Click(object sender, EventArgs e)
+        {
+            if (dgvReservas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una reserva para editar.",
+                    "Reserva no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DataGridViewRow fila = dgvReservas.SelectedRows[0];
+
+            ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
+
+            if (reserva == null)
+            {
+                FrmMessageBox.Show(
+                    "No fue posible obtener la información de la reserva seleccionada.",
+                    "Error",
+                    MessageType.Error);
+
+                return;
+            }
+
+            _reservaEditando = reserva;
+
+            CargarMesasParaReserva(reserva.Mesa);
+            CargarDatosReserva(reserva);
+
+            lblTituloNuevaReserva.Text = "Editar reserva";
+            btnGuardarNuevaReserva.Text = "GUARDAR CAMBIOS";
+
+            AbrirPanelNuevaReserva();
+        }
+
+        /// <summary>
+        /// Cancela la reserva seleccionada en el DataGridView de reservas, actualizando el estado de la mesa si es necesario y mostrando un mensaje de confirmación.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancelarReserva_Click(object sender, EventArgs e)
+        {
+            if (dgvReservas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una reserva para cancelar.",
+                    "Reserva no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DataGridViewRow fila = dgvReservas.SelectedRows[0];
+
+            ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
+
+            if (reserva == null)
+            {
+                FrmMessageBox.Show(
+                    "No fue posible obtener la información de la reserva seleccionada.",
+                    "Error",
+                    MessageType.Error);
+
+                return;
+            }
+
+            if (reserva.Estado == "Cancelada")
+            {
+                FrmMessageBox.Show(
+                    "La reserva seleccionada ya se encuentra cancelada.",
+                    "Reserva cancelada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DialogResult resultado =
+                FrmMessageBox.Show(
+                    $"¿Desea cancelar la reserva de {reserva.Cliente}?",
+                    "Cancelar reserva",
+                    MessageType.Confirmation);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            reserva.Estado = "Cancelada";
+
+            MostrarReservas();
+
+            SincronizarMesasConReservas();
+
+            FrmMessageBox.Show(
+                $"La reserva de {reserva.Cliente} ha sido cancelada correctamente.",
+                "Reserva cancelada",
+                MessageType.Information);
+        }
+
+        /// <summary>
+        /// Asigna la mesa seleccionada en el panel de mesas a la reserva seleccionada en el DataGridView de reservas, validando el estado de la reserva y la disponibilidad de la mesa, y actualizando la información visual y los datos de la reserva.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAsignarMesa_Click(object sender, EventArgs e)
+        {
+            //Verificar reserva seleccionada
+            if (dgvReservas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una reserva para asignarle una mesa.",
+                    "Reserva no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DataGridViewRow fila = dgvReservas.SelectedRows[0];
+
+            ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
+
+            if (reserva == null)
+            {
+                FrmMessageBox.Show(
+                    "No fue posible obtener la información de la reserva seleccionada.",
+                    "Error",
+                    MessageType.Error);
+
+                return;
+            }
+
+            //Verificar estado de la reserva
+            if (reserva.Estado == "Cancelada")
+            {
+                FrmMessageBox.Show(
+                    "No se puede asignar una mesa a una reserva cancelada.",
+                    "Reserva cancelada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            if (reserva.Estado == "Atendida")
+            {
+                FrmMessageBox.Show(
+                    "No se puede asignar una mesa a una reserva que ya fue atendida.",
+                    "Reserva atendida",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            //Verificar si ya tiene mesa
+            if (reserva.Mesa.HasValue)
+            {
+                FrmMessageBox.Show(
+                    $"La reserva de {reserva.Cliente} ya tiene asignada la Mesa {reserva.Mesa.Value:00}.",
+                    "Mesa ya asignada",
+                    MessageType.Information);
+
+                return;
+            }
+
+            //Verificar que se haya seleccionado una tarjeta
+            if (_mesaSeleccionada == null)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una mesa disponible en las tarjetas.",
+                    "Mesa no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            //Verificar que la tarjeta siga disponible
+            if (_mesaSeleccionada.Estado != EstadoMesa.Disponible)
+            {
+                FrmMessageBox.Show(
+                    "La mesa seleccionada ya no se encuentra disponible.",
+                    "Mesa no disponible",
+                    MessageType.Warning);
+
+                _mesaSeleccionada.Seleccionada = false;
+                _mesaSeleccionada = null;
+
+                return;
+            }
+
+            //Confirmar asignación
+            DialogResult resultado =
+                FrmMessageBox.Show(
+                    $"¿Desea asignar la Mesa {_mesaSeleccionada.NumeroMesa:00} " +
+                    $"a la reserva de {reserva.Cliente}?",
+                    "Asignar mesa",
+                    MessageType.Confirmation);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            //Guardar mesa en la reserva
+            reserva.Mesa = _mesaSeleccionada.NumeroMesa;
+
+            //Actualizar la información visual
+            MostrarReservas();
+            SincronizarMesasConReservas();
+
+            //Limpiar selección
+            _mesaSeleccionada.Seleccionada = false;
+            _mesaSeleccionada = null;
+
+            ActualizarEstadoBotonesReserva();
+
+            //Confirmación
+            FrmMessageBox.Show(
+                $"La Mesa {reserva.Mesa:00} fue asignada correctamente " +
+                $"a la reserva de {reserva.Cliente}.",
+                "Mesa asignada",
                 MessageType.Information);
         }
         #endregion
