@@ -12,8 +12,7 @@ public partial class OceanDeskDbContext : DbContext
     {
     }
 
-    public OceanDeskDbContext(DbContextOptions<OceanDeskDbContext> options)
-        : base(options)
+    public OceanDeskDbContext(DbContextOptions<OceanDeskDbContext> options) : base(options)
     {
     }
 

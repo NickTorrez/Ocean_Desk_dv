@@ -55,6 +55,7 @@
             pnlAccionesReserva = new Panel();
             tlpAsignacionMesa = new TableLayoutPanel();
             btnAsignarMesa = new Button();
+            btnCambiarEstadoReserva = new Button();
             tlpGestionReservas = new TableLayoutPanel();
             btnCancelarReserva = new Button();
             btnEditarReserva = new Button();
@@ -89,8 +90,8 @@
             txtClienteReserva = new TextBox();
             dtpFechaNuevaReserva = new DateTimePicker();
             dtpHoraNuevaReserva = new DateTimePicker();
-            nudPersonas = new NumericUpDown();
             cmbMesaReserva = new ComboBox();
+            nudPersonas = new NumericUpDown();
             pnlAccionesNuevaReserva = new Panel();
             tlpButtons = new TableLayoutPanel();
             btnCancelarNuevaReserva = new Button();
@@ -188,8 +189,8 @@
             // 
             // pnlContenidoReservas
             // 
-            pnlContenidoReservas.Controls.Add(pnlReservas);
             pnlContenidoReservas.Controls.Add(pnlNuevaReservaContainer);
+            pnlContenidoReservas.Controls.Add(pnlReservas);
             pnlContenidoReservas.Dock = DockStyle.Fill;
             pnlContenidoReservas.Location = new Point(0, 332);
             pnlContenidoReservas.Margin = new Padding(0);
@@ -352,17 +353,17 @@
             // 
             // tlpAsignacionMesa
             // 
-            tlpAsignacionMesa.ColumnCount = 1;
-            tlpAsignacionMesa.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpAsignacionMesa.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tlpAsignacionMesa.Controls.Add(btnAsignarMesa, 0, 0);
+            tlpAsignacionMesa.ColumnCount = 2;
+            tlpAsignacionMesa.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpAsignacionMesa.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpAsignacionMesa.Controls.Add(btnAsignarMesa, 1, 0);
+            tlpAsignacionMesa.Controls.Add(btnCambiarEstadoReserva, 0, 0);
             tlpAsignacionMesa.Dock = DockStyle.Right;
-            tlpAsignacionMesa.Location = new Point(695, 7);
+            tlpAsignacionMesa.Location = new Point(575, 7);
             tlpAsignacionMesa.Name = "tlpAsignacionMesa";
             tlpAsignacionMesa.RowCount = 1;
             tlpAsignacionMesa.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpAsignacionMesa.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpAsignacionMesa.Size = new Size(200, 46);
+            tlpAsignacionMesa.Size = new Size(320, 46);
             tlpAsignacionMesa.TabIndex = 5;
             // 
             // btnAsignarMesa
@@ -374,13 +375,30 @@
             btnAsignarMesa.FlatStyle = FlatStyle.Flat;
             btnAsignarMesa.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAsignarMesa.ForeColor = Color.FromArgb(8, 31, 63);
-            btnAsignarMesa.Location = new Point(3, 3);
+            btnAsignarMesa.Location = new Point(163, 3);
             btnAsignarMesa.Name = "btnAsignarMesa";
-            btnAsignarMesa.Size = new Size(194, 40);
+            btnAsignarMesa.Size = new Size(154, 40);
             btnAsignarMesa.TabIndex = 3;
             btnAsignarMesa.Text = "ASIGNAR MESA";
             btnAsignarMesa.UseVisualStyleBackColor = false;
             btnAsignarMesa.Click += btnAsignarMesa_Click;
+            // 
+            // btnCambiarEstadoReserva
+            // 
+            btnCambiarEstadoReserva.BackColor = Color.LightSteelBlue;
+            btnCambiarEstadoReserva.Cursor = Cursors.Hand;
+            btnCambiarEstadoReserva.Dock = DockStyle.Fill;
+            btnCambiarEstadoReserva.FlatAppearance.BorderSize = 0;
+            btnCambiarEstadoReserva.FlatStyle = FlatStyle.Flat;
+            btnCambiarEstadoReserva.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCambiarEstadoReserva.ForeColor = Color.FromArgb(8, 31, 63);
+            btnCambiarEstadoReserva.Location = new Point(3, 3);
+            btnCambiarEstadoReserva.Name = "btnCambiarEstadoReserva";
+            btnCambiarEstadoReserva.Size = new Size(154, 40);
+            btnCambiarEstadoReserva.TabIndex = 6;
+            btnCambiarEstadoReserva.Text = "CAMBIAR ESTADO";
+            btnCambiarEstadoReserva.UseVisualStyleBackColor = false;
+            btnCambiarEstadoReserva.Click += btnCambiarEstadoReserva_Click;
             // 
             // tlpGestionReservas
             // 
@@ -525,6 +543,7 @@
             txtBuscarReserva.PlaceholderText = "Buscar Reserva...";
             txtBuscarReserva.Size = new Size(359, 21);
             txtBuscarReserva.TabIndex = 1;
+            txtBuscarReserva.TextChanged += txtBuscarReserva_TextChanged;
             // 
             // lblGhost
             // 
@@ -567,6 +586,7 @@
             dtpFechaReserva.Name = "dtpFechaReserva";
             dtpFechaReserva.Size = new Size(157, 26);
             dtpFechaReserva.TabIndex = 4;
+            dtpFechaReserva.ValueChanged += dtpFechaReservaFiltro_ValueChanged;
             // 
             // lblScondGhost
             // 
@@ -609,6 +629,7 @@
             cmbEstadoReserva.Name = "cmbEstadoReserva";
             cmbEstadoReserva.Size = new Size(200, 28);
             cmbEstadoReserva.TabIndex = 1;
+            cmbEstadoReserva.SelectedIndexChanged += cmbEstadoReserva_SelectedIndexChanged;
             // 
             // lblThirdGhost
             // 
@@ -704,8 +725,8 @@
             tlpNuevaReserva.Controls.Add(txtClienteReserva, 1, 0);
             tlpNuevaReserva.Controls.Add(dtpFechaNuevaReserva, 1, 1);
             tlpNuevaReserva.Controls.Add(dtpHoraNuevaReserva, 1, 2);
-            tlpNuevaReserva.Controls.Add(nudPersonas, 1, 3);
             tlpNuevaReserva.Controls.Add(cmbMesaReserva, 1, 4);
+            tlpNuevaReserva.Controls.Add(nudPersonas, 1, 3);
             tlpNuevaReserva.Dock = DockStyle.Left;
             tlpNuevaReserva.Location = new Point(20, 20);
             tlpNuevaReserva.Name = "tlpNuevaReserva";
@@ -813,6 +834,18 @@
             dtpHoraNuevaReserva.Size = new Size(392, 26);
             dtpHoraNuevaReserva.TabIndex = 6;
             // 
+            // cmbMesaReserva
+            // 
+            cmbMesaReserva.Dock = DockStyle.Fill;
+            cmbMesaReserva.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMesaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbMesaReserva.FormattingEnabled = true;
+            cmbMesaReserva.Location = new Point(124, 159);
+            cmbMesaReserva.Name = "cmbMesaReserva";
+            cmbMesaReserva.Size = new Size(392, 28);
+            cmbMesaReserva.TabIndex = 10;
+            cmbMesaReserva.SelectedIndexChanged += cmbMesaReserva_SelectedIndexChanged;
+            // 
             // nudPersonas
             // 
             nudPersonas.Dock = DockStyle.Fill;
@@ -824,18 +857,7 @@
             nudPersonas.Size = new Size(392, 26);
             nudPersonas.TabIndex = 8;
             nudPersonas.TextAlign = HorizontalAlignment.Center;
-            nudPersonas.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // cmbMesaReserva
-            // 
-            cmbMesaReserva.Dock = DockStyle.Fill;
-            cmbMesaReserva.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbMesaReserva.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cmbMesaReserva.FormattingEnabled = true;
-            cmbMesaReserva.Location = new Point(124, 159);
-            cmbMesaReserva.Name = "cmbMesaReserva";
-            cmbMesaReserva.Size = new Size(392, 28);
-            cmbMesaReserva.TabIndex = 10;
+            nudPersonas.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
             // pnlAccionesNuevaReserva
             // 
@@ -1007,5 +1029,6 @@
         private DataGridViewTextBoxColumn colReservaPersonas;
         private DataGridViewTextBoxColumn colReservaMesa;
         private DataGridViewTextBoxColumn colReservaEstado;
+        private Button btnCambiarEstadoReserva;
     }
 }

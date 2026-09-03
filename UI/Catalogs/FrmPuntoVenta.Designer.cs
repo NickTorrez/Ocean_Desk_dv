@@ -31,7 +31,7 @@
             pnlTop = new Panel();
             tlpTop = new TableLayoutPanel();
             pnlCliente = new Panel();
-            comboBox1 = new ComboBox();
+            cmbCliente = new ComboBox();
             lblCliente = new Label();
             pnlMesa = new Panel();
             cmbMesa = new ComboBox();
@@ -75,6 +75,24 @@
             lblDescuento = new Label();
             pnlOrderHeader = new Panel();
             lblOrderTitle = new Label();
+            pnlNuevoClienteContainer = new Panel();
+            pnlNuevoCliente = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            btnCancelarNuevoCliente = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            btnGuardarNuevoCliente = new Button();
+            lblBotonesFantasmas = new Label();
+            lblTelefonoCliente = new Label();
+            pnlTelefonoClienteInput = new Panel();
+            panel1 = new Panel();
+            txtTelefonoCliente = new TextBox();
+            lblClienteFantasma = new Label();
+            lblNombreCliente = new Label();
+            pnlNombreClienteInput = new Panel();
+            panel2 = new Panel();
+            txtNombreCliente = new TextBox();
+            lblSubtituloNuevoCliente = new Label();
+            lblTituloNuevoCliente = new Label();
             pnlTop.SuspendLayout();
             tlpTop.SuspendLayout();
             pnlCliente.SuspendLayout();
@@ -93,6 +111,12 @@
             tlpTotal.SuspendLayout();
             tlpOrderFooter.SuspendLayout();
             pnlOrderHeader.SuspendLayout();
+            pnlNuevoClienteContainer.SuspendLayout();
+            pnlNuevoCliente.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            pnlTelefonoClienteInput.SuspendLayout();
+            pnlNombreClienteInput.SuspendLayout();
             SuspendLayout();
             // 
             // pnlTop
@@ -129,7 +153,7 @@
             // 
             // pnlCliente
             // 
-            pnlCliente.Controls.Add(comboBox1);
+            pnlCliente.Controls.Add(cmbCliente);
             pnlCliente.Controls.Add(lblCliente);
             pnlCliente.Dock = DockStyle.Fill;
             pnlCliente.Location = new Point(690, 3);
@@ -139,16 +163,17 @@
             pnlCliente.Size = new Size(220, 53);
             pnlCliente.TabIndex = 7;
             // 
-            // comboBox1
+            // cmbCliente
             // 
-            comboBox1.Dock = DockStyle.Fill;
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(0, 23);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(220, 29);
-            comboBox1.TabIndex = 8;
+            cmbCliente.Dock = DockStyle.Fill;
+            cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbCliente.FormattingEnabled = true;
+            cmbCliente.Location = new Point(0, 23);
+            cmbCliente.Name = "cmbCliente";
+            cmbCliente.Size = new Size(220, 29);
+            cmbCliente.TabIndex = 8;
+            cmbCliente.SelectedIndexChanged += cmbCliente_SelectedIndexChanged;
             // 
             // lblCliente
             // 
@@ -726,12 +751,234 @@
             lblOrderTitle.Text = "Pedido Actual";
             lblOrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // pnlNuevoClienteContainer
+            // 
+            pnlNuevoClienteContainer.Controls.Add(pnlNuevoCliente);
+            pnlNuevoClienteContainer.Dock = DockStyle.Fill;
+            pnlNuevoClienteContainer.Location = new Point(0, 75);
+            pnlNuevoClienteContainer.Name = "pnlNuevoClienteContainer";
+            pnlNuevoClienteContainer.Size = new Size(560, 755);
+            pnlNuevoClienteContainer.TabIndex = 0;
+            pnlNuevoClienteContainer.Visible = false;
+            // 
+            // pnlNuevoCliente
+            // 
+            pnlNuevoCliente.Anchor = AnchorStyles.None;
+            pnlNuevoCliente.BackColor = Color.White;
+            pnlNuevoCliente.Controls.Add(tableLayoutPanel2);
+            pnlNuevoCliente.Controls.Add(tableLayoutPanel1);
+            pnlNuevoCliente.Controls.Add(lblBotonesFantasmas);
+            pnlNuevoCliente.Controls.Add(lblTelefonoCliente);
+            pnlNuevoCliente.Controls.Add(pnlTelefonoClienteInput);
+            pnlNuevoCliente.Controls.Add(lblClienteFantasma);
+            pnlNuevoCliente.Controls.Add(lblNombreCliente);
+            pnlNuevoCliente.Controls.Add(pnlNombreClienteInput);
+            pnlNuevoCliente.Controls.Add(lblSubtituloNuevoCliente);
+            pnlNuevoCliente.Controls.Add(lblTituloNuevoCliente);
+            pnlNuevoCliente.Location = new Point(56, 217);
+            pnlNuevoCliente.Name = "pnlNuevoCliente";
+            pnlNuevoCliente.Padding = new Padding(25, 20, 25, 20);
+            pnlNuevoCliente.Size = new Size(460, 330);
+            pnlNuevoCliente.TabIndex = 0;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Controls.Add(btnCancelarNuevoCliente, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Left;
+            tableLayoutPanel2.Location = new Point(25, 263);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(135, 47);
+            tableLayoutPanel2.TabIndex = 12;
+            // 
+            // btnCancelarNuevoCliente
+            // 
+            btnCancelarNuevoCliente.BackColor = Color.FromArgb(238, 243, 247);
+            btnCancelarNuevoCliente.Cursor = Cursors.Hand;
+            btnCancelarNuevoCliente.Dock = DockStyle.Fill;
+            btnCancelarNuevoCliente.FlatAppearance.BorderSize = 0;
+            btnCancelarNuevoCliente.FlatStyle = FlatStyle.Flat;
+            btnCancelarNuevoCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelarNuevoCliente.ForeColor = Color.FromArgb(8, 31, 63);
+            btnCancelarNuevoCliente.Location = new Point(3, 3);
+            btnCancelarNuevoCliente.Name = "btnCancelarNuevoCliente";
+            btnCancelarNuevoCliente.Size = new Size(129, 41);
+            btnCancelarNuevoCliente.TabIndex = 6;
+            btnCancelarNuevoCliente.Text = "CANCELAR";
+            btnCancelarNuevoCliente.UseVisualStyleBackColor = false;
+            btnCancelarNuevoCliente.Click += btnCancelarNuevoCliente_Click;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(btnGuardarNuevoCliente, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Right;
+            tableLayoutPanel1.Location = new Point(276, 263);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(159, 47);
+            tableLayoutPanel1.TabIndex = 11;
+            // 
+            // btnGuardarNuevoCliente
+            // 
+            btnGuardarNuevoCliente.BackColor = Color.FromArgb(8, 126, 164);
+            btnGuardarNuevoCliente.Cursor = Cursors.Hand;
+            btnGuardarNuevoCliente.Dock = DockStyle.Fill;
+            btnGuardarNuevoCliente.FlatAppearance.BorderSize = 0;
+            btnGuardarNuevoCliente.FlatStyle = FlatStyle.Flat;
+            btnGuardarNuevoCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarNuevoCliente.ForeColor = Color.White;
+            btnGuardarNuevoCliente.Location = new Point(3, 3);
+            btnGuardarNuevoCliente.Name = "btnGuardarNuevoCliente";
+            btnGuardarNuevoCliente.Size = new Size(153, 41);
+            btnGuardarNuevoCliente.TabIndex = 5;
+            btnGuardarNuevoCliente.Text = "GUARDAR";
+            btnGuardarNuevoCliente.UseVisualStyleBackColor = false;
+            // 
+            // lblBotonesFantasmas
+            // 
+            lblBotonesFantasmas.Dock = DockStyle.Top;
+            lblBotonesFantasmas.ForeColor = Color.White;
+            lblBotonesFantasmas.Location = new Point(25, 221);
+            lblBotonesFantasmas.Name = "lblBotonesFantasmas";
+            lblBotonesFantasmas.Size = new Size(410, 42);
+            lblBotonesFantasmas.TabIndex = 13;
+            lblBotonesFantasmas.Text = "label1";
+            // 
+            // lblTelefonoCliente
+            // 
+            lblTelefonoCliente.AutoSize = true;
+            lblTelefonoCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTelefonoCliente.ForeColor = Color.FromArgb(8, 31, 63);
+            lblTelefonoCliente.Location = new Point(37, 159);
+            lblTelefonoCliente.Name = "lblTelefonoCliente";
+            lblTelefonoCliente.Size = new Size(79, 19);
+            lblTelefonoCliente.TabIndex = 4;
+            lblTelefonoCliente.Text = "Teléfono";
+            // 
+            // pnlTelefonoClienteInput
+            // 
+            pnlTelefonoClienteInput.BorderStyle = BorderStyle.FixedSingle;
+            pnlTelefonoClienteInput.Controls.Add(panel1);
+            pnlTelefonoClienteInput.Controls.Add(txtTelefonoCliente);
+            pnlTelefonoClienteInput.Dock = DockStyle.Top;
+            pnlTelefonoClienteInput.Location = new Point(25, 171);
+            pnlTelefonoClienteInput.Name = "pnlTelefonoClienteInput";
+            pnlTelefonoClienteInput.Padding = new Padding(15);
+            pnlTelefonoClienteInput.Size = new Size(410, 50);
+            pnlTelefonoClienteInput.TabIndex = 9;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(8, 31, 63);
+            panel1.Location = new Point(17, 38);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(378, 2);
+            panel1.TabIndex = 15;
+            // 
+            // txtTelefonoCliente
+            // 
+            txtTelefonoCliente.BorderStyle = BorderStyle.None;
+            txtTelefonoCliente.Dock = DockStyle.Fill;
+            txtTelefonoCliente.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtTelefonoCliente.Location = new Point(15, 15);
+            txtTelefonoCliente.Name = "txtTelefonoCliente";
+            txtTelefonoCliente.PlaceholderText = "Ejemplo: 8888-8888";
+            txtTelefonoCliente.Size = new Size(378, 19);
+            txtTelefonoCliente.TabIndex = 3;
+            // 
+            // lblClienteFantasma
+            // 
+            lblClienteFantasma.Dock = DockStyle.Top;
+            lblClienteFantasma.ForeColor = Color.White;
+            lblClienteFantasma.Location = new Point(25, 146);
+            lblClienteFantasma.Name = "lblClienteFantasma";
+            lblClienteFantasma.Size = new Size(410, 25);
+            lblClienteFantasma.TabIndex = 10;
+            lblClienteFantasma.Text = "label1";
+            // 
+            // lblNombreCliente
+            // 
+            lblNombreCliente.AutoSize = true;
+            lblNombreCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNombreCliente.ForeColor = Color.FromArgb(8, 31, 63);
+            lblNombreCliente.Location = new Point(37, 85);
+            lblNombreCliente.Name = "lblNombreCliente";
+            lblNombreCliente.Size = new Size(76, 19);
+            lblNombreCliente.TabIndex = 1;
+            lblNombreCliente.Text = "Nombre";
+            // 
+            // pnlNombreClienteInput
+            // 
+            pnlNombreClienteInput.BorderStyle = BorderStyle.FixedSingle;
+            pnlNombreClienteInput.Controls.Add(panel2);
+            pnlNombreClienteInput.Controls.Add(txtNombreCliente);
+            pnlNombreClienteInput.Dock = DockStyle.Top;
+            pnlNombreClienteInput.Location = new Point(25, 96);
+            pnlNombreClienteInput.Name = "pnlNombreClienteInput";
+            pnlNombreClienteInput.Padding = new Padding(15);
+            pnlNombreClienteInput.Size = new Size(410, 50);
+            pnlNombreClienteInput.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(8, 31, 63);
+            panel2.Location = new Point(15, 38);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(378, 2);
+            panel2.TabIndex = 14;
+            // 
+            // txtNombreCliente
+            // 
+            txtNombreCliente.BorderStyle = BorderStyle.None;
+            txtNombreCliente.Dock = DockStyle.Fill;
+            txtNombreCliente.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNombreCliente.Location = new Point(15, 15);
+            txtNombreCliente.Name = "txtNombreCliente";
+            txtNombreCliente.PlaceholderText = "Ingrese Nombre del Cliente...";
+            txtNombreCliente.Size = new Size(378, 19);
+            txtNombreCliente.TabIndex = 2;
+            // 
+            // lblSubtituloNuevoCliente
+            // 
+            lblSubtituloNuevoCliente.Dock = DockStyle.Top;
+            lblSubtituloNuevoCliente.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtituloNuevoCliente.ForeColor = Color.FromArgb(100, 110, 120);
+            lblSubtituloNuevoCliente.Location = new Point(25, 54);
+            lblSubtituloNuevoCliente.Name = "lblSubtituloNuevoCliente";
+            lblSubtituloNuevoCliente.Size = new Size(410, 42);
+            lblSubtituloNuevoCliente.TabIndex = 7;
+            lblSubtituloNuevoCliente.Text = "Ingrese los datos básicos para registrar al cliente\r\n";
+            lblSubtituloNuevoCliente.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblTituloNuevoCliente
+            // 
+            lblTituloNuevoCliente.Dock = DockStyle.Top;
+            lblTituloNuevoCliente.Font = new Font("Century Gothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTituloNuevoCliente.ForeColor = Color.FromArgb(8, 31, 63);
+            lblTituloNuevoCliente.Location = new Point(25, 20);
+            lblTituloNuevoCliente.Name = "lblTituloNuevoCliente";
+            lblTituloNuevoCliente.Size = new Size(410, 34);
+            lblTituloNuevoCliente.TabIndex = 0;
+            lblTituloNuevoCliente.Text = "Nuevo Cliente";
+            lblTituloNuevoCliente.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // FrmPuntoVenta
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
+            Controls.Add(pnlNuevoClienteContainer);
             Controls.Add(pnlProducts);
             Controls.Add(pnlOrder);
             Controls.Add(pnlTop);
@@ -760,6 +1007,15 @@
             tlpTotal.ResumeLayout(false);
             tlpOrderFooter.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
+            pnlNuevoClienteContainer.ResumeLayout(false);
+            pnlNuevoCliente.ResumeLayout(false);
+            pnlNuevoCliente.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            pnlTelefonoClienteInput.ResumeLayout(false);
+            pnlTelefonoClienteInput.PerformLayout();
+            pnlNombreClienteInput.ResumeLayout(false);
+            pnlNombreClienteInput.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -770,7 +1026,7 @@
         private Panel pnlOrder;
         private TextBox txtBuscarProducto;
         private Panel pnlRayita;
-        private ComboBox comboBox1;
+        private ComboBox cmbCliente;
         private Label lblCliente;
         private Panel pnlCategories;
         private Button btnCatExtras;
@@ -812,5 +1068,23 @@
         private Panel pnlMetodoPago;
         private Label lblMetodoPago;
         private ComboBox cmbMetodoPago;
+        private Panel pnlNuevoClienteContainer;
+        private Panel pnlNuevoCliente;
+        private Label lblTituloNuevoCliente;
+        private Label lblNombreCliente;
+        private Button btnCancelarNuevoCliente;
+        private Button btnGuardarNuevoCliente;
+        private Label lblTelefonoCliente;
+        private TextBox txtTelefonoCliente;
+        private TextBox txtNombreCliente;
+        private Label lblSubtituloNuevoCliente;
+        private Panel pnlNombreClienteInput;
+        private Panel pnlTelefonoClienteInput;
+        private Label lblClienteFantasma;
+        private TableLayoutPanel tableLayoutPanel2;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label lblBotonesFantasmas;
+        private Panel panel1;
+        private Panel panel2;
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Controls;
+using Ocean_Desk_dv.UI.Catalogs;
 
 
 namespace Ocean_Desk_dv.UI.Catalogs
@@ -31,6 +32,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
             ConfigurarBotonesCategorias(); //Colores y Efectos de las Categorias
 
             ConfigurarMetodosPago(); //Configuración del contenido del combobox Metodo de Pago
+
+            ConfigurarClientes();//Configuración del contenido del combobox Cliente
 
         }
         #endregion
@@ -102,6 +105,19 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CargarMesasPrueba();
         }
 
+        private void ConfigurarClientes()
+        {
+            cmbCliente.Items.Clear();
+
+            cmbCliente.Items.Add("Seleccione cliente...");
+            cmbCliente.Items.Add("Juan Pérez");
+            cmbCliente.Items.Add("María López");
+            cmbCliente.Items.Add("Carlos Rodríguez");
+            cmbCliente.Items.Add("+ NUEVO CLIENTE");
+
+            cmbCliente.SelectedIndex = 0;
+        }
+
         private void CargarMesasPrueba()
         {
             cmbMesa.Items.Clear();
@@ -114,6 +130,51 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             if (cmbMesa.Items.Count > 0)
                 cmbMesa.SelectedIndex = 0;
+        }
+
+        private void cmbCliente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbCliente.SelectedItem?.ToString() == "+ NUEVO CLIENTE")
+            {
+                AbrirPanelNuevoCliente();
+            }
+        }
+
+        private void CentrarNuevoCliente()
+        {
+            pnlNuevoCliente.Left =
+                (pnlNuevoClienteContainer.Width -
+                 pnlNuevoCliente.Width) / 2;
+
+            pnlNuevoCliente.Top =
+                (pnlNuevoClienteContainer.Height -
+                 pnlNuevoCliente.Height) / 2;
+        }
+
+        private void AbrirPanelNuevoCliente()
+        {
+            pnlNuevoClienteContainer.Visible = true;
+            pnlNuevoCliente.Visible = true;
+
+            pnlNuevoCliente.BringToFront();
+
+            CentrarNuevoCliente();
+        }
+
+        private void CerrarPanelNuevoCliente()
+        {
+            pnlNuevoCliente.Visible = false;
+            pnlNuevoClienteContainer.Visible = false;
+
+            txtNombreCliente.Clear();
+            txtTelefonoCliente.Clear();
+
+            cmbCliente.SelectedIndex = 0;
+        }
+
+        private void btnCancelarNuevoCliente_Click(object sender, EventArgs e)
+        {
+            CerrarPanelNuevoCliente();
         }
         #endregion
 
@@ -351,6 +412,17 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 "Venta preparada",
                 MessageType.Information);
         }
+
+        private void ConfigurarMetodosPago()
+        {
+            cmbMetodoPago.Items.Clear();
+
+            cmbMetodoPago.Items.Add("Efectivo");
+            cmbMetodoPago.Items.Add("Tarjeta");
+            cmbMetodoPago.Items.Add("Transferencia");
+
+            cmbMetodoPago.SelectedIndex = 0;
+        }
         #endregion
 
         #region Relación entre la tipo de orden y disponibilidad de mesa
@@ -510,16 +582,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        private void ConfigurarMetodosPago()
-        {
-            cmbMetodoPago.Items.Clear();
 
-            cmbMetodoPago.Items.Add("Efectivo");
-            cmbMetodoPago.Items.Add("Tarjeta");
-            cmbMetodoPago.Items.Add("Transferencia");
-
-            cmbMetodoPago.SelectedIndex = 0;
-        }
-
+        
     }
 }

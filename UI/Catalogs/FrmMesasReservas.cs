@@ -26,6 +26,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             ConfigurarColumnasReservas();
 
+            cmbEstadoReserva.Items.Clear();
+
+            cmbEstadoReserva.Items.Add("Todos");
+            cmbEstadoReserva.Items.Add("Pendiente");
+            cmbEstadoReserva.Items.Add("Confirmada");
+            cmbEstadoReserva.Items.Add("Atendida");
+            cmbEstadoReserva.Items.Add("Cancelada");
+
+            cmbEstadoReserva.SelectedIndex = 0;
+
             CargarMesasPrueba();
 
             CargarReservasPrueba();
@@ -121,6 +131,83 @@ namespace Ocean_Desk_dv.UI.Catalogs
             _mesaSeleccionada = mesa;
             _mesaSeleccionada.Seleccionada = true;
         }
+
+        private UcMesaCard ObtenerMesaCard(int? numeroMesa)
+        {
+            if (!numeroMesa.HasValue)
+                return null;
+
+            return flpMesas.Controls
+                .OfType<UcMesaCard>()
+                .FirstOrDefault(
+                    m => m.NumeroMesa == numeroMesa.Value);
+        }
+
+        private void ActualizarPersonasSegunMesa()
+        {
+            string mesaSeleccionada = cmbMesaReserva.SelectedItem?.ToString() ?? "Sin asignar";
+
+            int? numeroMesa = ObtenerNumeroMesaSeleccionada(mesaSeleccionada);
+
+            // Si no hay mesa asignada
+            if (!numeroMesa.HasValue)
+            {
+                nudPersonas.Minimum = 1;
+                nudPersonas.Maximum = 20;
+                nudPersonas.Value = 1;
+
+                return;
+            }
+
+            UcMesaCard mesa = ObtenerMesaCard(numeroMesa);
+
+            if (mesa == null)
+                return;
+
+            nudPersonas.Minimum = 1;
+            nudPersonas.Maximum = mesa.Capacidad;
+
+            // Solo en una nueva reserva usamos la capacidad
+            // como cantidad inicial de personas.
+            if (_reservaEditando == null)
+            {
+                nudPersonas.Value = mesa.Capacidad;
+            }
+            else if (nudPersonas.Value > mesa.Capacidad)
+            {
+                nudPersonas.Value = mesa.Capacidad;
+            }
+        }
+
+        private void cmbMesaReserva_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarPersonasSegunMesa();
+        }
+
+        private bool ValidarPersonasSegunMesa(int? numeroMesa)
+        {
+            if (!numeroMesa.HasValue)
+                return true;
+
+            UcMesaCard mesa = ObtenerMesaCard(numeroMesa);
+
+            if (mesa == null)
+                return false;
+
+            if (nudPersonas.Value > mesa.Capacidad)
+            {
+                FrmMessageBox.Show(
+                    $"La Mesa {mesa.NumeroMesa:00} tiene una capacidad máxima " +
+                    $"de {mesa.Capacidad} personas.",
+                    "Capacidad excedida",
+                    MessageType.Warning);
+
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Metodos para Carga de Datos en dgvReservas y apariencia de celdas/botones
@@ -226,21 +313,39 @@ namespace Ocean_Desk_dv.UI.Catalogs
             btnEditarReserva.Enabled = haySeleccion;
             btnCancelarReserva.Enabled = haySeleccion;
             btnAsignarMesa.Enabled = false;
+            btnCambiarEstadoReserva.Enabled = false;
 
             if (!haySeleccion)
                 return;
 
-
             DataGridViewRow fila = dgvReservas.SelectedRows[0];
-
             ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
 
             if (reserva == null)
                 return;
 
-            bool estadoValido = reserva.Estado == "Pendiente" || reserva.Estado == "Confirmada";
+            if (reserva.Estado == "Atendida" || reserva.Estado == "Cancelada")
+            {
+                FrmMessageBox.Show(
+                    "Esta reserva no puede ser modificada porque ya fue atendida o cancelada.",
+                    "Reserva no editable",
+                    MessageType.Warning);
 
-            btnAsignarMesa.Enabled = estadoValido && !reserva.Mesa.HasValue;
+                return;
+            }
+
+            // Estados que permiten modificar la reserva
+            bool reservaActiva = reserva.Estado == "Pendiente" || reserva.Estado == "Confirmada";
+
+            // Editar y cancelar solamente están disponibles
+            // para reservas activas.
+            btnEditarReserva.Enabled = reservaActiva;
+            btnCancelarReserva.Enabled = reservaActiva;
+
+            // Asignar mesa solamente si la reserva activa
+            // todavía no tiene una mesa.
+            btnAsignarMesa.Enabled = reservaActiva && !reserva.Mesa.HasValue;
+            btnCambiarEstadoReserva.Enabled = reservaActiva;
         }
 
         private void dgvReservas_SelectionChanged(object sender, EventArgs e)
@@ -431,13 +536,13 @@ namespace Ocean_Desk_dv.UI.Catalogs
         {
             txtClienteReserva.Clear();
 
-            dtpFechaNuevaReserva.Value =
-                DateTime.Today;
+            dtpFechaNuevaReserva.Value = DateTime.Today;
 
-            dtpHoraNuevaReserva.Value =
-                DateTime.Today.AddHours(19);
+            dtpHoraNuevaReserva.Value =  DateTime.Today.AddHours(19);
 
-            nudPersonas.Value = 2;
+            nudPersonas.Minimum = 1;
+            nudPersonas.Maximum = 20;
+            nudPersonas.Value = 1;
 
             if (cmbMesaReserva.Items.Count > 0)
             {
@@ -522,6 +627,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             string mesaSeleccionada = cmbMesaReserva.SelectedItem?.ToString() ?? "Sin asignar";
 
             int? mesa = ObtenerNumeroMesaSeleccionada(mesaSeleccionada);
+
+            if (!ValidarPersonasSegunMesa(mesa))
+                return;
 
             if (mesa.HasValue)
             {
@@ -632,6 +740,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             string mesaSeleccionada = cmbMesaReserva.SelectedItem?.ToString() ?? "Sin asignar";
 
             int? nuevaMesa = ObtenerNumeroMesaSeleccionada(mesaSeleccionada);
+
+            if (!ValidarPersonasSegunMesa(nuevaMesa))
+                return;
 
             int? mesaAnterior = _reservaEditando.Mesa;
 
@@ -822,6 +933,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
             }
 
+            if (reserva.Estado == "Atendida")
+            {
+                FrmMessageBox.Show(
+                    "No se puede cancelar una reserva que ya fue atendida.",
+                    "Reserva atendida",
+                    MessageType.Warning);
+
+                return;
+            }
+
             DialogResult resultado =
                 FrmMessageBox.Show(
                     $"¿Desea cancelar la reserva de {reserva.Cliente}?",
@@ -964,5 +1085,144 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 MessageType.Information);
         }
         #endregion
+
+        #region Funcionalidad de Filtros
+
+        /// <summary>
+        /// Filtra las reservas según los criterios de búsqueda.
+        /// </summary>
+        private void FiltrarReservas()
+        {
+            string textoBusqueda = txtBuscarReserva.Text.Trim().ToLower();
+
+            DateTime fechaSeleccionada = dtpFechaReserva.Value.Date;
+
+            string estadoSeleccionado = cmbEstadoReserva.Text;
+
+            IEnumerable<ReservaPrueba> reservasFiltradas = _reservas;
+
+            // Buscar por cliente
+            if (!string.IsNullOrWhiteSpace(textoBusqueda))
+            {
+                reservasFiltradas = reservasFiltradas.Where(r => r.Cliente.ToLower().Contains(textoBusqueda));
+            }
+
+            // Filtrar por fecha
+            reservasFiltradas = reservasFiltradas.Where(r => r.Fecha.Date == fechaSeleccionada);
+
+            // Filtrar por estado
+            if (!string.IsNullOrWhiteSpace(estadoSeleccionado) && estadoSeleccionado != "Todos")
+            {
+                reservasFiltradas = reservasFiltradas.Where(r => r.Estado == estadoSeleccionado);
+            }
+
+            dgvReservas.DataSource = null;
+            dgvReservas.DataSource = reservasFiltradas.ToList();
+
+            dgvReservas.CurrentCell = null;
+            dgvReservas.ClearSelection();
+
+            ActualizarEstadoBotonesReserva();
+        }
+
+        private void txtBuscarReserva_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarReservas();
+        }
+
+        private void dtpFechaReservaFiltro_ValueChanged(object sender, EventArgs e)
+        {
+            FiltrarReservas();
+        }
+
+        private void cmbEstadoReserva_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarReservas();
+        }
+
+        private void btnCambiarEstadoReserva_Click(object sender, EventArgs e)
+        {
+            // Pendiente -> Confirmada -> Atendida
+            // Atendida o Cancelada no puede cambiar de estado
+
+            if (dgvReservas.SelectedRows.Count == 0)
+            {
+                FrmMessageBox.Show(
+                    "Seleccione una reserva para cambiar su estado.",
+                    "Reserva no seleccionada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            DataGridViewRow fila = dgvReservas.SelectedRows[0];
+
+            ReservaPrueba reserva = fila.DataBoundItem as ReservaPrueba;
+
+            if (reserva == null)
+            {
+                FrmMessageBox.Show(
+                    "No fue posible obtener la información de la reserva seleccionada.",
+                    "Error",
+                    MessageType.Error);
+
+                return;
+            }
+
+            if (reserva.Estado == "Cancelada")
+            {
+                FrmMessageBox.Show(
+                    "Una reserva cancelada no puede cambiar de estado.",
+                    "Reserva cancelada",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            if (reserva.Estado == "Atendida")
+            {
+                FrmMessageBox.Show(
+                    "Una reserva atendida no puede cambiar nuevamente de estado.",
+                    "Reserva atendida",
+                    MessageType.Warning);
+
+                return;
+            }
+
+            string nuevoEstado;
+
+            if (reserva.Estado == "Pendiente")
+            {
+                nuevoEstado = "Confirmada";
+            }
+            else
+            {
+                nuevoEstado = "Atendida";
+            }
+
+            DialogResult resultado =
+                FrmMessageBox.Show(
+                    $"¿Desea cambiar la reserva de {reserva.Cliente} " +
+                    $"de '{reserva.Estado}' a '{nuevoEstado}'?",
+                    "Cambiar estado",
+                    MessageType.Confirmation);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            reserva.Estado = nuevoEstado;
+
+            MostrarReservas();
+            SincronizarMesasConReservas();
+
+            FrmMessageBox.Show(
+                $"La reserva de {reserva.Cliente} ahora se encuentra en estado '{nuevoEstado}'.",
+                "Estado actualizado",
+                MessageType.Information);
+        }
+        #endregion
+
+     
     }
+
 }
