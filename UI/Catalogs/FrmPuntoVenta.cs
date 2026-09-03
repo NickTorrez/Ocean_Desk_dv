@@ -16,6 +16,15 @@ namespace Ocean_Desk_dv.UI.Catalogs
 {
     public partial class FrmPuntoVenta : Form
     {
+        private class ClientePrueba
+        {
+            public int ClienteId { get; set; }
+            public string Nombre { get; set; }
+            public string Telefono { get; set; }
+        }
+
+        private readonly List<ClientePrueba> _clientes = new List<ClientePrueba>();
+
         private readonly List<UcOrderItem> _orderItems = new List<UcOrderItem>();
 
         #region Constructor
@@ -92,7 +101,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Metodo de configuración y coordinacion entre el Tipo de Orden y la Mesa
+        #region Metodo de configuración y coordinacion entre cmbTipoOrden, cmbMesa y cmbCliente
+        /// <summary>
+        /// Configura el ComboBox de tipo de orden y carga las mesas de prueba.
+        /// </summary>
         private void ConfigurarTipoOrden()
         {
             cmbTipoOrden.Items.Clear();
@@ -105,19 +117,52 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CargarMesasPrueba();
         }
 
+        /// <summary>
+        /// Configura el ComboBox de clientes y agrega opciones de prueba.
+        /// </summary>
         private void ConfigurarClientes()
         {
+            _clientes.Clear();
+
+            _clientes.Add(new ClientePrueba
+            {
+                ClienteId = 1,
+                Nombre = "Juan Pérez",
+                Telefono = "8888-1111"
+            });
+
+            _clientes.Add(new ClientePrueba
+            {
+                ClienteId = 2,
+                Nombre = "María López",
+                Telefono = "8888-2222"
+            });
+
+            _clientes.Add(new ClientePrueba
+            {
+                ClienteId = 3,
+                Nombre = "Carlos Rodríguez",
+                Telefono = "8888-3333"
+            });
+
             cmbCliente.Items.Clear();
 
             cmbCliente.Items.Add("Seleccione cliente...");
-            cmbCliente.Items.Add("Juan Pérez");
-            cmbCliente.Items.Add("María López");
-            cmbCliente.Items.Add("Carlos Rodríguez");
+
+            foreach (ClientePrueba cliente in _clientes)
+            {
+                cmbCliente.Items.Add(cliente.Nombre);
+            }
+
             cmbCliente.Items.Add("+ NUEVO CLIENTE");
 
             cmbCliente.SelectedIndex = 0;
+
         }
 
+        /// <summary>
+        /// Carga las mesas de prueba en el ComboBox de mesas.
+        /// </summary>
         private void CargarMesasPrueba()
         {
             cmbMesa.Items.Clear();
@@ -132,6 +177,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 cmbMesa.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Maneja el evento de cambio de selección en el ComboBox de clientes. Si se selecciona la opción "+ NUEVO CLIENTE", se abre el panel para agregar un nuevo cliente.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbCliente.SelectedItem?.ToString() == "+ NUEVO CLIENTE")
@@ -140,6 +190,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
 
+        /// <summary>
+        /// Centra el panel de nuevo cliente dentro de su contenedor, ajustando su posición horizontal y vertical para que quede centrado.
+        /// </summary>
         private void CentrarNuevoCliente()
         {
             pnlNuevoCliente.Left =
@@ -151,6 +204,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
                  pnlNuevoCliente.Height) / 2;
         }
 
+        /// <summary>
+        /// Abre el panel para agregar un nuevo cliente, haciéndolo visible y centrado dentro de su contenedor.
+        /// </summary>
         private void AbrirPanelNuevoCliente()
         {
             pnlNuevoClienteContainer.Visible = true;
@@ -161,6 +217,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             CentrarNuevoCliente();
         }
 
+        /// <summary>
+        /// Cierra el panel de nuevo cliente, ocultándolo y limpiando los campos de texto, además de restablecer la selección del ComboBox de clientes a la primera opción.
+        /// </summary>
         private void CerrarPanelNuevoCliente()
         {
             pnlNuevoCliente.Visible = false;
@@ -168,13 +227,110 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             txtNombreCliente.Clear();
             txtTelefonoCliente.Clear();
-
-            cmbCliente.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón de cancelar nuevo cliente, cerrando el panel de nuevo cliente.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancelarNuevoCliente_Click(object sender, EventArgs e)
         {
             CerrarPanelNuevoCliente();
+        }
+
+        /// <summary>
+        /// Maneja el evento de clic en el botón de guardar nuevo cliente. Valida los campos de nombre y teléfono, verifica si el cliente ya existe, y si todo es válido, agrega el nuevo cliente a la lista, actualiza el ComboBox de clientes y cierra el panel de nuevo cliente.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGuardarNuevoCliente_Click(object sender, EventArgs e)
+        {
+            string nombre = txtNombreCliente.Text.Trim();
+
+            string telefono = txtTelefonoCliente.Text.Trim();
+
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                FrmMessageBox.Show(
+                    "Ingrese el nombre del cliente.",
+                    "Nombre requerido",
+                    MessageType.Warning);
+
+                txtNombreCliente.Focus();
+
+                return;
+            }
+
+            // Validar teléfono
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                FrmMessageBox.Show(
+                    "Ingrese el número de teléfono del cliente.",
+                    "Teléfono requerido",
+                    MessageType.Warning);
+
+                txtTelefonoCliente.Focus();
+
+                return;
+            }
+
+            // Verificar si ya existe
+            bool existeCliente =
+                _clientes.Any(c =>
+                    c.Nombre.Equals(
+                        nombre,
+                        StringComparison.OrdinalIgnoreCase));
+
+            if (existeCliente)
+            {
+                FrmMessageBox.Show(
+                    "Ya existe un cliente registrado con ese nombre.",
+                    "Cliente existente",
+                    MessageType.Warning);
+
+                txtNombreCliente.Focus();
+
+                return;
+            }
+
+            // Crear cliente
+            ClientePrueba nuevoCliente = new ClientePrueba
+            {
+                ClienteId =
+                    _clientes.Count == 0
+                        ? 1
+                        : _clientes.Max(c => c.ClienteId) + 1,
+
+                Nombre = nombre,
+                Telefono = telefono
+            };
+
+            _clientes.Add(nuevoCliente);
+
+            // Actualizar ComboBox
+            cmbCliente.Items.Clear();
+
+            cmbCliente.Items.Add("Seleccione cliente...");
+
+            foreach (ClientePrueba cliente in _clientes)
+            {
+                cmbCliente.Items.Add(cliente.Nombre);
+            }
+
+            cmbCliente.Items.Add("+ NUEVO CLIENTE");
+
+            // Seleccionar automáticamente el nuevo cliente
+            cmbCliente.SelectedItem = nuevoCliente.Nombre;
+
+            // Cerrar panel
+            CerrarPanelNuevoCliente();
+
+            FrmMessageBox.Show(
+                $"El cliente {nuevoCliente.Nombre} fue registrado correctamente.",
+                "Cliente registrado",
+                MessageType.Information);
         }
         #endregion
 
@@ -581,6 +737,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
         #endregion
+
 
 
         

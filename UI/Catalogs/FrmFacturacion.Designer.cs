@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
             pnlFilters = new Panel();
             tlpFilters = new TableLayoutPanel();
             pnlSearch = new Panel();
@@ -70,6 +70,7 @@
             tlpButtonsAction = new TableLayoutPanel();
             btnVerDetalle = new Button();
             btnImprimir = new Button();
+            panel1 = new Panel();
             pnlFilters.SuspendLayout();
             tlpFilters.SuspendLayout();
             pnlSearch.SuspendLayout();
@@ -297,6 +298,7 @@
             // pnlListado
             // 
             pnlListado.BackColor = Color.Transparent;
+            pnlListado.Controls.Add(panel1);
             pnlListado.Controls.Add(dgvFacturas);
             pnlListado.Dock = DockStyle.Fill;
             pnlListado.Location = new Point(0, 78);
@@ -310,35 +312,35 @@
             dgvFacturas.AllowUserToAddRows = false;
             dgvFacturas.AllowUserToDeleteRows = false;
             dgvFacturas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle1.SelectionBackColor = Color.LightCyan;
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle12.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle12.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle12.SelectionBackColor = Color.LightCyan;
+            dataGridViewCellStyle12.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvFacturas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFacturas.BackgroundColor = Color.White;
             dgvFacturas.BorderStyle = BorderStyle.None;
             dgvFacturas.CellBorderStyle = DataGridViewCellBorderStyle.RaisedHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.White;
+            dataGridViewCellStyle13.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.SelectionForeColor = Color.White;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvFacturas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFacturas.Columns.AddRange(new DataGridViewColumn[] { colFactura, colFecha, colCliente, colTipo, colTotal, colEstado });
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dgvFacturas.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = Color.White;
+            dataGridViewCellStyle20.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle20.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle20.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.False;
+            dgvFacturas.DefaultCellStyle = dataGridViewCellStyle20;
             dgvFacturas.Dock = DockStyle.Fill;
             dgvFacturas.EnableHeadersVisualStyles = false;
             dgvFacturas.GridColor = Color.FromArgb(230, 234, 238);
@@ -346,22 +348,22 @@
             dgvFacturas.MultiSelect = false;
             dgvFacturas.Name = "dgvFacturas";
             dgvFacturas.ReadOnly = true;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.White;
-            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.Black;
-            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = Color.White;
+            dataGridViewCellStyle21.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle21.ForeColor = Color.Black;
+            dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle21.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle21;
             dgvFacturas.RowHeadersVisible = false;
             dgvFacturas.RowHeadersWidth = 51;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = Color.Black;
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
-            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle22.BackColor = Color.White;
+            dataGridViewCellStyle22.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = Color.Black;
+            dataGridViewCellStyle22.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle22.SelectionForeColor = Color.Black;
+            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle22;
             dgvFacturas.RowTemplate.Height = 38;
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFacturas.Size = new Size(934, 665);
@@ -372,8 +374,8 @@
             // colFactura
             // 
             colFactura.DataPropertyName = "NumeroFactura";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colFactura.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colFactura.DefaultCellStyle = dataGridViewCellStyle14;
             colFactura.FillWeight = 15F;
             colFactura.HeaderText = "Factura";
             colFactura.MinimumWidth = 6;
@@ -383,10 +385,10 @@
             // colFecha
             // 
             colFecha.DataPropertyName = "Fecha";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "d";
-            dataGridViewCellStyle4.NullValue = null;
-            colFecha.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.Format = "d";
+            dataGridViewCellStyle15.NullValue = null;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle15;
             colFecha.FillWeight = 15F;
             colFecha.HeaderText = "Fecha";
             colFecha.MinimumWidth = 6;
@@ -396,8 +398,8 @@
             // colCliente
             // 
             colCliente.DataPropertyName = "Cliente";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCliente.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCliente.DefaultCellStyle = dataGridViewCellStyle16;
             colCliente.FillWeight = 30F;
             colCliente.HeaderText = "Cliente";
             colCliente.MinimumWidth = 6;
@@ -407,8 +409,8 @@
             // colTipo
             // 
             colTipo.DataPropertyName = "TipoOrden";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTipo.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle17;
             colTipo.FillWeight = 15F;
             colTipo.HeaderText = "Tipo";
             colTipo.MinimumWidth = 6;
@@ -418,10 +420,10 @@
             // colTotal
             // 
             colTotal.DataPropertyName = "Total";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "C2";
-            dataGridViewCellStyle7.NullValue = null;
-            colTotal.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "C2";
+            dataGridViewCellStyle18.NullValue = null;
+            colTotal.DefaultCellStyle = dataGridViewCellStyle18;
             colTotal.FillWeight = 15F;
             colTotal.HeaderText = "Total";
             colTotal.MinimumWidth = 6;
@@ -431,8 +433,8 @@
             // colEstado
             // 
             colEstado.DataPropertyName = "Estado";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstado.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstado.DefaultCellStyle = dataGridViewCellStyle19;
             colEstado.FillWeight = 10F;
             colEstado.HeaderText = "Estado";
             colEstado.MinimumWidth = 6;
@@ -536,6 +538,13 @@
             btnImprimir.UseVisualStyleBackColor = false;
             btnImprimir.Click += btnImprimir_Click;
             // 
+            // panel1
+            // 
+            panel1.Location = new Point(277, 6);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(250, 125);
+            panel1.TabIndex = 1;
+            // 
             // FrmFacturacion
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -599,5 +608,6 @@
         private DataGridViewTextBoxColumn colTipo;
         private DataGridViewTextBoxColumn colTotal;
         private DataGridViewTextBoxColumn colEstado;
+        private Panel panel1;
     }
 }

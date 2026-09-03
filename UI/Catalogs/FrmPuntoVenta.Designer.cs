@@ -84,12 +84,12 @@
             lblBotonesFantasmas = new Label();
             lblTelefonoCliente = new Label();
             pnlTelefonoClienteInput = new Panel();
-            panel1 = new Panel();
+            pnlLineSecond = new Panel();
             txtTelefonoCliente = new TextBox();
             lblClienteFantasma = new Label();
             lblNombreCliente = new Label();
             pnlNombreClienteInput = new Panel();
-            panel2 = new Panel();
+            pnlLineFirst = new Panel();
             txtNombreCliente = new TextBox();
             lblSubtituloNuevoCliente = new Label();
             lblTituloNuevoCliente = new Label();
@@ -775,10 +775,10 @@
             pnlNuevoCliente.Controls.Add(pnlNombreClienteInput);
             pnlNuevoCliente.Controls.Add(lblSubtituloNuevoCliente);
             pnlNuevoCliente.Controls.Add(lblTituloNuevoCliente);
-            pnlNuevoCliente.Location = new Point(56, 217);
+            pnlNuevoCliente.Location = new Point(35, 212);
             pnlNuevoCliente.Name = "pnlNuevoCliente";
             pnlNuevoCliente.Padding = new Padding(25, 20, 25, 20);
-            pnlNuevoCliente.Size = new Size(460, 330);
+            pnlNuevoCliente.Size = new Size(490, 330);
             pnlNuevoCliente.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -820,7 +820,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Controls.Add(btnGuardarNuevoCliente, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Right;
-            tableLayoutPanel1.Location = new Point(276, 263);
+            tableLayoutPanel1.Location = new Point(306, 263);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -843,6 +843,7 @@
             btnGuardarNuevoCliente.TabIndex = 5;
             btnGuardarNuevoCliente.Text = "GUARDAR";
             btnGuardarNuevoCliente.UseVisualStyleBackColor = false;
+            btnGuardarNuevoCliente.Click += btnGuardarNuevoCliente_Click;
             // 
             // lblBotonesFantasmas
             // 
@@ -850,7 +851,7 @@
             lblBotonesFantasmas.ForeColor = Color.White;
             lblBotonesFantasmas.Location = new Point(25, 221);
             lblBotonesFantasmas.Name = "lblBotonesFantasmas";
-            lblBotonesFantasmas.Size = new Size(410, 42);
+            lblBotonesFantasmas.Size = new Size(440, 42);
             lblBotonesFantasmas.TabIndex = 13;
             lblBotonesFantasmas.Text = "label1";
             // 
@@ -868,22 +869,22 @@
             // pnlTelefonoClienteInput
             // 
             pnlTelefonoClienteInput.BorderStyle = BorderStyle.FixedSingle;
-            pnlTelefonoClienteInput.Controls.Add(panel1);
+            pnlTelefonoClienteInput.Controls.Add(pnlLineSecond);
             pnlTelefonoClienteInput.Controls.Add(txtTelefonoCliente);
             pnlTelefonoClienteInput.Dock = DockStyle.Top;
             pnlTelefonoClienteInput.Location = new Point(25, 171);
             pnlTelefonoClienteInput.Name = "pnlTelefonoClienteInput";
             pnlTelefonoClienteInput.Padding = new Padding(15);
-            pnlTelefonoClienteInput.Size = new Size(410, 50);
+            pnlTelefonoClienteInput.Size = new Size(440, 50);
             pnlTelefonoClienteInput.TabIndex = 9;
             // 
-            // panel1
+            // pnlLineSecond
             // 
-            panel1.BackColor = Color.FromArgb(8, 31, 63);
-            panel1.Location = new Point(17, 38);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(378, 2);
-            panel1.TabIndex = 15;
+            pnlLineSecond.BackColor = Color.FromArgb(8, 31, 63);
+            pnlLineSecond.Location = new Point(17, 38);
+            pnlLineSecond.Name = "pnlLineSecond";
+            pnlLineSecond.Size = new Size(378, 2);
+            pnlLineSecond.TabIndex = 15;
             // 
             // txtTelefonoCliente
             // 
@@ -893,7 +894,7 @@
             txtTelefonoCliente.Location = new Point(15, 15);
             txtTelefonoCliente.Name = "txtTelefonoCliente";
             txtTelefonoCliente.PlaceholderText = "Ejemplo: 8888-8888";
-            txtTelefonoCliente.Size = new Size(378, 19);
+            txtTelefonoCliente.Size = new Size(408, 19);
             txtTelefonoCliente.TabIndex = 3;
             // 
             // lblClienteFantasma
@@ -902,7 +903,7 @@
             lblClienteFantasma.ForeColor = Color.White;
             lblClienteFantasma.Location = new Point(25, 146);
             lblClienteFantasma.Name = "lblClienteFantasma";
-            lblClienteFantasma.Size = new Size(410, 25);
+            lblClienteFantasma.Size = new Size(440, 25);
             lblClienteFantasma.TabIndex = 10;
             lblClienteFantasma.Text = "label1";
             // 
@@ -920,22 +921,22 @@
             // pnlNombreClienteInput
             // 
             pnlNombreClienteInput.BorderStyle = BorderStyle.FixedSingle;
-            pnlNombreClienteInput.Controls.Add(panel2);
+            pnlNombreClienteInput.Controls.Add(pnlLineFirst);
             pnlNombreClienteInput.Controls.Add(txtNombreCliente);
             pnlNombreClienteInput.Dock = DockStyle.Top;
             pnlNombreClienteInput.Location = new Point(25, 96);
             pnlNombreClienteInput.Name = "pnlNombreClienteInput";
             pnlNombreClienteInput.Padding = new Padding(15);
-            pnlNombreClienteInput.Size = new Size(410, 50);
+            pnlNombreClienteInput.Size = new Size(440, 50);
             pnlNombreClienteInput.TabIndex = 8;
             // 
-            // panel2
+            // pnlLineFirst
             // 
-            panel2.BackColor = Color.FromArgb(8, 31, 63);
-            panel2.Location = new Point(15, 38);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(378, 2);
-            panel2.TabIndex = 14;
+            pnlLineFirst.BackColor = Color.FromArgb(8, 31, 63);
+            pnlLineFirst.Location = new Point(15, 38);
+            pnlLineFirst.Name = "pnlLineFirst";
+            pnlLineFirst.Size = new Size(378, 2);
+            pnlLineFirst.TabIndex = 14;
             // 
             // txtNombreCliente
             // 
@@ -945,7 +946,7 @@
             txtNombreCliente.Location = new Point(15, 15);
             txtNombreCliente.Name = "txtNombreCliente";
             txtNombreCliente.PlaceholderText = "Ingrese Nombre del Cliente...";
-            txtNombreCliente.Size = new Size(378, 19);
+            txtNombreCliente.Size = new Size(408, 19);
             txtNombreCliente.TabIndex = 2;
             // 
             // lblSubtituloNuevoCliente
@@ -955,7 +956,7 @@
             lblSubtituloNuevoCliente.ForeColor = Color.FromArgb(100, 110, 120);
             lblSubtituloNuevoCliente.Location = new Point(25, 54);
             lblSubtituloNuevoCliente.Name = "lblSubtituloNuevoCliente";
-            lblSubtituloNuevoCliente.Size = new Size(410, 42);
+            lblSubtituloNuevoCliente.Size = new Size(440, 42);
             lblSubtituloNuevoCliente.TabIndex = 7;
             lblSubtituloNuevoCliente.Text = "Ingrese los datos básicos para registrar al cliente\r\n";
             lblSubtituloNuevoCliente.TextAlign = ContentAlignment.MiddleLeft;
@@ -967,7 +968,7 @@
             lblTituloNuevoCliente.ForeColor = Color.FromArgb(8, 31, 63);
             lblTituloNuevoCliente.Location = new Point(25, 20);
             lblTituloNuevoCliente.Name = "lblTituloNuevoCliente";
-            lblTituloNuevoCliente.Size = new Size(410, 34);
+            lblTituloNuevoCliente.Size = new Size(440, 34);
             lblTituloNuevoCliente.TabIndex = 0;
             lblTituloNuevoCliente.Text = "Nuevo Cliente";
             lblTituloNuevoCliente.TextAlign = ContentAlignment.MiddleLeft;
@@ -1084,7 +1085,7 @@
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel1;
         private Label lblBotonesFantasmas;
-        private Panel panel1;
-        private Panel panel2;
+        private Panel pnlLineSecond;
+        private Panel pnlLineFirst;
     }
 }
