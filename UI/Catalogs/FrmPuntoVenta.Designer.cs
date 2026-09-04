@@ -979,8 +979,8 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlNuevoClienteContainer);
             Controls.Add(pnlProducts);
+            Controls.Add(pnlNuevoClienteContainer);
             Controls.Add(pnlOrder);
             Controls.Add(pnlTop);
             FormBorderStyle = FormBorderStyle.None;

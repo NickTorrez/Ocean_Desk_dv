@@ -28,17 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
             pnlFilters = new Panel();
             tlpFilters = new TableLayoutPanel();
             pnlSearch = new Panel();
@@ -66,19 +70,42 @@
             colEstado = new DataGridViewTextBoxColumn();
             pnlDetalleFacturaContainer = new Panel();
             pnlDetalleFactura = new Panel();
+            tlpCerrar = new TableLayoutPanel();
             btnCerrarDetalle = new Button();
+            tlpMetodoPago = new TableLayoutPanel();
+            lblMetodoPagoDetalle = new Label();
+            lblMetodoPago = new Label();
+            pnlLineFirst = new Panel();
+            tlpTotal = new TableLayoutPanel();
+            lblTotal = new Label();
+            lblTotalDetalle = new Label();
+            panel1 = new Panel();
+            tlpDescuento = new TableLayoutPanel();
+            lblDescuento = new Label();
+            lblDescuentoDetalle = new Label();
+            tlpSubtotal = new TableLayoutPanel();
+            lblSubtotal = new Label();
+            lblSubtotalDetalle = new Label();
+            dgvDetalleFactura = new DataGridView();
+            colDetalleProducto = new DataGridViewTextBoxColumn();
+            colDetalleCantidad = new DataGridViewTextBoxColumn();
+            colDetallePrecio = new DataGridViewTextBoxColumn();
+            colDetalleSubtotal = new DataGridViewTextBoxColumn();
+            tlpMesaEstado = new TableLayoutPanel();
+            lblMesaDetalle = new Label();
+            lblMesa = new Label();
             lblEstadoDetalle = new Label();
             lblEstadoTit = new Label();
-            lblTotalFactura = new Label();
-            lblTotal = new Label();
-            lblTipoOrdenDetalle = new Label();
+            tlpClienteOrden = new TableLayoutPanel();
             lblTipoOrden = new Label();
             lblClienteDetalle = new Label();
             lblCliente = new Label();
-            lblFechaDetalle = new Label();
+            lblTipoOrdenDetalle = new Label();
+            tlpFacturaFecha = new TableLayoutPanel();
             lblFecha = new Label();
-            lblNumeroFacturaDetalle = new Label();
+            lblFechaDetalle = new Label();
             lblFactura = new Label();
+            lblNumeroFacturaDetalle = new Label();
             lblTituloDetalle = new Label();
             pnlActions = new Panel();
             tlpAnular = new TableLayoutPanel();
@@ -86,12 +113,6 @@
             tlpButtonsAction = new TableLayoutPanel();
             btnVerDetalle = new Button();
             btnImprimir = new Button();
-            tlpFacturaFecha = new TableLayoutPanel();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            lblMesa = new Label();
-            lblMesaDetalle = new Label();
-            dataGridView1 = new DataGridView();
             pnlFilters.SuspendLayout();
             tlpFilters.SuspendLayout();
             pnlSearch.SuspendLayout();
@@ -104,13 +125,18 @@
             ((System.ComponentModel.ISupportInitialize)dgvFacturas).BeginInit();
             pnlDetalleFacturaContainer.SuspendLayout();
             pnlDetalleFactura.SuspendLayout();
+            tlpCerrar.SuspendLayout();
+            tlpMetodoPago.SuspendLayout();
+            tlpTotal.SuspendLayout();
+            tlpDescuento.SuspendLayout();
+            tlpSubtotal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleFactura).BeginInit();
+            tlpMesaEstado.SuspendLayout();
+            tlpClienteOrden.SuspendLayout();
+            tlpFacturaFecha.SuspendLayout();
             pnlActions.SuspendLayout();
             tlpAnular.SuspendLayout();
             tlpButtonsAction.SuspendLayout();
-            tlpFacturaFecha.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // pnlFilters
@@ -338,35 +364,35 @@
             dgvFacturas.AllowUserToAddRows = false;
             dgvFacturas.AllowUserToDeleteRows = false;
             dgvFacturas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle12.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle12.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle12.SelectionBackColor = Color.LightCyan;
-            dataGridViewCellStyle12.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle1.SelectionBackColor = Color.LightCyan;
+            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvFacturas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFacturas.BackgroundColor = Color.White;
             dgvFacturas.BorderStyle = BorderStyle.None;
             dgvFacturas.CellBorderStyle = DataGridViewCellBorderStyle.RaisedHorizontal;
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle13.ForeColor = Color.White;
-            dataGridViewCellStyle13.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle13.SelectionForeColor = Color.White;
-            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvFacturas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFacturas.Columns.AddRange(new DataGridViewColumn[] { colFactura, colFecha, colCliente, colTipo, colTotal, colEstado });
-            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = Color.White;
-            dataGridViewCellStyle20.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle20.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle20.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.False;
-            dgvFacturas.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dgvFacturas.DefaultCellStyle = dataGridViewCellStyle9;
             dgvFacturas.Dock = DockStyle.Fill;
             dgvFacturas.EnableHeadersVisualStyles = false;
             dgvFacturas.GridColor = Color.FromArgb(230, 234, 238);
@@ -374,34 +400,34 @@
             dgvFacturas.MultiSelect = false;
             dgvFacturas.Name = "dgvFacturas";
             dgvFacturas.ReadOnly = true;
-            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = Color.White;
-            dataGridViewCellStyle21.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle21.ForeColor = Color.Black;
-            dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle21.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.True;
-            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = Color.White;
+            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dgvFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dgvFacturas.RowHeadersVisible = false;
             dgvFacturas.RowHeadersWidth = 51;
-            dataGridViewCellStyle22.BackColor = Color.White;
-            dataGridViewCellStyle22.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle22.ForeColor = Color.Black;
-            dataGridViewCellStyle22.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle22.SelectionForeColor = Color.Black;
-            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
+            dgvFacturas.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvFacturas.RowTemplate.Height = 38;
             dgvFacturas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFacturas.Size = new Size(934, 665);
             dgvFacturas.TabIndex = 0;
+            dgvFacturas.CellClick += dgvFacturas_CellClick;
             dgvFacturas.CellFormatting += dgvFacturas_CellFormatting;
-            dgvFacturas.SelectionChanged += dgvFacturas_SelectionChanged;
             // 
             // colFactura
             // 
             colFactura.DataPropertyName = "NumeroFactura";
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colFactura.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colFactura.DefaultCellStyle = dataGridViewCellStyle3;
             colFactura.FillWeight = 15F;
             colFactura.HeaderText = "Factura";
             colFactura.MinimumWidth = 6;
@@ -411,10 +437,10 @@
             // colFecha
             // 
             colFecha.DataPropertyName = "Fecha";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.Format = "d";
-            dataGridViewCellStyle15.NullValue = null;
-            colFecha.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle4;
             colFecha.FillWeight = 15F;
             colFecha.HeaderText = "Fecha";
             colFecha.MinimumWidth = 6;
@@ -424,8 +450,8 @@
             // colCliente
             // 
             colCliente.DataPropertyName = "Cliente";
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCliente.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCliente.DefaultCellStyle = dataGridViewCellStyle5;
             colCliente.FillWeight = 30F;
             colCliente.HeaderText = "Cliente";
             colCliente.MinimumWidth = 6;
@@ -435,8 +461,8 @@
             // colTipo
             // 
             colTipo.DataPropertyName = "TipoOrden";
-            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTipo.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle6;
             colTipo.FillWeight = 15F;
             colTipo.HeaderText = "Tipo";
             colTipo.MinimumWidth = 6;
@@ -446,10 +472,10 @@
             // colTotal
             // 
             colTotal.DataPropertyName = "Total";
-            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "C2";
-            dataGridViewCellStyle18.NullValue = null;
-            colTotal.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            colTotal.DefaultCellStyle = dataGridViewCellStyle7;
             colTotal.FillWeight = 15F;
             colTotal.HeaderText = "Total";
             colTotal.MinimumWidth = 6;
@@ -459,8 +485,8 @@
             // colEstado
             // 
             colEstado.DataPropertyName = "Estado";
-            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstado.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstado.DefaultCellStyle = dataGridViewCellStyle8;
             colEstado.FillWeight = 10F;
             colEstado.HeaderText = "Estado";
             colEstado.MinimumWidth = 6;
@@ -481,51 +507,374 @@
             // pnlDetalleFactura
             // 
             pnlDetalleFactura.BackColor = Color.White;
-            pnlDetalleFactura.Controls.Add(dataGridView1);
-            pnlDetalleFactura.Controls.Add(lblTotalFactura);
-            pnlDetalleFactura.Controls.Add(tableLayoutPanel2);
-            pnlDetalleFactura.Controls.Add(lblTotal);
-            pnlDetalleFactura.Controls.Add(tableLayoutPanel1);
+            pnlDetalleFactura.Controls.Add(tlpCerrar);
+            pnlDetalleFactura.Controls.Add(tlpMetodoPago);
+            pnlDetalleFactura.Controls.Add(pnlLineFirst);
+            pnlDetalleFactura.Controls.Add(tlpTotal);
+            pnlDetalleFactura.Controls.Add(panel1);
+            pnlDetalleFactura.Controls.Add(tlpDescuento);
+            pnlDetalleFactura.Controls.Add(tlpSubtotal);
+            pnlDetalleFactura.Controls.Add(dgvDetalleFactura);
+            pnlDetalleFactura.Controls.Add(tlpMesaEstado);
+            pnlDetalleFactura.Controls.Add(tlpClienteOrden);
             pnlDetalleFactura.Controls.Add(tlpFacturaFecha);
-            pnlDetalleFactura.Controls.Add(btnCerrarDetalle);
             pnlDetalleFactura.Controls.Add(lblTituloDetalle);
-            pnlDetalleFactura.Location = new Point(94, 28);
+            pnlDetalleFactura.Location = new Point(145, 21);
             pnlDetalleFactura.Name = "pnlDetalleFactura";
-            pnlDetalleFactura.Padding = new Padding(25, 20, 25, 20);
-            pnlDetalleFactura.Size = new Size(650, 622);
+            pnlDetalleFactura.Padding = new Padding(25, 20, 25, 10);
+            pnlDetalleFactura.Size = new Size(650, 644);
             pnlDetalleFactura.TabIndex = 2;
+            // 
+            // tlpCerrar
+            // 
+            tlpCerrar.ColumnCount = 1;
+            tlpCerrar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpCerrar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tlpCerrar.Controls.Add(btnCerrarDetalle, 0, 0);
+            tlpCerrar.Dock = DockStyle.Right;
+            tlpCerrar.Location = new Point(445, 586);
+            tlpCerrar.Name = "tlpCerrar";
+            tlpCerrar.RowCount = 1;
+            tlpCerrar.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpCerrar.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpCerrar.Size = new Size(180, 48);
+            tlpCerrar.TabIndex = 27;
             // 
             // btnCerrarDetalle
             // 
             btnCerrarDetalle.BackColor = Color.FromArgb(238, 243, 247);
+            btnCerrarDetalle.Dock = DockStyle.Fill;
             btnCerrarDetalle.FlatAppearance.BorderSize = 0;
             btnCerrarDetalle.FlatStyle = FlatStyle.Flat;
             btnCerrarDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrarDetalle.Location = new Point(399, 543);
+            btnCerrarDetalle.Location = new Point(3, 3);
             btnCerrarDetalle.Name = "btnCerrarDetalle";
-            btnCerrarDetalle.Size = new Size(129, 42);
+            btnCerrarDetalle.Size = new Size(174, 42);
             btnCerrarDetalle.TabIndex = 13;
             btnCerrarDetalle.Text = "CERRAR";
             btnCerrarDetalle.UseVisualStyleBackColor = false;
             btnCerrarDetalle.Click += btnCerrarDetalle_Click;
             // 
+            // tlpMetodoPago
+            // 
+            tlpMetodoPago.ColumnCount = 2;
+            tlpMetodoPago.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpMetodoPago.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            tlpMetodoPago.Controls.Add(lblMetodoPagoDetalle, 1, 0);
+            tlpMetodoPago.Controls.Add(lblMetodoPago, 0, 0);
+            tlpMetodoPago.Dock = DockStyle.Top;
+            tlpMetodoPago.Location = new Point(25, 544);
+            tlpMetodoPago.Name = "tlpMetodoPago";
+            tlpMetodoPago.RowCount = 1;
+            tlpMetodoPago.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpMetodoPago.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpMetodoPago.Size = new Size(600, 42);
+            tlpMetodoPago.TabIndex = 26;
+            // 
+            // lblMetodoPagoDetalle
+            // 
+            lblMetodoPagoDetalle.BackColor = Color.White;
+            lblMetodoPagoDetalle.Dock = DockStyle.Left;
+            lblMetodoPagoDetalle.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblMetodoPagoDetalle.Location = new Point(153, 0);
+            lblMetodoPagoDetalle.Name = "lblMetodoPagoDetalle";
+            lblMetodoPagoDetalle.Size = new Size(400, 42);
+            lblMetodoPagoDetalle.TabIndex = 32;
+            lblMetodoPagoDetalle.Text = "Efectivo";
+            lblMetodoPagoDetalle.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblMetodoPago
+            // 
+            lblMetodoPago.BackColor = Color.White;
+            lblMetodoPago.Dock = DockStyle.Fill;
+            lblMetodoPago.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMetodoPago.Location = new Point(3, 0);
+            lblMetodoPago.Name = "lblMetodoPago";
+            lblMetodoPago.Size = new Size(144, 42);
+            lblMetodoPago.TabIndex = 31;
+            lblMetodoPago.Text = "Metodo de Pago:";
+            lblMetodoPago.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // pnlLineFirst
+            // 
+            pnlLineFirst.BackColor = Color.FromArgb(8, 31, 63);
+            pnlLineFirst.Dock = DockStyle.Top;
+            pnlLineFirst.Location = new Point(25, 542);
+            pnlLineFirst.Name = "pnlLineFirst";
+            pnlLineFirst.Size = new Size(600, 2);
+            pnlLineFirst.TabIndex = 28;
+            // 
+            // tlpTotal
+            // 
+            tlpTotal.ColumnCount = 2;
+            tlpTotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpTotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            tlpTotal.Controls.Add(lblTotal, 0, 0);
+            tlpTotal.Controls.Add(lblTotalDetalle, 1, 0);
+            tlpTotal.Dock = DockStyle.Top;
+            tlpTotal.Location = new Point(25, 500);
+            tlpTotal.Name = "tlpTotal";
+            tlpTotal.RowCount = 1;
+            tlpTotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpTotal.Size = new Size(600, 42);
+            tlpTotal.TabIndex = 25;
+            // 
+            // lblTotal
+            // 
+            lblTotal.BackColor = Color.White;
+            lblTotal.Dock = DockStyle.Fill;
+            lblTotal.Font = new Font("Century Gothic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotal.Location = new Point(3, 0);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(144, 42);
+            lblTotal.TabIndex = 9;
+            lblTotal.Text = "Total:";
+            lblTotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblTotalDetalle
+            // 
+            lblTotalDetalle.BackColor = Color.White;
+            lblTotalDetalle.Dock = DockStyle.Left;
+            lblTotalDetalle.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalDetalle.Location = new Point(153, 0);
+            lblTotalDetalle.Name = "lblTotalDetalle";
+            lblTotalDetalle.Size = new Size(400, 42);
+            lblTotalDetalle.TabIndex = 10;
+            lblTotalDetalle.Text = "C$ 0.00";
+            lblTotalDetalle.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(8, 31, 63);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(25, 498);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(600, 2);
+            panel1.TabIndex = 29;
+            // 
+            // tlpDescuento
+            // 
+            tlpDescuento.ColumnCount = 2;
+            tlpDescuento.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDescuento.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            tlpDescuento.Controls.Add(lblDescuento, 0, 0);
+            tlpDescuento.Controls.Add(lblDescuentoDetalle, 1, 0);
+            tlpDescuento.Dock = DockStyle.Top;
+            tlpDescuento.Location = new Point(25, 456);
+            tlpDescuento.Name = "tlpDescuento";
+            tlpDescuento.RowCount = 1;
+            tlpDescuento.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpDescuento.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpDescuento.Size = new Size(600, 42);
+            tlpDescuento.TabIndex = 24;
+            // 
+            // lblDescuento
+            // 
+            lblDescuento.BackColor = Color.White;
+            lblDescuento.Dock = DockStyle.Fill;
+            lblDescuento.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDescuento.Location = new Point(3, 0);
+            lblDescuento.Name = "lblDescuento";
+            lblDescuento.Size = new Size(144, 42);
+            lblDescuento.TabIndex = 29;
+            lblDescuento.Text = "Descuento:";
+            lblDescuento.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblDescuentoDetalle
+            // 
+            lblDescuentoDetalle.BackColor = Color.White;
+            lblDescuentoDetalle.Dock = DockStyle.Left;
+            lblDescuentoDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDescuentoDetalle.Location = new Point(153, 0);
+            lblDescuentoDetalle.Name = "lblDescuentoDetalle";
+            lblDescuentoDetalle.Size = new Size(400, 42);
+            lblDescuentoDetalle.TabIndex = 30;
+            lblDescuentoDetalle.Text = "C$ 0.00";
+            lblDescuentoDetalle.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // tlpSubtotal
+            // 
+            tlpSubtotal.ColumnCount = 2;
+            tlpSubtotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpSubtotal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            tlpSubtotal.Controls.Add(lblSubtotal, 0, 0);
+            tlpSubtotal.Controls.Add(lblSubtotalDetalle, 1, 0);
+            tlpSubtotal.Dock = DockStyle.Top;
+            tlpSubtotal.Location = new Point(25, 414);
+            tlpSubtotal.Name = "tlpSubtotal";
+            tlpSubtotal.RowCount = 1;
+            tlpSubtotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpSubtotal.Size = new Size(600, 42);
+            tlpSubtotal.TabIndex = 23;
+            // 
+            // lblSubtotal
+            // 
+            lblSubtotal.BackColor = Color.White;
+            lblSubtotal.Dock = DockStyle.Fill;
+            lblSubtotal.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSubtotal.Location = new Point(3, 0);
+            lblSubtotal.Name = "lblSubtotal";
+            lblSubtotal.Size = new Size(144, 42);
+            lblSubtotal.TabIndex = 27;
+            lblSubtotal.Text = "Subtotal:";
+            lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblSubtotalDetalle
+            // 
+            lblSubtotalDetalle.BackColor = Color.White;
+            lblSubtotalDetalle.Dock = DockStyle.Left;
+            lblSubtotalDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSubtotalDetalle.Location = new Point(153, 0);
+            lblSubtotalDetalle.Name = "lblSubtotalDetalle";
+            lblSubtotalDetalle.Size = new Size(400, 42);
+            lblSubtotalDetalle.TabIndex = 28;
+            lblSubtotalDetalle.Text = "C$ 0.00";
+            lblSubtotalDetalle.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // dgvDetalleFactura
+            // 
+            dgvDetalleFactura.AllowUserToAddRows = false;
+            dgvDetalleFactura.AllowUserToDeleteRows = false;
+            dgvDetalleFactura.AllowUserToResizeColumns = false;
+            dgvDetalleFactura.AllowUserToResizeRows = false;
+            dataGridViewCellStyle12.BackColor = Color.FromArgb(245, 247, 250);
+            dataGridViewCellStyle12.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = Color.Black;
+            dataGridViewCellStyle12.SelectionBackColor = Color.LightCyan;
+            dataGridViewCellStyle12.SelectionForeColor = Color.Black;
+            dgvDetalleFactura.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            dgvDetalleFactura.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleFactura.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = Color.White;
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.Black;
+            dataGridViewCellStyle13.Padding = new Padding(10, 0, 0, 0);
+            dataGridViewCellStyle13.SelectionBackColor = SystemColors.HighlightText;
+            dataGridViewCellStyle13.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dgvDetalleFactura.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dgvDetalleFactura.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetalleFactura.Columns.AddRange(new DataGridViewColumn[] { colDetalleProducto, colDetalleCantidad, colDetallePrecio, colDetalleSubtotal });
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.FromArgb(245, 247, 250);
+            dataGridViewCellStyle14.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle14.ForeColor = Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = Color.LightCyan;
+            dataGridViewCellStyle14.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
+            dgvDetalleFactura.DefaultCellStyle = dataGridViewCellStyle14;
+            dgvDetalleFactura.Dock = DockStyle.Top;
+            dgvDetalleFactura.EnableHeadersVisualStyles = false;
+            dgvDetalleFactura.Location = new Point(25, 202);
+            dgvDetalleFactura.Margin = new Padding(3, 10, 3, 10);
+            dgvDetalleFactura.MultiSelect = false;
+            dgvDetalleFactura.Name = "dgvDetalleFactura";
+            dgvDetalleFactura.ReadOnly = true;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = Color.White;
+            dataGridViewCellStyle15.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle15.ForeColor = Color.Black;
+            dataGridViewCellStyle15.SelectionBackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle15.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dgvDetalleFactura.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dgvDetalleFactura.RowHeadersVisible = false;
+            dgvDetalleFactura.RowHeadersWidth = 51;
+            dgvDetalleFactura.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetalleFactura.Size = new Size(600, 212);
+            dgvDetalleFactura.TabIndex = 22;
+            // 
+            // colDetalleProducto
+            // 
+            colDetalleProducto.HeaderText = "Producto";
+            colDetalleProducto.MinimumWidth = 6;
+            colDetalleProducto.Name = "colDetalleProducto";
+            colDetalleProducto.ReadOnly = true;
+            // 
+            // colDetalleCantidad
+            // 
+            colDetalleCantidad.HeaderText = "Cantidad";
+            colDetalleCantidad.MinimumWidth = 6;
+            colDetalleCantidad.Name = "colDetalleCantidad";
+            colDetalleCantidad.ReadOnly = true;
+            // 
+            // colDetallePrecio
+            // 
+            colDetallePrecio.HeaderText = "Precio";
+            colDetallePrecio.MinimumWidth = 6;
+            colDetallePrecio.Name = "colDetallePrecio";
+            colDetallePrecio.ReadOnly = true;
+            // 
+            // colDetalleSubtotal
+            // 
+            colDetalleSubtotal.HeaderText = "Subtotal";
+            colDetalleSubtotal.MinimumWidth = 6;
+            colDetalleSubtotal.Name = "colDetalleSubtotal";
+            colDetalleSubtotal.ReadOnly = true;
+            // 
+            // tlpMesaEstado
+            // 
+            tlpMesaEstado.ColumnCount = 4;
+            tlpMesaEstado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpMesaEstado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpMesaEstado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpMesaEstado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpMesaEstado.Controls.Add(lblMesaDetalle, 1, 0);
+            tlpMesaEstado.Controls.Add(lblMesa, 0, 0);
+            tlpMesaEstado.Controls.Add(lblEstadoDetalle, 3, 0);
+            tlpMesaEstado.Controls.Add(lblEstadoTit, 2, 0);
+            tlpMesaEstado.Dock = DockStyle.Top;
+            tlpMesaEstado.Location = new Point(25, 160);
+            tlpMesaEstado.Name = "tlpMesaEstado";
+            tlpMesaEstado.RowCount = 1;
+            tlpMesaEstado.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpMesaEstado.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpMesaEstado.Size = new Size(600, 42);
+            tlpMesaEstado.TabIndex = 21;
+            // 
+            // lblMesaDetalle
+            // 
+            lblMesaDetalle.BackColor = Color.White;
+            lblMesaDetalle.Dock = DockStyle.Fill;
+            lblMesaDetalle.Font = new Font("Century Gothic", 9F);
+            lblMesaDetalle.Location = new Point(153, 0);
+            lblMesaDetalle.Name = "lblMesaDetalle";
+            lblMesaDetalle.Size = new Size(144, 42);
+            lblMesaDetalle.TabIndex = 14;
+            lblMesaDetalle.Text = "05";
+            lblMesaDetalle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblMesa
+            // 
+            lblMesa.BackColor = Color.White;
+            lblMesa.Dock = DockStyle.Fill;
+            lblMesa.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
+            lblMesa.Location = new Point(3, 0);
+            lblMesa.Name = "lblMesa";
+            lblMesa.Size = new Size(144, 42);
+            lblMesa.TabIndex = 13;
+            lblMesa.Text = "Mesa:";
+            lblMesa.TextAlign = ContentAlignment.MiddleRight;
+            // 
             // lblEstadoDetalle
             // 
             lblEstadoDetalle.BackColor = Color.White;
             lblEstadoDetalle.Dock = DockStyle.Fill;
-            lblEstadoDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEstadoDetalle.Font = new Font("Century Gothic", 9F);
             lblEstadoDetalle.Location = new Point(453, 0);
             lblEstadoDetalle.Name = "lblEstadoDetalle";
             lblEstadoDetalle.Size = new Size(144, 42);
             lblEstadoDetalle.TabIndex = 12;
             lblEstadoDetalle.Text = "Anulada";
-            lblEstadoDetalle.TextAlign = ContentAlignment.MiddleRight;
+            lblEstadoDetalle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblEstadoTit
             // 
             lblEstadoTit.BackColor = Color.White;
             lblEstadoTit.Dock = DockStyle.Fill;
-            lblEstadoTit.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEstadoTit.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             lblEstadoTit.Location = new Point(303, 0);
             lblEstadoTit.Name = "lblEstadoTit";
             lblEstadoTit.Size = new Size(144, 42);
@@ -533,45 +882,31 @@
             lblEstadoTit.Text = "Estado:";
             lblEstadoTit.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // lblTotalFactura
+            // tlpClienteOrden
             // 
-            lblTotalFactura.BackColor = Color.FromArgb(224, 234, 240);
-            lblTotalFactura.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTotalFactura.Location = new Point(316, 472);
-            lblTotalFactura.Name = "lblTotalFactura";
-            lblTotalFactura.Size = new Size(200, 42);
-            lblTotalFactura.TabIndex = 10;
-            lblTotalFactura.Text = "C$ 0.00";
-            lblTotalFactura.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // lblTotal
-            // 
-            lblTotal.BackColor = Color.FromArgb(224, 234, 240);
-            lblTotal.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotal.Location = new Point(132, 509);
-            lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(93, 42);
-            lblTotal.TabIndex = 9;
-            lblTotal.Text = "Total:";
-            lblTotal.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblTipoOrdenDetalle
-            // 
-            lblTipoOrdenDetalle.BackColor = Color.White;
-            lblTipoOrdenDetalle.Dock = DockStyle.Fill;
-            lblTipoOrdenDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTipoOrdenDetalle.Location = new Point(453, 0);
-            lblTipoOrdenDetalle.Name = "lblTipoOrdenDetalle";
-            lblTipoOrdenDetalle.Size = new Size(144, 42);
-            lblTipoOrdenDetalle.TabIndex = 8;
-            lblTipoOrdenDetalle.Text = "Local";
-            lblTipoOrdenDetalle.TextAlign = ContentAlignment.MiddleRight;
+            tlpClienteOrden.ColumnCount = 4;
+            tlpClienteOrden.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpClienteOrden.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpClienteOrden.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpClienteOrden.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpClienteOrden.Controls.Add(lblTipoOrden, 2, 0);
+            tlpClienteOrden.Controls.Add(lblClienteDetalle, 1, 0);
+            tlpClienteOrden.Controls.Add(lblCliente, 0, 0);
+            tlpClienteOrden.Controls.Add(lblTipoOrdenDetalle, 3, 0);
+            tlpClienteOrden.Dock = DockStyle.Top;
+            tlpClienteOrden.Location = new Point(25, 118);
+            tlpClienteOrden.Name = "tlpClienteOrden";
+            tlpClienteOrden.RowCount = 1;
+            tlpClienteOrden.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpClienteOrden.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpClienteOrden.Size = new Size(600, 42);
+            tlpClienteOrden.TabIndex = 20;
             // 
             // lblTipoOrden
             // 
             lblTipoOrden.BackColor = Color.White;
             lblTipoOrden.Dock = DockStyle.Fill;
-            lblTipoOrden.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTipoOrden.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             lblTipoOrden.Location = new Point(303, 0);
             lblTipoOrden.Name = "lblTipoOrden";
             lblTipoOrden.Size = new Size(144, 42);
@@ -583,19 +918,19 @@
             // 
             lblClienteDetalle.BackColor = Color.White;
             lblClienteDetalle.Dock = DockStyle.Fill;
-            lblClienteDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblClienteDetalle.Font = new Font("Century Gothic", 9F);
             lblClienteDetalle.Location = new Point(153, 0);
             lblClienteDetalle.Name = "lblClienteDetalle";
             lblClienteDetalle.Size = new Size(144, 42);
             lblClienteDetalle.TabIndex = 6;
             lblClienteDetalle.Text = "Carlos Putin";
-            lblClienteDetalle.TextAlign = ContentAlignment.MiddleRight;
+            lblClienteDetalle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblCliente
             // 
             lblCliente.BackColor = Color.White;
             lblCliente.Dock = DockStyle.Fill;
-            lblCliente.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCliente.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             lblCliente.Location = new Point(3, 0);
             lblCliente.Name = "lblCliente";
             lblCliente.Size = new Size(144, 42);
@@ -603,23 +938,43 @@
             lblCliente.Text = "Cliente:";
             lblCliente.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // lblFechaDetalle
+            // lblTipoOrdenDetalle
             // 
-            lblFechaDetalle.BackColor = Color.White;
-            lblFechaDetalle.Dock = DockStyle.Fill;
-            lblFechaDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFechaDetalle.Location = new Point(453, 0);
-            lblFechaDetalle.Name = "lblFechaDetalle";
-            lblFechaDetalle.Size = new Size(144, 42);
-            lblFechaDetalle.TabIndex = 4;
-            lblFechaDetalle.Text = "03/09/2026";
-            lblFechaDetalle.TextAlign = ContentAlignment.MiddleRight;
+            lblTipoOrdenDetalle.BackColor = Color.White;
+            lblTipoOrdenDetalle.Dock = DockStyle.Fill;
+            lblTipoOrdenDetalle.Font = new Font("Century Gothic", 9F);
+            lblTipoOrdenDetalle.Location = new Point(453, 0);
+            lblTipoOrdenDetalle.Name = "lblTipoOrdenDetalle";
+            lblTipoOrdenDetalle.Size = new Size(144, 42);
+            lblTipoOrdenDetalle.TabIndex = 8;
+            lblTipoOrdenDetalle.Text = "Local";
+            lblTipoOrdenDetalle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // tlpFacturaFecha
+            // 
+            tlpFacturaFecha.ColumnCount = 4;
+            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpFacturaFecha.Controls.Add(lblFecha, 2, 0);
+            tlpFacturaFecha.Controls.Add(lblFechaDetalle, 3, 0);
+            tlpFacturaFecha.Controls.Add(lblFactura, 0, 0);
+            tlpFacturaFecha.Controls.Add(lblNumeroFacturaDetalle, 1, 0);
+            tlpFacturaFecha.Dock = DockStyle.Top;
+            tlpFacturaFecha.Location = new Point(25, 76);
+            tlpFacturaFecha.Name = "tlpFacturaFecha";
+            tlpFacturaFecha.RowCount = 1;
+            tlpFacturaFecha.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpFacturaFecha.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpFacturaFecha.Size = new Size(600, 42);
+            tlpFacturaFecha.TabIndex = 0;
             // 
             // lblFecha
             // 
             lblFecha.BackColor = Color.White;
             lblFecha.Dock = DockStyle.Fill;
-            lblFecha.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFecha.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             lblFecha.Location = new Point(303, 0);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(144, 42);
@@ -627,23 +982,23 @@
             lblFecha.Text = "Fecha:";
             lblFecha.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // lblNumeroFacturaDetalle
+            // lblFechaDetalle
             // 
-            lblNumeroFacturaDetalle.BackColor = Color.White;
-            lblNumeroFacturaDetalle.Dock = DockStyle.Fill;
-            lblNumeroFacturaDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblNumeroFacturaDetalle.Location = new Point(153, 0);
-            lblNumeroFacturaDetalle.Name = "lblNumeroFacturaDetalle";
-            lblNumeroFacturaDetalle.Size = new Size(144, 42);
-            lblNumeroFacturaDetalle.TabIndex = 2;
-            lblNumeroFacturaDetalle.Text = "F001-0001 ";
-            lblNumeroFacturaDetalle.TextAlign = ContentAlignment.MiddleRight;
+            lblFechaDetalle.BackColor = Color.White;
+            lblFechaDetalle.Dock = DockStyle.Fill;
+            lblFechaDetalle.Font = new Font("Century Gothic", 9F);
+            lblFechaDetalle.Location = new Point(453, 0);
+            lblFechaDetalle.Name = "lblFechaDetalle";
+            lblFechaDetalle.Size = new Size(144, 42);
+            lblFechaDetalle.TabIndex = 4;
+            lblFechaDetalle.Text = "03/09/2026";
+            lblFechaDetalle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblFactura
             // 
             lblFactura.BackColor = Color.White;
             lblFactura.Dock = DockStyle.Fill;
-            lblFactura.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFactura.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             lblFactura.Location = new Point(3, 0);
             lblFactura.Name = "lblFactura";
             lblFactura.Size = new Size(144, 42);
@@ -651,10 +1006,23 @@
             lblFactura.Text = "Factura:";
             lblFactura.TextAlign = ContentAlignment.MiddleRight;
             // 
+            // lblNumeroFacturaDetalle
+            // 
+            lblNumeroFacturaDetalle.BackColor = Color.White;
+            lblNumeroFacturaDetalle.Dock = DockStyle.Fill;
+            lblNumeroFacturaDetalle.Font = new Font("Century Gothic", 9F);
+            lblNumeroFacturaDetalle.Location = new Point(153, 0);
+            lblNumeroFacturaDetalle.Name = "lblNumeroFacturaDetalle";
+            lblNumeroFacturaDetalle.Size = new Size(144, 42);
+            lblNumeroFacturaDetalle.TabIndex = 2;
+            lblNumeroFacturaDetalle.Text = "F001-0001 ";
+            lblNumeroFacturaDetalle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // lblTituloDetalle
             // 
             lblTituloDetalle.Dock = DockStyle.Top;
             lblTituloDetalle.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTituloDetalle.ForeColor = Color.FromArgb(8, 31, 63);
             lblTituloDetalle.Location = new Point(25, 20);
             lblTituloDetalle.Name = "lblTituloDetalle";
             lblTituloDetalle.Size = new Size(600, 56);
@@ -758,99 +1126,6 @@
             btnImprimir.UseVisualStyleBackColor = false;
             btnImprimir.Click += btnImprimir_Click;
             // 
-            // tlpFacturaFecha
-            // 
-            tlpFacturaFecha.ColumnCount = 4;
-            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpFacturaFecha.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpFacturaFecha.Controls.Add(lblFecha, 2, 0);
-            tlpFacturaFecha.Controls.Add(lblFechaDetalle, 3, 0);
-            tlpFacturaFecha.Controls.Add(lblFactura, 0, 0);
-            tlpFacturaFecha.Controls.Add(lblNumeroFacturaDetalle, 1, 0);
-            tlpFacturaFecha.Dock = DockStyle.Top;
-            tlpFacturaFecha.Location = new Point(25, 76);
-            tlpFacturaFecha.Name = "tlpFacturaFecha";
-            tlpFacturaFecha.RowCount = 1;
-            tlpFacturaFecha.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpFacturaFecha.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpFacturaFecha.Size = new Size(600, 42);
-            tlpFacturaFecha.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.Controls.Add(lblTipoOrden, 2, 0);
-            tableLayoutPanel1.Controls.Add(lblClienteDetalle, 1, 0);
-            tableLayoutPanel1.Controls.Add(lblCliente, 0, 0);
-            tableLayoutPanel1.Controls.Add(lblTipoOrdenDetalle, 3, 0);
-            tableLayoutPanel1.Dock = DockStyle.Top;
-            tableLayoutPanel1.Location = new Point(25, 118);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(600, 42);
-            tableLayoutPanel1.TabIndex = 20;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 4;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.Controls.Add(lblMesaDetalle, 1, 0);
-            tableLayoutPanel2.Controls.Add(lblMesa, 0, 0);
-            tableLayoutPanel2.Controls.Add(lblEstadoDetalle, 3, 0);
-            tableLayoutPanel2.Controls.Add(lblEstadoTit, 2, 0);
-            tableLayoutPanel2.Dock = DockStyle.Top;
-            tableLayoutPanel2.Location = new Point(25, 160);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(600, 42);
-            tableLayoutPanel2.TabIndex = 21;
-            // 
-            // lblMesa
-            // 
-            lblMesa.BackColor = Color.White;
-            lblMesa.Dock = DockStyle.Fill;
-            lblMesa.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMesa.Location = new Point(3, 0);
-            lblMesa.Name = "lblMesa";
-            lblMesa.Size = new Size(144, 42);
-            lblMesa.TabIndex = 13;
-            lblMesa.Text = "Mesa:";
-            lblMesa.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // lblMesaDetalle
-            // 
-            lblMesaDetalle.BackColor = Color.White;
-            lblMesaDetalle.Dock = DockStyle.Fill;
-            lblMesaDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMesaDetalle.Location = new Point(153, 0);
-            lblMesaDetalle.Name = "lblMesaDetalle";
-            lblMesaDetalle.Size = new Size(144, 42);
-            lblMesaDetalle.TabIndex = 14;
-            lblMesaDetalle.Text = "05";
-            lblMesaDetalle.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(234, 258);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(300, 188);
-            dataGridView1.TabIndex = 22;
-            // 
             // FrmFacturacion
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -878,13 +1153,18 @@
             ((System.ComponentModel.ISupportInitialize)dgvFacturas).EndInit();
             pnlDetalleFacturaContainer.ResumeLayout(false);
             pnlDetalleFactura.ResumeLayout(false);
+            tlpCerrar.ResumeLayout(false);
+            tlpMetodoPago.ResumeLayout(false);
+            tlpTotal.ResumeLayout(false);
+            tlpDescuento.ResumeLayout(false);
+            tlpSubtotal.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleFactura).EndInit();
+            tlpMesaEstado.ResumeLayout(false);
+            tlpClienteOrden.ResumeLayout(false);
+            tlpFacturaFecha.ResumeLayout(false);
             pnlActions.ResumeLayout(false);
             tlpAnular.ResumeLayout(false);
             tlpButtonsAction.ResumeLayout(false);
-            tlpFacturaFecha.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -931,18 +1211,34 @@
         private Button btnCerrarDetalle;
         private Label lblEstadoDetalle;
         private Label lblEstadoTit;
-        private Label label2;
+        private Label lblSubtotalDetalle;
         private Label lblTotal;
         private Label lblTipoOrdenDetalle;
         private Label lblTipoOrden;
         private Label lblClienteDetalle;
         private Label lblCliente;
-        private Label lblTotalFactura;
+        private Label lblTotalDetalle;
         private TableLayoutPanel tlpFacturaFecha;
-        private TableLayoutPanel tableLayoutPanel2;
+        private TableLayoutPanel tlpMesaEstado;
         private Label lblMesa;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tlpClienteOrden;
         private Label lblMesaDetalle;
-        private DataGridView dataGridView1;
+        private DataGridView dgvDetalleFactura;
+        private TableLayoutPanel tlpSubtotal;
+        private DataGridViewTextBoxColumn colDetalleProducto;
+        private DataGridViewTextBoxColumn colDetalleCantidad;
+        private DataGridViewTextBoxColumn colDetallePrecio;
+        private DataGridViewTextBoxColumn colDetalleSubtotal;
+        private TableLayoutPanel tlpMetodoPago;
+        private TableLayoutPanel tlpTotal;
+        private TableLayoutPanel tlpDescuento;
+        private Label lblSubtotal;
+        private Label lblDescuentoDetalle;
+        private Label lblDescuento;
+        private Label lblMetodoPagoDetalle;
+        private Label lblMetodoPago;
+        private TableLayoutPanel tlpCerrar;
+        private Panel pnlLineFirst;
+        private Panel panel1;
     }
 }
