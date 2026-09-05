@@ -987,6 +987,7 @@
             Name = "FrmPuntoVenta";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmPuntoVenta";
+            FormClosed += FrmPuntoVenta_FormClosed;
             pnlTop.ResumeLayout(false);
             tlpTop.ResumeLayout(false);
             pnlCliente.ResumeLayout(false);

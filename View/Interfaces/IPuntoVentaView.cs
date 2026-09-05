@@ -1,26 +1,45 @@
-﻿using Ocean_Desk_dv.Models.Entities;
-using Ocean_Desk_dv.UI.Catalogs;
+﻿using Ocean_Desk_dv.UI.Catalogs;
 using System;
+using Ocean_Desk_dv.Models.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ocean_Desk_dv.View.Interfaces
 {
+    /// <summary>
+    /// Contrato entre el formulario de Punto de Venta y su Presenter.
+    /// </summary>
     public interface IPuntoVentaView
     {
-        // Propiedades de la vista
-        int MesaIdSeleccionada { get; }
-        string TipoOrden { get; } // Ejemplo: "Para Comer Aquí", "Llevar"
-        List<SaleDetail> DetallesVenta { get; }
+        string TipoOrden { get; }
+        int? MesaIdSeleccionada { get; }
+        int? ClienteIdSeleccionado { get; }
+        string MetodoPago { get; }
 
-        // Métodos de la vista
+        string NuevoClienteNombre { get; }
+        string NuevoClienteTelefono { get; }
+
+        IReadOnlyList<PuntoVentaDetalle> DetallesVenta { get; }
+
         void MostrarProductos(List<Product> productos);
-        void MostrarMensaje(string mensaje);
-        void LimpiarCarrito();
+        void MostrarClientes(List<Customer> clientes);
+        void MostrarMesas(List<TableRestaurant> mesas);
 
-        // Eventos
-        event EventHandler PagarYRegistrarOrden;
+        void MostrarMensaje(string mensaje, string titulo = "Punto de Venta", bool esError = false);
+        void LimpiarCarrito();
+        void SeleccionarCliente(int customerId);
+        void CerrarPanelNuevoCliente();
+
+        event EventHandler? PagarYRegistrarOrden;
+        event EventHandler? GuardarNuevoCliente;
+    }
+
+    /// <summary>
+    /// Datos mínimos de un producto agregado al pedido.
+    /// No expone directamente la Entity de SaleDetail a la vista.
+    /// </summary>
+    public class PuntoVentaDetalle
+    {
+        public int ProductoId { get; set; }
+        public int Cantidad { get; set; }
     }
 }
