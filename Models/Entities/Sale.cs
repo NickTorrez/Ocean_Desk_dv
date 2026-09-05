@@ -29,6 +29,8 @@ public partial class Sale
 
     public virtual ICollection<CashMovement> CashMovements { get; set; } = new List<CashMovement>();
 
+    public virtual Customer? Customer { get; set; }
+
     public virtual Invoice? Invoice { get; set; }
 
     public virtual KitchenOrder? KitchenOrder { get; set; }
@@ -36,4 +38,6 @@ public partial class Sale
     public virtual ICollection<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
 
     public virtual ICollection<SalePayment> SalePayments { get; set; } = new List<SalePayment>();
+
+    public virtual TableRestaurant? Table { get; set; }
 }

@@ -737,9 +737,5 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
         #endregion
-
-
-
-        
     }
 }

@@ -18,4 +18,6 @@ public partial class TableRestaurant
     public string? Notes { get; set; }
 
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }

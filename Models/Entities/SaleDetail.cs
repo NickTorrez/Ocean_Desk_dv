@@ -23,5 +23,7 @@ public partial class SaleDetail
 
     public virtual ICollection<KitchenOrderDetail> KitchenOrderDetails { get; set; } = new List<KitchenOrderDetail>();
 
+    public virtual Product Product { get; set; } = null!;
+
     public virtual Sale Sale { get; set; } = null!;
 }
