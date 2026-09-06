@@ -1,11 +1,14 @@
-﻿using Ocean_Desk_dv.UI.MessageBox;
+﻿using Ocean_Desk_dv.Presenters;
+using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Models;
+using Ocean_Desk_dv.View.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Ocean_Desk_dv.UI.Catalogs
 {
-    public partial class FrmFacturacion : Form
+    public partial class FrmFacturacion : Form, IFacturacionView
     {
         private readonly List<FacturaPrueba> _facturas = new List<FacturaPrueba>(); //Declaramos una lista para las facturas
 
@@ -23,42 +26,96 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         private readonly PrintDocument _documentoImpresion = new PrintDocument(); // Variable para manejar la impresión
 
-        public FrmFacturacion()
+        private readonly int _usuarioId; // Variable para almacenar el ID del usuario que está operando el módulo
+
+        private FacturacionPresenter? _presenter; // Variable para almacenar la instancia del presentador que maneja la lógica de negocio
+
+        #region Constructor
+
+        public FrmFacturacion() : this(1)
+        {
+        }
+
+        public FrmFacturacion(int usuarioId)
         {
             InitializeComponent();
+
+            _usuarioId = usuarioId;
 
             dgvFacturas.AutoGenerateColumns = false;
 
             _documentoImpresion.PrintPage += DocumentoImpresion_PrintPage;
 
-            ConfigurarColumnasFacturas(); // Configuramos las columnas del dgv de facturas
+            ConfigurarColumnasFacturas(); // Configura las columnas del DataGridView de facturas
+            ConfigurarColumnasDetalleFactura(); // Configura las columnas del DataGridView de detalle de factura
+            ConfigurarFiltroEstado(); // Configura el ComboBox de estado de facturas
+            ConfigurarFiltroFechas();// Configura los DateTimePickers de fecha desde y fecha hasta
 
-            ConfigurarColumnasDetalleFactura();// Configuramos las columnas del dgv de detalle de factura
+            dgvDetalleFactura.CellFormatting += dgvDetalleFactura_CellFormatting;
 
-            CargarFacturasPrueba(); //Cargamos las Facturas
-            MostrarFacturas(); //Se mjuestran las facturas en el dgv
-            ActualizarEstadoBotones(); //Comportamiento entre botones y dgv
-            ConfigurarFiltroEstado();// Configuramos el filtro de estado
-            ConfigurarFiltroFechas();// Configuramos el filtro de fechas
-        }
-
-        #region Metodos para Cargar y Mostrar Facturas de Prueba
-        /// <summary>
-        /// Muestra las facturas en el DataGridView, restableciendo la selección y actualizando el estado de los botones según la factura seleccionada.
-        /// </summary>
-        private void MostrarFacturas()
-        {
-            _facturaSeleccionada = null;
-
-            dgvFacturas.DataSource = null;
-            dgvFacturas.DataSource = _facturas;
-
-            dgvFacturas.ClearSelection();
-            dgvFacturas.CurrentCell = null;
+            _presenter = new FacturacionPresenter(this);
 
             ActualizarEstadoBotones();
         }
+        #endregion
 
+        #region Implementacion de IFacturacionView
+        public string NumeroFacturaSeleccionada => _facturaSeleccionada?.NumeroFactura ?? string.Empty;
+
+        public int UsuarioId => _usuarioId;
+
+        public event EventHandler? VerDetalleClicked;
+
+        public event EventHandler? AnularFacturaClicked;
+
+        /// <summary>
+        /// Recibe las facturas reales consultadas por el Presenter y las carga
+        /// en la lista utilizada por el DataGridView.
+        /// </summary>
+        public void MostrarFacturas(List<FacturaPrueba> facturas)
+        {
+            _facturas.Clear();
+            _facturas.AddRange(facturas);
+
+            _facturaSeleccionada = null;
+
+            FiltrarFacturas();
+            ActualizarEstadoBotones();
+        }
+
+        /// <summary>
+        /// Muestra el detalle proporcionado por el Presenter.
+        /// </summary>
+        public void MostrarDetalleFactura(FacturaPrueba factura)
+        {
+            AbrirDetalleFactura(factura);
+        }
+
+        /// <summary>
+        /// Muestra un mensaje utilizando el MessageBox personalizado de Ocean Desk.
+        /// </summary>
+        public void MostrarMensaje(
+            string mensaje,
+            string titulo,
+            MessageType tipo)
+        {
+            FrmMessageBox.Show(
+                mensaje,
+                titulo,
+                tipo);
+        }
+
+        /// <summary>
+        /// Solicita al Presenter volver a consultar las facturas desde SQL Server.
+        /// </summary>
+        public void RefrescarFacturas()
+        {
+            _presenter?.CargarFacturas();
+        }
+
+        #endregion
+
+        #region Configuración de la Tabla y Filtros
         /// <summary>
         /// Configura las columnas del DataGridView que muestra las facturas, estableciendo las propiedades de enlace de datos y el formato de visualización.
         /// </summary>
@@ -72,242 +129,173 @@ namespace Ocean_Desk_dv.UI.Catalogs
             colEstado.DataPropertyName = "Estado";
 
             colFecha.DefaultCellStyle.Format = "dd/MM/yyyy";
-
-            colTotal.DefaultCellStyle.Format = "C2";
         }
 
         /// <summary>
-        /// Carga una lista de facturas de prueba con datos ficticios para mostrar en el DataGridView.
+        /// Configura las columnas del DataGridView que muestra los detalles de la factura, estableciendo las propiedades de enlace de datos y el formato de visualización.
         /// </summary>
-        private void CargarFacturasPrueba()
+        private void ConfigurarColumnasDetalleFactura()
         {
-            _facturas.Clear();
+            dgvDetalleFactura.AutoGenerateColumns = false;
 
-            // Factura 1
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0001",
-                Fecha = DateTime.Today,
-                Cliente = "Juan Pérez",
-                TipoOrden = "Local",
-                Mesa = 5,
+            colDetalleProducto.DataPropertyName = "Producto";
+            colDetalleCantidad.DataPropertyName = "Cantidad";
+            colDetallePrecio.DataPropertyName = "Precio";
+            colDetalleSubtotal.DataPropertyName = "Subtotal";
 
-                Subtotal = 377.00m,
-                Descuento = 0.00m,
-                Total = 377.00m,
+            colDetalleProducto.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-                MetodoPago = "Efectivo",
-                Estado = "Pagada",
+            colDetalleCantidad.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Ceviche Mixto",
-                        Cantidad = 2,
-                        Precio = 120.00m
-                    },
+            colDetallePrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Camarones al Ajillo",
-                        Cantidad = 1,
-                        Precio = 100.00m
-                    },
+            colDetalleSubtotal.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        }
 
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Coca Cola",
-                        Cantidad = 2,
-                        Precio = 18.50m
-                    }
-                }
-            });
+        /// <summary>
+        /// Configura el ComboBox de estado de facturas con las opciones "Todos", "Pagada" y "Anulada", estableciendo la opción predeterminada en "Todos".
+        /// </summary>
+        private void ConfigurarFiltroEstado()
+        {
+            cmbEstado.Items.Clear();
 
-            // Factura 2
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0002",
-                Fecha = DateTime.Today,
-                Cliente = "María López",
-                TipoOrden = "Delivery",
-                Mesa = null,
+            cmbEstado.Items.Add("Todos");
+            cmbEstado.Items.Add("Pagada");
+            cmbEstado.Items.Add("Anulada");
 
-                Subtotal = 206.20m,
-                Descuento = 10.20m,
-                Total = 196.00m,
+            cmbEstado.SelectedIndex = 0;
+        }
 
-                MetodoPago = "Tarjeta",
-                Estado = "Pagada",
+        /// <summary>
+        /// Configura los DateTimePickers de fecha desde y fecha hasta, estableciendo la fecha desde en 30 días atrás y la fecha hasta en la fecha actual.
+        /// </summary>
+        private void ConfigurarFiltroFechas()
+        {
+            dtpFechaDesde.Value = DateTime.Today.AddDays(-30);
 
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Pargo Frito Especial de la Casa con Salsa de Mariscos",
-                        Cantidad = 1,
-                        Precio = 150.00m
-                    },
+            dtpFechaHasta.Value = DateTime.Today;
+        }
 
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Limonada",
-                        Cantidad = 2,
-                        Precio = 28.10m
-                    }
-                }
-            });
+        /// <summary>
+        /// Filtra las facturas en el DataGridView según el texto de búsqueda, las fechas seleccionadas y el estado seleccionado en los filtros, actualizando la vista con las facturas que cumplen los criterios.
+        /// </summary>
+        private void FiltrarFacturas()
+        {
+            string texto = txtBuscar.Text.Trim();
 
-            // Factura 3
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0003",
-                Fecha = DateTime.Today.AddDays(-1),
-                Cliente = "Carlos Rodríguez",
-                TipoOrden = "Local",
-                Mesa = 3,
+            DateTime fechaDesde = dtpFechaDesde.Value.Date;
 
-                Subtotal = 138.50m,
-                Descuento = 0.00m,
-                Total = 138.50m,
+            DateTime fechaHasta = dtpFechaHasta.Value.Date;
 
-                MetodoPago = "Efectivo",
-                Estado = "Anulada",
+            string estadoSeleccionado = cmbEstado.SelectedItem?.ToString() ?? "Todos";
 
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Ceviche Mixto",
-                        Cantidad = 1,
-                        Precio = 120.00m
-                    },
+            List<FacturaPrueba> facturasFiltradas = _facturas
+                    .Where(factura =>
+                        (
+                            string.IsNullOrWhiteSpace(texto)
+                            ||
+                            factura.NumeroFactura.Contains(
+                                texto,
+                                StringComparison.OrdinalIgnoreCase)
+                            ||
+                            factura.Cliente.Contains(
+                                texto,
+                                StringComparison.OrdinalIgnoreCase)
+                        )
+                        &&
+                        factura.Fecha.Date >= fechaDesde
+                        &&
+                        factura.Fecha.Date <= fechaHasta
+                        &&
+                        (
+                            estadoSeleccionado == "Todos"
+                            ||
+                            factura.Estado.Equals(
+                                estadoSeleccionado,
+                                StringComparison.OrdinalIgnoreCase)
+                        )
+                    )
+                    .ToList();
 
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Coca Cola",
-                        Cantidad = 1,
-                        Precio = 18.50m
-                    }
-                }
-            });
+            dgvFacturas.DataSource = null;
+            dgvFacturas.DataSource = facturasFiltradas;
 
-            // Factura 4
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0004",
-                Fecha = DateTime.Today.AddDays(-2),
-                Cliente = "Consumidor Final",
-                TipoOrden = "Local",
-                Mesa = 1,
+            dgvFacturas.ClearSelection();
+            dgvFacturas.CurrentCell = null;
 
-                Subtotal = 280.00m,
-                Descuento = 4.25m,
-                Total = 275.75m,
+            ActualizarEstadoBotones();
+        }
 
-                MetodoPago = "Efectivo",
-                Estado = "Pagada",
+        /// <summary>
+        /// Evento que se dispara cuando cambia el texto en el TextBox de búsqueda, llamando al método FiltrarFacturas para actualizar la vista según el texto ingresado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtBuscar_TextChanged(object? sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
 
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Camarones al Ajillo",
-                        Cantidad = 2,
-                        Precio = 100.00m
-                    },
+        /// <summary>
+        /// Evento que se dispara cuando cambia la selección en el ComboBox de estado, llamando al método FiltrarFacturas para actualizar la vista según el estado seleccionado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbEstado_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
 
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Tostones",
-                        Cantidad = 1,
-                        Precio = 80.00m
-                    }
-                }
-            });
+        /// <summary>
+        /// Evento que se dispara cuando cambia la fecha en el DateTimePicker de fecha desde, llamando al método FiltrarFacturas para actualizar la vista según las fechas seleccionadas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dtpFechaDesde_ValueChanged(object? sender, EventArgs e)
+        {
+            FiltrarFacturas();
+        }
 
-            // Factura 5
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0005",
-                Fecha = DateTime.Today.AddDays(-3),
-                Cliente = "Ana Martínez",
-                TipoOrden = "Delivery",
-                Mesa = null,
-
-                Subtotal = 489.60m,
-                Descuento = 0.00m,
-                Total = 489.60m,
-
-                MetodoPago = "Transferencia",
-                Estado = "Pagada",
-
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Ceviche Mixto",
-                        Cantidad = 3,
-                        Precio = 120.50m
-                    },
-
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Camarones al Ajillo",
-                        Cantidad = 1,
-                        Precio = 100.00m
-                    },
-
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Limonada",
-                        Cantidad = 1,
-                        Precio = 28.10m
-                    }
-                }
-            });
-
-            // Factura 6
-            _facturas.Add(new FacturaPrueba
-            {
-                NumeroFactura = "F001-0006",
-                Fecha = DateTime.Today.AddDays(-4),
-                Cliente = "Pedro Gómez",
-                TipoOrden = "Local",
-                Mesa = 6,
-
-                Subtotal = 150.00m,
-                Descuento = 0.00m,
-                Total = 150.00m,
-
-                MetodoPago = "Tarjeta",
-                Estado = "Anulada",
-
-                Detalles = new List<DetalleFacturaPrueba>
-                {
-                    new DetalleFacturaPrueba
-                    {
-                        Producto = "Pargo Frito Especial de la Casa con Salsa de Mariscos",
-                        Cantidad = 1,
-                        Precio = 150.00m
-                    }
-                }
-            });
+        /// <summary>
+        /// Evento que se dispara cuando cambia la fecha en el DateTimePicker de fecha hasta, llamando al método FiltrarFacturas para actualizar la vista según las fechas seleccionadas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dtpFechaHasta_ValueChanged(object? sender, EventArgs e)
+        {
+            FiltrarFacturas();
         }
         #endregion
 
-        #region Metodos de Comportamiento entre los Buttons y el Dgv
+        #region Seleccion y Estado de Botones
+        /// <summary>
+        /// Evento que se dispara al hacer clic en una celda del DataGridView de facturas, seleccionando la factura correspondiente y actualizando el estado de los botones según la selección.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvFacturas_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            DataGridViewRow fila = dgvFacturas.Rows[e.RowIndex];
+
+            _facturaSeleccionada = fila.DataBoundItem as FacturaPrueba;
+
+            ActualizarEstadoBotones();
+        }
+
         /// <summary>
         /// Actualiza el estado de los botones (habilitado/deshabilitado) según la selección de facturas en el DataGridView y el estado de la factura seleccionada.
         /// </summary>
-        private void ActualizarEstadoBotones()//Reacción de los botones al tipo de factura
+        private void ActualizarEstadoBotones()
         {
             bool hayFactura = _facturaSeleccionada != null;
 
             bool puedeAnular =
                 hayFactura &&
                 !string.Equals(
-                    _facturaSeleccionada.Estado,
+                    _facturaSeleccionada?.Estado,
                     "Anulada",
                     StringComparison.OrdinalIgnoreCase);
 
@@ -331,46 +319,12 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
-        /// Evento que se dispara al hacer clic en una celda del DataGridView de facturas, seleccionando la factura correspondiente y actualizando el estado de los botones según la selección.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dgvFacturas_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0)
-                return;
-
-            DataGridViewRow fila =
-                dgvFacturas.Rows[e.RowIndex];
-
-            _facturaSeleccionada =
-                fila.DataBoundItem as FacturaPrueba;
-
-            ActualizarEstadoBotones();
-        }
-        #endregion
-
-        #region Colores y Metodos para Botones, y DGV
-        private readonly Color _colorBotonNormal = Color.FromArgb(238, 243, 247);
-
-        private readonly Color _colorBotonTexto = Color.FromArgb(8, 31, 63);
-
-        private readonly Color _colorBotonDisabled = Color.FromArgb(232, 236, 239);
-
-        private readonly Color _colorTextoDisabled = Color.FromArgb(155, 163, 170);
-
-        private readonly Color _colorAnularNormal = Color.FromArgb(248, 234, 234);
-
-        private readonly Color _colorAnularTexto = Color.FromArgb(163, 61, 61);
-
-        /// <summary>
         /// Configura el estado de un botón, habilitándolo o deshabilitándolo y aplicando los colores correspondientes según su estado.
         /// </summary>
         /// <param name="boton"></param>
         /// <param name="habilitado"></param>
         /// <param name="colorNormal"></param>
         /// <param name="colorTexto"></param>
-
         private void ConfigurarEstadoBoton(Button boton, bool habilitado, Color colorNormal, Color colorTexto)
         {
             boton.Enabled = habilitado;
@@ -394,21 +348,30 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// <param name="e"></param>
         private void dgvFacturas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < 0)
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
                 return;
+            }
 
-            if (dgvFacturas.Columns[e.ColumnIndex].Name != "colEstado")
+            string nombreColumna = dgvFacturas.Columns[e.ColumnIndex].Name;
+
+            if (nombreColumna == "colTotal" && e.Value is decimal total)
+            {
+                e.Value = FormatearMoneda(total);
+                e.FormattingApplied = true;
                 return;
+            }
 
-            if (e.Value == null)
+            if (nombreColumna != "colEstado" || e.Value == null)
+            {
                 return;
+            }
 
-            string estado = e.Value.ToString();
+            string estado = e.Value.ToString() ?? string.Empty;
 
             if (estado == "Pagada")
             {
-                e.CellStyle.ForeColor =
-                    Color.FromArgb(42, 122, 82);
+                e.CellStyle.ForeColor = Color.FromArgb(42, 122, 82);
 
                 e.CellStyle.Font =
                     new Font(
@@ -417,104 +380,13 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
             else if (estado == "Anulada")
             {
-                e.CellStyle.ForeColor =
-                    Color.FromArgb(163, 61, 61);
+                e.CellStyle.ForeColor = Color.FromArgb(163, 61, 61);
 
                 e.CellStyle.Font =
                     new Font(
                         dgvFacturas.Font,
                         FontStyle.Bold);
             }
-        }
-
-        /// <summary>
-        /// Filtra las facturas en el DataGridView según el texto de búsqueda, las fechas seleccionadas y el estado seleccionado en los filtros, actualizando la vista con las facturas que cumplen los criterios.
-        /// </summary>
-        private void FiltrarFacturas()
-        {
-            string texto =
-                txtBuscar.Text.Trim();
-
-            DateTime fechaDesde =
-                dtpFechaDesde.Value.Date;
-
-            DateTime fechaHasta =
-                dtpFechaHasta.Value.Date;
-
-            string estadoSeleccionado =
-                cmbEstado.SelectedItem?.ToString() ?? "Todos";
-
-            List<FacturaPrueba> facturasFiltradas =
-                _facturas
-                .Where(factura =>
-                    (
-                        string.IsNullOrWhiteSpace(texto)
-                        ||
-                        factura.NumeroFactura.Contains(
-                            texto,
-                            StringComparison.OrdinalIgnoreCase)
-                        ||
-                        factura.Cliente.Contains(
-                            texto,
-                            StringComparison.OrdinalIgnoreCase)
-                    )
-                    &&
-                    factura.Fecha.Date >= fechaDesde
-                    &&
-                    factura.Fecha.Date <= fechaHasta
-                    &&
-                    (
-                        estadoSeleccionado == "Todos"
-                        ||
-                        factura.Estado.Equals(
-                            estadoSeleccionado,
-                            StringComparison.OrdinalIgnoreCase)
-                    )
-                )
-                .ToList();
-
-            dgvFacturas.DataSource = null;
-            dgvFacturas.DataSource = facturasFiltradas;
-
-            ActualizarEstadoBotones();
-        }
-
-        private void ConfigurarFiltroEstado()
-        {
-            cmbEstado.Items.Clear();
-
-            cmbEstado.Items.Add("Todos");
-            cmbEstado.Items.Add("Pagada");
-            cmbEstado.Items.Add("Anulada");
-
-            cmbEstado.SelectedIndex = 0;
-        }
-
-        private void txtBuscar_TextChanged(object sender, EventArgs e)
-        {
-            FiltrarFacturas();
-        }
-
-        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarFacturas();
-        }
-
-        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
-        {
-            FiltrarFacturas();
-        }
-
-        private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
-        {
-            FiltrarFacturas();
-        }
-
-        private void ConfigurarFiltroFechas()
-        {
-            dtpFechaDesde.Value = DateTime.Today.AddDays(-30);
-
-            dtpFechaHasta.Value = DateTime.Today;
         }
         #endregion
 
@@ -524,11 +396,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnVerDetalle_Click(object sender, EventArgs e)
+        private void btnVerDetalle_Click(object? sender, EventArgs e)
         {
             if (_facturaSeleccionada == null)
             {
-                FrmMessageBox.Show(
+                MostrarMensaje(
                     "Seleccione una factura para consultar su detalle.",
                     "Factura no seleccionada",
                     MessageType.Warning);
@@ -536,7 +408,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
             }
 
-            AbrirDetalleFactura(_facturaSeleccionada);
+            VerDetalleClicked?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -544,11 +416,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnImprimir_Click(object sender, EventArgs e)
+        private void btnImprimir_Click(object? sender, EventArgs e)
         {
             if (_facturaSeleccionada == null)
             {
-                FrmMessageBox.Show(
+                MostrarMensaje(
                     "Seleccione una factura para imprimir el comprobante.",
                     "Factura no seleccionada",
                     MessageType.Warning);
@@ -556,20 +428,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 return;
             }
 
-            _facturaImprimiendo =
-                _facturaSeleccionada;
+            _facturaImprimiendo = _facturaSeleccionada;
 
-            using (PrintPreviewDialog vistaPrevia =
-                   new PrintPreviewDialog())
+            using PrintPreviewDialog vistaPrevia = new PrintPreviewDialog
             {
-                vistaPrevia.Document =
-                    _documentoImpresion;
+                Document = _documentoImpresion,
+                Width = 900,
+                Height = 700
+            };
 
-                vistaPrevia.Width = 900;
-                vistaPrevia.Height = 700;
-
-                vistaPrevia.ShowDialog();
-            }
+            vistaPrevia.ShowDialog();
         }
 
         /// <summary>
@@ -577,11 +445,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnAnular_Click(object sender, EventArgs e)
+        private void btnAnular_Click(object? sender, EventArgs e)
         {
             if (_facturaSeleccionada == null)
             {
-                FrmMessageBox.Show(
+                MostrarMensaje(
                     "Seleccione una factura para realizar la anulación.",
                     "Factura no seleccionada",
                     MessageType.Warning);
@@ -591,7 +459,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             if (_facturaSeleccionada.Estado == "Anulada")
             {
-                FrmMessageBox.Show(
+                MostrarMensaje(
                     "La factura seleccionada ya se encuentra anulada.",
                     "Factura anulada",
                     MessageType.Warning);
@@ -601,43 +469,20 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             DialogResult resultado =
                 FrmMessageBox.Show(
-                    $"¿Desea anular la factura " +
-                    $"{_facturaSeleccionada.NumeroFactura}?",
+                    $"¿Desea anular la factura {_facturaSeleccionada.NumeroFactura}?",
                     "Confirmar anulación",
                     MessageType.Confirmation);
 
             if (resultado != DialogResult.Yes)
                 return;
 
-            _facturaSeleccionada.Estado =
-                "Anulada";
-
-            MostrarFacturas();
-
-            _facturaSeleccionada = null;
-
-            FrmMessageBox.Show(
-                "La factura ha sido anulada correctamente.",
-                "Anulación realizada",
-                MessageType.Information);
+            AnularFacturaClicked?.Invoke(
+                this,
+                EventArgs.Empty);
         }
         #endregion
 
-        #region Metodos y Funcionamiento para Ver Detalle de Facturas
-        /// <summary>
-        /// Centra el panel de detalle de factura dentro del contenedor.
-        /// </summary>
-        private void CentrarDetalleFactura()
-        {
-            pnlDetalleFactura.Left =
-                (pnlDetalleFacturaContainer.Width -
-                 pnlDetalleFactura.Width) / 2;
-
-            pnlDetalleFactura.Top =
-                (pnlDetalleFacturaContainer.Height -
-                 pnlDetalleFactura.Height) / 2;
-        }
-
+        #region Ver Detalle de Facturas
         /// <summary>
         /// Abre el panel de detalle de factura y muestra la información de la factura seleccionada.
         /// </summary>
@@ -656,17 +501,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             lblEstadoDetalle.Text = factura.Estado;
 
-            lblSubtotalDetalle.Text = factura.Subtotal.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            lblSubtotalDetalle.Text = FormatearMoneda(factura.Subtotal);
 
-            lblDescuentoDetalle.Text = factura.Descuento.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            lblDescuentoDetalle.Text = FormatearMoneda(factura.Descuento);
 
-            lblTotalDetalle.Text = factura.Total.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            lblTotalDetalle.Text = FormatearMoneda(factura.Total);
 
             lblMetodoPagoDetalle.Text = factura.MetodoPago;
 
@@ -681,6 +520,21 @@ namespace Ocean_Desk_dv.UI.Catalogs
             pnlDetalleFactura.BringToFront();
 
             CentrarDetalleFactura();
+            CentrarDetalleFactura();
+        }
+
+        /// <summary>
+        /// Centra el panel de detalle de factura dentro del contenedor.
+        /// </summary>
+        private void CentrarDetalleFactura()
+        {
+            pnlDetalleFactura.Left =
+                (pnlDetalleFacturaContainer.Width -
+                 pnlDetalleFactura.Width) / 2;
+
+            pnlDetalleFactura.Top =
+                (pnlDetalleFacturaContainer.Height -
+                 pnlDetalleFactura.Height) / 2;
         }
 
         /// <summary>
@@ -688,44 +542,63 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnCerrarDetalle_Click(object sender, EventArgs e)
+        private void btnCerrarDetalle_Click(object? sender, EventArgs e)
         {
             pnlDetalleFactura.Visible = false;
             pnlDetalleFacturaContainer.Visible = false;
         }
 
         /// <summary>
-        /// Configura las columnas del DataGridView que muestra los detalles de la factura, estableciendo las propiedades de enlace de datos y el formato de visualización.
-        /// </summary>
-        private void ConfigurarColumnasDetalleFactura()
-        {
-            dgvDetalleFactura.AutoGenerateColumns = false;
-
-            colDetalleProducto.DataPropertyName = "Producto";
-            colDetalleCantidad.DataPropertyName = "Cantidad";
-            colDetallePrecio.DataPropertyName = "Precio";
-            colDetalleSubtotal.DataPropertyName = "Subtotal";
-
-            colDetalleProducto.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            colDetalleCantidad.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            colDetallePrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-
-            colDetalleSubtotal.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-
-            colDetallePrecio.DefaultCellStyle.Format = "C2";
-            colDetalleSubtotal.DefaultCellStyle.Format = "C2";
-        }
-        #endregion
-
-        #region Metodos y Funcionamiento para Imprimir Facturas
-        /// <summary>
-        /// Genera el contenido de la página de impresión para la factura seleccionada, incluyendo el título, detalles de la factura y total.
+        /// Evento que se dispara durante el formateo de celdas en el DataGridView de detalle de factura, aplicando formato de moneda a las columnas de precio y subtotal.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DocumentoImpresion_PrintPage(object sender, PrintPageEventArgs e)
+        private void dgvDetalleFactura_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 ||
+               e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            string nombreColumna =
+                dgvDetalleFactura.Columns[e.ColumnIndex].Name;
+
+            if (nombreColumna == "colDetallePrecio" &&
+                e.Value is decimal precio)
+            {
+                e.Value = FormatearMoneda(precio);
+                e.FormattingApplied = true;
+            }
+            else if (nombreColumna == "colDetalleSubtotal" &&
+                     e.Value is decimal subtotal)
+            {
+                e.Value = FormatearMoneda(subtotal);
+                e.FormattingApplied = true;
+            }
+        }
+        #endregion
+
+        #region Imprimir Facturas
+        /// <summary>
+        /// Formatea un monto decimal como moneda en formato nicaragüense, agregando el símbolo "C$" y dos decimales.
+        /// </summary>
+        /// <param name="monto"></param>
+        /// <returns></returns>
+        private static string FormatearMoneda(decimal monto)
+        {
+            CultureInfo cultura =
+                CultureInfo.GetCultureInfo("es-NI");
+
+            return $"C$ {monto.ToString("N2", cultura)}";
+        }
+
+        /// <summary>
+        /// Evento que se dispara al imprimir una página del documento, generando el contenido de la factura en la página de impresión utilizando gráficos y fuentes para mostrar los detalles de la factura.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DocumentoImpresion_PrintPage(object? sender, PrintPageEventArgs e)
         {
             if (_facturaImprimiendo == null)
                 return;
@@ -733,32 +606,36 @@ namespace Ocean_Desk_dv.UI.Catalogs
             Graphics g = e.Graphics;
 
             using Font fuenteTitulo =
-                new Font("Segoe UI", 18, FontStyle.Bold);
+                new Font(
+                    "Segoe UI",
+                    18,
+                    FontStyle.Bold);
 
             using Font fuenteSubtitulo =
-                new Font("Segoe UI", 11, FontStyle.Bold);
+                new Font(
+                    "Segoe UI",
+                    11,
+                    FontStyle.Bold);
 
             using Font fuenteNormal =
-                new Font("Segoe UI", 9, FontStyle.Regular);
+                new Font(
+                    "Segoe UI",
+                    9,
+                    FontStyle.Regular);
 
             using Font fuenteNegrita =
-                new Font("Segoe UI", 9, FontStyle.Bold);
+                new Font(
+                    "Segoe UI",
+                    9,
+                    FontStyle.Bold);
 
             Brush pincel = Brushes.Black;
 
             float x = 50;
             float y = 50;
 
-            float ancho = e.PageBounds.Width - 100;
-
-            /* string moneda =
-                 System.Globalization.CultureInfo
-                     .GetCultureInfo("es-NI")
-                     .Name;*/
-
-            // ==========================================
-            // ENCABEZADO
-            // ==========================================
+            float ancho =
+                e.PageBounds.Width - 100;
 
             g.DrawString(
                 "OCEAN DESK",
@@ -828,10 +705,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             y += 30;
 
-            // ==========================================
-            // PRODUCTOS
-            // ==========================================
-
             g.DrawLine(
                 Pens.Black,
                 x,
@@ -898,20 +771,14 @@ namespace Ocean_Desk_dv.UI.Catalogs
                     y);
 
                 g.DrawString(
-                    detalle.Precio.ToString(
-                        "C2",
-                        System.Globalization.CultureInfo
-                            .GetCultureInfo("es-NI")),
+                    FormatearMoneda(detalle.Precio),
                     fuenteNormal,
                     pincel,
                     x + 360,
                     y);
 
                 g.DrawString(
-                    detalle.Subtotal.ToString(
-                        "C2",
-                        System.Globalization.CultureInfo
-                            .GetCultureInfo("es-NI")),
+                    FormatearMoneda(detalle.Subtotal),
                     fuenteNormal,
                     pincel,
                     x + 445,
@@ -919,10 +786,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
                 y += 25;
             }
-
-            // ==========================================
-            // TOTALES
-            // ==========================================
 
             y += 10;
 
@@ -943,10 +806,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 y);
 
             g.DrawString(
-                _facturaImprimiendo.Subtotal.ToString(
-                    "C2",
-                    System.Globalization.CultureInfo
-                        .GetCultureInfo("es-NI")),
+                FormatearMoneda(
+                    _facturaImprimiendo.Subtotal),
                 fuenteNormal,
                 pincel,
                 x + 445,
@@ -962,10 +823,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 y);
 
             g.DrawString(
-                _facturaImprimiendo.Descuento.ToString(
-                    "C2",
-                    System.Globalization.CultureInfo
-                        .GetCultureInfo("es-NI")),
+                FormatearMoneda(
+                    _facturaImprimiendo.Descuento),
                 fuenteNormal,
                 pincel,
                 x + 445,
@@ -981,18 +840,12 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 y);
 
             g.DrawString(
-                _facturaImprimiendo.Total.ToString(
-                    "C2",
-                    System.Globalization.CultureInfo
-                        .GetCultureInfo("es-NI")),
+                FormatearMoneda(
+                    _facturaImprimiendo.Total),
                 fuenteNegrita,
                 pincel,
                 x + 445,
                 y);
-
-            // ==========================================
-            // PAGO Y ESTADO
-            // ==========================================
 
             y += 35;
 
@@ -1021,7 +874,20 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 x,
                 y);
         }
+        #endregion
 
+        #region Colores de Botones y Estado de Fcaturas
+        private readonly Color _colorBotonNormal = Color.FromArgb(238, 243, 247);
+
+        private readonly Color _colorBotonTexto = Color.FromArgb(8, 31, 63);
+
+        private readonly Color _colorBotonDisabled = Color.FromArgb(232, 236, 239);
+
+        private readonly Color _colorTextoDisabled = Color.FromArgb(155, 163, 170);
+
+        private readonly Color _colorAnularNormal = Color.FromArgb(248, 234, 234);
+
+        private readonly Color _colorAnularTexto = Color.FromArgb(163, 61, 61);
         #endregion
 
         

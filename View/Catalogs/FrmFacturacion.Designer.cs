@@ -785,6 +785,7 @@
             dgvDetalleFactura.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDetalleFactura.Size = new Size(600, 212);
             dgvDetalleFactura.TabIndex = 22;
+            dgvDetalleFactura.CellFormatting += dgvDetalleFactura_CellFormatting;
             // 
             // colDetalleProducto
             // 

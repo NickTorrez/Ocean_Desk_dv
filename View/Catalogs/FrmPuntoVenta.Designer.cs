@@ -76,7 +76,6 @@
             pnlOrderHeader = new Panel();
             lblOrderTitle = new Label();
             pnlNuevoClienteContainer = new Panel();
-            maskedTextBox1 = new MaskedTextBox();
             pnlNuevoCliente = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
             btnCancelarNuevoCliente = new Button();
@@ -85,8 +84,8 @@
             lblBotonesFantasmas = new Label();
             lblTelefonoCliente = new Label();
             pnlTelefonoClienteInput = new Panel();
+            txtTelefonoNuevoCliente = new MaskedTextBox();
             pnlLineSecond = new Panel();
-            txtTelefonoCliente = new TextBox();
             lblClienteFantasma = new Label();
             lblNombreCliente = new Label();
             pnlNombreClienteInput = new Panel();
@@ -754,7 +753,6 @@
             // 
             // pnlNuevoClienteContainer
             // 
-            pnlNuevoClienteContainer.Controls.Add(maskedTextBox1);
             pnlNuevoClienteContainer.Controls.Add(pnlNuevoCliente);
             pnlNuevoClienteContainer.Dock = DockStyle.Fill;
             pnlNuevoClienteContainer.Location = new Point(0, 75);
@@ -762,16 +760,6 @@
             pnlNuevoClienteContainer.Size = new Size(560, 755);
             pnlNuevoClienteContainer.TabIndex = 0;
             pnlNuevoClienteContainer.Visible = false;
-            // 
-            // maskedTextBox1
-            // 
-            maskedTextBox1.BackColor = Color.White;
-            maskedTextBox1.BorderStyle = BorderStyle.None;
-            maskedTextBox1.Location = new Point(78, 112);
-            maskedTextBox1.Mask = "0000-0000";
-            maskedTextBox1.Name = "maskedTextBox1";
-            maskedTextBox1.Size = new Size(408, 20);
-            maskedTextBox1.TabIndex = 1;
             // 
             // pnlNuevoCliente
             // 
@@ -881,8 +869,8 @@
             // pnlTelefonoClienteInput
             // 
             pnlTelefonoClienteInput.BorderStyle = BorderStyle.FixedSingle;
+            pnlTelefonoClienteInput.Controls.Add(txtTelefonoNuevoCliente);
             pnlTelefonoClienteInput.Controls.Add(pnlLineSecond);
-            pnlTelefonoClienteInput.Controls.Add(txtTelefonoCliente);
             pnlTelefonoClienteInput.Dock = DockStyle.Top;
             pnlTelefonoClienteInput.Location = new Point(25, 171);
             pnlTelefonoClienteInput.Name = "pnlTelefonoClienteInput";
@@ -890,24 +878,27 @@
             pnlTelefonoClienteInput.Size = new Size(440, 50);
             pnlTelefonoClienteInput.TabIndex = 9;
             // 
+            // txtTelefonoNuevoCliente
+            // 
+            txtTelefonoNuevoCliente.BackColor = Color.White;
+            txtTelefonoNuevoCliente.BorderStyle = BorderStyle.None;
+            txtTelefonoNuevoCliente.Culture = new System.Globalization.CultureInfo("es-NI");
+            txtTelefonoNuevoCliente.Dock = DockStyle.Fill;
+            txtTelefonoNuevoCliente.Font = new Font("Century Gothic", 9F);
+            txtTelefonoNuevoCliente.Location = new Point(15, 15);
+            txtTelefonoNuevoCliente.Mask = " 0000-0000";
+            txtTelefonoNuevoCliente.Name = "txtTelefonoNuevoCliente";
+            txtTelefonoNuevoCliente.PromptChar = '0';
+            txtTelefonoNuevoCliente.Size = new Size(408, 19);
+            txtTelefonoNuevoCliente.TabIndex = 1;
+            // 
             // pnlLineSecond
             // 
             pnlLineSecond.BackColor = Color.FromArgb(8, 31, 63);
-            pnlLineSecond.Location = new Point(17, 38);
+            pnlLineSecond.Location = new Point(15, 38);
             pnlLineSecond.Name = "pnlLineSecond";
             pnlLineSecond.Size = new Size(378, 2);
             pnlLineSecond.TabIndex = 15;
-            // 
-            // txtTelefonoCliente
-            // 
-            txtTelefonoCliente.BorderStyle = BorderStyle.None;
-            txtTelefonoCliente.Dock = DockStyle.Fill;
-            txtTelefonoCliente.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtTelefonoCliente.Location = new Point(15, 15);
-            txtTelefonoCliente.Name = "txtTelefonoCliente";
-            txtTelefonoCliente.PlaceholderText = "Ejemplo: 8888-8888";
-            txtTelefonoCliente.Size = new Size(408, 19);
-            txtTelefonoCliente.TabIndex = 3;
             // 
             // lblClienteFantasma
             // 
@@ -1022,7 +1013,6 @@
             tlpOrderFooter.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
             pnlNuevoClienteContainer.ResumeLayout(false);
-            pnlNuevoClienteContainer.PerformLayout();
             pnlNuevoCliente.ResumeLayout(false);
             pnlNuevoCliente.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
@@ -1090,7 +1080,6 @@
         private Button btnCancelarNuevoCliente;
         private Button btnGuardarNuevoCliente;
         private Label lblTelefonoCliente;
-        private TextBox txtTelefonoCliente;
         private TextBox txtNombreCliente;
         private Label lblSubtituloNuevoCliente;
         private Panel pnlNombreClienteInput;
@@ -1101,6 +1090,6 @@
         private Label lblBotonesFantasmas;
         private Panel pnlLineSecond;
         private Panel pnlLineFirst;
-        private MaskedTextBox maskedTextBox1;
+        private MaskedTextBox txtTelefonoNuevoCliente;
     }
 }

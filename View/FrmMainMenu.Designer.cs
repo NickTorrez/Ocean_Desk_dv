@@ -791,32 +791,35 @@
             // pnlDateTime
             // 
             pnlDateTime.BackColor = Color.Transparent;
-            pnlDateTime.Controls.Add(lblFecha);
             pnlDateTime.Controls.Add(lblHora);
+            pnlDateTime.Controls.Add(lblFecha);
             pnlDateTime.Dock = DockStyle.Fill;
             pnlDateTime.Location = new Point(303, 3);
             pnlDateTime.Name = "pnlDateTime";
+            pnlDateTime.Padding = new Padding(5);
             pnlDateTime.Size = new Size(266, 62);
             pnlDateTime.TabIndex = 0;
             // 
             // lblFecha
             // 
+            lblFecha.Dock = DockStyle.Bottom;
             lblFecha.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblFecha.ForeColor = Color.FromArgb(107, 124, 135);
-            lblFecha.Location = new Point(15, 31);
+            lblFecha.Location = new Point(5, 35);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(220, 22);
+            lblFecha.Size = new Size(256, 22);
             lblFecha.TabIndex = 3;
             lblFecha.Text = "Fecha";
             lblFecha.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblHora
             // 
+            lblHora.Dock = DockStyle.Fill;
             lblHora.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblHora.ForeColor = Color.FromArgb(18, 48, 71);
-            lblHora.Location = new Point(20, 5);
+            lblHora.Location = new Point(5, 5);
             lblHora.Name = "lblHora";
-            lblHora.Size = new Size(210, 28);
+            lblHora.Size = new Size(256, 30);
             lblHora.TabIndex = 2;
             lblHora.Text = "Hora";
             lblHora.TextAlign = ContentAlignment.MiddleCenter;

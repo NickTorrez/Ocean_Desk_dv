@@ -86,7 +86,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         public string NuevoClienteNombre => txtNombreCliente.Text.Trim();
 
-        public string NuevoClienteTelefono => txtTelefonoCliente.Text.Trim();
+        public string NuevoClienteTelefono => txtTelefonoNuevoCliente.Text.Trim();
 
         /// <summary>
         /// Obtiene una lista de detalles de venta basada en los elementos del pedido actual. Cada detalle de venta contiene el ID del producto y la cantidad correspondiente.
@@ -210,7 +210,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             pnlNuevoCliente.Visible = false;
             pnlNuevoClienteContainer.Visible = false;
             txtNombreCliente.Clear();
-            txtTelefonoCliente.Clear();
+            txtTelefonoNuevoCliente.Clear();
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             pnlNuevoClienteContainer.Visible = false;
 
             txtNombreCliente.Clear();
-            txtTelefonoCliente.Clear();
+            txtTelefonoNuevoCliente.Clear();
         }
 
         /// <summary>
@@ -817,6 +817,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
         #endregion
-        
+
     }
 }
