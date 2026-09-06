@@ -76,6 +76,7 @@
             pnlOrderHeader = new Panel();
             lblOrderTitle = new Label();
             pnlNuevoClienteContainer = new Panel();
+            maskedTextBox1 = new MaskedTextBox();
             pnlNuevoCliente = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
             btnCancelarNuevoCliente = new Button();
@@ -753,6 +754,7 @@
             // 
             // pnlNuevoClienteContainer
             // 
+            pnlNuevoClienteContainer.Controls.Add(maskedTextBox1);
             pnlNuevoClienteContainer.Controls.Add(pnlNuevoCliente);
             pnlNuevoClienteContainer.Dock = DockStyle.Fill;
             pnlNuevoClienteContainer.Location = new Point(0, 75);
@@ -760,6 +762,16 @@
             pnlNuevoClienteContainer.Size = new Size(560, 755);
             pnlNuevoClienteContainer.TabIndex = 0;
             pnlNuevoClienteContainer.Visible = false;
+            // 
+            // maskedTextBox1
+            // 
+            maskedTextBox1.BackColor = Color.White;
+            maskedTextBox1.BorderStyle = BorderStyle.None;
+            maskedTextBox1.Location = new Point(78, 112);
+            maskedTextBox1.Mask = "0000-0000";
+            maskedTextBox1.Name = "maskedTextBox1";
+            maskedTextBox1.Size = new Size(408, 20);
+            maskedTextBox1.TabIndex = 1;
             // 
             // pnlNuevoCliente
             // 
@@ -979,8 +991,8 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlProducts);
             Controls.Add(pnlNuevoClienteContainer);
+            Controls.Add(pnlProducts);
             Controls.Add(pnlOrder);
             Controls.Add(pnlTop);
             FormBorderStyle = FormBorderStyle.None;
@@ -1010,6 +1022,7 @@
             tlpOrderFooter.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
             pnlNuevoClienteContainer.ResumeLayout(false);
+            pnlNuevoClienteContainer.PerformLayout();
             pnlNuevoCliente.ResumeLayout(false);
             pnlNuevoCliente.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
@@ -1088,5 +1101,6 @@
         private Label lblBotonesFantasmas;
         private Panel pnlLineSecond;
         private Panel pnlLineFirst;
+        private MaskedTextBox maskedTextBox1;
     }
 }

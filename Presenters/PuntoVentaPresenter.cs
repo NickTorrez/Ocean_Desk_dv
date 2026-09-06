@@ -2,6 +2,7 @@
 using Ocean_Desk_dv.Models.Entities;
 using Ocean_Desk_dv.View.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -362,6 +363,7 @@ namespace Ocean_Desk_dv.Presenters
                 }
 
                 decimal descuento = 0m;
+                CultureInfo cultura = CultureInfo.GetCultureInfo("es-NI");
                 decimal total = subtotal - descuento;
 
                 if (total <= 0)
@@ -438,7 +440,7 @@ namespace Ocean_Desk_dv.Presenters
 
                 _view.MostrarMensaje(
                     "La venta fue registrada correctamente.\n\n" +
-                    $"Total: {total:C}\n" +
+                    $"Total: C$ {total.ToString("N2", cultura)}\n" +
                     $"Pago: {metodoPagoVista}\n" +
                     "La orden fue enviada a Cocina.",
                     "Venta registrada");

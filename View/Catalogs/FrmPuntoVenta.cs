@@ -488,7 +488,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-        #region Nuevo Cliente
+        #region Panel Nuevo Cliente
         /// <summary>
         /// Centra el panel de nuevo cliente dentro de su contenedor, ajustando su posición horizontal y vertical para que quede centrado.
         /// </summary>
@@ -587,7 +587,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             decimal total = ObtenerTotalVenta();
             CultureInfo cultura = CultureInfo.GetCultureInfo("es-NI");
-            string totalFormateado = total.ToString("C", cultura);
+            string totalFormateado = $"C$ {total.ToString("N2", cultura)}";
             string metodoPago = MetodoPago;
 
             DialogResult resultado = FrmMessageBox.Show(
