@@ -118,60 +118,74 @@ namespace Ocean_Desk_dv.Presenters
         private void OnCancelarReservaClicked(object? sender, EventArgs e)
         {
             if (!ValidarReservaSeleccionada())
-                return;
+        return;
 
-            try
+    try
+    {
+        using var db = new OceanDeskDbContext();
+
+        Reservation? reserva = db.Reservations
+            .FirstOrDefault(r => r.ReservationId == _view.ReservaIdSeleccionada.Value);
+
+        if (reserva == null)
+        {
+            _view.MostrarMensaje(
+                "La reserva seleccionada ya no existe.",
+                MessageType.Warning);
+            CargarReservas();
+            return;
+        }
+
+        if (reserva.Status == "Cancelled")
+        {
+            _view.MostrarMensaje(
+                "La reserva seleccionada ya se encuentra cancelada.",
+                MessageType.Warning);
+            return;
+        }
+
+        if (reserva.Status == "Attended")
+        {
+            _view.MostrarMensaje(
+                "No se puede cancelar una reserva que ya fue atendida.",
+                MessageType.Warning);
+            return;
+        }
+
+        // Cancelar la reserva.
+        reserva.Status = "Cancelled";
+
+        // Liberar la mesa asociada.
+        if (reserva.TableId.HasValue)
+        {
+            TableRestaurant? mesa = db.TableRestaurants
+                .FirstOrDefault(t => t.TableId == reserva.TableId.Value);
+
+            if (mesa != null && mesa.Status != "Maintenance")
             {
-                using var db = new OceanDeskDbContext();
-
-                Reservation? reserva = db.Reservations
-                    .FirstOrDefault(r => r.ReservationId == _view.ReservaIdSeleccionada.Value);
-
-                if (reserva == null)
-                {
-                    _view.MostrarMensaje(
-                        "La reserva seleccionada ya no existe.",
-                        MessageType.Warning);
-                    CargarReservas();
-                    return;
-                }
-
-                if (reserva.Status == "Cancelled")
-                {
-                    _view.MostrarMensaje(
-                        "La reserva seleccionada ya se encuentra cancelada.",
-                        MessageType.Warning);
-                    return;
-                }
-
-                if (reserva.Status == "Attended")
-                {
-                    _view.MostrarMensaje(
-                        "No se puede cancelar una reserva que ya fue atendida.",
-                        MessageType.Warning);
-                    return;
-                }
-
-                reserva.Status = "Cancelled";
-                db.SaveChanges();
-
-                CargarMesas();
-                CargarReservas();
-
-                _view.MostrarMensaje(
-                    "La reserva fue cancelada correctamente.",
-                    MessageType.Information);
+                mesa.Status = "Available";
             }
-            catch (DbUpdateException ex)
-            {
-                _view.MostrarMensaje(
-                    $"No fue posible cancelar la reserva.\n\n{ex.InnerException?.Message ?? ex.Message}",
-                    MessageType.Error);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
-            }
+        }
+
+        db.SaveChanges();
+
+        CargarMesas();
+        CargarReservas();
+
+        _view.MostrarMensaje(
+            "La reserva fue cancelada correctamente y la mesa quedó disponible.",
+            MessageType.Information);
+    }
+    catch (DbUpdateException ex)
+    {
+        _view.MostrarMensaje(
+            $"No fue posible cancelar la reserva.\n\n{ex.InnerException?.Message ?? ex.Message}",
+            MessageType.Error);
+    }
+    catch (Exception ex)
+    {
+        MostrarError(ex);
+    }
         }
 
         private void OnAsignarMesaClicked(object? sender, EventArgs e)
@@ -249,14 +263,33 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
+                // Verificar que no exista otra reserva para esa mesa
+                // en la misma fecha y hora.
+                if (ExisteReservaConMesaEnFechaHora(
+                    db,
+                    mesa.TableId,
+                    reserva.ReservationDate,
+                    reserva.ReservationTime,
+                    reserva.ReservationId))
+                {
+                    _view.MostrarMensaje(
+                        "Ya existe otra reserva activa para esa mesa en la fecha y hora seleccionadas.",
+                        MessageType.Warning);
+                    return;
+                }
+
                 reserva.TableId = mesa.TableId;
+
+                // La mesa queda apartada para la reserva.
+                mesa.Status = "Reserved";
+
                 db.SaveChanges();
 
                 CargarMesas();
                 CargarReservas();
 
                 _view.MostrarMensaje(
-                    $"La Mesa {mesa.TableNumber:00} fue asignada correctamente.",
+                    $"La Mesa {mesa.TableNumber:00} fue asignada correctamente y quedó reservada.",
                     MessageType.Information);
             }
             catch (DbUpdateException ex)
@@ -301,6 +334,16 @@ namespace Ocean_Desk_dv.Presenters
                         break;
 
                     case "Confirmed":
+                        // Para marcar una reserva como atendida,
+                        // debe existir una mesa asignada.
+                        if (!reserva.TableId.HasValue)
+                        {
+                            _view.MostrarMensaje(
+                                "No se puede marcar como atendida una reserva que no tiene una mesa asignada.",
+                                MessageType.Warning);
+                            return;
+                        }
+
                         nuevoEstado = "Attended";
                         break;
 
@@ -323,7 +366,32 @@ namespace Ocean_Desk_dv.Presenters
                         return;
                 }
 
+                TableRestaurant? mesa = null;
+
+                if (reserva.TableId.HasValue)
+                {
+                    mesa = db.TableRestaurants
+                        .FirstOrDefault(t => t.TableId == reserva.TableId.Value);
+                }
+
+                // Cambiar estado de la reserva.
                 reserva.Status = nuevoEstado;
+
+                // Sincronizar estado de la mesa.
+                if (mesa != null)
+                {
+                    if (nuevoEstado == "Confirmed")
+                    {
+                        // La mesa está apartada, pero todavía no está siendo utilizada.
+                        mesa.Status = "Reserved";
+                    }
+                    else if (nuevoEstado == "Attended")
+                    {
+                        // El cliente ya llegó y está utilizando la mesa.
+                        mesa.Status = "Occupied";
+                    }
+                }
+
                 db.SaveChanges();
 
                 CargarMesas();
@@ -407,14 +475,14 @@ namespace Ocean_Desk_dv.Presenters
                 }
 
                 if (ExisteReservaConMesaEnFechaHora(
-                     db,
-                     mesa.TableId,
-                     DateOnly.FromDateTime(_view.FechaReserva.Date),
-                     TimeOnly.FromTimeSpan(_view.HoraReserva),
-                     null))
+                    db,
+                    mesa.TableId,
+                    DateOnly.FromDateTime(_view.FechaReserva.Date),
+                    TimeOnly.FromTimeSpan(_view.HoraReserva),
+                    null))
                 {
                     _view.MostrarMensaje(
-                        "Ya existe una reserva activa para esa mesa en la fecha     y hora seleccionadas.",
+                        "Ya existe una reserva activa para esa mesa en la fecha y hora seleccionadas.",
                         MessageType.Warning);
                     return;
                 }
@@ -423,7 +491,12 @@ namespace Ocean_Desk_dv.Presenters
             DateOnly fecha = DateOnly.FromDateTime(_view.FechaReserva.Date);
             TimeOnly hora = TimeOnly.FromTimeSpan(_view.HoraReserva);
 
-            if (ExisteReservaClienteEnFechaHora(db, cliente.CustomerId, fecha, hora, null))
+            if (ExisteReservaClienteEnFechaHora(
+                db,
+                cliente.CustomerId,
+                fecha,
+                hora,
+                null))
             {
                 _view.MostrarMensaje(
                     "El cliente ya tiene una reserva activa para la fecha y hora seleccionadas.",
@@ -443,12 +516,21 @@ namespace Ocean_Desk_dv.Presenters
             };
 
             db.Reservations.Add(nuevaReserva);
+
+            // Si la reserva nace con una mesa asignada,
+            // la mesa queda apartada para esa reserva.
+            if (mesa != null)
+            {
+                mesa.Status = "Reserved";
+            }
+
             db.SaveChanges();
 
             CargarMesas();
             CargarReservas();
 
             _view.CerrarPanelNuevaReserva();
+
             _view.MostrarMensaje(
                 "La reserva fue registrada correctamente.",
                 MessageType.Information);
@@ -514,11 +596,19 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
-            TableRestaurant? mesa = ResolverMesa(db, _view.NumeroMesaSeleccionada);
+            // Guardamos la mesa anterior antes de modificarla.
+            int? mesaAnteriorId = reserva.TableId;
 
-            if (mesa != null)
+            TableRestaurant? mesaNueva = ResolverMesa(
+                db,
+                _view.NumeroMesaSeleccionada);
+
+            if (mesaNueva != null)
             {
-                if (mesa.Status != "Available" && mesa.TableId != reserva.TableId)
+                // Si es una mesa diferente a la actual,
+                // debe estar disponible.
+                if (mesaNueva.Status != "Available" &&
+                    mesaNueva.TableId != reserva.TableId)
                 {
                     _view.MostrarMensaje(
                         "La mesa seleccionada ya no se encuentra disponible.",
@@ -527,10 +617,10 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
-                if (_view.PersonasReserva > mesa.Capacity)
+                if (_view.PersonasReserva > mesaNueva.Capacity)
                 {
                     _view.MostrarMensaje(
-                        $"La Mesa {mesa.TableNumber:00} tiene una capacidad máxima de {mesa.Capacity} personas.",
+                        $"La Mesa {mesaNueva.TableNumber:00} tiene una capacidad máxima de {mesaNueva.Capacity} personas.",
                         MessageType.Warning);
                     return;
                 }
@@ -539,7 +629,12 @@ namespace Ocean_Desk_dv.Presenters
             DateOnly fecha = DateOnly.FromDateTime(_view.FechaReserva.Date);
             TimeOnly hora = TimeOnly.FromTimeSpan(_view.HoraReserva);
 
-            if (ExisteReservaConMesaEnFechaHora(db, mesa?.TableId, fecha, hora, reserva.ReservationId))
+            if (ExisteReservaConMesaEnFechaHora(
+                db,
+                mesaNueva?.TableId,
+                fecha,
+                hora,
+                reserva.ReservationId))
             {
                 _view.MostrarMensaje(
                     "Ya existe otra reserva activa para esa mesa en la fecha y hora seleccionadas.",
@@ -547,7 +642,12 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
-            if (ExisteReservaClienteEnFechaHora(db, cliente.CustomerId, fecha, hora, reserva.ReservationId))
+            if (ExisteReservaClienteEnFechaHora(
+                db,
+                cliente.CustomerId,
+                fecha,
+                hora,
+                reserva.ReservationId))
             {
                 _view.MostrarMensaje(
                     "El cliente ya tiene otra reserva activa para la fecha y hora seleccionadas.",
@@ -555,11 +655,33 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
+            // Actualizar datos de la reserva.
             reserva.CustomerId = cliente.CustomerId;
-            reserva.TableId = mesa?.TableId;
+            reserva.TableId = mesaNueva?.TableId;
             reserva.ReservationDate = fecha;
             reserva.ReservationTime = hora;
             reserva.GuestCount = (byte)_view.PersonasReserva;
+
+            // Si cambió de mesa, liberar la anterior.
+            if (mesaAnteriorId.HasValue &&
+                mesaAnteriorId.Value != mesaNueva?.TableId)
+            {
+                TableRestaurant? mesaAnterior = db.TableRestaurants
+                    .FirstOrDefault(t => t.TableId == mesaAnteriorId.Value);
+
+                if (mesaAnterior != null &&
+                    mesaAnterior.Status != "Maintenance")
+                {
+                    mesaAnterior.Status = "Available";
+                }
+            }
+
+            // La nueva mesa queda reservada.
+            if (mesaNueva != null &&
+                mesaNueva.Status != "Maintenance")
+            {
+                mesaNueva.Status = "Reserved";
+            }
 
             db.SaveChanges();
 
@@ -567,6 +689,7 @@ namespace Ocean_Desk_dv.Presenters
             CargarReservas();
 
             _view.CerrarPanelNuevaReserva();
+
             _view.MostrarMensaje(
                 "La reserva fue actualizada correctamente.",
                 MessageType.Information);
