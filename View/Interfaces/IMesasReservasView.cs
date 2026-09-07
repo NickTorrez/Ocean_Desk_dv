@@ -14,6 +14,7 @@ namespace Ocean_Desk_dv.View.Interfaces
     {
         int? ReservaIdSeleccionada { get; }
         int? NumeroMesaSeleccionada { get; }
+        int? NumeroMesaOcupadaSeleccionada { get; }
         int? NumeroMesaSeleccionadaParaAsignar { get; }
 
         string ClienteReserva { get; }
@@ -36,5 +37,6 @@ namespace Ocean_Desk_dv.View.Interfaces
         event EventHandler CancelarReservaClicked;
         event EventHandler AsignarMesaClicked;
         event EventHandler CambiarEstadoReservaClicked;
+        event EventHandler LiberarMesaClicked;
     }
 }

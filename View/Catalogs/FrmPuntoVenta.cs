@@ -77,6 +77,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 ? mesa.MesaId
                 : null;
 
+        public bool MesaReservadaBloqueada => !cmbMesa.Enabled;
+
         public int? ClienteIdSeleccionado =>
             cmbCliente.SelectedItem is ClienteItem cliente
                 ? cliente.ClienteId
@@ -102,6 +104,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
         public event EventHandler? PagarYRegistrarOrden;
         public event EventHandler? GuardarNuevoCliente;
+        public event EventHandler? ClienteSeleccionadoChanged;
 
         /// <summary>
         /// Muestra una lista de productos en el panel de productos. Cada producto se representa mediante un control UcProductoCard que muestra información como el nombre, precio, categoría, imagen y disponibilidad del producto.
@@ -172,6 +175,35 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
+        /// Selecciona una mesa en el ComboBox de mesas basado en el ID de la mesa proporcionado. Si se encuentra una mesa con el ID especificado, se establece como seleccionada en el ComboBox.
+        /// </summary>
+        /// <param name="tableId"></param>
+        public void SeleccionarMesa(int tableId)
+        {
+            for (int i = 0; i < cmbMesa.Items.Count; i++)
+            {
+                if (cmbMesa.Items[i] is MesaItem mesa &&
+                    mesa.MesaId == tableId)
+                {
+                    cmbMesa.SelectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Bloquea o desbloquea el ComboBox de mesas según el valor del parámetro "bloquear". Si se establece en true, el ComboBox se deshabilita; si se establece en false, se habilita. Esta funcionalidad es útil para evitar cambios en la selección de mesa cuando la mesa está reservada o bloqueada.
+        /// </summary>
+        /// <param name="bloquear"></param>
+        public void BloquearMesa(bool bloquear)
+        {
+            if (TipoOrden == "Local")
+            {
+                cmbMesa.Enabled = !bloquear;
+            }
+        }
+
+        /// <summary>
         /// Muestra un mensaje en una ventana de diálogo.
         /// </summary>
         /// <param name="mensaje"></param>
@@ -227,6 +259,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             _orderItems.Clear();
             flpOrderItems.Controls.Clear();
+            BloquearMesa(false);
 
             cmbMetodoPago.SelectedIndex = 0;
             cmbCliente.SelectedIndex = 0;
@@ -484,7 +517,12 @@ namespace Ocean_Desk_dv.UI.Catalogs
         private void cmbCliente_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cmbCliente.SelectedItem?.ToString() == "+ NUEVO CLIENTE")
+            {
                 AbrirPanelNuevoCliente();
+                return;
+            }
+
+            ClienteSeleccionadoChanged?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 

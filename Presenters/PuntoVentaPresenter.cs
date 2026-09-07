@@ -36,6 +36,7 @@ namespace Ocean_Desk_dv.Presenters
 
             _view.PagarYRegistrarOrden += RegistrarOrden;
             _view.GuardarNuevoCliente += RegistrarNuevoCliente;
+            _view.ClienteSeleccionadoChanged += ClienteSeleccionado;
 
             CargarDatosIniciales();
         }
@@ -81,6 +82,66 @@ namespace Ocean_Desk_dv.Presenters
                 .ToList();
 
             _view.MostrarMesas(mesas);
+        }
+
+        private void ClienteSeleccionado(object? sender, EventArgs e)
+        {
+            try
+            {
+                _view.BloquearMesa(false);
+
+                if (!_view.ClienteIdSeleccionado.HasValue)
+                    return;
+
+                int clienteId = _view.ClienteIdSeleccionado.Value;
+
+                DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+                Reservation? reserva = _context.Reservations
+                    .AsNoTracking()
+                    .Where(r =>
+                        r.CustomerId == clienteId &&
+                        r.ReservationDate == hoy &&
+                        r.Status == "Attended" &&
+                        r.TableId.HasValue)
+                    .OrderBy(r => r.ReservationTime)
+                    .FirstOrDefault();
+
+                if (reserva == null)
+                    return;
+
+                TableRestaurant? mesa = _context.TableRestaurants
+                    .AsNoTracking()
+                    .FirstOrDefault(t =>
+                        t.TableId == reserva.TableId.Value &&
+                        t.IsActive);
+
+                if (mesa == null)
+                {
+                    _view.MostrarMensaje(
+                        "La reserva del cliente tiene una mesa que ya no está disponible.",
+                        "Mesa de reserva",
+                        true);
+                    return;
+                }
+
+                _view.SeleccionarMesa(mesa.TableId);
+                _view.BloquearMesa(true);
+
+                _view.MostrarMensaje(
+                    $"Reserva encontrada.\n\n" +
+                    $"Mesa asignada: {mesa.TableNumber:00}\n" +
+                    $"Hora de reserva: {reserva.ReservationTime:hh\\:mm}\n\n" +
+                    "La mesa ha sido seleccionada automáticamente y no puede modificarse.",
+                    "Reserva detectada");
+            }
+            catch (Exception ex)
+            {
+                _view.MostrarMensaje(
+                    $"No fue posible verificar la reserva del cliente.\n\n{ex.Message}",
+                    "Error",
+                    true);
+            }
         }
 
         private void RegistrarNuevoCliente(object? sender, EventArgs e)
@@ -321,6 +382,21 @@ namespace Ocean_Desk_dv.Presenters
                             t.TableId == mesaId.Value &&
                             t.IsActive);
 
+                    bool mesaPerteneceAReserva = false;
+
+                    if (_view.ClienteIdSeleccionado.HasValue &&
+                        mesaId.HasValue &&
+                        tipoOrden == "Local")
+                    {
+                        DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+                        mesaPerteneceAReserva = _context.Reservations.Any(r =>
+                            r.CustomerId == _view.ClienteIdSeleccionado.Value &&
+                            r.TableId == mesaId.Value &&
+                            r.ReservationDate == hoy &&
+                            r.Status == "Attended");
+                    }
+
                     if (mesa == null)
                     {
                         _view.MostrarMensaje(
@@ -330,7 +406,7 @@ namespace Ocean_Desk_dv.Presenters
                         return;
                     }
 
-                    if (mesa.Status != "Available")
+                    if (mesa.Status != "Available" && !mesaPerteneceAReserva)
                     {
                         _view.MostrarMensaje(
                             "La mesa seleccionada ya no está disponible.",

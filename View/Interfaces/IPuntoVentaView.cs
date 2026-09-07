@@ -13,6 +13,13 @@ namespace Ocean_Desk_dv.View.Interfaces
         string TipoOrden { get; }
         int? MesaIdSeleccionada { get; }
         int? ClienteIdSeleccionado { get; }
+        bool MesaReservadaBloqueada { get; }
+
+        void SeleccionarMesa(int tableId);
+        void BloquearMesa(bool bloquear);
+
+        event EventHandler? ClienteSeleccionadoChanged;
+
         string MetodoPago { get; }
 
         string NuevoClienteNombre { get; }

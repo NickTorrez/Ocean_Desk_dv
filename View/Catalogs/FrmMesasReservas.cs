@@ -64,6 +64,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
 
+        public int? NumeroMesaOcupadaSeleccionada
+        {
+            get => _mesaSeleccionada?.NumeroMesa;
+        }
+
         public int? NumeroMesaSeleccionadaParaAsignar
         {
             get => _mesaSeleccionada?.NumeroMesa;
@@ -85,6 +90,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         public event EventHandler CancelarReservaClicked = delegate { };
         public event EventHandler AsignarMesaClicked = delegate { };
         public event EventHandler CambiarEstadoReservaClicked = delegate { };
+        public event EventHandler LiberarMesaClicked = delegate { };
         #endregion
 
         #region Constructor
@@ -95,6 +101,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             dgvReservas.AutoGenerateColumns = false;
 
             ConfigurarColumnasReservas();
+            ConfigurarFiltroEstado();
             ConfigurarFiltroEstado();
 
             _presenter = new MesasReservasPresenter(this);
@@ -205,10 +212,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
             if (sender is not UcMesaCard mesa)
                 return;
 
-            if (mesa.Estado != EstadoMesa.Disponible)
+            if (mesa.Estado == EstadoMesa.Mantenimiento)
             {
                 MostrarMensaje(
-                    "Solo puede seleccionar una mesa disponible.",
+                    "Una mesa en mantenimiento no puede seleccionarse.",
                     MessageType.Warning);
                 return;
             }
@@ -306,6 +313,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
         public void LimpiarFormularioNuevaReserva()
         {
             _reservaEditando = null;
+
+            dgvReservas.ClearSelection();
+            dgvReservas.CurrentCell = null;
 
             txtClienteReserva.Clear();
             dtpFechaNuevaReserva.Value = DateTime.Today;
@@ -516,6 +526,14 @@ namespace Ocean_Desk_dv.UI.Catalogs
         {
             CambiarEstadoReservaClicked.Invoke(this, EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Libera la mesa seleccionada cuando se encuentra ocupada.
+        /// </summary>
+        private void btnLiberarMesa_Click(object sender, EventArgs e)
+        {
+            LiberarMesaClicked.Invoke(this, EventArgs.Empty);
+        }
         #endregion
 
         #region Selección y Estado de Botones
@@ -540,6 +558,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
             btnCancelarReserva.Enabled = haySeleccion;
             btnAsignarMesa.Enabled = false;
             btnCambiarEstadoReserva.Enabled = false;
+
+            btnLiberarMesa.Enabled = _mesaSeleccionada != null && _mesaSeleccionada.Estado == EstadoMesa.Ocupada;
 
             if (!haySeleccion)
                 return;
@@ -572,7 +592,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// <param name="e"></param>
         private void txtBuscarReserva_TextChanged(object sender, EventArgs e)
         {
-           AplicarFiltros();
+            AplicarFiltros();
         }
 
         /// <summary>
@@ -659,5 +679,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 tipo);
         }
         #endregion
+
+        
     }
 }
