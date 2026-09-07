@@ -863,16 +863,38 @@ namespace Ocean_Desk_dv.Presenters
 
         private static Customer? BuscarCliente(OceanDeskDbContext db, string nombreCompleto)
         {
-            string nombre = nombreCompleto.Trim();
+            string nombreBuscado = NormalizarTexto(nombreCompleto);
 
             return db.Customers
                 .Where(c => c.IsActive)
                 .AsEnumerable()
                 .FirstOrDefault(c =>
-                    string.Equals(
-                        $"{c.FirstName} {c.LastName}".Trim(),
-                        nombre,
-                        StringComparison.OrdinalIgnoreCase));
+                    NormalizarTexto($"{c.FirstName} {c.LastName}")
+                        .Equals(nombreBuscado, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string NormalizarTexto(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return string.Empty;
+
+            string normalizado = texto.Trim().Normalize(
+                System.Text.NormalizationForm.FormD);
+
+            StringBuilder resultado = new StringBuilder();
+
+            foreach (char caracter in normalizado)
+            {
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(caracter)
+                    != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    resultado.Append(caracter);
+                }
+            }
+
+            return resultado
+                .ToString()
+                .Normalize(System.Text.NormalizationForm.FormC);
         }
 
         private static string ObtenerNombreCliente(OceanDeskDbContext db, int customerId)
