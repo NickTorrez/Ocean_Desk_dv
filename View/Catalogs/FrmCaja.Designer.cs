@@ -59,6 +59,12 @@
             lblTituloEsperado = new Label();
             pnlMovimientos = new Panel();
             dgvMovimientosCaja = new DataGridView();
+            colFecha = new DataGridViewTextBoxColumn();
+            colTipo = new DataGridViewTextBoxColumn();
+            colConcepto = new DataGridViewTextBoxColumn();
+            colMetodo = new DataGridViewTextBoxColumn();
+            colMonto = new DataGridViewTextBoxColumn();
+            colUsuario = new DataGridViewTextBoxColumn();
             pnlAcciones = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnCerrarCaja = new Button();
@@ -66,12 +72,19 @@
             btnAbrirCaja = new Button();
             btnRegistrarEgreso = new Button();
             btnRegistrarIngreso = new Button();
-            colFecha = new DataGridViewTextBoxColumn();
-            colTipo = new DataGridViewTextBoxColumn();
-            colConcepto = new DataGridViewTextBoxColumn();
-            colMetodo = new DataGridViewTextBoxColumn();
-            colMonto = new DataGridViewTextBoxColumn();
-            colUsuario = new DataGridViewTextBoxColumn();
+            pnlUltimoCierre = new Panel();
+            tlpUltimoCierre = new TableLayoutPanel();
+            pnlUltimoCierreFecha = new Panel();
+            lblUltimoCierreFecha = new Label();
+            pnlUltimoCierreEsperado = new Panel();
+            lblUltimoCierreEsperado = new Label();
+            pnlUltimoCierreContado = new Panel();
+            lblUltimoCierreContado = new Label();
+            pnlUltimoCierreDiferencia = new Panel();
+            lblUltimoCierreDiferencia = new Label();
+            pnlUltimoCierreUsuario = new Panel();
+            lblUltimoCierreUsuario = new Label();
+            lblTituloUltimoCierre = new Label();
             pnlEstadoCaja.SuspendLayout();
             pnlResumen.SuspendLayout();
             tlpResumen.SuspendLayout();
@@ -84,6 +97,13 @@
             pnlAcciones.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tlpButtons.SuspendLayout();
+            pnlUltimoCierre.SuspendLayout();
+            tlpUltimoCierre.SuspendLayout();
+            pnlUltimoCierreFecha.SuspendLayout();
+            pnlUltimoCierreEsperado.SuspendLayout();
+            pnlUltimoCierreContado.SuspendLayout();
+            pnlUltimoCierreDiferencia.SuspendLayout();
+            pnlUltimoCierreUsuario.SuspendLayout();
             SuspendLayout();
             // 
             // pnlEstadoCaja
@@ -316,10 +336,10 @@
             pnlMovimientos.BackColor = Color.Transparent;
             pnlMovimientos.Controls.Add(dgvMovimientosCaja);
             pnlMovimientos.Dock = DockStyle.Fill;
-            pnlMovimientos.Location = new Point(0, 175);
+            pnlMovimientos.Location = new Point(0, 260);
             pnlMovimientos.Name = "pnlMovimientos";
-            pnlMovimientos.Padding = new Padding(3, 0, 3, 10);
-            pnlMovimientos.Size = new Size(940, 590);
+            pnlMovimientos.Padding = new Padding(3, 10, 3, 10);
+            pnlMovimientos.Size = new Size(940, 570);
             pnlMovimientos.TabIndex = 2;
             // 
             // dgvMovimientosCaja
@@ -359,7 +379,7 @@
             dgvMovimientosCaja.Dock = DockStyle.Fill;
             dgvMovimientosCaja.EnableHeadersVisualStyles = false;
             dgvMovimientosCaja.GridColor = Color.FromArgb(230, 234, 238);
-            dgvMovimientosCaja.Location = new Point(3, 0);
+            dgvMovimientosCaja.Location = new Point(3, 10);
             dgvMovimientosCaja.MultiSelect = false;
             dgvMovimientosCaja.Name = "dgvMovimientosCaja";
             dgvMovimientosCaja.ReadOnly = true;
@@ -376,8 +396,79 @@
             dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dgvMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvMovimientosCaja.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMovimientosCaja.Size = new Size(934, 580);
+            dgvMovimientosCaja.Size = new Size(934, 550);
             dgvMovimientosCaja.TabIndex = 0;
+            dgvMovimientosCaja.CellFormatting += dgvMovimientosCaja_CellFormatting;
+            // 
+            // colFecha
+            // 
+            colFecha.DataPropertyName = "Fecha";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            colFecha.DefaultCellStyle = dataGridViewCellStyle3;
+            colFecha.FillWeight = 15F;
+            colFecha.HeaderText = "Fecha";
+            colFecha.MinimumWidth = 6;
+            colFecha.Name = "colFecha";
+            colFecha.ReadOnly = true;
+            // 
+            // colTipo
+            // 
+            colTipo.DataPropertyName = "Tipo";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipo.DefaultCellStyle = dataGridViewCellStyle4;
+            colTipo.FillWeight = 15F;
+            colTipo.HeaderText = "Tipo";
+            colTipo.MinimumWidth = 6;
+            colTipo.Name = "colTipo";
+            colTipo.ReadOnly = true;
+            // 
+            // colConcepto
+            // 
+            colConcepto.DataPropertyName = "Concepto";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colConcepto.DefaultCellStyle = dataGridViewCellStyle5;
+            colConcepto.FillWeight = 30F;
+            colConcepto.HeaderText = "Concepto";
+            colConcepto.MinimumWidth = 6;
+            colConcepto.Name = "colConcepto";
+            colConcepto.ReadOnly = true;
+            // 
+            // colMetodo
+            // 
+            colMetodo.DataPropertyName = "MetodoPago";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colMetodo.DefaultCellStyle = dataGridViewCellStyle6;
+            colMetodo.FillWeight = 15F;
+            colMetodo.HeaderText = "Método";
+            colMetodo.MinimumWidth = 6;
+            colMetodo.Name = "colMetodo";
+            colMetodo.ReadOnly = true;
+            // 
+            // colMonto
+            // 
+            colMonto.DataPropertyName = "Monto";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "N2";
+            dataGridViewCellStyle7.NullValue = null;
+            colMonto.DefaultCellStyle = dataGridViewCellStyle7;
+            colMonto.FillWeight = 15F;
+            colMonto.HeaderText = "Monto";
+            colMonto.MinimumWidth = 6;
+            colMonto.Name = "colMonto";
+            colMonto.ReadOnly = true;
+            // 
+            // colUsuario
+            // 
+            colUsuario.DataPropertyName = "Usuario";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
+            colUsuario.FillWeight = 10F;
+            colUsuario.HeaderText = "Usuario";
+            colUsuario.MinimumWidth = 6;
+            colUsuario.Name = "colUsuario";
+            colUsuario.ReadOnly = true;
             // 
             // pnlAcciones
             // 
@@ -493,75 +584,166 @@
             btnRegistrarIngreso.UseVisualStyleBackColor = false;
             btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
             // 
-            // colFecha
+            // pnlUltimoCierre
             // 
-            colFecha.DataPropertyName = "Fecha";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Format = "g";
-            dataGridViewCellStyle3.NullValue = null;
-            colFecha.DefaultCellStyle = dataGridViewCellStyle3;
-            colFecha.FillWeight = 15F;
-            colFecha.HeaderText = "Fecha";
-            colFecha.MinimumWidth = 6;
-            colFecha.Name = "colFecha";
-            colFecha.ReadOnly = true;
+            pnlUltimoCierre.BackColor = Color.White;
+            pnlUltimoCierre.Controls.Add(tlpUltimoCierre);
+            pnlUltimoCierre.Controls.Add(lblTituloUltimoCierre);
+            pnlUltimoCierre.Dock = DockStyle.Top;
+            pnlUltimoCierre.Location = new Point(0, 175);
+            pnlUltimoCierre.Name = "pnlUltimoCierre";
+            pnlUltimoCierre.Padding = new Padding(8);
+            pnlUltimoCierre.Size = new Size(940, 85);
+            pnlUltimoCierre.TabIndex = 1;
             // 
-            // colTipo
+            // tlpUltimoCierre
             // 
-            colTipo.DataPropertyName = "Tipo";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTipo.DefaultCellStyle = dataGridViewCellStyle4;
-            colTipo.FillWeight = 15F;
-            colTipo.HeaderText = "Tipo";
-            colTipo.MinimumWidth = 6;
-            colTipo.Name = "colTipo";
-            colTipo.ReadOnly = true;
+            tlpUltimoCierre.ColumnCount = 5;
+            tlpUltimoCierre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.581398F));
+            tlpUltimoCierre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.6046524F));
+            tlpUltimoCierre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.6046524F));
+            tlpUltimoCierre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.6046524F));
+            tlpUltimoCierre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.6046524F));
+            tlpUltimoCierre.Controls.Add(pnlUltimoCierreFecha, 0, 0);
+            tlpUltimoCierre.Controls.Add(pnlUltimoCierreEsperado, 1, 0);
+            tlpUltimoCierre.Controls.Add(pnlUltimoCierreContado, 2, 0);
+            tlpUltimoCierre.Controls.Add(pnlUltimoCierreDiferencia, 3, 0);
+            tlpUltimoCierre.Controls.Add(pnlUltimoCierreUsuario, 4, 0);
+            tlpUltimoCierre.Dock = DockStyle.Fill;
+            tlpUltimoCierre.Location = new Point(8, 26);
+            tlpUltimoCierre.Name = "tlpUltimoCierre";
+            tlpUltimoCierre.RowCount = 1;
+            tlpUltimoCierre.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpUltimoCierre.Size = new Size(924, 51);
+            tlpUltimoCierre.TabIndex = 1;
             // 
-            // colConcepto
+            // pnlUltimoCierreFecha
             // 
-            colConcepto.DataPropertyName = "Concepto";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colConcepto.DefaultCellStyle = dataGridViewCellStyle5;
-            colConcepto.FillWeight = 30F;
-            colConcepto.HeaderText = "Concepto";
-            colConcepto.MinimumWidth = 6;
-            colConcepto.Name = "colConcepto";
-            colConcepto.ReadOnly = true;
+            pnlUltimoCierreFecha.BackColor = Color.FromArgb(245, 247, 250);
+            pnlUltimoCierreFecha.Controls.Add(lblUltimoCierreFecha);
+            pnlUltimoCierreFecha.Dock = DockStyle.Fill;
+            pnlUltimoCierreFecha.Location = new Point(3, 3);
+            pnlUltimoCierreFecha.Name = "pnlUltimoCierreFecha";
+            pnlUltimoCierreFecha.Padding = new Padding(2);
+            pnlUltimoCierreFecha.Size = new Size(230, 45);
+            pnlUltimoCierreFecha.TabIndex = 0;
             // 
-            // colMetodo
+            // lblUltimoCierreFecha
             // 
-            colMetodo.DataPropertyName = "MetodoPago";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colMetodo.DefaultCellStyle = dataGridViewCellStyle6;
-            colMetodo.FillWeight = 15F;
-            colMetodo.HeaderText = "Método";
-            colMetodo.MinimumWidth = 6;
-            colMetodo.Name = "colMetodo";
-            colMetodo.ReadOnly = true;
+            lblUltimoCierreFecha.Dock = DockStyle.Fill;
+            lblUltimoCierreFecha.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblUltimoCierreFecha.ForeColor = Color.FromArgb(8, 31, 63);
+            lblUltimoCierreFecha.Location = new Point(2, 2);
+            lblUltimoCierreFecha.Name = "lblUltimoCierreFecha";
+            lblUltimoCierreFecha.Size = new Size(226, 41);
+            lblUltimoCierreFecha.TabIndex = 1;
+            lblUltimoCierreFecha.Text = "Fecha: -";
+            lblUltimoCierreFecha.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // colMonto
+            // pnlUltimoCierreEsperado
             // 
-            colMonto.DataPropertyName = "Monto";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Format = "C2";
-            dataGridViewCellStyle7.NullValue = null;
-            colMonto.DefaultCellStyle = dataGridViewCellStyle7;
-            colMonto.FillWeight = 15F;
-            colMonto.HeaderText = "Monto";
-            colMonto.MinimumWidth = 6;
-            colMonto.Name = "colMonto";
-            colMonto.ReadOnly = true;
+            pnlUltimoCierreEsperado.BackColor = Color.FromArgb(238, 246, 248);
+            pnlUltimoCierreEsperado.Controls.Add(lblUltimoCierreEsperado);
+            pnlUltimoCierreEsperado.Dock = DockStyle.Fill;
+            pnlUltimoCierreEsperado.Location = new Point(239, 3);
+            pnlUltimoCierreEsperado.Name = "pnlUltimoCierreEsperado";
+            pnlUltimoCierreEsperado.Padding = new Padding(2);
+            pnlUltimoCierreEsperado.Size = new Size(165, 45);
+            pnlUltimoCierreEsperado.TabIndex = 1;
             // 
-            // colUsuario
+            // lblUltimoCierreEsperado
             // 
-            colUsuario.DataPropertyName = "Usuario";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
-            colUsuario.FillWeight = 10F;
-            colUsuario.HeaderText = "Usuario";
-            colUsuario.MinimumWidth = 6;
-            colUsuario.Name = "colUsuario";
-            colUsuario.ReadOnly = true;
+            lblUltimoCierreEsperado.Dock = DockStyle.Fill;
+            lblUltimoCierreEsperado.Font = new Font("Century Gothic", 9F);
+            lblUltimoCierreEsperado.ForeColor = Color.FromArgb(8, 126, 164);
+            lblUltimoCierreEsperado.Location = new Point(2, 2);
+            lblUltimoCierreEsperado.Name = "lblUltimoCierreEsperado";
+            lblUltimoCierreEsperado.Size = new Size(161, 41);
+            lblUltimoCierreEsperado.TabIndex = 2;
+            lblUltimoCierreEsperado.Text = "Esperado: C$ 0.00";
+            lblUltimoCierreEsperado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlUltimoCierreContado
+            // 
+            pnlUltimoCierreContado.BackColor = Color.FromArgb(238, 247, 241);
+            pnlUltimoCierreContado.Controls.Add(lblUltimoCierreContado);
+            pnlUltimoCierreContado.Dock = DockStyle.Fill;
+            pnlUltimoCierreContado.Location = new Point(410, 3);
+            pnlUltimoCierreContado.Name = "pnlUltimoCierreContado";
+            pnlUltimoCierreContado.Padding = new Padding(2);
+            pnlUltimoCierreContado.Size = new Size(165, 45);
+            pnlUltimoCierreContado.TabIndex = 2;
+            // 
+            // lblUltimoCierreContado
+            // 
+            lblUltimoCierreContado.Dock = DockStyle.Fill;
+            lblUltimoCierreContado.Font = new Font("Century Gothic", 9F);
+            lblUltimoCierreContado.ForeColor = Color.FromArgb(42, 122, 82);
+            lblUltimoCierreContado.Location = new Point(2, 2);
+            lblUltimoCierreContado.Name = "lblUltimoCierreContado";
+            lblUltimoCierreContado.Size = new Size(161, 41);
+            lblUltimoCierreContado.TabIndex = 3;
+            lblUltimoCierreContado.Text = "Contado: C$ 0.00";
+            lblUltimoCierreContado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlUltimoCierreDiferencia
+            // 
+            pnlUltimoCierreDiferencia.BackColor = Color.FromArgb(255, 247, 232);
+            pnlUltimoCierreDiferencia.Controls.Add(lblUltimoCierreDiferencia);
+            pnlUltimoCierreDiferencia.Dock = DockStyle.Fill;
+            pnlUltimoCierreDiferencia.Location = new Point(581, 3);
+            pnlUltimoCierreDiferencia.Name = "pnlUltimoCierreDiferencia";
+            pnlUltimoCierreDiferencia.Padding = new Padding(2);
+            pnlUltimoCierreDiferencia.Size = new Size(165, 45);
+            pnlUltimoCierreDiferencia.TabIndex = 3;
+            // 
+            // lblUltimoCierreDiferencia
+            // 
+            lblUltimoCierreDiferencia.BackColor = Color.FromArgb(255, 247, 232);
+            lblUltimoCierreDiferencia.Dock = DockStyle.Fill;
+            lblUltimoCierreDiferencia.Font = new Font("Century Gothic", 9F);
+            lblUltimoCierreDiferencia.ForeColor = Color.FromArgb(181, 119, 23);
+            lblUltimoCierreDiferencia.Location = new Point(2, 2);
+            lblUltimoCierreDiferencia.Name = "lblUltimoCierreDiferencia";
+            lblUltimoCierreDiferencia.Size = new Size(161, 41);
+            lblUltimoCierreDiferencia.TabIndex = 4;
+            lblUltimoCierreDiferencia.Text = "Diferencia: C$ 0.00";
+            lblUltimoCierreDiferencia.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlUltimoCierreUsuario
+            // 
+            pnlUltimoCierreUsuario.BackColor = Color.FromArgb(245, 247, 250);
+            pnlUltimoCierreUsuario.Controls.Add(lblUltimoCierreUsuario);
+            pnlUltimoCierreUsuario.Dock = DockStyle.Fill;
+            pnlUltimoCierreUsuario.Location = new Point(752, 3);
+            pnlUltimoCierreUsuario.Name = "pnlUltimoCierreUsuario";
+            pnlUltimoCierreUsuario.Padding = new Padding(2);
+            pnlUltimoCierreUsuario.Size = new Size(169, 45);
+            pnlUltimoCierreUsuario.TabIndex = 4;
+            // 
+            // lblUltimoCierreUsuario
+            // 
+            lblUltimoCierreUsuario.Dock = DockStyle.Fill;
+            lblUltimoCierreUsuario.Font = new Font("Century Gothic", 9F);
+            lblUltimoCierreUsuario.ForeColor = Color.FromArgb(8, 31, 63);
+            lblUltimoCierreUsuario.Location = new Point(2, 2);
+            lblUltimoCierreUsuario.Name = "lblUltimoCierreUsuario";
+            lblUltimoCierreUsuario.Size = new Size(165, 41);
+            lblUltimoCierreUsuario.TabIndex = 5;
+            lblUltimoCierreUsuario.Text = "Usuario: -";
+            lblUltimoCierreUsuario.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblTituloUltimoCierre
+            // 
+            lblTituloUltimoCierre.Dock = DockStyle.Top;
+            lblTituloUltimoCierre.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTituloUltimoCierre.ForeColor = Color.FromArgb(8, 31, 63);
+            lblTituloUltimoCierre.Location = new Point(8, 8);
+            lblTituloUltimoCierre.Name = "lblTituloUltimoCierre";
+            lblTituloUltimoCierre.Size = new Size(924, 18);
+            lblTituloUltimoCierre.TabIndex = 0;
+            lblTituloUltimoCierre.Text = "Ú L T I M O   C I E R R E";
+            lblTituloUltimoCierre.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmCaja
             // 
@@ -569,8 +751,9 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlMovimientos);
             Controls.Add(pnlAcciones);
+            Controls.Add(pnlMovimientos);
+            Controls.Add(pnlUltimoCierre);
             Controls.Add(pnlResumen);
             Controls.Add(pnlEstadoCaja);
             FormBorderStyle = FormBorderStyle.None;
@@ -589,6 +772,13 @@
             pnlAcciones.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tlpButtons.ResumeLayout(false);
+            pnlUltimoCierre.ResumeLayout(false);
+            tlpUltimoCierre.ResumeLayout(false);
+            pnlUltimoCierreFecha.ResumeLayout(false);
+            pnlUltimoCierreEsperado.ResumeLayout(false);
+            pnlUltimoCierreContado.ResumeLayout(false);
+            pnlUltimoCierreDiferencia.ResumeLayout(false);
+            pnlUltimoCierreUsuario.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -621,6 +811,19 @@
         private Button btnCerrarCaja;
         private TableLayoutPanel tlpButtons;
         private TableLayoutPanel tableLayoutPanel1;
+        private Panel pnlUltimoCierre;
+        private Label lblTituloUltimoCierre;
+        private TableLayoutPanel tlpUltimoCierre;
+        private Panel pnlUltimoCierreFecha;
+        private Label lblUltimoCierreEsperado;
+        private Label lblUltimoCierreContado;
+        private Label lblUltimoCierreDiferencia;
+        private Label lblUltimoCierreUsuario;
+        private Panel pnlUltimoCierreEsperado;
+        private Panel pnlUltimoCierreContado;
+        private Panel pnlUltimoCierreDiferencia;
+        private Panel pnlUltimoCierreUsuario;
+        private Label lblUltimoCierreFecha;
         private DataGridViewTextBoxColumn colFecha;
         private DataGridViewTextBoxColumn colTipo;
         private DataGridViewTextBoxColumn colConcepto;

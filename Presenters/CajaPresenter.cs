@@ -56,11 +56,46 @@ namespace Ocean_Desk_dv.Presenters
                     SincronizarVentasCompletadas();
 
                 ActualizarVista();
+                CargarUltimoCierre();
             }
             catch (Exception ex)
             {
                 MostrarError(ex);
             }
+        }
+        #endregion
+
+        #region Último Cierre
+
+        /// <summary>
+        /// Consulta y muestra el cierre de caja más reciente.
+        /// </summary>
+        private void CargarUltimoCierre()
+        {
+            CashRegister? ultimoCierre = _context.CashRegisters
+                .AsNoTracking()
+                .Where(c => c.Status == "Closed")
+                .OrderByDescending(c => c.ClosingDateTime)
+                .FirstOrDefault();
+
+            if (ultimoCierre == null)
+            {
+                _view.MostrarUltimoCierre(
+                    null,
+                    null,
+                    null,
+                    null,
+                    string.Empty);
+
+                return;
+            }
+
+            _view.MostrarUltimoCierre(
+                ultimoCierre.ClosingDateTime,
+                ultimoCierre.ExpectedCash,
+                ultimoCierre.ActualCash,
+                ultimoCierre.Difference,
+                ultimoCierre.ClosingUserId?.ToString() ?? "-");
         }
 
         #endregion
@@ -346,6 +381,8 @@ namespace Ocean_Desk_dv.Presenters
                 _cajaActual = null;
 
                 ActualizarVista();
+
+                CargarUltimoCierre();
 
                 _view.MostrarMensaje(
                     $"La caja ha sido cerrada correctamente.\n\n" +

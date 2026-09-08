@@ -3,6 +3,7 @@ using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Models;
 using Ocean_Desk_dv.View.Interfaces;
+using Ocean_Desk_dv.View.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -110,6 +111,42 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
+        /// Muestra la información correspondiente al último cierre registrado.
+        /// </summary>
+        public void MostrarUltimoCierre(
+            DateTime? fechaCierre,
+            decimal? efectivoEsperado,
+            decimal? efectivoReal,
+            decimal? diferencia,
+            string usuario)
+        {
+            lblUltimoCierreFecha.Text =
+                fechaCierre.HasValue
+                    ? $"Fecha: {fechaCierre.Value:dd/MM/yyyy HH:mm}"
+                    : "Fecha: -";
+
+            lblUltimoCierreEsperado.Text =
+                efectivoEsperado.HasValue
+                    ? $"Esperado: {FormatearMoneda(efectivoEsperado.Value)}"
+                    : "Esperado: -";
+
+            lblUltimoCierreContado.Text =
+                efectivoReal.HasValue
+                    ? $"Contado: {FormatearMoneda(efectivoReal.Value)}"
+                    : "Contado: -";
+
+            lblUltimoCierreDiferencia.Text =
+                diferencia.HasValue
+                    ? $"Diferencia: {FormatearMoneda(diferencia.Value)}"
+                    : "Diferencia: -";
+
+            lblUltimoCierreUsuario.Text =
+                string.IsNullOrWhiteSpace(usuario)
+                    ? "Usuario: -"
+                    : $"Usuario: {usuario}";
+        }
+
+        /// <summary>
         /// Carga los movimientos reales en el DataGridView.
         /// </summary>
         public void MostrarMovimientos(List<MovimientoCajaPrueba> movimientos)
@@ -146,41 +183,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         public decimal? SolicitarMonto(string mensaje, string titulo)
         {
-            string texto = Interaction.InputBox(
-                mensaje,
-                titulo,
-                "");
-
-            if (string.IsNullOrWhiteSpace(texto))
-                return null;
-
-            string textoNormalizado = texto.Trim()
-                .Replace("C$", "", StringComparison.OrdinalIgnoreCase)
-                .Trim();
-
-            if (decimal.TryParse(
-                textoNormalizado,
-                NumberStyles.Number,
-                CultureInfo.GetCultureInfo("es-NI"),
-                out decimal monto))
-            {
-                return monto;
-            }
-
-            if (decimal.TryParse(
-                textoNormalizado,
-                NumberStyles.Number,
-                CultureInfo.InvariantCulture,
-                out monto))
-            {
-                return monto;
-            }
-
-            MostrarMensaje(
-                "Ingrese un monto válido.",
-                MessageType.Warning);
-
-            return null;
+            return FrmInputBox.SolicitarMonto(this,titulo,mensaje);
         }
 
         /// <summary>
@@ -188,14 +191,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         public string? SolicitarTexto(string mensaje, string titulo)
         {
-            string texto = Interaction.InputBox(
-                mensaje,
-                titulo,
-                "");
-
-            return string.IsNullOrWhiteSpace(texto)
-                ? null
-                : texto.Trim();
+            return FrmTextInput.SolicitarTexto(this,titulo,mensaje);
         }
         #endregion
 
@@ -288,6 +284,26 @@ namespace Ocean_Desk_dv.UI.Catalogs
             _presenter = null;
         }
         #endregion
-       
+
+        #region Monto de dgvMovimientos
+        private void dgvMovimientosCaja_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (dgvMovimientosCaja.Columns[e.ColumnIndex].Name != "colMonto")
+                return;
+
+            if (e.Value == null || e.Value == DBNull.Value)
+                return;
+
+            if (decimal.TryParse(e.Value.ToString(), out decimal monto))
+            {
+                e.Value = FormatearMoneda(monto);
+                e.FormattingApplied = true;
+            }
+        }
+        #endregion
+
     }
 }

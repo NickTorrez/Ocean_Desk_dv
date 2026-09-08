@@ -28,6 +28,7 @@ namespace Ocean_Desk_dv.View.Interfaces
         void MostrarMovimientos(List<MovimientoCajaPrueba> movimientos);
         void MostrarMensaje(string mensaje, MessageType tipo);
         void MostrarConfirmacion(string mensaje, string titulo, Action accionConfirmada);
+        void MostrarUltimoCierre(DateTime? fechaCierre, decimal? efectivoEsperado, decimal? efectivoReal, decimal? diferencia, string usuario);
 
         decimal? SolicitarMonto(string mensaje, string titulo);
         string? SolicitarTexto(string mensaje, string titulo);

@@ -167,6 +167,7 @@
             // btnCancel
             // 
             btnCancel.BackColor = Color.Red;
+            btnCancel.Cursor = Cursors.Hand;
             btnCancel.Dock = DockStyle.Left;
             btnCancel.FlatAppearance.BorderSize = 0;
             btnCancel.FlatStyle = FlatStyle.Flat;
