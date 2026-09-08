@@ -1,222 +1,233 @@
-﻿using Ocean_Desk_dv.UI.MessageBox;
+﻿using Microsoft.VisualBasic;
+using Ocean_Desk_dv.Presenters;
+using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Models;
+using Ocean_Desk_dv.View.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
 
 namespace Ocean_Desk_dv.UI.Catalogs
 {
-    public partial class FrmCaja : Form
+    /// <summary>
+    /// Vista principal del módulo de Caja.
+    /// Implementa ICajaView y delega la lógica de negocio al CajaPresenter.
+    /// </summary>
+    public partial class FrmCaja : Form, ICajaView
     {
-        private readonly List<MovimientoCajaPrueba> _movimientos = new List<MovimientoCajaPrueba>();
+        private readonly int _usuarioId;
+        private CajaPresenter? _presenter;
 
-        private readonly List<CierreCajaPrueba> _historialCierres = new List<CierreCajaPrueba>();
-
-        private bool _cajaAbierta = true;
-
-        public FrmCaja()
+        #region Constructor
+        /// <summary>
+        /// Constructor utilizado mientras el sistema de autenticación no entrega el usuario real.
+        /// </summary>
+        public FrmCaja() : this(1)
         {
+        }
+
+        /// <summary>
+        /// Inicializa el formulario de Caja para el usuario indicado.
+        /// </summary>
+        /// <param name="usuarioId"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public FrmCaja(int usuarioId)
+        {
+            if (usuarioId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(usuarioId));
+
+            _usuarioId = usuarioId;
+
             InitializeComponent();
 
-            CargarMovimientosPrueba();
-            MostrarMovimientos();
-            ActualizarResumenCaja();
-            ActualizarEstadoCaja();
+            dgvMovimientosCaja.AutoGenerateColumns = false;
 
-        }
+            _presenter = new CajaPresenter(this);
+            _presenter.Inicializar();
 
-        #region Carga de Datos en dgv y tarjetas de movimientos
-        private void CargarMovimientosPrueba() //Metodo para cargar datos en el dgv
-        {
-            _movimientos.Clear();
-
-            _movimientos.Add(new MovimientoCajaPrueba
-            {
-                Fecha = DateTime.Today.AddHours(8),
-                Tipo = "Venta",
-                Concepto = "Venta #0001",
-                MetodoPago = "Efectivo",
-                Monto = 450.00m,
-                Usuario = "Administrador"
-            });
-
-            _movimientos.Add(new MovimientoCajaPrueba
-            {
-                Fecha = DateTime.Today.AddHours(9),
-                Tipo = "Venta",
-                Concepto = "Venta #0002",
-                MetodoPago = "Tarjeta",
-                Monto = 320.50m,
-                Usuario = "Cajero"
-            });
-
-            _movimientos.Add(new MovimientoCajaPrueba
-            {
-                Fecha = DateTime.Today.AddHours(10),
-                Tipo = "Ingreso",
-                Concepto = "Fondo adicional",
-                MetodoPago = "Efectivo",
-                Monto = 500.00m,
-                Usuario = "Administrador"
-            });
-
-            _movimientos.Add(new MovimientoCajaPrueba
-            {
-                Fecha = DateTime.Today.AddHours(11),
-                Tipo = "Egreso",
-                Concepto = "Compra urgente",
-                MetodoPago = "Efectivo",
-                Monto = 120.00m,
-                Usuario = "Administrador"
-            });
-
-        }
-
-        private void MostrarMovimientos() //carga una nueva lista de movimientos y asegura que no haya filas seleccionadas al finalizar
-        {
-            dgvMovimientosCaja.DataSource = null;
-            dgvMovimientosCaja.DataSource = _movimientos;
-
-            dgvMovimientosCaja.ClearSelection();
-        }
-
-        private void ActualizarResumenCaja() //Cargar Datos a las tarjetas de resumenes
-        {
-            decimal apertura = 1000.00m;
-
-            decimal ingresos =
-                _movimientos
-                    .Where(m =>
-                        m.Tipo == "Venta" ||
-                        m.Tipo == "Ingreso")
-                    .Sum(m => m.Monto);
-
-            decimal egresos =
-                _movimientos
-                    .Where(m =>
-                        m.Tipo == "Egreso")
-                    .Sum(m => m.Monto);
-
-            decimal efectivoEsperado = ObtenerEfectivoEsperado();
-
-            lblValorApertura.Text =
-                apertura.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            lblValorIngresos.Text =
-                ingresos.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            lblValorEgresos.Text =
-                egresos.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            lblValorEsperado.Text =
-                efectivoEsperado.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
+            FormClosed += FrmCaja_FormClosed;
         }
         #endregion
 
-        #region Crear datos de historial de prueba
-        private void CargarHistorialCierresPrueba()
+        #region Implementación de ICajaView
+        public int UsuarioId => _usuarioId;
+
+        public event EventHandler AbrirCajaClicked = delegate { };
+        public event EventHandler CerrarCajaClicked = delegate { };
+        public event EventHandler RegistrarIngresoClicked = delegate { };
+        public event EventHandler RegistrarEgresoClicked = delegate { };
+
+        /// <summary>
+        /// Muestra en pantalla el estado actual de la caja.
+        /// </summary>
+        public void MostrarEstadoCaja(bool abierta, DateTime? fechaApertura)
         {
-            _historialCierres.Clear();
+            lblEstadoCaja.Text = abierta ? "ABIERTA" : "CERRADA";
 
-            _historialCierres.Add(
-                new CierreCajaPrueba
-                {
-                    FechaCierre = DateTime.Today.AddDays(-1)
-                        .AddHours(20)
-                        .AddMinutes(15),
+            lblDetalleCaja.Text = abierta && fechaApertura.HasValue
+                ? $"Apertura: {fechaApertura.Value:dd/MM/yyyy HH:mm}"
+                : "No existe una caja abierta actualmente.";
 
-                    EfectivoEsperado = 5250.00m,
-                    EfectivoReal = 5250.00m,
-                    Diferencia = 0,
-                    Usuario = "Administrador"
-                });
+            btnAbrirCaja.Enabled = !abierta;
+            btnRegistrarIngreso.Enabled = abierta;
+            btnRegistrarEgreso.Enabled = abierta;
+            btnCerrarCaja.Enabled = abierta;
 
-            _historialCierres.Add(
-                new CierreCajaPrueba
-                {
-                    FechaCierre = DateTime.Today.AddDays(-2)
-                        .AddHours(20)
-                        .AddMinutes(30),
-
-                    EfectivoEsperado = 4800.00m,
-                    EfectivoReal = 4775.00m,
-                    Diferencia = -25.00m,
-                    Usuario = "Cajero"
-                });
-
-            _historialCierres.Add(
-                new CierreCajaPrueba
-                {
-                    FechaCierre = DateTime.Today.AddDays(-3)
-                        .AddHours(21),
-
-                    EfectivoEsperado = 6100.00m,
-                    EfectivoReal = 6170.00m,
-                    Diferencia = 70.00m,
-                    Usuario = "Administrador"
-                });
-        }
-        #endregion
-
-        #region Color y Comportamiento en el panel de estado de caja y botones de acciones
-        private void ActualizarEstadoCaja()
-        {
-            lblEstadoCaja.Text =
-                _cajaAbierta
-                    ? "ABIERTA"
-                    : "CERRADA";
-
-            if (_cajaAbierta)
+            if (abierta)
             {
-                btnAbrirCaja.Enabled = false;
-                btnRegistrarIngreso.Enabled = true;
-                btnRegistrarEgreso.Enabled = true;
-                btnCerrarCaja.Enabled = true;
-
-                lblEstadoCaja.BackColor =
-                    Color.FromArgb(232, 244, 238);
-
-                lblEstadoCaja.ForeColor =
-                    Color.FromArgb(42, 122, 82);
+                lblEstadoCaja.BackColor = Color.FromArgb(232, 244, 238);
+                lblEstadoCaja.ForeColor = Color.FromArgb(42, 122, 82);
             }
             else
             {
-                btnAbrirCaja.Enabled = true;
-                btnRegistrarIngreso.Enabled = false;
-                btnRegistrarEgreso.Enabled = false;
-                btnCerrarCaja.Enabled = false;
-
-                lblEstadoCaja.BackColor =
-                    Color.FromArgb(240, 242, 244);
-
-                lblEstadoCaja.ForeColor =
-                    Color.FromArgb(111, 119, 128);
+                lblEstadoCaja.BackColor = Color.FromArgb(240, 242, 244);
+                lblEstadoCaja.ForeColor = Color.FromArgb(111, 119, 128);
             }
 
             ActualizarEstadoVisualBotones();
         }
 
+        /// <summary>
+        /// Actualiza las tarjetas de resumen de la caja.
+        /// </summary>
+        public void MostrarResumen(
+            decimal apertura,
+            decimal ingresos,
+            decimal egresos,
+            decimal efectivoEsperado)
+        {
+            lblValorApertura.Text = FormatearMoneda(apertura);
+            lblValorIngresos.Text = FormatearMoneda(ingresos);
+            lblValorEgresos.Text = FormatearMoneda(egresos);
+            lblValorEsperado.Text = FormatearMoneda(efectivoEsperado);
+        }
+
+        /// <summary>
+        /// Carga los movimientos reales en el DataGridView.
+        /// </summary>
+        public void MostrarMovimientos(List<MovimientoCajaPrueba> movimientos)
+        {
+            dgvMovimientosCaja.DataSource = null;
+            dgvMovimientosCaja.DataSource = movimientos;
+            dgvMovimientosCaja.ClearSelection();
+        }
+
+        /// <summary>
+        /// Muestra un mensaje utilizando el MessageBox personalizado del proyecto.
+        /// </summary>
+        public void MostrarMensaje(string mensaje, MessageType tipo)
+        {
+            FrmMessageBox.Show(mensaje, "Caja", tipo);
+        }
+
+        /// <summary>
+        /// Muestra una confirmación y ejecuta la acción solo cuando el usuario confirma.
+        /// </summary>
+        public void MostrarConfirmacion(string mensaje, string titulo, Action accionConfirmada)
+        {
+            DialogResult resultado = FrmMessageBox.Show(
+                mensaje,
+                titulo,
+                MessageType.Confirmation);
+
+            if (resultado == DialogResult.Yes)
+                accionConfirmada();
+        }
+
+        /// <summary>
+        /// Solicita al usuario un monto monetario.
+        /// </summary>
+        public decimal? SolicitarMonto(string mensaje, string titulo)
+        {
+            string texto = Interaction.InputBox(
+                mensaje,
+                titulo,
+                "");
+
+            if (string.IsNullOrWhiteSpace(texto))
+                return null;
+
+            string textoNormalizado = texto.Trim()
+                .Replace("C$", "", StringComparison.OrdinalIgnoreCase)
+                .Trim();
+
+            if (decimal.TryParse(
+                textoNormalizado,
+                NumberStyles.Number,
+                CultureInfo.GetCultureInfo("es-NI"),
+                out decimal monto))
+            {
+                return monto;
+            }
+
+            if (decimal.TryParse(
+                textoNormalizado,
+                NumberStyles.Number,
+                CultureInfo.InvariantCulture,
+                out monto))
+            {
+                return monto;
+            }
+
+            MostrarMensaje(
+                "Ingrese un monto válido.",
+                MessageType.Warning);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Solicita al usuario un texto simple.
+        /// </summary>
+        public string? SolicitarTexto(string mensaje, string titulo)
+        {
+            string texto = Interaction.InputBox(
+                mensaje,
+                titulo,
+                "");
+
+            return string.IsNullOrWhiteSpace(texto)
+                ? null
+                : texto.Trim();
+        }
+        #endregion
+
+        #region Evento de Botones
+        private void btnAbrirCaja_Click(object sender, EventArgs e)
+        {
+            AbrirCajaClicked.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnRegistrarIngreso_Click(object sender, EventArgs e)
+        {
+            RegistrarIngresoClicked.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnRegistrarEgreso_Click(object sender, EventArgs e)
+        {
+            RegistrarEgresoClicked.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnCerrarCaja_Click(object sender, EventArgs e)
+        {
+            CerrarCajaClicked.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
+
+        #region Estado Visual
         private void ActualizarEstadoVisualBotones()
         {
             AplicarEstadoBoton(
                 btnAbrirCaja,
                 btnAbrirCaja.Enabled,
-                Color.FromArgb(238, 243, 247),
+                Color.FromArgb(135, 206, 250),
                 Color.FromArgb(8, 31, 63));
 
             AplicarEstadoBoton(
@@ -239,10 +250,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         private void AplicarEstadoBoton(
-            Button boton,
-            bool habilitado,
-            Color colorNormal,
-            Color colorTexto)
+           Button boton,
+           bool habilitado,
+           Color colorNormal,
+           Color colorTexto)
         {
             boton.Enabled = habilitado;
 
@@ -253,316 +264,30 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
             else
             {
-                boton.BackColor =
-                    Color.FromArgb(232, 236, 239);
+                boton.BackColor = Color.FromArgb(232, 236, 239);
 
-                boton.ForeColor =
-                    Color.FromArgb(155, 163, 170);
+                boton.ForeColor = Color.FromArgb(155, 163, 170);
             }
         }
         #endregion
 
-        #region Eventos y Funciones de los Botones
-        private void btnAbrirCaja_Click(object sender, EventArgs e)
+        #region Utilidades
+        private static string FormatearMoneda(decimal monto)
         {
-            DialogResult resultado =
-            FrmMessageBox.Show(
-           "¿Desea abrir la caja?",
-           "Apertura de caja",
-           MessageType.Confirmation);
-
-            if (resultado != DialogResult.Yes)
-                return;
-
-            _cajaAbierta = true;
-
-            ActualizarEstadoCaja();
-
-            FrmMessageBox.Show(
-                "La caja ha sido abierta correctamente.",
-                "Caja abierta",
-                MessageType.Information);
+            return "C$ " + monto.ToString(
+                "N2",
+                CultureInfo.GetCultureInfo("es-NI"));
         }
 
-        private void btnCerrarCaja_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Liberación de recursos
+        private void FrmCaja_FormClosed(object? sender, FormClosedEventArgs e)
         {
-            if (!_cajaAbierta)
-                return;
-
-            decimal efectivoEsperado = ObtenerEfectivoEsperado();
-
-            string esperadoFormateado = efectivoEsperado.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            string efectivoTexto =
-                Interaction.InputBox(
-                    $"Efectivo esperado: {esperadoFormateado}\n\n" +
-                    "Ingrese el efectivo contado físicamente:",
-                    "Conteo de efectivo");
-
-            if (string.IsNullOrWhiteSpace(efectivoTexto))
-                return;
-
-            if (!decimal.TryParse(
-                efectivoTexto,
-                out decimal efectivoReal))
-            {
-                FrmMessageBox.Show(
-                    "Ingrese un monto válido.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            if (efectivoReal < 0)
-            {
-                FrmMessageBox.Show(
-                    "El efectivo contado no puede ser negativo.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            decimal diferencia = efectivoReal - efectivoEsperado;
-
-            MostrarResumenCierre(efectivoEsperado,efectivoReal,diferencia);
-        }
-
-        private void MostrarResumenCierre(decimal efectivoEsperado,decimal efectivoReal,decimal diferencia)
-        {
-            string esperado = efectivoEsperado.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            string real = efectivoReal.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            string diferenciaTexto = diferencia.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            string mensaje =
-                $"Efectivo esperado: {esperado}\n" +
-                $"Efectivo contado: {real}\n" +
-                $"Diferencia: {diferenciaTexto}\n\n" +
-                "¿Desea confirmar el cierre de caja?";
-
-            DialogResult resultado = FrmMessageBox.Show(
-                    mensaje,
-                    "Resumen de cierre",
-                    MessageType.Confirmation);
-
-            if (resultado != DialogResult.Yes)
-                return;
-
-            FinalizarCierreCaja(efectivoEsperado,efectivoReal,diferencia);
-        }
-
-        private void FinalizarCierreCaja(decimal efectivoEsperado,decimal efectivoReal,decimal diferencia)
-        {
-            _cajaAbierta = false;
-
-            lblValorEsperado.Text = efectivoEsperado.ToString(
-                    "C",
-                    System.Globalization.CultureInfo.GetCultureInfo("es-NI"));
-
-            ActualizarEstadoCaja();
-
-            ActualizarResumenCaja();
-
-            FrmMessageBox.Show(
-                "La caja ha sido cerrada correctamente.",
-                "Caja cerrada",
-                MessageType.Information);
-
-            _historialCierres.Add(new CierreCajaPrueba
-            {
-                FechaCierre = DateTime.Now,
-                EfectivoEsperado = efectivoEsperado,
-                EfectivoReal = efectivoReal,
-                Diferencia = diferencia,
-                Usuario = "Adm  inistrador"
-            });
-        }
-
-        private decimal ObtenerEfectivoEsperado()
-        {
-            decimal apertura = 1000.00m;
-
-            decimal ingresosEfectivo =
-                _movimientos
-                    .Where(m =>
-                        (m.Tipo == "Venta" ||
-                         m.Tipo == "Ingreso")
-                        &&
-                        m.MetodoPago == "Efectivo")
-                    .Sum(m => m.Monto);
-
-            decimal egresosEfectivo =
-                _movimientos
-                    .Where(m =>
-                        m.Tipo == "Egreso" &&
-                        m.MetodoPago == "Efectivo")
-                    .Sum(m => m.Monto);
-
-            return apertura
-                + ingresosEfectivo
-                - egresosEfectivo;
-        }
-
-        private void btnRegistrarIngreso_Click(object sender, EventArgs e)
-        {
-            if (!_cajaAbierta)
-            {
-                FrmMessageBox.Show(
-                  "La caja se encuentra cerrada.\n\n" +
-                  "Abra la caja antes de registrar movimientos.",
-                  "Caja cerrada",
-                  MessageType.Warning);
-
-                return;
-            }
-
-            string concepto =
-                Interaction.InputBox(
-                    "Ingrese el concepto del ingreso:",
-                    "Registrar ingreso");
-
-            if (string.IsNullOrWhiteSpace(concepto))
-                return;
-
-            string montoTexto =
-                Interaction.InputBox(
-                    "Ingrese el monto del ingreso:",
-                    "Registrar ingreso");
-
-            if (!decimal.TryParse(
-                montoTexto,
-                out decimal monto))
-            {
-                FrmMessageBox.Show(
-                    "Ingrese un monto válido.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            if (monto <= 0)
-            {
-                FrmMessageBox.Show(
-                    "El monto debe ser mayor que cero.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            _movimientos.Add(
-                new MovimientoCajaPrueba
-                {
-                    Fecha = DateTime.Now,
-                    Tipo = "Ingreso",
-                    Concepto = concepto,
-                    MetodoPago = "Efectivo",
-                    Monto = monto,
-                    Usuario = "Administrador"
-                });
-
-            MostrarMovimientos();
-
-            ActualizarResumenCaja();
-
-            FrmMessageBox.Show(
-                "El ingreso ha sido registrado correctamente.",
-                "Ingreso registrado",
-                MessageType.Information);
-        }
-
-        private void btnRegistrarEgreso_Click(object sender, EventArgs e)
-        {
-            if (!_cajaAbierta)
-            {
-                FrmMessageBox.Show(
-                  "La caja se encuentra cerrada.\n\n" +
-                  "Abra la caja antes de registrar movimientos.",
-                  "Caja cerrada",
-                  MessageType.Warning);
-
-                return;
-            }
-
-            string concepto =
-                Interaction.InputBox(
-                    "Ingrese el concepto del egreso:",
-                    "Registrar egreso");
-
-            if (string.IsNullOrWhiteSpace(concepto))
-                return;
-
-            string montoTexto =
-                Interaction.InputBox(
-                    "Ingrese el monto del egreso:",
-                    "Registrar egreso");
-
-            if (!decimal.TryParse(
-                montoTexto,
-                out decimal monto))
-            {
-                FrmMessageBox.Show(
-                    "Ingrese un monto válido.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            if (monto <= 0)
-            {
-                FrmMessageBox.Show(
-                    "El monto debe ser mayor que cero.",
-                    "Monto inválido",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            decimal efectivoEsperado = ObtenerEfectivoEsperado();
-
-            if (monto > efectivoEsperado)
-            {
-                FrmMessageBox.Show(
-                    "El monto del egreso supera el efectivo disponible esperado en caja.",
-                    "Efectivo insuficiente",
-                    MessageType.Warning);
-
-                return;
-            }
-
-            _movimientos.Add(
-                new MovimientoCajaPrueba
-                {
-                    Fecha = DateTime.Now,
-                    Tipo = "Egreso",
-                    Concepto = concepto,
-                    MetodoPago = "Efectivo",
-                    Monto = monto,
-                    Usuario = "Administrador"
-                });
-
-            MostrarMovimientos();
-
-            ActualizarResumenCaja();
-
-            FrmMessageBox.Show(
-                "El egreso ha sido registrado correctamente.",
-                "Egreso registrado",
-                MessageType.Information);
+            _presenter?.Dispose();
+            _presenter = null;
         }
         #endregion
+       
     }
 }

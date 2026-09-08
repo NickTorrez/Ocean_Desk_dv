@@ -59,19 +59,19 @@
             lblTituloEsperado = new Label();
             pnlMovimientos = new Panel();
             dgvMovimientosCaja = new DataGridView();
+            pnlAcciones = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            btnCerrarCaja = new Button();
+            tlpButtons = new TableLayoutPanel();
+            btnAbrirCaja = new Button();
+            btnRegistrarEgreso = new Button();
+            btnRegistrarIngreso = new Button();
             colFecha = new DataGridViewTextBoxColumn();
             colTipo = new DataGridViewTextBoxColumn();
             colConcepto = new DataGridViewTextBoxColumn();
             colMetodo = new DataGridViewTextBoxColumn();
             colMonto = new DataGridViewTextBoxColumn();
             colUsuario = new DataGridViewTextBoxColumn();
-            pnlAcciones = new Panel();
-            pnlCerrar = new Panel();
-            btnCerrarCaja = new Button();
-            tlpButtons = new TableLayoutPanel();
-            btnAbrirCaja = new Button();
-            btnRegistrarEgreso = new Button();
-            btnRegistrarIngreso = new Button();
             pnlEstadoCaja.SuspendLayout();
             pnlResumen.SuspendLayout();
             tlpResumen.SuspendLayout();
@@ -82,7 +82,7 @@
             pnlMovimientos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCaja).BeginInit();
             pnlAcciones.SuspendLayout();
-            pnlCerrar.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             tlpButtons.SuspendLayout();
             SuspendLayout();
             // 
@@ -379,6 +379,120 @@
             dgvMovimientosCaja.Size = new Size(934, 580);
             dgvMovimientosCaja.TabIndex = 0;
             // 
+            // pnlAcciones
+            // 
+            pnlAcciones.BackColor = Color.White;
+            pnlAcciones.Controls.Add(tableLayoutPanel1);
+            pnlAcciones.Controls.Add(tlpButtons);
+            pnlAcciones.Dock = DockStyle.Bottom;
+            pnlAcciones.Location = new Point(0, 765);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Padding = new Padding(15, 6, 15, 8);
+            pnlAcciones.Size = new Size(940, 65);
+            pnlAcciones.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(btnCerrarCaja, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Right;
+            tableLayoutPanel1.Location = new Point(725, 6);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(200, 51);
+            tableLayoutPanel1.TabIndex = 5;
+            // 
+            // btnCerrarCaja
+            // 
+            btnCerrarCaja.BackColor = Color.FromArgb(8, 126, 164);
+            btnCerrarCaja.Cursor = Cursors.Hand;
+            btnCerrarCaja.Dock = DockStyle.Fill;
+            btnCerrarCaja.FlatAppearance.BorderSize = 0;
+            btnCerrarCaja.FlatStyle = FlatStyle.Flat;
+            btnCerrarCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCerrarCaja.ForeColor = Color.White;
+            btnCerrarCaja.Location = new Point(3, 3);
+            btnCerrarCaja.Name = "btnCerrarCaja";
+            btnCerrarCaja.Size = new Size(194, 45);
+            btnCerrarCaja.TabIndex = 3;
+            btnCerrarCaja.Text = "CERRAR CAJA";
+            btnCerrarCaja.UseVisualStyleBackColor = false;
+            btnCerrarCaja.Click += btnCerrarCaja_Click;
+            // 
+            // tlpButtons
+            // 
+            tlpButtons.ColumnCount = 3;
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tlpButtons.Controls.Add(btnAbrirCaja, 0, 0);
+            tlpButtons.Controls.Add(btnRegistrarEgreso, 2, 0);
+            tlpButtons.Controls.Add(btnRegistrarIngreso, 1, 0);
+            tlpButtons.Dock = DockStyle.Left;
+            tlpButtons.Location = new Point(15, 6);
+            tlpButtons.Margin = new Padding(10, 3, 3, 3);
+            tlpButtons.Name = "tlpButtons";
+            tlpButtons.RowCount = 1;
+            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpButtons.Size = new Size(450, 51);
+            tlpButtons.TabIndex = 4;
+            // 
+            // btnAbrirCaja
+            // 
+            btnAbrirCaja.BackColor = Color.LightSkyBlue;
+            btnAbrirCaja.Cursor = Cursors.Hand;
+            btnAbrirCaja.Dock = DockStyle.Fill;
+            btnAbrirCaja.FlatAppearance.BorderSize = 0;
+            btnAbrirCaja.FlatStyle = FlatStyle.Flat;
+            btnAbrirCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAbrirCaja.ForeColor = Color.FromArgb(8, 31, 63);
+            btnAbrirCaja.Location = new Point(3, 3);
+            btnAbrirCaja.Name = "btnAbrirCaja";
+            btnAbrirCaja.Size = new Size(143, 45);
+            btnAbrirCaja.TabIndex = 0;
+            btnAbrirCaja.Text = "ABRIR CAJA";
+            btnAbrirCaja.UseVisualStyleBackColor = false;
+            btnAbrirCaja.Click += btnAbrirCaja_Click;
+            // 
+            // btnRegistrarEgreso
+            // 
+            btnRegistrarEgreso.BackColor = Color.FromArgb(238, 243, 247);
+            btnRegistrarEgreso.Cursor = Cursors.Hand;
+            btnRegistrarEgreso.Dock = DockStyle.Fill;
+            btnRegistrarEgreso.FlatAppearance.BorderSize = 0;
+            btnRegistrarEgreso.FlatStyle = FlatStyle.Flat;
+            btnRegistrarEgreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegistrarEgreso.ForeColor = Color.FromArgb(8, 31, 63);
+            btnRegistrarEgreso.Location = new Point(301, 3);
+            btnRegistrarEgreso.Name = "btnRegistrarEgreso";
+            btnRegistrarEgreso.Size = new Size(146, 45);
+            btnRegistrarEgreso.TabIndex = 2;
+            btnRegistrarEgreso.Text = "EGRESO";
+            btnRegistrarEgreso.UseVisualStyleBackColor = false;
+            btnRegistrarEgreso.Click += btnRegistrarEgreso_Click;
+            // 
+            // btnRegistrarIngreso
+            // 
+            btnRegistrarIngreso.BackColor = Color.FromArgb(238, 243, 247);
+            btnRegistrarIngreso.Cursor = Cursors.Hand;
+            btnRegistrarIngreso.Dock = DockStyle.Fill;
+            btnRegistrarIngreso.FlatAppearance.BorderSize = 0;
+            btnRegistrarIngreso.FlatStyle = FlatStyle.Flat;
+            btnRegistrarIngreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegistrarIngreso.ForeColor = Color.FromArgb(8, 31, 63);
+            btnRegistrarIngreso.Location = new Point(152, 3);
+            btnRegistrarIngreso.Name = "btnRegistrarIngreso";
+            btnRegistrarIngreso.Size = new Size(143, 45);
+            btnRegistrarIngreso.TabIndex = 1;
+            btnRegistrarIngreso.Text = "INGRESO";
+            btnRegistrarIngreso.UseVisualStyleBackColor = false;
+            btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
+            // 
             // colFecha
             // 
             colFecha.DataPropertyName = "Fecha";
@@ -441,121 +555,13 @@
             // colUsuario
             // 
             colUsuario.DataPropertyName = "Usuario";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colUsuario.DefaultCellStyle = dataGridViewCellStyle8;
             colUsuario.FillWeight = 10F;
             colUsuario.HeaderText = "Usuario";
             colUsuario.MinimumWidth = 6;
             colUsuario.Name = "colUsuario";
             colUsuario.ReadOnly = true;
-            // 
-            // pnlAcciones
-            // 
-            pnlAcciones.BackColor = Color.White;
-            pnlAcciones.Controls.Add(pnlCerrar);
-            pnlAcciones.Controls.Add(tlpButtons);
-            pnlAcciones.Dock = DockStyle.Bottom;
-            pnlAcciones.Location = new Point(0, 765);
-            pnlAcciones.Name = "pnlAcciones";
-            pnlAcciones.Padding = new Padding(15, 6, 15, 8);
-            pnlAcciones.Size = new Size(940, 65);
-            pnlAcciones.TabIndex = 1;
-            // 
-            // pnlCerrar
-            // 
-            pnlCerrar.Controls.Add(btnCerrarCaja);
-            pnlCerrar.Dock = DockStyle.Right;
-            pnlCerrar.Location = new Point(725, 6);
-            pnlCerrar.Name = "pnlCerrar";
-            pnlCerrar.Size = new Size(200, 51);
-            pnlCerrar.TabIndex = 5;
-            // 
-            // btnCerrarCaja
-            // 
-            btnCerrarCaja.BackColor = Color.FromArgb(8, 126, 164);
-            btnCerrarCaja.Cursor = Cursors.Hand;
-            btnCerrarCaja.Dock = DockStyle.Fill;
-            btnCerrarCaja.FlatAppearance.BorderSize = 0;
-            btnCerrarCaja.FlatStyle = FlatStyle.Flat;
-            btnCerrarCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrarCaja.ForeColor = Color.White;
-            btnCerrarCaja.Location = new Point(0, 0);
-            btnCerrarCaja.Name = "btnCerrarCaja";
-            btnCerrarCaja.Size = new Size(200, 51);
-            btnCerrarCaja.TabIndex = 3;
-            btnCerrarCaja.Text = "CERRAR CAJA";
-            btnCerrarCaja.UseVisualStyleBackColor = false;
-            btnCerrarCaja.Click += btnCerrarCaja_Click;
-            // 
-            // tlpButtons
-            // 
-            tlpButtons.ColumnCount = 3;
-            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tlpButtons.Controls.Add(btnAbrirCaja, 0, 0);
-            tlpButtons.Controls.Add(btnRegistrarEgreso, 2, 0);
-            tlpButtons.Controls.Add(btnRegistrarIngreso, 1, 0);
-            tlpButtons.Dock = DockStyle.Left;
-            tlpButtons.Location = new Point(15, 6);
-            tlpButtons.Margin = new Padding(10, 3, 3, 3);
-            tlpButtons.Name = "tlpButtons";
-            tlpButtons.RowCount = 1;
-            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpButtons.Size = new Size(450, 51);
-            tlpButtons.TabIndex = 4;
-            // 
-            // btnAbrirCaja
-            // 
-            btnAbrirCaja.BackColor = Color.FromArgb(238, 243, 247);
-            btnAbrirCaja.Cursor = Cursors.Hand;
-            btnAbrirCaja.Dock = DockStyle.Fill;
-            btnAbrirCaja.FlatAppearance.BorderSize = 0;
-            btnAbrirCaja.FlatStyle = FlatStyle.Flat;
-            btnAbrirCaja.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAbrirCaja.ForeColor = Color.FromArgb(8, 31, 63);
-            btnAbrirCaja.Location = new Point(3, 3);
-            btnAbrirCaja.Name = "btnAbrirCaja";
-            btnAbrirCaja.Size = new Size(143, 45);
-            btnAbrirCaja.TabIndex = 0;
-            btnAbrirCaja.Text = "ABRIR CAJA";
-            btnAbrirCaja.UseVisualStyleBackColor = false;
-            btnAbrirCaja.Click += btnAbrirCaja_Click;
-            // 
-            // btnRegistrarEgreso
-            // 
-            btnRegistrarEgreso.BackColor = Color.FromArgb(238, 243, 247);
-            btnRegistrarEgreso.Cursor = Cursors.Hand;
-            btnRegistrarEgreso.Dock = DockStyle.Fill;
-            btnRegistrarEgreso.FlatAppearance.BorderSize = 0;
-            btnRegistrarEgreso.FlatStyle = FlatStyle.Flat;
-            btnRegistrarEgreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRegistrarEgreso.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarEgreso.Location = new Point(301, 3);
-            btnRegistrarEgreso.Name = "btnRegistrarEgreso";
-            btnRegistrarEgreso.Size = new Size(146, 45);
-            btnRegistrarEgreso.TabIndex = 2;
-            btnRegistrarEgreso.Text = "EGRESO";
-            btnRegistrarEgreso.UseVisualStyleBackColor = false;
-            btnRegistrarEgreso.Click += btnRegistrarEgreso_Click;
-            // 
-            // btnRegistrarIngreso
-            // 
-            btnRegistrarIngreso.BackColor = Color.FromArgb(238, 243, 247);
-            btnRegistrarIngreso.Cursor = Cursors.Hand;
-            btnRegistrarIngreso.Dock = DockStyle.Fill;
-            btnRegistrarIngreso.FlatAppearance.BorderSize = 0;
-            btnRegistrarIngreso.FlatStyle = FlatStyle.Flat;
-            btnRegistrarIngreso.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRegistrarIngreso.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarIngreso.Location = new Point(152, 3);
-            btnRegistrarIngreso.Name = "btnRegistrarIngreso";
-            btnRegistrarIngreso.Size = new Size(143, 45);
-            btnRegistrarIngreso.TabIndex = 1;
-            btnRegistrarIngreso.Text = "INGRESO";
-            btnRegistrarIngreso.UseVisualStyleBackColor = false;
-            btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
             // 
             // FrmCaja
             // 
@@ -570,6 +576,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmCaja";
             Text = "FrmCaja";
+            FormClosed += FrmCaja_FormClosed;
             pnlEstadoCaja.ResumeLayout(false);
             pnlResumen.ResumeLayout(false);
             tlpResumen.ResumeLayout(false);
@@ -580,7 +587,7 @@
             pnlMovimientos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCaja).EndInit();
             pnlAcciones.ResumeLayout(false);
-            pnlCerrar.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
             tlpButtons.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -613,7 +620,7 @@
         private Button btnAbrirCaja;
         private Button btnCerrarCaja;
         private TableLayoutPanel tlpButtons;
-        private Panel pnlCerrar;
+        private TableLayoutPanel tableLayoutPanel1;
         private DataGridViewTextBoxColumn colFecha;
         private DataGridViewTextBoxColumn colTipo;
         private DataGridViewTextBoxColumn colConcepto;
