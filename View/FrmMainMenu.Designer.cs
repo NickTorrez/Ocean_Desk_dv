@@ -640,7 +640,7 @@
             lblAppName.AutoSize = true;
             lblAppName.Font = new Font("Century Gothic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblAppName.ForeColor = Color.FromArgb(8, 31, 63);
-            lblAppName.Location = new Point(94, 24);
+            lblAppName.Location = new Point(93, 24);
             lblAppName.Name = "lblAppName";
             lblAppName.Size = new Size(120, 22);
             lblAppName.TabIndex = 0;
@@ -648,11 +648,11 @@
             // 
             // pbLogo
             // 
-            pbLogo.Image = Properties.Resources.Icon_Ocean_Desk;
-            pbLogo.Location = new Point(5, -23);
+            pbLogo.Image = Properties.Resources.Logo_para_Cevichería_ilustrado;
+            pbLogo.Location = new Point(14, -1);
             pbLogo.Name = "pbLogo";
-            pbLogo.Size = new Size(103, 127);
-            pbLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbLogo.Size = new Size(83, 69);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
             pbLogo.TabIndex = 1;
             pbLogo.TabStop = false;
             // 
@@ -774,7 +774,7 @@
             lblSubtitulo.Name = "lblSubtitulo";
             lblSubtitulo.Size = new Size(294, 22);
             lblSubtitulo.TabIndex = 3;
-            lblSubtitulo.Text = "  Sistema de gestión";
+            lblSubtitulo.Text = " Sistema de gestión";
             lblSubtitulo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblSeccion

@@ -126,6 +126,7 @@
             // 
             // pnlLogin
             // 
+            pnlLogin.Controls.Add(pictureBox3);
             pnlLogin.Controls.Add(btnCancel);
             pnlLogin.Controls.Add(lblPassword);
             pnlLogin.Controls.Add(btnClose);
@@ -137,7 +138,6 @@
             pnlLogin.Controls.Add(lblLoginDescription);
             pnlLogin.Controls.Add(lblWelcome);
             pnlLogin.Controls.Add(pnlPassword);
-            pnlLogin.Controls.Add(pictureBox3);
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Location = new Point(400, 0);
             pnlLogin.Name = "pnlLogin";
@@ -354,11 +354,11 @@
             // pictureBox3
             // 
             pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.Image = Properties.Resources.Icon_Ocean_Desk;
-            pictureBox3.Location = new Point(328, 3);
+            pictureBox3.Image = Properties.Resources.Logo_para_Cevichería_ilustrado;
+            pictureBox3.Location = new Point(336, 37);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(122, 151);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.Size = new Size(85, 68);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 9;
             pictureBox3.TabStop = false;
             // 

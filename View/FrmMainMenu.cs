@@ -250,7 +250,7 @@ namespace Ocean_Desk_dv.UI
             SeleccionarBoton(btnMesas);
 
             lblSeccion.Text = "Gestión de Mesas";
-            lblSubtitulo.Text = "Control de disponibilidad y asignación de mesas";
+            lblSubtitulo.Text = "Disponibilidad y asignación de mesas";
 
             FrmMesasReservas mesas = new FrmMesasReservas();
             AbrirFormularioEnPanel(mesas);

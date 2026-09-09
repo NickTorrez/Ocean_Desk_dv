@@ -23,6 +23,7 @@ namespace Ocean_Desk_dv
         }
         #endregion
 
+        #region Botones y eventos
         /// <summary>
         /// Maneja el evento Click del botón de cerrar, cerrando la aplicación.
         /// </summary>
@@ -109,5 +110,6 @@ namespace Ocean_Desk_dv
             txtPassword.Clear();
             txtUsername.Focus();
         }
+        #endregion
     }
 }

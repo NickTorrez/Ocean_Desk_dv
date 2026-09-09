@@ -58,9 +58,9 @@
             // 
             picLogoCeviche.BackColor = Color.Transparent;
             picLogoCeviche.Image = Properties.Resources.LOGO;
-            picLogoCeviche.Location = new Point(300, 120);
+            picLogoCeviche.Location = new Point(291, 120);
             picLogoCeviche.Name = "picLogoCeviche";
-            picLogoCeviche.Size = new Size(204, 130);
+            picLogoCeviche.Size = new Size(210, 130);
             picLogoCeviche.SizeMode = PictureBoxSizeMode.Zoom;
             picLogoCeviche.TabIndex = 0;
             picLogoCeviche.TabStop = false;
@@ -68,11 +68,11 @@
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.Icon_Ocean_Desk;
-            pictureBox1.Location = new Point(490, 69);
+            pictureBox1.Image = Properties.Resources.Logo_para_Cevichería_ilustrado;
+            pictureBox1.Location = new Point(499, 116);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(188, 240);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.Size = new Size(188, 134);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
             // 
@@ -116,7 +116,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.DarkBlue;
+            label1.ForeColor = Color.FromArgb(8, 31, 63);
             label1.Location = new Point(361, 321);
             label1.Name = "label1";
             label1.Size = new Size(275, 21);

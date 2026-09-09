@@ -223,6 +223,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Logo_para_Cevichería_ilustrado {
+            get {
+                object obj = ResourceManager.GetObject("Logo para Cevichería ilustrado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap loyalty_program {
             get {
                 object obj = ResourceManager.GetObject("loyalty-program", resourceCulture);
