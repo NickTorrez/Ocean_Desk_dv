@@ -70,7 +70,7 @@
             btnActualizar = new Button();
             lblPeriodo = new Label();
             dtpHasta = new DateTimePicker();
-            comboBox1 = new ComboBox();
+            cmbPeriodo = new ComboBox();
             dtpDesde = new DateTimePicker();
             lblHasta = new Label();
             lblDesde = new Label();
@@ -519,7 +519,7 @@
             tblFiltros.Controls.Add(btnActualizar, 6, 0);
             tblFiltros.Controls.Add(lblPeriodo, 0, 0);
             tblFiltros.Controls.Add(dtpHasta, 5, 0);
-            tblFiltros.Controls.Add(comboBox1, 1, 0);
+            tblFiltros.Controls.Add(cmbPeriodo, 1, 0);
             tblFiltros.Controls.Add(dtpDesde, 3, 0);
             tblFiltros.Controls.Add(lblHasta, 4, 0);
             tblFiltros.Controls.Add(lblDesde, 2, 0);
@@ -547,6 +547,7 @@
             btnActualizar.TabIndex = 6;
             btnActualizar.Text = "Actualizar";
             btnActualizar.UseVisualStyleBackColor = false;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // lblPeriodo
             // 
@@ -570,18 +571,19 @@
             dtpHasta.Size = new Size(160, 27);
             dtpHasta.TabIndex = 5;
             // 
-            // comboBox1
+            // cmbPeriodo
             // 
-            comboBox1.Dock = DockStyle.Fill;
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FlatStyle = FlatStyle.Flat;
-            comboBox1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Hoy", "Últimos 7 días", "Este mes", "Este año", "Personalizado" });
-            comboBox1.Location = new Point(95, 3);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(178, 28);
-            comboBox1.TabIndex = 1;
+            cmbPeriodo.Dock = DockStyle.Fill;
+            cmbPeriodo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPeriodo.FlatStyle = FlatStyle.Flat;
+            cmbPeriodo.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbPeriodo.FormattingEnabled = true;
+            cmbPeriodo.Items.AddRange(new object[] { "Hoy", "Últimos 7 días", "Este mes", "Este año", "Personalizado" });
+            cmbPeriodo.Location = new Point(95, 3);
+            cmbPeriodo.Name = "cmbPeriodo";
+            cmbPeriodo.Size = new Size(178, 28);
+            cmbPeriodo.TabIndex = 1;
+            cmbPeriodo.SelectedIndexChanged += ComboBoxPeriodo_SelectedIndexChanged;
             // 
             // dtpDesde
             // 
@@ -633,6 +635,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmReportes";
+            FormClosed += FrmReportes_FormClosed;
             Load += FrmReportes_Load;
             pnlHeaderReportes.ResumeLayout(false);
             pnlHeaderReportes.PerformLayout();
@@ -694,7 +697,7 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartProductos;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
         private Panel pnlFiltros;
-        private ComboBox comboBox1;
+        private ComboBox cmbPeriodo;
         private Label lblPeriodo;
         private Button btnActualizar;
         private DateTimePicker dtpHasta;

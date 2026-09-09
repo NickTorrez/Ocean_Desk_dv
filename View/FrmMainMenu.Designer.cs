@@ -69,8 +69,8 @@
             lblSubtitulo = new Label();
             lblSeccion = new Label();
             pnlDateTime = new Panel();
-            lblFecha = new Label();
             lblHora = new Label();
+            lblFecha = new Label();
             pnlUsuario = new Panel();
             pictureBox2 = new PictureBox();
             lblUsuario = new Label();
@@ -139,6 +139,7 @@
             // 
             // btnBitacoras
             // 
+            btnBitacoras.Cursor = Cursors.Hand;
             btnBitacoras.Dock = DockStyle.Top;
             btnBitacoras.FlatAppearance.BorderSize = 0;
             btnBitacoras.FlatStyle = FlatStyle.Flat;
@@ -800,18 +801,6 @@
             pnlDateTime.Size = new Size(266, 62);
             pnlDateTime.TabIndex = 0;
             // 
-            // lblFecha
-            // 
-            lblFecha.Dock = DockStyle.Bottom;
-            lblFecha.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFecha.ForeColor = Color.FromArgb(107, 124, 135);
-            lblFecha.Location = new Point(5, 35);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(256, 22);
-            lblFecha.TabIndex = 3;
-            lblFecha.Text = "Fecha";
-            lblFecha.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // lblHora
             // 
             lblHora.Dock = DockStyle.Fill;
@@ -823,6 +812,18 @@
             lblHora.TabIndex = 2;
             lblHora.Text = "Hora";
             lblHora.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblFecha
+            // 
+            lblFecha.Dock = DockStyle.Bottom;
+            lblFecha.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFecha.ForeColor = Color.FromArgb(107, 124, 135);
+            lblFecha.Location = new Point(5, 35);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(256, 22);
+            lblFecha.TabIndex = 3;
+            lblFecha.Text = "Fecha";
+            lblFecha.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlUsuario
             // 

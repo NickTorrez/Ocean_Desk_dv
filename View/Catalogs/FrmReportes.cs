@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ocean_Desk_dv.Presenters;
+using Ocean_Desk_dv.UI.MessageBox;
+using Ocean_Desk_dv.View.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,286 +14,391 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Ocean_Desk_dv.UI.Catalogs
 {
-    public partial class FrmReportes : Form
+    /// <summary>
+    /// Formulario que muestra los reportes de ventas y productos.
+    /// </summary>
+    public partial class FrmReportes : Form, IReportesView
     {
+        private ReportesPresenter? _presenter;
+
+        #region Constructor
+        /// <summary>
+        /// Inicializa una nueva instancia del formulario FrmReportes.
+        /// </summary>
         public FrmReportes()
         {
             InitializeComponent();
+
+            cmbPeriodo.Items.Clear();
+            cmbPeriodo.Items.AddRange(new object[]
+            {
+                "Hoy",
+                "Últimos 7 días",
+                "Este mes",
+                "Este año",
+                "Personalizado"
+            });
+
+            cmbPeriodo.SelectedItem = "Hoy";
+
+            btnActualizar.Click += btnActualizar_Click;
+            cmbPeriodo.SelectedIndexChanged += ComboBoxPeriodo_SelectedIndexChanged;
+            FormClosed += FrmReportes_FormClosed;
+
+            ConfigurarGraficos();
+
+            _presenter = new ReportesPresenter(this);
+            _presenter.Inicializar();
+        }
+        #endregion
+
+        #region Implementación de IReportesView
+
+        public string PeriodoSeleccionado
+        {
+            get => cmbPeriodo.SelectedItem?.ToString() ?? "Hoy";
+            set
+            {
+                if (cmbPeriodo.Items.Contains(value))
+                    cmbPeriodo.SelectedItem = value;
+            }
+        }
+
+        public DateTime FechaDesde
+        {
+            get => dtpDesde.Value.Date;
+            set => dtpDesde.Value = value.Date;
+        }
+
+        public DateTime FechaHasta
+        {
+            get => dtpHasta.Value.Date;
+            set => dtpHasta.Value = value.Date;
+        }
+
+        public event EventHandler? PeriodoChanged;
+        public event EventHandler? ActualizarClicked;
+
+        /// <summary>
+        /// Muestra la cantidad de ventas completadas del período seleccionado.
+        /// </summary>
+        public void MostrarVentas(int cantidadVentas, bool esHoy)
+        {
+            lblTituloVentas.Text = esHoy ? "Ventas del día" : "Ventas del período";
+            lblVentasHoy.Text = cantidadVentas.ToString("N0");
+            lblDetalleVentas.Text = esHoy
+                ? "Ventas completadas hoy"
+                : "Ventas completadas en el período";
+        }
+
+        /// <summary>
+        /// Muestra el total monetario de ingresos.
+        /// </summary>
+        public void MostrarIngresos(decimal ingresos)
+        {
+            lblIngresos.Text = $"C$ {ingresos:N2}";
+            lblDetalleIngresos.Text = "Total de ventas completadas";
+        }
+
+        /// <summary>
+        /// Muestra la cantidad de productos activos registrados.
+        /// </summary>
+        public void MostrarProductosRegistrados(int cantidadProductos)
+        {
+            lblProductos.Text = cantidadProductos.ToString("N0");
+            lblDetalleProductos.Text = "Productos activos registrados";
+        }
+
+        /// <summary>
+        /// Indica que el indicador de stock todavía no puede calcularse
+        /// con el modelo actual de la base de datos.
+        /// </summary>
+        public void MostrarStockBajoNoDisponible()
+        {
+            lblStockBajo.Text = "N/D";
+            lblDetalleStock.Text = "Inventario pendiente de implementar";
+        }
+
+        /// <summary>
+        /// Carga los datos reales de evolución de ventas en el gráfico.
+        /// </summary>
+        public void MostrarEvolucionVentas(List<EvolucionVentaReporte> datos)
+        {
+            Series? serie = chartVentas.Series.FindByName("Ventas");
+
+            if (serie == null)
+                return;
+
+            serie.Points.Clear();
+
+            foreach (EvolucionVentaReporte dato in datos)
+            {
+                serie.Points.AddXY(
+                    dato.Fecha.ToString("dd/MM"),
+                    Convert.ToDouble(dato.Total));
+            }
+
+            AjustarEscalaGraficoVentas(datos);
+        }
+
+        /// <summary>
+        /// Carga los cinco productos con mayor cantidad vendida.
+        /// </summary>
+        public void MostrarProductosMasVendidos(List<ProductoVendidoReporte> datos)
+        {
+            Series? serie = chartProductos.Series.FindByName("Productos");
+
+            if (serie == null)
+                return;
+
+            serie.Points.Clear();
+
+            foreach (ProductoVendidoReporte dato in datos)
+            {
+                serie.Points.AddXY(
+                    dato.Producto,
+                    Convert.ToDouble(dato.Cantidad));
+            }
+
+            AjustarEscalaGraficoProductos(datos);
+        }
+
+        /// <summary>
+        /// Muestra un mensaje mediante el componente reutilizable del sistema.
+        /// </summary>
+        public void MostrarMensaje(string mensaje, string titulo = "Reportes", bool esError = false)
+        {
+            MessageType tipo = esError ? MessageType.Error : MessageType.Information;
+            FrmMessageBox.Show(mensaje, titulo, tipo);
+        }
+
+        #endregion
+
+        #region Eventos del Formulario
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            ActualizarClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ComboBoxPeriodo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PeriodoChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void FrmReportes_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _presenter?.Dispose();
+            _presenter = null;
         }
 
         private void FrmReportes_Load(object sender, EventArgs e)
         {
-            //CargarDatosPrueba();
-            ConfigurarGraficos();
+            // El Presenter realiza la carga inicial en el constructor.
         }
+        #endregion
 
-        #region Contrucción de Gráficos
 
+
+
+
+
+
+
+
+        #region Configuración de Gráficos
+        /// <summary>
+        /// Configura los gráficos de ventas y productos con estilos y formatos predeterminados.
+        /// </summary>
         private void ConfigurarGraficos()
         {
             ConfigurarGraficoVentas();
             ConfigurarGraficoProductos();
         }
 
+        /// <summary>
+        /// Configura el gráfico de evolución de ventas con estilos y formatos predeterminados.
+        /// </summary>
         private void ConfigurarGraficoVentas()
         {
-            // Limpiar cualquier configuración anterior
             chartVentas.Series.Clear();
             chartVentas.ChartAreas.Clear();
             chartVentas.Legends.Clear();
 
-            // Crear área del gráfico
-            ChartArea area = new ChartArea("Ventas");
+            ChartArea area = new ChartArea("Ventas")
+            {
+                BackColor = Color.White
+            };
 
             chartVentas.ChartAreas.Add(area);
 
-            // Fondo
-            area.BackColor = Color.White;
-
-            // -------------------------------------------------
-            // EJE X - Días
-            // -------------------------------------------------
             area.AxisX.Interval = 1;
             area.AxisX.MajorGrid.Enabled = false;
             area.AxisX.LineColor = Color.FromArgb(215, 225, 230);
+            area.AxisX.LabelStyle.Font = new Font("Segoe UI", 8);
+            area.AxisX.LabelStyle.ForeColor = Color.FromArgb(90, 105, 115);
 
-            area.AxisX.LabelStyle.Font =
-                new Font("Segoe UI", 8);
-
-            area.AxisX.LabelStyle.ForeColor =
-                Color.FromArgb(90, 105, 115);
-
-            // -------------------------------------------------
-            // EJE Y - Ventas
-            // -------------------------------------------------
             area.AxisY.Minimum = 0;
-            area.AxisY.Maximum = 10000;
-            area.AxisY.Interval = 2000;
-
             area.AxisY.MajorGrid.Enabled = true;
+            area.AxisY.MajorGrid.LineColor = Color.FromArgb(230, 235, 238);
+            area.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            area.AxisY.LineColor = Color.FromArgb(215, 225, 230);
+            area.AxisY.LabelStyle.Font = new Font("Segoe UI", 8);
+            area.AxisY.LabelStyle.ForeColor = Color.FromArgb(100, 115, 125);
+            area.AxisY.LabelStyle.Format = "C$ #,##0";
 
-            area.AxisY.MajorGrid.LineColor =
-                Color.FromArgb(230, 235, 238);
-
-            area.AxisY.MajorGrid.LineDashStyle =
-                ChartDashStyle.Dot;
-
-            area.AxisY.LineColor =
-                Color.FromArgb(215, 225, 230);
-
-            area.AxisY.LabelStyle.Font =
-                new Font("Segoe UI", 8);
-
-            area.AxisY.LabelStyle.ForeColor =
-                Color.FromArgb(100, 115, 125);
-
-            // Formato monetario
-            area.AxisY.LabelStyle.Format = "$#,##0";
-
-            // -------------------------------------------------
-            // ÁREA ÚTIL DEL GRÁFICO
-            // -------------------------------------------------
             area.Position.Auto = false;
             area.Position.X = 6;
             area.Position.Y = 5;
             area.Position.Width = 90;
             area.Position.Height = 82;
 
-            // -------------------------------------------------
-            // CREAR SERIE
-            // -------------------------------------------------
-            Series ventas = new Series("Ventas");
+            Series ventas = new Series("Ventas")
+            {
+                ChartType = SeriesChartType.Line,
+                IsXValueIndexed = true,
+                Color = Color.FromArgb(8, 126, 164),
+                BorderWidth = 3,
+                MarkerStyle = MarkerStyle.Circle,
+                MarkerSize = 6,
+                MarkerColor = Color.FromArgb(8, 126, 164),
+                IsValueShownAsLabel = false
+            };
 
-            ventas.ChartType = SeriesChartType.Line;
-
-            // Cada día representa una categoría independiente
-            ventas.IsXValueIndexed = true;
-
-            // Estilo de línea Ocean Desk
-            ventas.Color =
-                Color.FromArgb(8, 126, 164);
-
-            ventas.BorderWidth = 3;
-
-            // Puntos
-            ventas.MarkerStyle = MarkerStyle.Circle;
-            ventas.MarkerSize = 6;
-
-            ventas.MarkerColor =
-                Color.FromArgb(8, 126, 164);
-
-            // No mostrar valores sobre los puntos
-            ventas.IsValueShownAsLabel = false;
-
-            // -------------------------------------------------
-            // DATOS DE PRUEBA
-            // -------------------------------------------------
-            ventas.Points.AddXY("Lun", 4200);
-            ventas.Points.AddXY("Mar", 5100);
-            ventas.Points.AddXY("Mié", 4800);
-            ventas.Points.AddXY("Jue", 6200);
-            ventas.Points.AddXY("Vie", 7100);
-            ventas.Points.AddXY("Sáb", 8900);
-            ventas.Points.AddXY("Dom", 7600);
-
-            // Agregar serie al gráfico
             chartVentas.Series.Add(ventas);
-
-            // Apariencia general
             chartVentas.BackColor = Color.White;
             chartVentas.BorderlineWidth = 0;
         }
 
+        /// <summary>
+        /// Configura el gráfico de productos más vendidos con estilos y formatos predeterminados.
+        /// </summary>
         private void ConfigurarGraficoProductos()
         {
-            // Limpiar cualquier configuración previa
             chartProductos.Series.Clear();
             chartProductos.ChartAreas.Clear();
             chartProductos.Legends.Clear();
 
-            // Crear área del gráfico
-            ChartArea area = new ChartArea("Productos");
+            ChartArea area = new ChartArea("Productos")
+            {
+                BackColor = Color.White
+            };
 
             chartProductos.ChartAreas.Add(area);
 
-            // Fondo
-            area.BackColor = Color.White;
-
-            // -------------------------------------------------
-            // EJE X - Nombres de los productos
-            // -------------------------------------------------
             area.AxisX.Interval = 1;
             area.AxisX.MajorGrid.Enabled = false;
             area.AxisX.LineColor = Color.FromArgb(215, 225, 230);
-
-            area.AxisX.LabelStyle.Font =
-                new Font("Segoe UI", 8);
-
-            area.AxisX.LabelStyle.ForeColor =
-                Color.FromArgb(90, 105, 115);
-
-            // Rotar ligeramente las etiquetas
+            area.AxisX.LabelStyle.Font = new Font("Segoe UI", 8);
+            area.AxisX.LabelStyle.ForeColor = Color.FromArgb(90, 105, 115);
             area.AxisX.LabelStyle.Angle = -35;
 
-            // -------------------------------------------------
-            // EJE Y - Cantidad vendida
-            // -------------------------------------------------
             area.AxisY.Minimum = 0;
-            area.AxisY.Maximum = 50;
-            area.AxisY.Interval = 10;
-
             area.AxisY.MajorGrid.Enabled = true;
+            area.AxisY.MajorGrid.LineColor = Color.FromArgb(230, 235, 238);
+            area.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            area.AxisY.LineColor = Color.FromArgb(215, 225, 230);
+            area.AxisY.LabelStyle.Font = new Font("Segoe UI", 8);
+            area.AxisY.LabelStyle.ForeColor = Color.FromArgb(100, 115, 125);
 
-            area.AxisY.MajorGrid.LineColor =
-                Color.FromArgb(230, 235, 238);
-
-            area.AxisY.MajorGrid.LineDashStyle =
-                ChartDashStyle.Dot;
-
-            area.AxisY.LineColor =
-                Color.FromArgb(215, 225, 230);
-
-            area.AxisY.LabelStyle.Font =
-                new Font("Segoe UI", 8);
-
-            area.AxisY.LabelStyle.ForeColor =
-                Color.FromArgb(100, 115, 125);
-
-            // -------------------------------------------------
-            // Área útil del gráfico
-            // -------------------------------------------------
             area.Position.Auto = false;
             area.Position.X = 6;
             area.Position.Y = 5;
             area.Position.Width = 90;
             area.Position.Height = 82;
 
-            // -------------------------------------------------
-            // Crear serie
-            // -------------------------------------------------
-            Series productos = new Series("Productos");
+            Series productos = new Series("Productos")
+            {
+                ChartType = SeriesChartType.Column,
+                IsXValueIndexed = true,
+                Color = Color.FromArgb(27, 167, 209),
+                BorderWidth = 0,
+                IsValueShownAsLabel = false
+            };
 
-            productos.ChartType = SeriesChartType.Column;
-
-            // Cada producto será una categoría independiente
-            productos.IsXValueIndexed = true;
-
-            // Color Ocean Desk
-            productos.Color =
-                Color.FromArgb(27, 167, 209);
-
-            productos.BorderWidth = 0;
-
-            // No mostrar valores dentro de las barras
-            productos.IsValueShownAsLabel = false;
-
-            // Separación entre columnas
             productos["PointWidth"] = "0.65";
 
-            // -------------------------------------------------
-            // DATOS DE PRUEBA
-            // -------------------------------------------------
-            productos.Points.AddXY("Mixto", 48);
-            productos.Points.AddXY("Camarón", 39);
-            productos.Points.AddXY("Pescado", 32);
-            productos.Points.AddXY("Ajillo", 27);
-            productos.Points.AddXY("Pescado Ceviche", 21);
-
             chartProductos.Series.Add(productos);
-
-            // Apariencia general
             chartProductos.BackColor = Color.White;
             chartProductos.BorderlineWidth = 0;
         }
         #endregion
 
-        #region Datos de Simulación Charts
-       
-        /*private void CargarDatosPrueba()
+        #region Ajuste de Escalas de Gráficos
+        /// <summary>
+        /// Ajusta dinámicamente la escala vertical del gráfico de ventas.
+        /// </summary>
+        private void AjustarEscalaGraficoVentas(List<EvolucionVentaReporte> datos)
         {
-            // =========================
-            // GRÁFICO DE VENTAS
-            // =========================
+            ChartArea area = chartVentas.ChartAreas["Ventas"];
 
-            chartVentas.Series.Clear();
+            if (datos.Count == 0)
+            {
+                area.AxisY.Maximum = 1000;
+                area.AxisY.Interval = 200;
+                return;
+            }
 
-            Series serieVentas = new Series("Ventas");
-            serieVentas.ChartType = SeriesChartType.Line;
-            serieVentas.BorderWidth = 3;
-            serieVentas.MarkerStyle = MarkerStyle.Circle;
-            serieVentas.MarkerSize = 7;
+            double maximo = Convert.ToDouble(datos.Max(x => x.Total));
+            double intervalo = CalcularIntervalo(maximo, 5);
 
-            serieVentas.Points.AddXY("Lun", 4200);
-            serieVentas.Points.AddXY("Mar", 5100);
-            serieVentas.Points.AddXY("Mié", 4800);
-            serieVentas.Points.AddXY("Jue", 6200);
-            serieVentas.Points.AddXY("Vie", 7100);
-            serieVentas.Points.AddXY("Sáb", 8900);
-            serieVentas.Points.AddXY("Dom", 7600);
+            area.AxisY.Interval = intervalo;
+            area.AxisY.Maximum = intervalo * 5;
+        }
 
-            chartVentas.Series.Add(serieVentas);
+        /// <summary>
+        /// Ajusta dinámicamente la escala vertical del gráfico de productos.
+        /// </summary>
+        private void AjustarEscalaGraficoProductos(List<ProductoVendidoReporte> datos)
+        {
+            ChartArea area = chartProductos.ChartAreas["Productos"];
 
+            if (datos.Count == 0)
+            {
+                area.AxisY.Maximum = 10;
+                area.AxisY.Interval = 2;
+                return;
+            }
 
-            // =========================
-            // GRÁFICO DE PRODUCTOS
-            // =========================
+            double maximo = Convert.ToDouble(datos.Max(x => x.Cantidad));
+            double intervalo = CalcularIntervalo(maximo, 5);
 
-            chartProductos.Series.Clear();
+            area.AxisY.Interval = intervalo;
+            area.AxisY.Maximum = intervalo * 5;
+        }
 
-            Series serieProductos = new Series("Productos");
-            serieProductos.ChartType = SeriesChartType.Bar;
-            serieProductos.IsValueShownAsLabel = true;
+        /// <summary>
+        /// Calcula un intervalo sencillo para mantener una escala legible.
+        /// </summary>
+        private static double CalcularIntervalo(double maximo, int divisiones)
+        {
+            if (maximo <= 0)
+                return 1;
 
-            serieProductos.Points.AddXY("Ceviche Mixto", 48);
-            serieProductos.Points.AddXY("Ceviche de Camarón", 39);
-            serieProductos.Points.AddXY("Pescado Frito", 32);
-            serieProductos.Points.AddXY("Camarones al Ajillo", 27);
-            serieProductos.Points.AddXY("Ceviche de Pescado", 21);
+            double valor = Math.Ceiling(maximo / divisiones);
 
-            chartProductos.Series.Add(serieProductos);
-        }*/
+            if (valor <= 1)
+                return 1;
+
+            if (valor <= 5)
+                return 5;
+
+            if (valor <= 10)
+                return 10;
+
+            if (valor <= 25)
+                return 25;
+
+            if (valor <= 50)
+                return 50;
+
+            if (valor <= 100)
+                return 100;
+
+            return Math.Ceiling(valor / 100) * 100;
+        }
         #endregion
-     
-        
+
+
+
     }
 }
