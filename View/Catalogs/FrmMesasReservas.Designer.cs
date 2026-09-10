@@ -72,11 +72,11 @@
             pnlFechaReserva = new Panel();
             dtpFechaReserva = new DateTimePicker();
             lblScondGhost = new Label();
-            label1 = new Label();
+            lblFecha = new Label();
             pnlEstadoReserva = new Panel();
             cmbEstadoReserva = new ComboBox();
             lblThirdGhost = new Label();
-            label2 = new Label();
+            lblEstado = new Label();
             lblSubtituloReservas = new Label();
             lblTituloReservas = new Label();
             pnlNuevaReservaContainer = new Panel();
@@ -591,7 +591,7 @@
             // 
             pnlFechaReserva.Controls.Add(dtpFechaReserva);
             pnlFechaReserva.Controls.Add(lblScondGhost);
-            pnlFechaReserva.Controls.Add(label1);
+            pnlFechaReserva.Controls.Add(lblFecha);
             pnlFechaReserva.Location = new Point(403, 3);
             pnlFechaReserva.Name = "pnlFechaReserva";
             pnlFechaReserva.Size = new Size(216, 34);
@@ -618,23 +618,23 @@
             lblScondGhost.TabIndex = 5;
             lblScondGhost.Text = "label2";
             // 
-            // label1
+            // lblFecha
             // 
-            label1.Dock = DockStyle.Left;
-            label1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(95, 104, 114);
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(59, 34);
-            label1.TabIndex = 3;
-            label1.Text = "Fecha:";
-            label1.TextAlign = ContentAlignment.MiddleLeft;
+            lblFecha.Dock = DockStyle.Left;
+            lblFecha.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFecha.ForeColor = Color.FromArgb(95, 104, 114);
+            lblFecha.Location = new Point(0, 0);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(59, 34);
+            lblFecha.TabIndex = 3;
+            lblFecha.Text = "Fecha:";
+            lblFecha.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlEstadoReserva
             // 
             pnlEstadoReserva.Controls.Add(cmbEstadoReserva);
             pnlEstadoReserva.Controls.Add(lblThirdGhost);
-            pnlEstadoReserva.Controls.Add(label2);
+            pnlEstadoReserva.Controls.Add(lblEstado);
             pnlEstadoReserva.Dock = DockStyle.Fill;
             pnlEstadoReserva.Location = new Point(625, 3);
             pnlEstadoReserva.Name = "pnlEstadoReserva";
@@ -644,6 +644,7 @@
             // cmbEstadoReserva
             // 
             cmbEstadoReserva.Dock = DockStyle.Fill;
+            cmbEstadoReserva.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstadoReserva.FormattingEnabled = true;
             cmbEstadoReserva.Location = new Point(62, 4);
             cmbEstadoReserva.Name = "cmbEstadoReserva";
@@ -661,17 +662,17 @@
             lblThirdGhost.TabIndex = 2;
             lblThirdGhost.Text = "label3";
             // 
-            // label2
+            // lblEstado
             // 
-            label2.Dock = DockStyle.Left;
-            label2.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.FromArgb(95, 104, 114);
-            label2.Location = new Point(0, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(62, 34);
-            label2.TabIndex = 0;
-            label2.Text = "Estado:";
-            label2.TextAlign = ContentAlignment.MiddleLeft;
+            lblEstado.Dock = DockStyle.Left;
+            lblEstado.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEstado.ForeColor = Color.FromArgb(95, 104, 114);
+            lblEstado.Location = new Point(0, 0);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(62, 34);
+            lblEstado.TabIndex = 0;
+            lblEstado.Text = "Estado:";
+            lblEstado.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblSubtituloReservas
             // 
@@ -1008,13 +1009,13 @@
         private Label lblGhost;
         private PictureBox picSearchReserva;
         private Panel pnlFechaReserva;
-        private Label label1;
+        private Label lblFecha;
         private DateTimePicker dtpFechaReserva;
         private Label lblScondGhost;
         private Panel pnlEstadoReserva;
         private Label lblThirdGhost;
         private ComboBox cmbEstadoReserva;
-        private Label label2;
+        private Label lblEstado;
         private DataGridView dgvReservas;
         private Panel pnlAccionesReserva;
         private Button btnNuevaReserva;

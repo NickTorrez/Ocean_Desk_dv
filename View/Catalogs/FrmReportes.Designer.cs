@@ -37,6 +37,8 @@
             pnlHeaderReportes = new Panel();
             lblSubtituloReportes = new Label();
             lblTituloReportes = new Label();
+            dtpHasta = new DateTimePicker();
+            dtpDesde = new DateTimePicker();
             pnlIndicadores = new Panel();
             tblIndicadores = new TableLayoutPanel();
             pnlStockBajo = new Panel();
@@ -67,13 +69,17 @@
             lblTituloProductosGrafica = new Label();
             pnlFiltros = new Panel();
             tblFiltros = new TableLayoutPanel();
-            btnActualizar = new Button();
-            lblPeriodo = new Label();
-            dtpHasta = new DateTimePicker();
+            pnlPeriodo = new Panel();
             cmbPeriodo = new ComboBox();
-            dtpDesde = new DateTimePicker();
-            lblHasta = new Label();
+            label1 = new Label();
+            lblPeriodo = new Label();
+            btnActualizar = new Button();
+            pnlDesde = new Panel();
+            label2 = new Label();
             lblDesde = new Label();
+            pnlHasta = new Panel();
+            label4 = new Label();
+            label3 = new Label();
             pnlHeaderReportes.SuspendLayout();
             pnlIndicadores.SuspendLayout();
             tblIndicadores.SuspendLayout();
@@ -89,6 +95,9 @@
             ((System.ComponentModel.ISupportInitialize)chartProductos).BeginInit();
             pnlFiltros.SuspendLayout();
             tblFiltros.SuspendLayout();
+            pnlPeriodo.SuspendLayout();
+            pnlDesde.SuspendLayout();
+            pnlHasta.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeaderReportes
@@ -125,6 +134,26 @@
             lblTituloReportes.Size = new Size(581, 40);
             lblTituloReportes.TabIndex = 0;
             lblTituloReportes.Text = "Resumen Económico del Negocio";
+            // 
+            // dtpHasta
+            // 
+            dtpHasta.Dock = DockStyle.Fill;
+            dtpHasta.Format = DateTimePickerFormat.Short;
+            dtpHasta.Location = new Point(54, 5);
+            dtpHasta.Name = "dtpHasta";
+            dtpHasta.RightToLeft = RightToLeft.No;
+            dtpHasta.Size = new Size(171, 27);
+            dtpHasta.TabIndex = 5;
+            // 
+            // dtpDesde
+            // 
+            dtpDesde.Dock = DockStyle.Fill;
+            dtpDesde.Format = DateTimePickerFormat.Short;
+            dtpDesde.Location = new Point(82, 5);
+            dtpDesde.Name = "dtpDesde";
+            dtpDesde.RightToLeft = RightToLeft.No;
+            dtpDesde.Size = new Size(143, 27);
+            dtpDesde.TabIndex = 4;
             // 
             // pnlIndicadores
             // 
@@ -508,21 +537,15 @@
             // 
             // tblFiltros
             // 
-            tblFiltros.ColumnCount = 7;
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
-            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
-            tblFiltros.Controls.Add(btnActualizar, 6, 0);
-            tblFiltros.Controls.Add(lblPeriodo, 0, 0);
-            tblFiltros.Controls.Add(dtpHasta, 5, 0);
-            tblFiltros.Controls.Add(cmbPeriodo, 1, 0);
-            tblFiltros.Controls.Add(dtpDesde, 3, 0);
-            tblFiltros.Controls.Add(lblHasta, 4, 0);
-            tblFiltros.Controls.Add(lblDesde, 2, 0);
+            tblFiltros.ColumnCount = 4;
+            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tblFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tblFiltros.Controls.Add(pnlPeriodo, 0, 0);
+            tblFiltros.Controls.Add(btnActualizar, 3, 0);
+            tblFiltros.Controls.Add(pnlDesde, 1, 0);
+            tblFiltros.Controls.Add(pnlHasta, 2, 0);
             tblFiltros.Dock = DockStyle.Fill;
             tblFiltros.Location = new Point(0, 5);
             tblFiltros.Margin = new Padding(0);
@@ -531,6 +554,51 @@
             tblFiltros.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tblFiltros.Size = new Size(924, 45);
             tblFiltros.TabIndex = 7;
+            // 
+            // pnlPeriodo
+            // 
+            pnlPeriodo.Controls.Add(cmbPeriodo);
+            pnlPeriodo.Controls.Add(label1);
+            pnlPeriodo.Controls.Add(lblPeriodo);
+            pnlPeriodo.Dock = DockStyle.Fill;
+            pnlPeriodo.Location = new Point(3, 3);
+            pnlPeriodo.Name = "pnlPeriodo";
+            pnlPeriodo.Size = new Size(225, 39);
+            pnlPeriodo.TabIndex = 7;
+            // 
+            // cmbPeriodo
+            // 
+            cmbPeriodo.Dock = DockStyle.Fill;
+            cmbPeriodo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPeriodo.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbPeriodo.FormattingEnabled = true;
+            cmbPeriodo.Items.AddRange(new object[] { "Hoy", "Últimos 7 días", "Este mes", "Este año", "Personalizado" });
+            cmbPeriodo.Location = new Point(80, 5);
+            cmbPeriodo.Name = "cmbPeriodo";
+            cmbPeriodo.Size = new Size(145, 28);
+            cmbPeriodo.TabIndex = 1;
+            cmbPeriodo.SelectedIndexChanged += ComboBoxPeriodo_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.Dock = DockStyle.Top;
+            label1.ForeColor = Color.FromArgb(245, 248, 250);
+            label1.Location = new Point(80, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(145, 5);
+            label1.TabIndex = 2;
+            label1.Text = "label1";
+            // 
+            // lblPeriodo
+            // 
+            lblPeriodo.Dock = DockStyle.Left;
+            lblPeriodo.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblPeriodo.Location = new Point(0, 0);
+            lblPeriodo.Name = "lblPeriodo";
+            lblPeriodo.Size = new Size(80, 39);
+            lblPeriodo.TabIndex = 0;
+            lblPeriodo.Text = "Período:";
+            lblPeriodo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnActualizar
             // 
@@ -541,83 +609,76 @@
             btnActualizar.FlatStyle = FlatStyle.Flat;
             btnActualizar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(757, 3);
+            btnActualizar.Location = new Point(696, 3);
             btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(164, 39);
-            btnActualizar.TabIndex = 6;
-            btnActualizar.Text = "Actualizar";
+            btnActualizar.Size = new Size(225, 39);
+            btnActualizar.TabIndex = 9;
+            btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
-            btnActualizar.Click += btnActualizar_Click;
             // 
-            // lblPeriodo
+            // pnlDesde
             // 
-            lblPeriodo.AutoSize = true;
-            lblPeriodo.Dock = DockStyle.Fill;
-            lblPeriodo.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblPeriodo.Location = new Point(3, 0);
-            lblPeriodo.Name = "lblPeriodo";
-            lblPeriodo.Size = new Size(86, 45);
-            lblPeriodo.TabIndex = 0;
-            lblPeriodo.Text = "Período:";
-            lblPeriodo.TextAlign = ContentAlignment.MiddleLeft;
+            pnlDesde.Controls.Add(dtpDesde);
+            pnlDesde.Controls.Add(label2);
+            pnlDesde.Controls.Add(lblDesde);
+            pnlDesde.Dock = DockStyle.Fill;
+            pnlDesde.Location = new Point(234, 3);
+            pnlDesde.Name = "pnlDesde";
+            pnlDesde.Size = new Size(225, 39);
+            pnlDesde.TabIndex = 6;
             // 
-            // dtpHasta
+            // label2
             // 
-            dtpHasta.Dock = DockStyle.Fill;
-            dtpHasta.Format = DateTimePickerFormat.Short;
-            dtpHasta.Location = new Point(591, 3);
-            dtpHasta.Name = "dtpHasta";
-            dtpHasta.RightToLeft = RightToLeft.No;
-            dtpHasta.Size = new Size(160, 27);
-            dtpHasta.TabIndex = 5;
-            // 
-            // cmbPeriodo
-            // 
-            cmbPeriodo.Dock = DockStyle.Fill;
-            cmbPeriodo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPeriodo.FlatStyle = FlatStyle.Flat;
-            cmbPeriodo.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cmbPeriodo.FormattingEnabled = true;
-            cmbPeriodo.Items.AddRange(new object[] { "Hoy", "Últimos 7 días", "Este mes", "Este año", "Personalizado" });
-            cmbPeriodo.Location = new Point(95, 3);
-            cmbPeriodo.Name = "cmbPeriodo";
-            cmbPeriodo.Size = new Size(178, 28);
-            cmbPeriodo.TabIndex = 1;
-            cmbPeriodo.SelectedIndexChanged += ComboBoxPeriodo_SelectedIndexChanged;
-            // 
-            // dtpDesde
-            // 
-            dtpDesde.Dock = DockStyle.Fill;
-            dtpDesde.Format = DateTimePickerFormat.Short;
-            dtpDesde.Location = new Point(352, 3);
-            dtpDesde.Name = "dtpDesde";
-            dtpDesde.RightToLeft = RightToLeft.No;
-            dtpDesde.Size = new Size(160, 27);
-            dtpDesde.TabIndex = 4;
-            // 
-            // lblHasta
-            // 
-            lblHasta.AutoSize = true;
-            lblHasta.Dock = DockStyle.Fill;
-            lblHasta.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHasta.Location = new Point(518, 0);
-            lblHasta.Name = "lblHasta";
-            lblHasta.Size = new Size(67, 45);
-            lblHasta.TabIndex = 3;
-            lblHasta.Text = "Hasta:";
-            lblHasta.TextAlign = ContentAlignment.MiddleLeft;
+            label2.Dock = DockStyle.Top;
+            label2.ForeColor = Color.FromArgb(245, 248, 250);
+            label2.Location = new Point(82, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(143, 5);
+            label2.TabIndex = 9;
+            label2.Text = "label2";
             // 
             // lblDesde
             // 
-            lblDesde.AutoSize = true;
-            lblDesde.Dock = DockStyle.Fill;
+            lblDesde.Dock = DockStyle.Left;
             lblDesde.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDesde.Location = new Point(279, 0);
+            lblDesde.Location = new Point(0, 0);
             lblDesde.Name = "lblDesde";
-            lblDesde.Size = new Size(67, 45);
-            lblDesde.TabIndex = 2;
+            lblDesde.Size = new Size(82, 39);
+            lblDesde.TabIndex = 8;
             lblDesde.Text = "Desde:";
-            lblDesde.TextAlign = ContentAlignment.MiddleLeft;
+            lblDesde.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlHasta
+            // 
+            pnlHasta.Controls.Add(dtpHasta);
+            pnlHasta.Controls.Add(label4);
+            pnlHasta.Controls.Add(label3);
+            pnlHasta.Dock = DockStyle.Fill;
+            pnlHasta.Location = new Point(465, 3);
+            pnlHasta.Name = "pnlHasta";
+            pnlHasta.Size = new Size(225, 39);
+            pnlHasta.TabIndex = 8;
+            // 
+            // label4
+            // 
+            label4.Dock = DockStyle.Top;
+            label4.ForeColor = Color.FromArgb(245, 248, 250);
+            label4.Location = new Point(54, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(171, 5);
+            label4.TabIndex = 6;
+            label4.Text = "label4";
+            // 
+            // label3
+            // 
+            label3.Dock = DockStyle.Left;
+            label3.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(0, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(54, 39);
+            label3.TabIndex = 0;
+            label3.Text = "Hasta:";
+            label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmReportes
             // 
@@ -659,7 +720,9 @@
             ((System.ComponentModel.ISupportInitialize)chartProductos).EndInit();
             pnlFiltros.ResumeLayout(false);
             tblFiltros.ResumeLayout(false);
-            tblFiltros.PerformLayout();
+            pnlPeriodo.ResumeLayout(false);
+            pnlDesde.ResumeLayout(false);
+            pnlHasta.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -699,11 +762,17 @@
         private Panel pnlFiltros;
         private ComboBox cmbPeriodo;
         private Label lblPeriodo;
-        private Button btnActualizar;
         private DateTimePicker dtpHasta;
         private DateTimePicker dtpDesde;
-        private Label lblHasta;
-        private Label lblDesde;
         private TableLayoutPanel tblFiltros;
+        private Panel pnlPeriodo;
+        private Label label1;
+        private Label lblDesde;
+        private Button btnActualizar;
+        private Panel pnlDesde;
+        private Label label2;
+        private Panel pnlHasta;
+        private Label label4;
+        private Label label3;
     }
 }

@@ -14,14 +14,7 @@ namespace Ocean_Desk_dv.View.Interfaces
         int? MesaIdSeleccionada { get; }
         int? ClienteIdSeleccionado { get; }
         bool MesaReservadaBloqueada { get; }
-
-        void SeleccionarMesa(int tableId);
-        void BloquearMesa(bool bloquear);
-
-        event EventHandler? ClienteSeleccionadoChanged;
-
         string MetodoPago { get; }
-
         string NuevoClienteNombre { get; }
         string NuevoClienteTelefono { get; }
 
@@ -30,7 +23,8 @@ namespace Ocean_Desk_dv.View.Interfaces
         void MostrarProductos(List<Product> productos);
         void MostrarClientes(List<Customer> clientes);
         void MostrarMesas(List<TableRestaurant> mesas);
-
+        void SeleccionarMesa(int tableId);
+        void BloquearMesa(bool bloquear);
         void MostrarMensaje(string mensaje, string titulo = "Punto de Venta", bool esError = false);
         void LimpiarCarrito();
         void SeleccionarCliente(int customerId);
@@ -38,6 +32,7 @@ namespace Ocean_Desk_dv.View.Interfaces
 
         event EventHandler? PagarYRegistrarOrden;
         event EventHandler? GuardarNuevoCliente;
+        event EventHandler? ClienteSeleccionadoChanged;
     }
 
     /// <summary>

@@ -197,14 +197,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
         #endregion
 
-
-
-
-
-
-
-
-
         #region Configuración de Gráficos
         /// <summary>
         /// Configura los gráficos de ventas y productos con estilos y formatos predeterminados.
@@ -400,5 +392,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
 
 
+        
     }
 }
