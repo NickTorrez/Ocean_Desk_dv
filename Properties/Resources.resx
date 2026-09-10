@@ -238,4 +238,34 @@
   <data name="Logo para Cevichería ilustrado" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logo para Cevichería ilustrado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Limonada" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\limonada.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CocaCola" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CocaCola.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tostones" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tostones.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ceviche_CamaronPescado_ConchaNegra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ceviche_CamaronPescado_ConchaNegra.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ceviche_CamaronPescado_Calamar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ceviche_CamaronPescado_Calamar.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ceviche_CamaronPescado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ceviche_CamaronPescado.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ceviche_Full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ceviche_Full.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Jamaica" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Jamaica.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tostones_Queso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tostones_Queso.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Naranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Naranja.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

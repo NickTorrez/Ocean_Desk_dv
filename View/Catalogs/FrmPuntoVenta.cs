@@ -336,6 +336,17 @@ namespace Ocean_Desk_dv.UI.Catalogs
             {
                 "PRD-001" => Properties.Resources.Primer_Ceviche,
                 "PRD-002" => Properties.Resources.Coctel_Ceviche,
+
+                "CEV-001" => Properties.Resources.Ceviche_CamaronPescado,
+                "CEV-002" => Properties.Resources.Ceviche_CamaronPescado_ConchaNegra,
+                "CEV-003" => Properties.Resources.Ceviche_CamaronPescado_Calamar,
+                "CEV-004" => Properties.Resources.Ceviche_Full,
+
+                "BEB-001" => Properties.Resources.Naranja,
+                "BEB-002" => Properties.Resources.Jamaica,
+
+                "ENT-001" => Properties.Resources.Tostones_Queso,
+
                 _ => null
             };
         }

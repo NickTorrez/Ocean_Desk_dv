@@ -103,6 +103,56 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Ceviche_CamaronPescado {
+            get {
+                object obj = ResourceManager.GetObject("Ceviche_CamaronPescado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ceviche_CamaronPescado_Calamar {
+            get {
+                object obj = ResourceManager.GetObject("Ceviche_CamaronPescado_Calamar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ceviche_CamaronPescado_ConchaNegra {
+            get {
+                object obj = ResourceManager.GetObject("Ceviche_CamaronPescado_ConchaNegra", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ceviche_Full {
+            get {
+                object obj = ResourceManager.GetObject("Ceviche_Full", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CocaCola {
+            get {
+                object obj = ResourceManager.GetObject("CocaCola", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Coctel_Ceviche {
             get {
                 object obj = ResourceManager.GetObject("Coctel Ceviche", resourceCulture);
@@ -203,6 +253,26 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Jamaica {
+            get {
+                object obj = ResourceManager.GetObject("Jamaica", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Limonada {
+            get {
+                object obj = ResourceManager.GetObject("Limonada", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Loading {
             get {
                 object obj = ResourceManager.GetObject("Loading", resourceCulture);
@@ -286,6 +356,16 @@ namespace Ocean_Desk_dv.Properties {
         internal static System.Drawing.Bitmap money_bag {
             get {
                 object obj = ResourceManager.GetObject("money-bag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Naranja {
+            get {
+                object obj = ResourceManager.GetObject("Naranja", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -416,6 +496,26 @@ namespace Ocean_Desk_dv.Properties {
         internal static System.Drawing.Bitmap tag {
             get {
                 object obj = ResourceManager.GetObject("tag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Tostones {
+            get {
+                object obj = ResourceManager.GetObject("Tostones", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Tostones_Queso {
+            get {
+                object obj = ResourceManager.GetObject("Tostones_Queso", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

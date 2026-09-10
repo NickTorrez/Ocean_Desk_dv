@@ -42,7 +42,7 @@
             picProducto.Location = new Point(10, 10);
             picProducto.Name = "picProducto";
             picProducto.Size = new Size(160, 115);
-            picProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            picProducto.SizeMode = PictureBoxSizeMode.StretchImage;
             picProducto.TabIndex = 0;
             picProducto.TabStop = false;
             // 
