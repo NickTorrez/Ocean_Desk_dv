@@ -49,12 +49,31 @@
             colEstado = new DataGridViewTextBoxColumn();
             lblTituloPedidos = new Label();
             pnlDetalle = new Panel();
+            dgvDetallePedido = new DataGridView();
+            colCantidad = new DataGridViewTextBoxColumn();
+            colProductos = new DataGridViewTextBoxColumn();
+            colObservaciones = new DataGridViewTextBoxColumn();
+            pnlEstadoPedido = new Panel();
+            tlpEstadoPrioridadPedido = new TableLayoutPanel();
+            lblPrioridad = new Label();
+            lblEstado = new Label();
+            pnlDatosPedido = new Panel();
             tlpDetallePedido = new TableLayoutPanel();
+            lblOrden = new Label();
+            lblHora = new Label();
+            lblTipoOrden = new Label();
+            lblMesa = new Label();
             lblTituloDetalle = new Label();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
+            pnlButtons = new Panel();
+            tlpActions = new TableLayoutPanel();
+            pnlIniciar = new Panel();
+            btnIniciarPreparacion = new Button();
+            pnMarcarListo = new Panel();
+            btnMarcarListo = new Button();
+            pnlActualizar = new Panel();
+            btnActualizar = new Button();
+            pnlLimpiar = new Panel();
+            btnLimpiar = new Button();
             pnlResumen.SuspendLayout();
             tlpResumenTarjetas.SuspendLayout();
             pnlPendientes.SuspendLayout();
@@ -63,20 +82,31 @@
             pnlPedidos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPedidos).BeginInit();
             pnlDetalle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDetallePedido).BeginInit();
+            pnlEstadoPedido.SuspendLayout();
+            tlpEstadoPrioridadPedido.SuspendLayout();
+            pnlDatosPedido.SuspendLayout();
             tlpDetallePedido.SuspendLayout();
+            pnlButtons.SuspendLayout();
+            tlpActions.SuspendLayout();
+            pnlIniciar.SuspendLayout();
+            pnMarcarListo.SuspendLayout();
+            pnlActualizar.SuspendLayout();
+            pnlLimpiar.SuspendLayout();
             SuspendLayout();
             // 
             // pnlResumen
             // 
             pnlResumen.Controls.Add(tlpResumenTarjetas);
             pnlResumen.Dock = DockStyle.Top;
-            pnlResumen.Location = new Point(0, 0);
+            pnlResumen.Location = new Point(0, 10);
             pnlResumen.Name = "pnlResumen";
             pnlResumen.Size = new Size(940, 120);
             pnlResumen.TabIndex = 0;
             // 
             // tlpResumenTarjetas
             // 
+            tlpResumenTarjetas.BackColor = Color.White;
             tlpResumenTarjetas.ColumnCount = 3;
             tlpResumenTarjetas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tlpResumenTarjetas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
@@ -96,7 +126,7 @@
             // 
             // pnlPendientes
             // 
-            pnlPendientes.BackColor = Color.White;
+            pnlPendientes.BackColor = Color.FromArgb(255, 247, 232);
             pnlPendientes.Controls.Add(lblNumeroPendientes);
             pnlPendientes.Controls.Add(lblTituloPendiente);
             pnlPendientes.Dock = DockStyle.Fill;
@@ -132,7 +162,7 @@
             // 
             // pnlPreparación
             // 
-            pnlPreparación.BackColor = Color.White;
+            pnlPreparación.BackColor = Color.FromArgb(238, 247, 241);
             pnlPreparación.Controls.Add(lblNumeroPreparacion);
             pnlPreparación.Controls.Add(lblTituloPreparacion);
             pnlPreparación.Dock = DockStyle.Fill;
@@ -147,7 +177,7 @@
             // 
             lblNumeroPreparacion.Dock = DockStyle.Fill;
             lblNumeroPreparacion.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNumeroPreparacion.ForeColor = Color.DarkKhaki;
+            lblNumeroPreparacion.ForeColor = Color.Olive;
             lblNumeroPreparacion.Location = new Point(0, 35);
             lblNumeroPreparacion.Name = "lblNumeroPreparacion";
             lblNumeroPreparacion.Size = new Size(303, 59);
@@ -168,7 +198,7 @@
             // 
             // pnlListos
             // 
-            pnlListos.BackColor = Color.White;
+            pnlListos.BackColor = Color.FromArgb(238, 246, 248);
             pnlListos.Controls.Add(lblNumeroListos);
             pnlListos.Controls.Add(lblTituloListos);
             pnlListos.Dock = DockStyle.Fill;
@@ -208,9 +238,10 @@
             pnlPedidos.Controls.Add(lblTituloPedidos);
             pnlPedidos.Dock = DockStyle.Top;
             pnlPedidos.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pnlPedidos.Location = new Point(0, 120);
+            pnlPedidos.Location = new Point(0, 130);
             pnlPedidos.Name = "pnlPedidos";
-            pnlPedidos.Size = new Size(940, 300);
+            pnlPedidos.Padding = new Padding(0, 10, 0, 0);
+            pnlPedidos.Size = new Size(940, 260);
             pnlPedidos.TabIndex = 1;
             // 
             // dgvPedidos
@@ -222,14 +253,14 @@
             dgvPedidos.Columns.AddRange(new DataGridViewColumn[] { colOrden, colMesa, colTipoOrden, colHora, colPrioridad, colEstado });
             dgvPedidos.Dock = DockStyle.Fill;
             dgvPedidos.GridColor = Color.FromArgb(230, 234, 238);
-            dgvPedidos.Location = new Point(0, 50);
+            dgvPedidos.Location = new Point(0, 60);
             dgvPedidos.MultiSelect = false;
             dgvPedidos.Name = "dgvPedidos";
             dgvPedidos.ReadOnly = true;
             dgvPedidos.RowHeadersVisible = false;
             dgvPedidos.RowHeadersWidth = 51;
             dgvPedidos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPedidos.Size = new Size(940, 250);
+            dgvPedidos.Size = new Size(940, 200);
             dgvPedidos.TabIndex = 1;
             // 
             // colOrden
@@ -276,10 +307,11 @@
             // 
             // lblTituloPedidos
             // 
+            lblTituloPedidos.BackColor = Color.White;
             lblTituloPedidos.Dock = DockStyle.Top;
             lblTituloPedidos.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTituloPedidos.ForeColor = Color.FromArgb(8, 31, 63);
-            lblTituloPedidos.Location = new Point(0, 0);
+            lblTituloPedidos.Location = new Point(0, 10);
             lblTituloPedidos.Name = "lblTituloPedidos";
             lblTituloPedidos.Size = new Size(940, 50);
             lblTituloPedidos.TabIndex = 0;
@@ -288,84 +320,296 @@
             // 
             // pnlDetalle
             // 
-            pnlDetalle.Controls.Add(tlpDetallePedido);
+            pnlDetalle.Controls.Add(dgvDetallePedido);
+            pnlDetalle.Controls.Add(pnlEstadoPedido);
+            pnlDetalle.Controls.Add(pnlDatosPedido);
             pnlDetalle.Controls.Add(lblTituloDetalle);
             pnlDetalle.Dock = DockStyle.Fill;
             pnlDetalle.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pnlDetalle.Location = new Point(0, 420);
+            pnlDetalle.Location = new Point(0, 390);
             pnlDetalle.Name = "pnlDetalle";
-            pnlDetalle.Size = new Size(940, 410);
+            pnlDetalle.Padding = new Padding(0, 10, 0, 0);
+            pnlDetalle.Size = new Size(940, 360);
             pnlDetalle.TabIndex = 2;
+            // 
+            // dgvDetallePedido
+            // 
+            dgvDetallePedido.AllowUserToAddRows = false;
+            dgvDetallePedido.AllowUserToDeleteRows = false;
+            dgvDetallePedido.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetallePedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetallePedido.Columns.AddRange(new DataGridViewColumn[] { colCantidad, colProductos, colObservaciones });
+            dgvDetallePedido.Dock = DockStyle.Fill;
+            dgvDetallePedido.Location = new Point(0, 150);
+            dgvDetallePedido.MultiSelect = false;
+            dgvDetallePedido.Name = "dgvDetallePedido";
+            dgvDetallePedido.ReadOnly = true;
+            dgvDetallePedido.RowHeadersVisible = false;
+            dgvDetallePedido.RowHeadersWidth = 51;
+            dgvDetallePedido.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetallePedido.Size = new Size(940, 210);
+            dgvDetallePedido.TabIndex = 5;
+            // 
+            // colCantidad
+            // 
+            colCantidad.HeaderText = "Cantidad";
+            colCantidad.MinimumWidth = 6;
+            colCantidad.Name = "colCantidad";
+            colCantidad.ReadOnly = true;
+            // 
+            // colProductos
+            // 
+            colProductos.HeaderText = "Productos";
+            colProductos.MinimumWidth = 6;
+            colProductos.Name = "colProductos";
+            colProductos.ReadOnly = true;
+            // 
+            // colObservaciones
+            // 
+            colObservaciones.HeaderText = "Observaciones";
+            colObservaciones.MinimumWidth = 6;
+            colObservaciones.Name = "colObservaciones";
+            colObservaciones.ReadOnly = true;
+            // 
+            // pnlEstadoPedido
+            // 
+            pnlEstadoPedido.BackColor = Color.White;
+            pnlEstadoPedido.Controls.Add(tlpEstadoPrioridadPedido);
+            pnlEstadoPedido.Dock = DockStyle.Top;
+            pnlEstadoPedido.Location = new Point(0, 110);
+            pnlEstadoPedido.Name = "pnlEstadoPedido";
+            pnlEstadoPedido.Padding = new Padding(150, 0, 150, 0);
+            pnlEstadoPedido.Size = new Size(940, 40);
+            pnlEstadoPedido.TabIndex = 3;
+            // 
+            // tlpEstadoPrioridadPedido
+            // 
+            tlpEstadoPrioridadPedido.ColumnCount = 2;
+            tlpEstadoPrioridadPedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpEstadoPrioridadPedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpEstadoPrioridadPedido.Controls.Add(lblPrioridad, 1, 0);
+            tlpEstadoPrioridadPedido.Controls.Add(lblEstado, 0, 0);
+            tlpEstadoPrioridadPedido.Dock = DockStyle.Fill;
+            tlpEstadoPrioridadPedido.Location = new Point(150, 0);
+            tlpEstadoPrioridadPedido.Name = "tlpEstadoPrioridadPedido";
+            tlpEstadoPrioridadPedido.RowCount = 1;
+            tlpEstadoPrioridadPedido.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpEstadoPrioridadPedido.Size = new Size(640, 40);
+            tlpEstadoPrioridadPedido.TabIndex = 4;
+            // 
+            // lblPrioridad
+            // 
+            lblPrioridad.Dock = DockStyle.Fill;
+            lblPrioridad.Location = new Point(323, 0);
+            lblPrioridad.Name = "lblPrioridad";
+            lblPrioridad.Size = new Size(314, 40);
+            lblPrioridad.TabIndex = 0;
+            lblPrioridad.Text = "Prioridad: NORMAL";
+            lblPrioridad.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblEstado
+            // 
+            lblEstado.Dock = DockStyle.Fill;
+            lblEstado.Location = new Point(3, 0);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(314, 40);
+            lblEstado.TabIndex = 0;
+            lblEstado.Text = "Estado: EN PREPARACIÓN";
+            lblEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlDatosPedido
+            // 
+            pnlDatosPedido.BackColor = Color.White;
+            pnlDatosPedido.Controls.Add(tlpDetallePedido);
+            pnlDatosPedido.Dock = DockStyle.Top;
+            pnlDatosPedido.Location = new Point(0, 60);
+            pnlDatosPedido.Name = "pnlDatosPedido";
+            pnlDatosPedido.Padding = new Padding(150, 0, 150, 0);
+            pnlDatosPedido.Size = new Size(940, 50);
+            pnlDatosPedido.TabIndex = 2;
             // 
             // tlpDetallePedido
             // 
-            tlpDetallePedido.ColumnCount = 2;
-            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpDetallePedido.Controls.Add(label1, 0, 0);
-            tlpDetallePedido.Controls.Add(label2, 0, 1);
-            tlpDetallePedido.Controls.Add(label3, 1, 0);
-            tlpDetallePedido.Controls.Add(label4, 1, 1);
-            tlpDetallePedido.Dock = DockStyle.Top;
-            tlpDetallePedido.Location = new Point(0, 50);
+            tlpDetallePedido.ColumnCount = 4;
+            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDetallePedido.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDetallePedido.Controls.Add(lblOrden, 0, 0);
+            tlpDetallePedido.Controls.Add(lblHora, 3, 0);
+            tlpDetallePedido.Controls.Add(lblTipoOrden, 1, 0);
+            tlpDetallePedido.Controls.Add(lblMesa, 2, 0);
+            tlpDetallePedido.Dock = DockStyle.Fill;
+            tlpDetallePedido.Location = new Point(150, 0);
             tlpDetallePedido.Name = "tlpDetallePedido";
-            tlpDetallePedido.RowCount = 2;
-            tlpDetallePedido.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpDetallePedido.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpDetallePedido.Size = new Size(940, 70);
+            tlpDetallePedido.RowCount = 1;
+            tlpDetallePedido.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpDetallePedido.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpDetallePedido.Size = new Size(640, 50);
             tlpDetallePedido.TabIndex = 0;
+            // 
+            // lblOrden
+            // 
+            lblOrden.Dock = DockStyle.Fill;
+            lblOrden.Location = new Point(3, 0);
+            lblOrden.Name = "lblOrden";
+            lblOrden.Size = new Size(154, 50);
+            lblOrden.TabIndex = 0;
+            lblOrden.Text = "Orden: #000";
+            lblOrden.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblHora
+            // 
+            lblHora.Dock = DockStyle.Fill;
+            lblHora.Location = new Point(483, 0);
+            lblHora.Name = "lblHora";
+            lblHora.Size = new Size(154, 50);
+            lblHora.TabIndex = 3;
+            lblHora.Text = "Hora: 00:00";
+            lblHora.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblTipoOrden
+            // 
+            lblTipoOrden.Dock = DockStyle.Fill;
+            lblTipoOrden.Location = new Point(163, 0);
+            lblTipoOrden.Name = "lblTipoOrden";
+            lblTipoOrden.Size = new Size(154, 50);
+            lblTipoOrden.TabIndex = 1;
+            lblTipoOrden.Text = "Tipo: Local";
+            lblTipoOrden.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblMesa
+            // 
+            lblMesa.Dock = DockStyle.Fill;
+            lblMesa.Location = new Point(323, 0);
+            lblMesa.Name = "lblMesa";
+            lblMesa.Size = new Size(154, 50);
+            lblMesa.TabIndex = 2;
+            lblMesa.Text = "Mesa: 00";
+            lblMesa.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTituloDetalle
             // 
+            lblTituloDetalle.BackColor = Color.White;
             lblTituloDetalle.Dock = DockStyle.Top;
             lblTituloDetalle.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTituloDetalle.ForeColor = Color.FromArgb(8, 31, 63);
-            lblTituloDetalle.Location = new Point(0, 0);
+            lblTituloDetalle.Location = new Point(0, 10);
             lblTituloDetalle.Name = "lblTituloDetalle";
             lblTituloDetalle.Size = new Size(940, 50);
             lblTituloDetalle.TabIndex = 1;
             lblTituloDetalle.Text = "Detalle del Pedido";
             lblTituloDetalle.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // pnlButtons
             // 
-            label1.Dock = DockStyle.Fill;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(464, 35);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            pnlButtons.Controls.Add(tlpActions);
+            pnlButtons.Dock = DockStyle.Bottom;
+            pnlButtons.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pnlButtons.Location = new Point(0, 750);
+            pnlButtons.Name = "pnlButtons";
+            pnlButtons.Padding = new Padding(30, 10, 30, 10);
+            pnlButtons.Size = new Size(940, 80);
+            pnlButtons.TabIndex = 3;
             // 
-            // label2
+            // tlpActions
             // 
-            label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(3, 35);
-            label2.Name = "label2";
-            label2.Size = new Size(464, 35);
-            label2.TabIndex = 1;
-            label2.Text = "label2";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            tlpActions.ColumnCount = 4;
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlpActions.Controls.Add(pnlIniciar, 0, 0);
+            tlpActions.Controls.Add(pnMarcarListo, 1, 0);
+            tlpActions.Controls.Add(pnlActualizar, 2, 0);
+            tlpActions.Controls.Add(pnlLimpiar, 3, 0);
+            tlpActions.Dock = DockStyle.Fill;
+            tlpActions.Location = new Point(30, 10);
+            tlpActions.Name = "tlpActions";
+            tlpActions.RowCount = 1;
+            tlpActions.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpActions.Size = new Size(880, 60);
+            tlpActions.TabIndex = 0;
             // 
-            // label3
+            // pnlIniciar
             // 
-            label3.Dock = DockStyle.Fill;
-            label3.Location = new Point(473, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(464, 35);
-            label3.TabIndex = 2;
-            label3.Text = "label3";
-            label3.TextAlign = ContentAlignment.MiddleCenter;
+            pnlIniciar.Controls.Add(btnIniciarPreparacion);
+            pnlIniciar.Dock = DockStyle.Fill;
+            pnlIniciar.Location = new Point(3, 3);
+            pnlIniciar.Name = "pnlIniciar";
+            pnlIniciar.Padding = new Padding(5);
+            pnlIniciar.Size = new Size(214, 54);
+            pnlIniciar.TabIndex = 0;
             // 
-            // label4
+            // btnIniciarPreparacion
             // 
-            label4.Dock = DockStyle.Fill;
-            label4.Location = new Point(473, 35);
-            label4.Name = "label4";
-            label4.Size = new Size(464, 35);
-            label4.TabIndex = 3;
-            label4.Text = "label4";
-            label4.TextAlign = ContentAlignment.MiddleCenter;
+            btnIniciarPreparacion.Dock = DockStyle.Fill;
+            btnIniciarPreparacion.Location = new Point(5, 5);
+            btnIniciarPreparacion.Name = "btnIniciarPreparacion";
+            btnIniciarPreparacion.Size = new Size(204, 44);
+            btnIniciarPreparacion.TabIndex = 0;
+            btnIniciarPreparacion.Text = "INICIAR";
+            btnIniciarPreparacion.UseVisualStyleBackColor = true;
+            // 
+            // pnMarcarListo
+            // 
+            pnMarcarListo.Controls.Add(btnMarcarListo);
+            pnMarcarListo.Dock = DockStyle.Fill;
+            pnMarcarListo.Location = new Point(223, 3);
+            pnMarcarListo.Name = "pnMarcarListo";
+            pnMarcarListo.Padding = new Padding(5);
+            pnMarcarListo.Size = new Size(214, 54);
+            pnMarcarListo.TabIndex = 1;
+            // 
+            // btnMarcarListo
+            // 
+            btnMarcarListo.Dock = DockStyle.Fill;
+            btnMarcarListo.Location = new Point(5, 5);
+            btnMarcarListo.Name = "btnMarcarListo";
+            btnMarcarListo.Size = new Size(204, 44);
+            btnMarcarListo.TabIndex = 0;
+            btnMarcarListo.Text = "LISTO";
+            btnMarcarListo.UseVisualStyleBackColor = true;
+            // 
+            // pnlActualizar
+            // 
+            pnlActualizar.Controls.Add(btnActualizar);
+            pnlActualizar.Dock = DockStyle.Fill;
+            pnlActualizar.Location = new Point(443, 3);
+            pnlActualizar.Name = "pnlActualizar";
+            pnlActualizar.Padding = new Padding(5);
+            pnlActualizar.Size = new Size(214, 54);
+            pnlActualizar.TabIndex = 3;
+            // 
+            // btnActualizar
+            // 
+            btnActualizar.Dock = DockStyle.Fill;
+            btnActualizar.Location = new Point(5, 5);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(204, 44);
+            btnActualizar.TabIndex = 0;
+            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.UseVisualStyleBackColor = true;
+            // 
+            // pnlLimpiar
+            // 
+            pnlLimpiar.Controls.Add(btnLimpiar);
+            pnlLimpiar.Dock = DockStyle.Fill;
+            pnlLimpiar.Location = new Point(663, 3);
+            pnlLimpiar.Name = "pnlLimpiar";
+            pnlLimpiar.Padding = new Padding(5);
+            pnlLimpiar.Size = new Size(214, 54);
+            pnlLimpiar.TabIndex = 4;
+            // 
+            // btnLimpiar
+            // 
+            btnLimpiar.Dock = DockStyle.Fill;
+            btnLimpiar.Location = new Point(5, 5);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(204, 44);
+            btnLimpiar.TabIndex = 0;
+            btnLimpiar.Text = "LIMPIAR";
+            btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // FrmCocinaPedidoscs
             // 
@@ -374,10 +618,12 @@
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
             Controls.Add(pnlDetalle);
+            Controls.Add(pnlButtons);
             Controls.Add(pnlPedidos);
             Controls.Add(pnlResumen);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmCocinaPedidoscs";
+            Padding = new Padding(0, 10, 0, 0);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmCocinaPedidoscs";
             pnlResumen.ResumeLayout(false);
@@ -388,7 +634,17 @@
             pnlPedidos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvPedidos).EndInit();
             pnlDetalle.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvDetallePedido).EndInit();
+            pnlEstadoPedido.ResumeLayout(false);
+            tlpEstadoPrioridadPedido.ResumeLayout(false);
+            pnlDatosPedido.ResumeLayout(false);
             tlpDetallePedido.ResumeLayout(false);
+            pnlButtons.ResumeLayout(false);
+            tlpActions.ResumeLayout(false);
+            pnlIniciar.ResumeLayout(false);
+            pnMarcarListo.ResumeLayout(false);
+            pnlActualizar.ResumeLayout(false);
+            pnlLimpiar.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -417,9 +673,28 @@
         private Panel pnlDetalle;
         private Label lblTituloDetalle;
         private TableLayoutPanel tlpDetallePedido;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
+        private Label lblOrden;
+        private Label lblTipoOrden;
+        private Label lblMesa;
+        private Label lblHora;
+        private Panel pnlDatosPedido;
+        private Panel pnlEstadoPedido;
+        private TableLayoutPanel tlpEstadoPrioridadPedido;
+        private Label lblPrioridad;
+        private Label lblEstado;
+        private DataGridView dgvDetallePedido;
+        private DataGridViewTextBoxColumn colCantidad;
+        private DataGridViewTextBoxColumn colProductos;
+        private DataGridViewTextBoxColumn colObservaciones;
+        private Panel pnlButtons;
+        private TableLayoutPanel tlpActions;
+        private Panel pnlIniciar;
+        private Button btnIniciarPreparacion;
+        private Panel pnMarcarListo;
+        private Button btnMarcarListo;
+        private Panel pnlActualizar;
+        private Button btnActualizar;
+        private Panel pnlLimpiar;
+        private Button btnLimpiar;
     }
 }
