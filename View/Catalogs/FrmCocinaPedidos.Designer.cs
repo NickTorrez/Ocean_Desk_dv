@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
@@ -87,6 +88,7 @@
             btnMarcarListo = new Button();
             pnlIniciar = new Panel();
             btnIniciarPreparacion = new Button();
+            TimerActualizacion = new System.Windows.Forms.Timer(components);
             pnlResumen.SuspendLayout();
             tlpResumenTarjetas.SuspendLayout();
             pnlPendientes.SuspendLayout();
@@ -305,6 +307,7 @@
             dgvPedido.RowHeadersVisible = false;
             dgvPedido.RowHeadersWidth = 51;
             dgvPedido.RowTemplate.Height = 35;
+            dgvPedido.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPedido.Size = new Size(940, 200);
             dgvPedido.TabIndex = 1;
             // 
@@ -405,7 +408,7 @@
             dataGridViewCellStyle7.SelectionForeColor = Color.White;
             dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
             dgvDetallePedido.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dgvDetallePedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetallePedido.ColumnHeadersHeight = 38;
             dgvDetallePedido.Columns.AddRange(new DataGridViewColumn[] { colCantidad, colProductos, colObservaciones });
             dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle11.BackColor = Color.White;
@@ -755,6 +758,12 @@
             btnIniciarPreparacion.Text = "INICIAR";
             btnIniciarPreparacion.UseVisualStyleBackColor = false;
             // 
+            // TimerActualizacion
+            // 
+            TimerActualizacion.Enabled = false;
+            TimerActualizacion.Interval = 1500;
+            TimerActualizacion.Tick += TimerActualizacion_Tick;
+            // 
             // FrmCocinaPedidos
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -843,5 +852,6 @@
         private DataGridViewTextBoxColumn colCantidad;
         private DataGridViewTextBoxColumn colProductos;
         private DataGridViewTextBoxColumn colObservaciones;
+        private System.Windows.Forms.Timer TimerActualizacion;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ocean_Desk_dv;
+using Ocean_Desk_dv.View.Catalogs;
 using Ocean_Desk_dv.UI.Catalogs;
 using System;
 using System.Collections.Generic;
@@ -259,6 +260,12 @@ namespace Ocean_Desk_dv.UI
         private void btnCocina_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnCocina);
+
+            lblSeccion.Text = "Control de Pedidos";
+            lblSubtitulo.Text = "Gestión y seguimiento de pedidos en cocina";
+
+            FrmCocinaPedidos cocina = new FrmCocinaPedidos();
+            AbrirFormularioEnPanel(cocina);
         }
 
         private void btnBitacoras_Click(object sender, EventArgs e)
