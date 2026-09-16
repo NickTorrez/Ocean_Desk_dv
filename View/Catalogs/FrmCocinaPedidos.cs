@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Ocean_Desk_dv.View.Catalogs
 {
-    public partial class FrmCocinaPedidoscs : Form
+    public partial class FrmCocinaPedidos : Form
     {
-        public FrmCocinaPedidoscs()
+        public FrmCocinaPedidos()
         {
             InitializeComponent();
         }
