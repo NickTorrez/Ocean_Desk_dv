@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
             pnlResumen = new Panel();
             tlpResumenTarjetas = new TableLayoutPanel();
             pnlPendientes = new Panel();
@@ -89,6 +89,8 @@
             pnlIniciar = new Panel();
             btnIniciarPreparacion = new Button();
             TimerActualizacion = new System.Windows.Forms.Timer(components);
+            pnlEntregar = new Panel();
+            btnEntregarPedido = new Button();
             pnlResumen.SuspendLayout();
             tlpResumenTarjetas.SuspendLayout();
             pnlPendientes.SuspendLayout();
@@ -109,6 +111,7 @@
             pnlCancelar.SuspendLayout();
             pnMarcarListo.SuspendLayout();
             pnlIniciar.SuspendLayout();
+            pnlEntregar.SuspendLayout();
             SuspendLayout();
             // 
             // pnlResumen
@@ -266,29 +269,29 @@
             dgvPedido.AllowUserToDeleteRows = false;
             dgvPedido.AllowUserToResizeColumns = false;
             dgvPedido.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(247, 249, 251);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(51, 51, 51);
-            dgvPedido.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle12.BackColor = Color.FromArgb(247, 249, 251);
+            dataGridViewCellStyle12.ForeColor = Color.FromArgb(51, 51, 51);
+            dgvPedido.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvPedido.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPedido.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.MidnightBlue;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvPedido.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.White;
+            dataGridViewCellStyle13.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.False;
+            dgvPedido.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvPedido.ColumnHeadersHeight = 38;
             dgvPedido.Columns.AddRange(new DataGridViewColumn[] { colOrden, colMesa, colTipoOrden, colHora, colPrioridad, colEstado });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(51, 51, 51);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 230, 241);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvPedido.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = Color.White;
+            dataGridViewCellStyle15.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle15.ForeColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(220, 230, 241);
+            dataGridViewCellStyle15.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.False;
+            dgvPedido.DefaultCellStyle = dataGridViewCellStyle15;
             dgvPedido.Dock = DockStyle.Fill;
             dgvPedido.EnableHeadersVisualStyles = false;
             dgvPedido.GridColor = Color.FromArgb(230, 234, 238);
@@ -296,14 +299,14 @@
             dgvPedido.MultiSelect = false;
             dgvPedido.Name = "dgvPedido";
             dgvPedido.ReadOnly = true;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvPedido.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = SystemColors.Control;
+            dataGridViewCellStyle16.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle16.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.True;
+            dgvPedido.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
             dgvPedido.RowHeadersVisible = false;
             dgvPedido.RowHeadersWidth = 51;
             dgvPedido.RowTemplate.Height = 35;
@@ -314,9 +317,9 @@
             // colOrden
             // 
             colOrden.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            colOrden.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle14.BackColor = Color.White;
+            dataGridViewCellStyle14.ForeColor = Color.Black;
+            colOrden.DefaultCellStyle = dataGridViewCellStyle14;
             colOrden.HeaderText = "Orden";
             colOrden.MinimumWidth = 6;
             colOrden.Name = "colOrden";
@@ -395,29 +398,29 @@
             dgvDetallePedido.AllowUserToDeleteRows = false;
             dgvDetallePedido.AllowUserToResizeColumns = false;
             dgvDetallePedido.AllowUserToResizeRows = false;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(247, 249, 251);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(51, 51, 51);
-            dgvDetallePedido.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle17.BackColor = Color.FromArgb(247, 249, 251);
+            dataGridViewCellStyle17.ForeColor = Color.FromArgb(51, 51, 51);
+            dgvDetallePedido.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             dgvDetallePedido.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDetallePedido.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle7.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = Color.MidnightBlue;
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
-            dgvDetallePedido.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle18.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle18.ForeColor = Color.White;
+            dataGridViewCellStyle18.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionForeColor = Color.White;
+            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.False;
+            dgvDetallePedido.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             dgvDetallePedido.ColumnHeadersHeight = 38;
             dgvDetallePedido.Columns.AddRange(new DataGridViewColumn[] { colCantidad, colProductos, colObservaciones });
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = Color.FromArgb(51, 51, 51);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(220, 230, 241);
-            dataGridViewCellStyle11.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.False;
-            dgvDetallePedido.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = Color.White;
+            dataGridViewCellStyle22.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle22.SelectionBackColor = Color.FromArgb(220, 230, 241);
+            dataGridViewCellStyle22.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle22.WrapMode = DataGridViewTriState.False;
+            dgvDetallePedido.DefaultCellStyle = dataGridViewCellStyle22;
             dgvDetallePedido.Dock = DockStyle.Fill;
             dgvDetallePedido.EnableHeadersVisualStyles = false;
             dgvDetallePedido.GridColor = Color.FromArgb(230, 234, 238);
@@ -435,8 +438,8 @@
             // colCantidad
             // 
             colCantidad.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colCantidad.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colCantidad.DefaultCellStyle = dataGridViewCellStyle19;
             colCantidad.FillWeight = 24.613863F;
             colCantidad.HeaderText = "Cantidad";
             colCantidad.MinimumWidth = 6;
@@ -446,8 +449,8 @@
             // colProductos
             // 
             colProductos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProductos.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProductos.DefaultCellStyle = dataGridViewCellStyle20;
             colProductos.FillWeight = 77.1910553F;
             colProductos.HeaderText = "Productos";
             colProductos.MinimumWidth = 6;
@@ -457,9 +460,9 @@
             // colObservaciones
             // 
             colObservaciones.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
-            colObservaciones.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.False;
+            colObservaciones.DefaultCellStyle = dataGridViewCellStyle21;
             colObservaciones.FillWeight = 77.1910553F;
             colObservaciones.HeaderText = "Observaciones";
             colObservaciones.MinimumWidth = 6;
@@ -609,17 +612,19 @@
             // 
             // tlpActions
             // 
-            tlpActions.ColumnCount = 5;
-            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tlpActions.Controls.Add(pnlLimpiar, 4, 0);
+            tlpActions.ColumnCount = 6;
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tlpActions.Controls.Add(pnlEntregar, 3, 0);
             tlpActions.Controls.Add(pnlActualizar, 0, 0);
-            tlpActions.Controls.Add(pnlCancelar, 3, 0);
             tlpActions.Controls.Add(pnMarcarListo, 2, 0);
             tlpActions.Controls.Add(pnlIniciar, 1, 0);
+            tlpActions.Controls.Add(pnlLimpiar, 5, 0);
+            tlpActions.Controls.Add(pnlCancelar, 4, 0);
             tlpActions.Dock = DockStyle.Fill;
             tlpActions.Location = new Point(30, 10);
             tlpActions.Name = "tlpActions";
@@ -632,10 +637,10 @@
             // 
             pnlLimpiar.Controls.Add(btnLimpiar);
             pnlLimpiar.Dock = DockStyle.Fill;
-            pnlLimpiar.Location = new Point(707, 3);
+            pnlLimpiar.Location = new Point(733, 3);
             pnlLimpiar.Name = "pnlLimpiar";
-            pnlLimpiar.Padding = new Padding(5);
-            pnlLimpiar.Size = new Size(170, 54);
+            pnlLimpiar.Padding = new Padding(3);
+            pnlLimpiar.Size = new Size(144, 54);
             pnlLimpiar.TabIndex = 4;
             // 
             // btnLimpiar
@@ -647,9 +652,9 @@
             btnLimpiar.FlatStyle = FlatStyle.Flat;
             btnLimpiar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             btnLimpiar.ForeColor = Color.White;
-            btnLimpiar.Location = new Point(5, 5);
+            btnLimpiar.Location = new Point(3, 3);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(160, 44);
+            btnLimpiar.Size = new Size(138, 48);
             btnLimpiar.TabIndex = 0;
             btnLimpiar.Text = "LIMPIAR";
             btnLimpiar.UseVisualStyleBackColor = false;
@@ -660,8 +665,8 @@
             pnlActualizar.Dock = DockStyle.Fill;
             pnlActualizar.Location = new Point(3, 3);
             pnlActualizar.Name = "pnlActualizar";
-            pnlActualizar.Padding = new Padding(5);
-            pnlActualizar.Size = new Size(170, 54);
+            pnlActualizar.Padding = new Padding(3);
+            pnlActualizar.Size = new Size(140, 54);
             pnlActualizar.TabIndex = 3;
             // 
             // btnActualizar
@@ -673,9 +678,9 @@
             btnActualizar.FlatStyle = FlatStyle.Flat;
             btnActualizar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(5, 5);
+            btnActualizar.Location = new Point(3, 3);
             btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(160, 44);
+            btnActualizar.Size = new Size(134, 48);
             btnActualizar.TabIndex = 0;
             btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
@@ -684,10 +689,10 @@
             // 
             pnlCancelar.Controls.Add(btnCancelar);
             pnlCancelar.Dock = DockStyle.Fill;
-            pnlCancelar.Location = new Point(531, 3);
+            pnlCancelar.Location = new Point(587, 3);
             pnlCancelar.Name = "pnlCancelar";
-            pnlCancelar.Padding = new Padding(5);
-            pnlCancelar.Size = new Size(170, 54);
+            pnlCancelar.Padding = new Padding(3);
+            pnlCancelar.Size = new Size(140, 54);
             pnlCancelar.TabIndex = 4;
             // 
             // btnCancelar
@@ -699,9 +704,9 @@
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             btnCancelar.ForeColor = Color.White;
-            btnCancelar.Location = new Point(5, 5);
+            btnCancelar.Location = new Point(3, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(160, 44);
+            btnCancelar.Size = new Size(134, 48);
             btnCancelar.TabIndex = 0;
             btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
@@ -710,10 +715,10 @@
             // 
             pnMarcarListo.Controls.Add(btnMarcarListo);
             pnMarcarListo.Dock = DockStyle.Fill;
-            pnMarcarListo.Location = new Point(355, 3);
+            pnMarcarListo.Location = new Point(295, 3);
             pnMarcarListo.Name = "pnMarcarListo";
-            pnMarcarListo.Padding = new Padding(5);
-            pnMarcarListo.Size = new Size(170, 54);
+            pnMarcarListo.Padding = new Padding(3);
+            pnMarcarListo.Size = new Size(140, 54);
             pnMarcarListo.TabIndex = 1;
             // 
             // btnMarcarListo
@@ -725,9 +730,9 @@
             btnMarcarListo.FlatStyle = FlatStyle.Flat;
             btnMarcarListo.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             btnMarcarListo.ForeColor = Color.White;
-            btnMarcarListo.Location = new Point(5, 5);
+            btnMarcarListo.Location = new Point(3, 3);
             btnMarcarListo.Name = "btnMarcarListo";
-            btnMarcarListo.Size = new Size(160, 44);
+            btnMarcarListo.Size = new Size(134, 48);
             btnMarcarListo.TabIndex = 0;
             btnMarcarListo.Text = "LISTO";
             btnMarcarListo.UseVisualStyleBackColor = false;
@@ -736,10 +741,10 @@
             // 
             pnlIniciar.Controls.Add(btnIniciarPreparacion);
             pnlIniciar.Dock = DockStyle.Fill;
-            pnlIniciar.Location = new Point(179, 3);
+            pnlIniciar.Location = new Point(149, 3);
             pnlIniciar.Name = "pnlIniciar";
-            pnlIniciar.Padding = new Padding(5);
-            pnlIniciar.Size = new Size(170, 54);
+            pnlIniciar.Padding = new Padding(3);
+            pnlIniciar.Size = new Size(140, 54);
             pnlIniciar.TabIndex = 0;
             // 
             // btnIniciarPreparacion
@@ -751,18 +756,43 @@
             btnIniciarPreparacion.FlatStyle = FlatStyle.Flat;
             btnIniciarPreparacion.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
             btnIniciarPreparacion.ForeColor = Color.White;
-            btnIniciarPreparacion.Location = new Point(5, 5);
+            btnIniciarPreparacion.Location = new Point(3, 3);
             btnIniciarPreparacion.Name = "btnIniciarPreparacion";
-            btnIniciarPreparacion.Size = new Size(160, 44);
+            btnIniciarPreparacion.Size = new Size(134, 48);
             btnIniciarPreparacion.TabIndex = 0;
             btnIniciarPreparacion.Text = "INICIAR";
             btnIniciarPreparacion.UseVisualStyleBackColor = false;
             // 
             // TimerActualizacion
             // 
-            TimerActualizacion.Enabled = false;
             TimerActualizacion.Interval = 1500;
             TimerActualizacion.Tick += TimerActualizacion_Tick;
+            // 
+            // pnlEntregar
+            // 
+            pnlEntregar.Controls.Add(btnEntregarPedido);
+            pnlEntregar.Dock = DockStyle.Fill;
+            pnlEntregar.Location = new Point(441, 3);
+            pnlEntregar.Name = "pnlEntregar";
+            pnlEntregar.Padding = new Padding(3);
+            pnlEntregar.Size = new Size(140, 54);
+            pnlEntregar.TabIndex = 5;
+            // 
+            // btnEntregarPedido
+            // 
+            btnEntregarPedido.BackColor = Color.FromArgb(8, 126, 164);
+            btnEntregarPedido.Cursor = Cursors.Hand;
+            btnEntregarPedido.Dock = DockStyle.Fill;
+            btnEntregarPedido.FlatAppearance.BorderSize = 0;
+            btnEntregarPedido.FlatStyle = FlatStyle.Flat;
+            btnEntregarPedido.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold);
+            btnEntregarPedido.ForeColor = Color.White;
+            btnEntregarPedido.Location = new Point(3, 3);
+            btnEntregarPedido.Name = "btnEntregarPedido";
+            btnEntregarPedido.Size = new Size(134, 48);
+            btnEntregarPedido.TabIndex = 0;
+            btnEntregarPedido.Text = "ENTREGAR";
+            btnEntregarPedido.UseVisualStyleBackColor = false;
             // 
             // FrmCocinaPedidos
             // 
@@ -799,6 +829,7 @@
             pnlCancelar.ResumeLayout(false);
             pnMarcarListo.ResumeLayout(false);
             pnlIniciar.ResumeLayout(false);
+            pnlEntregar.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -853,5 +884,7 @@
         private DataGridViewTextBoxColumn colProductos;
         private DataGridViewTextBoxColumn colObservaciones;
         private System.Windows.Forms.Timer TimerActualizacion;
+        private Panel pnlEntregar;
+        private Button btnEntregarPedido;
     }
 }
