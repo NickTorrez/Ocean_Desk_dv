@@ -43,6 +43,11 @@ namespace Ocean_Desk_dv.View.Interfaces
         event EventHandler MarcarListoClicked;
 
         /// <summary>
+        /// Solicita marcar como entregado el pedido que se encuentra listo.
+        /// </summary>
+        event EventHandler EntregarPedidoClicked;
+
+        /// <summary>
         /// Solicita cancelar la orden seleccionada.
         /// </summary>
         event EventHandler CancelarPedidoClicked;

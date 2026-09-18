@@ -20,8 +20,8 @@ namespace Ocean_Desk_dv.Presenters
         private const string EstadoPendiente = "Pending";
         private const string EstadoPreparacion = "InPreparation";
         private const string EstadoListo = "Ready";
+        private const string EstadoEntregado = "Delivered";
         private const string EstadoCancelado = "Cancelled";
-
         private const string RolAdministrador = "Administrator";
         private const string RolPersonalCocina = "Kitchen Personnel";
 
@@ -57,6 +57,7 @@ namespace Ocean_Desk_dv.Presenters
             _view.ActualizarPedidosClicked += OnActualizarPedidosClicked;
             _view.IniciarPreparacionClicked += OnIniciarPreparacionClicked;
             _view.MarcarListoClicked += OnMarcarListoClicked;
+            _view.EntregarPedidoClicked += OnEntregarPedidoClicked;
             _view.CancelarPedidoClicked += OnCancelarPedidoClicked;
             _view.LimpiarClicked += OnLimpiarClicked;
         }
@@ -88,7 +89,7 @@ namespace Ocean_Desk_dv.Presenters
                         k.Status == EstadoPendiente ||
                         k.Status == EstadoPreparacion ||
                         k.Status == EstadoListo)
-                    .OrderBy(k => k.ReceptionDateTime)
+                    .OrderByDescending(k => k.ReceptionDateTime)
                     .Select(k => new CocinaPedidoResumen
                     {
                         KitchenOrderId = k.KitchenOrderId,
@@ -239,9 +240,7 @@ namespace Ocean_Desk_dv.Presenters
         /// </summary>
         private void OnIniciarPreparacionClicked(object? sender, EventArgs e)
         {
-            CambiarEstadoSeleccionado(
-                EstadoPendiente,
-                EstadoPreparacion);
+            CambiarEstadoSeleccionado( EstadoPendiente, EstadoPreparacion);
         }
 
         /// <summary>
@@ -249,9 +248,15 @@ namespace Ocean_Desk_dv.Presenters
         /// </summary>
         private void OnMarcarListoClicked(object? sender, EventArgs e)
         {
-            CambiarEstadoSeleccionado(
-                EstadoPreparacion,
-                EstadoListo);
+            CambiarEstadoSeleccionado( EstadoPreparacion, EstadoListo);
+        }
+
+        /// <summary>
+        /// Cambia una orden Ready a Delivered.
+        /// </summary>
+        private void OnEntregarPedidoClicked(object? sender, EventArgs e)
+        {
+            CambiarEstadoSeleccionado( EstadoListo, EstadoEntregado);
         }
 
         /// <summary>
@@ -303,9 +308,17 @@ namespace Ocean_Desk_dv.Presenters
                 pedido.Status = nuevoEstado;
 
                 if (nuevoEstado == EstadoPreparacion)
+                {
                     pedido.PreparationStartDateTime = ahora;
+                }
                 else if (nuevoEstado == EstadoListo)
+                {
                     pedido.ReadyDateTime = ahora;
+                }
+                else if (nuevoEstado == EstadoEntregado)
+                {
+                    pedido.DeliveredDateTime = ahora;
+                }
 
                 _context.SaveChanges();
                 CargarPedidos();

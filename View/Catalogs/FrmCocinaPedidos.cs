@@ -67,7 +67,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             // Actualización periódica para mantener Cocina sincronizada con las órdenes
             // creadas desde Punto de Venta. La base de datos continúa siendo la fuente
             // persistente; el Timer solamente solicita una nueva consulta.
-            
+
             /*_timerActualizacion = new System.Windows.Forms.Timer
             {
                 Interval = 1500
@@ -109,6 +109,7 @@ namespace Ocean_Desk_dv.View.Catalogs
         public event EventHandler ActualizarPedidosClicked = delegate { };
         public event EventHandler IniciarPreparacionClicked = delegate { };
         public event EventHandler MarcarListoClicked = delegate { };
+        public event EventHandler EntregarPedidoClicked = delegate { };
         public event EventHandler CancelarPedidoClicked = delegate { };
         public event EventHandler LimpiarClicked = delegate { };
 
@@ -124,6 +125,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             btnActualizar.Click += btnActualizar_Click;
             btnIniciarPreparacion.Click += btnIniciarPreparacion_Click;
             btnMarcarListo.Click += btnMarcarListo_Click;
+            btnEntregarPedido.Click += btnEntregarPedido_Click;
             btnCancelar.Click += btnCancelar_Click;
             btnLimpiar.Click += btnLimpiar_Click;
         }
@@ -151,6 +153,11 @@ namespace Ocean_Desk_dv.View.Catalogs
         private void btnMarcarListo_Click(object sender, EventArgs e)
         {
             MarcarListoClicked(this, EventArgs.Empty);
+        }
+
+        private void btnEntregarPedido_Click(object sender, EventArgs e)
+        {
+            EntregarPedidoClicked(this, EventArgs.Empty);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -247,6 +254,7 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             btnIniciarPreparacion.Enabled = false;
             btnMarcarListo.Enabled = false;
+            btnEntregarPedido.Enabled = false;
             btnCancelar.Enabled = false;
 
             switch (estado)
@@ -260,7 +268,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                     break;
 
                 case "Ready":
-                    // No hay acciones de preparación disponibles.
+                    btnEntregarPedido.Enabled = true;
                     break;
 
                 case "Cancelled":
@@ -464,5 +472,7 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         #endregion
+
+       
     }
 }
