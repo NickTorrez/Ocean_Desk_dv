@@ -30,7 +30,8 @@ namespace Ocean_Desk_dv.Presenters
         private readonly int? _usuarioId;
         private readonly string? _rolUsuario;
 
-        // Queue<T> representa el orden FIFO de las órdenes Pending.
+        // Queue<T> representa el orden FIFO de las órdenes activas de cocina.
+        // Mantiene las órdenes Pending, InPreparation y Ready.
         // No reemplaza la persistencia de SQL Server.
         private readonly Queue<int> _colaPedidosPendientes = new();
         private bool _disposed;
@@ -89,7 +90,7 @@ namespace Ocean_Desk_dv.Presenters
                         k.Status == EstadoPendiente ||
                         k.Status == EstadoPreparacion ||
                         k.Status == EstadoListo)
-                    .OrderByDescending(k => k.ReceptionDateTime)
+                    .OrderBy(k => k.ReceptionDateTime)
                     .Select(k => new CocinaPedidoResumen
                     {
                         KitchenOrderId = k.KitchenOrderId,
@@ -132,30 +133,87 @@ namespace Ocean_Desk_dv.Presenters
         }
 
         /// <summary>
-        /// Sincroniza la cola FIFO con las órdenes que actualmente están Pending.
+        /// Sincroniza la cola FIFO con las órdenes activas de cocina.
+        /// Conserva el orden de llegada y mantiene dentro de la cola
+        /// las órdenes Pending, InPreparation y Ready.
         /// </summary>
         private void SincronizarCola(IReadOnlyList<CocinaPedidoResumen> pedidos)
         {
-            var pendientes = pedidos
-                .Where(p => p.Estado == EstadoPendiente)
+            var pedidosActivos = pedidos
+                .Where(p =>
+                    p.Estado == EstadoPendiente ||
+                    p.Estado == EstadoPreparacion ||
+                    p.Estado == EstadoListo)
                 .OrderBy(p => p.Hora)
                 .Select(p => p.KitchenOrderId)
-                .ToHashSet();
-
-            var colaActual = _colaPedidosPendientes
-                .Where(pendientes.Contains)
                 .ToList();
 
-            foreach (int pedidoId in pendientes)
+            // Conservamos únicamente los pedidos que siguen activos
+            // y respetamos el orden que ya tenía la cola.
+            var colaActual = _colaPedidosPendientes
+                .Where(pedidosActivos.Contains)
+                .ToList();
+
+            // Agregamos al final únicamente los pedidos nuevos.
+            foreach (int pedidoId in pedidosActivos)
             {
                 if (!colaActual.Contains(pedidoId))
+                {
                     colaActual.Add(pedidoId);
+                }
             }
 
             _colaPedidosPendientes.Clear();
 
             foreach (int pedidoId in colaActual)
+            {
                 _colaPedidosPendientes.Enqueue(pedidoId);
+            }
+        }
+
+        /// <summary>
+        /// Indica si no existen pedidos activos en la cola.
+        /// </summary>
+        private bool ColaEstaVacia()
+        {
+            return _colaPedidosPendientes.Count == 0;
+        }
+
+        /// <summary>
+        /// Obtiene el pedido que se encuentra al frente de la cola
+        /// sin retirarlo.
+        /// </summary>
+        private int? ObtenerPedidoFrente()
+        {
+            if (ColaEstaVacia())
+                return null;
+
+            return _colaPedidosPendientes.Peek();
+        }
+
+        /// <summary>
+        /// Comprueba si el pedido indicado se encuentra al frente de la cola.
+        /// </summary>
+        private bool EsPedidoAlFrente(int pedidoId)
+        {
+            int? pedidoFrente = ObtenerPedidoFrente();
+
+            return pedidoFrente.HasValue &&
+                   pedidoFrente.Value == pedidoId;
+        }
+
+        /// <summary>
+        /// Retira de la cola el pedido que se encuentra al frente.
+        /// </summary>
+        private void DesencolarPedidoEntregado(int pedidoId)
+        {
+            if (ColaEstaVacia())
+                return;
+
+            if (_colaPedidosPendientes.Peek() == pedidoId)
+            {
+                _colaPedidosPendientes.Dequeue();
+            }
         }
 
         #endregion
@@ -237,10 +295,46 @@ namespace Ocean_Desk_dv.Presenters
 
         /// <summary>
         /// Cambia una orden Pending a InPreparation.
+        /// Implementación de Cola.
         /// </summary>
         private void OnIniciarPreparacionClicked(object? sender, EventArgs e)
         {
-            CambiarEstadoSeleccionado( EstadoPendiente, EstadoPreparacion);
+            int? pedidoId = _view.PedidoIdSeleccionado;
+
+            if (!pedidoId.HasValue)
+            {
+                _view.MostrarMensaje(
+                    "Seleccione un pedido para iniciar su preparación.",
+                    "Pedido requerido",
+                    true);
+                return;
+            }
+
+            if (ColaEstaVacia())
+            {
+                _view.MostrarMensaje(
+                    "No existen pedidos pendientes en la cola de cocina.",
+                    "Cola vacía",
+                    true);
+                return;
+            }
+
+            int? pedidoFrente = ObtenerPedidoFrente();
+
+            if (!pedidoFrente.HasValue)
+                return;
+
+            if (pedidoFrente.Value != pedidoId.Value)
+            {
+                _view.MostrarMensaje(
+                    $"La orden #{pedidoId.Value:000} no puede iniciar su preparación todavía.\n\n" +
+                    $"La siguiente orden en la cola es la #{pedidoFrente.Value:000}.",
+                    "Orden fuera de turno",
+                    true);
+                return;
+            }
+
+            CambiarEstadoSeleccionado(EstadoPendiente,EstadoPreparacion);
         }
 
         /// <summary>
@@ -256,7 +350,48 @@ namespace Ocean_Desk_dv.Presenters
         /// </summary>
         private void OnEntregarPedidoClicked(object? sender, EventArgs e)
         {
-            CambiarEstadoSeleccionado( EstadoListo, EstadoEntregado);
+            int? pedidoId = _view.PedidoIdSeleccionado;
+
+            if (!pedidoId.HasValue)
+            {
+                _view.MostrarMensaje(
+                    "Seleccione un pedido para entregar.",
+                    "Pedido requerido",
+                    true);
+
+                return;
+            }
+
+            if (!EsPedidoAlFrente(pedidoId.Value))
+            {
+                int? pedidoFrente = ObtenerPedidoFrente();
+
+                if (!pedidoFrente.HasValue)
+                {
+                    _view.MostrarMensaje(
+                        "No existen pedidos en la cola de cocina.",
+                        "Cola vacía",
+                        true);
+
+                    return;
+                }
+
+                _view.MostrarMensaje(
+                    $"La orden #{pedidoId.Value:000} no puede entregarse todavía.\n\n" +
+                    $"La orden que ocupa el frente de la cola es " +
+                    $"la #{pedidoFrente.Value:000}.",
+                    "Orden fuera de turno",
+                    true);
+
+                return;
+            }
+
+            bool actualizado = CambiarEstadoSeleccionado( EstadoListo, EstadoEntregado);
+
+            if (actualizado)
+            {
+                DesencolarPedidoEntregado(pedidoId.Value);
+            }
         }
 
         /// <summary>
@@ -264,7 +399,7 @@ namespace Ocean_Desk_dv.Presenters
         /// Las fechas de preparación y listo se actualizan junto con el estado.
         /// El trigger de base de datos existente se encarga de la auditoría automática.
         /// </summary>
-        private void CambiarEstadoSeleccionado(
+        private bool CambiarEstadoSeleccionado(
             string estadoEsperado,
             string nuevoEstado)
         {
@@ -273,73 +408,69 @@ namespace Ocean_Desk_dv.Presenters
             if (!pedidoId.HasValue)
             {
                 _view.MostrarMensaje(
-                    "Seleccione un pedido para continuar.",
+                    "Seleccione un pedido.",
                     "Pedido requerido",
                     true);
-                return;
+
+                return false;
             }
 
             try
             {
-                var pedido = _context.KitchenOrders
+                KitchenOrder? pedido = _context.KitchenOrders
                     .FirstOrDefault(k => k.KitchenOrderId == pedidoId.Value);
 
                 if (pedido == null)
                 {
                     _view.MostrarMensaje(
-                        "El pedido seleccionado ya no existe en la base de datos.",
+                        "No se encontró el pedido seleccionado.",
                         "Pedido no encontrado",
                         true);
-                    CargarPedidos();
-                    return;
+
+                    return false;
                 }
 
-                if (!string.Equals(pedido.Status, estadoEsperado, StringComparison.OrdinalIgnoreCase))
+                if (pedido.Status != estadoEsperado)
                 {
                     _view.MostrarMensaje(
-                        $"El pedido no puede pasar a '{nuevoEstado}' porque su estado actual es '{pedido.Status}'.",
-                        "Transición no válida",
+                        $"El pedido no puede pasar a '{nuevoEstado}' " +
+                        $"porque su estado actual es '{pedido.Status}'.",
+                        "Cambio de estado no válido",
                         true);
-                    CargarPedidos();
-                    return;
+
+                    return false;
                 }
 
-                DateTime ahora = DateTime.Now;
                 pedido.Status = nuevoEstado;
 
                 if (nuevoEstado == EstadoPreparacion)
                 {
-                    pedido.PreparationStartDateTime = ahora;
+                    pedido.PreparationStartDateTime = DateTime.Now;
                 }
                 else if (nuevoEstado == EstadoListo)
                 {
-                    pedido.ReadyDateTime = ahora;
+                    pedido.ReadyDateTime = DateTime.Now;
                 }
                 else if (nuevoEstado == EstadoEntregado)
                 {
-                    pedido.DeliveredDateTime = ahora;
+                    pedido.DeliveredDateTime = DateTime.Now;
                 }
 
                 _context.SaveChanges();
+
                 CargarPedidos();
 
-                // Refrescar explícitamente el detalle y los botones
-                // de la misma orden después de cambiar su estado.
-                OnPedidoSeleccionado(this, pedidoId.Value);
-            }
-            catch (DbUpdateException ex)
-            {
-                _view.MostrarMensaje(
-                    $"No fue posible actualizar el estado del pedido.\n\n{ex.InnerException?.Message ?? ex.Message}",
-                    "Error de base de datos",
-                    true);
+                return true;
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"Ocurrió un error al cambiar el estado del pedido.\n\n{ex.Message}",
+                    $"Ocurrió un error al cambiar el estado del pedido.\n\n" +
+                    $"{ex.Message}",
                     "Error",
                     true);
+
+                return false;
             }
         }
 
@@ -496,6 +627,7 @@ namespace Ocean_Desk_dv.Presenters
             _view.ActualizarPedidosClicked -= OnActualizarPedidosClicked;
             _view.IniciarPreparacionClicked -= OnIniciarPreparacionClicked;
             _view.MarcarListoClicked -= OnMarcarListoClicked;
+            _view.EntregarPedidoClicked -= OnEntregarPedidoClicked;
             _view.CancelarPedidoClicked -= OnCancelarPedidoClicked;
             _view.LimpiarClicked -= OnLimpiarClicked;
 

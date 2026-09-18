@@ -30,6 +30,7 @@ namespace Ocean_Desk_dv.View.Catalogs
     {
         private readonly CocinaPresenter _presenter;
         //private readonly System.Windows.Forms.Timer _timerActualizacion;
+        private bool _cargandoPedidos;
 
         /// <summary>
         /// Constructor utilizado mientras el sistema de autenticación todavía no entrega
@@ -132,6 +133,9 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         private void dgvPedido_SelectionChanged(object sender, EventArgs e)
         {
+            if (_cargandoPedidos)
+                return;
+
             int? pedidoId = PedidoIdSeleccionado;
 
             if (pedidoId.HasValue)
@@ -183,23 +187,33 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// </summary>
         public void MostrarPedidos(IReadOnlyList<CocinaPedidoResumen> pedidos)
         {
-            dgvPedido.Rows.Clear();
+            _cargandoPedidos = true;
 
-            foreach (CocinaPedidoResumen pedido in pedidos)
+            try
             {
-                int rowIndex = dgvPedido.Rows.Add(
-                    pedido.KitchenOrderId,
-                    pedido.Mesa,
-                    pedido.TipoOrden,
-                    pedido.Hora.ToString("HH:mm"),
-                    pedido.Prioridad,
-                    ObtenerTextoEstado(pedido.Estado));
+                dgvPedido.Rows.Clear();
 
-                DataGridViewRow row = dgvPedido.Rows[rowIndex];
-                row.Tag = pedido.KitchenOrderId;
+                foreach (CocinaPedidoResumen pedido in pedidos)
+                {
+                    int rowIndex = dgvPedido.Rows.Add(
+                        pedido.KitchenOrderId,
+                        pedido.Mesa,
+                        pedido.TipoOrden,
+                        pedido.Hora.ToString("HH:mm"),
+                        pedido.Prioridad,
+                        ObtenerTextoEstado(pedido.Estado));
 
-                AplicarEstiloEstado(row, pedido.Estado);
-                AplicarEstiloPrioridad(row, pedido.Prioridad);
+                    DataGridViewRow row = dgvPedido.Rows[rowIndex];
+
+                    row.Tag = pedido.KitchenOrderId;
+
+                    AplicarEstiloEstado(row, pedido.Estado);
+                    AplicarEstiloPrioridad(row, pedido.Prioridad);
+                }
+            }
+            finally
+            {
+                _cargandoPedidos = false;
             }
         }
 
@@ -286,12 +300,23 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             foreach (DataGridViewRow row in dgvPedido.Rows)
             {
-                if (row.Cells[nameof(colOrden)].Value?.ToString() == pedidoId.ToString())
+                if (row.Cells[nameof(colOrden)].Value?.ToString() != pedidoId.ToString())
+                    continue;
+
+                _cargandoPedidos = true;
+
+                try
                 {
                     row.Selected = true;
                     dgvPedido.CurrentCell = row.Cells[nameof(colOrden)];
-                    return;
                 }
+                finally
+                {
+                    _cargandoPedidos = false;
+                }
+
+                PedidoSeleccionado(this, pedidoId);
+                return;
             }
         }
 
@@ -456,6 +481,7 @@ namespace Ocean_Desk_dv.View.Catalogs
 
             btnIniciarPreparacion.Enabled = false;
             btnMarcarListo.Enabled = false;
+            btnEntregarPedido.Enabled = false;
             btnCancelar.Enabled = false;
         }
 
