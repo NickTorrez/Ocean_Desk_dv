@@ -1,6 +1,9 @@
 ﻿using Ocean_Desk_dv;
-using Ocean_Desk_dv.View.Catalogs;
+using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.UI.Catalogs;
+using Ocean_Desk_dv.UI.MessageBox;
+using Ocean_Desk_dv.View.Catalogs;
+using Ocean_Desk_dv.View.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +21,8 @@ namespace Ocean_Desk_dv.UI
         #region Variables 
         // Se creo el objeto Login para instanciar enviar la referencia del formulario de login al formulario principal
         private FrmLogin login;
+        private readonly int _usuarioId;
+        private bool _permitirCerrarFormulario;
 
         // Colores para los botones del menú
         private Color colorNormal = Color.Transparent;
@@ -31,10 +36,20 @@ namespace Ocean_Desk_dv.UI
         #endregion
 
         #region Constructor y Inicialización
-        public FrmMainMenu(FrmLogin login)
+        public FrmMainMenu(FrmLogin login) : this(login, 1) { }
+        public FrmMainMenu(FrmLogin login, int usuarioId)
         {
+            if (login == null)
+                throw new ArgumentNullException(nameof(login));
+
+            if (usuarioId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(usuarioId));
+
             InitializeComponent();
             this.login = login;
+            _usuarioId = usuarioId;
+
+            this.FormClosing += FrmMainMenu_FormClosing;
 
             // Inicializar el panel indicador para el botón activo
             indicadorActivo = new Panel();
@@ -76,6 +91,65 @@ namespace Ocean_Desk_dv.UI
 
             // Mostrarlo
             formulario.Show();
+        }
+
+        private void FrmMainMenu_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            if (_permitirCerrarFormulario)
+                return;
+
+            if (!ValidarCajaParaSalir())
+                e.Cancel = true;
+        }
+        #endregion
+
+        #region Validación de Apertura/Cierre de Caja
+        private bool TieneCajaAbierta()
+        {
+            try
+            {
+                using var context = new OceanDeskDbContext();
+
+                return context.CashRegisters.Any(c =>
+                    c.OpeningUserId == _usuarioId &&
+                    c.Status == "Open");
+            }
+            catch (Exception ex)
+            {
+                FrmMessageBox.Show(
+                    $"No fue posible verificar el estado de la caja.\n\n{ex.Message}",
+                    "Verificación de caja",
+                    MessageType.Error);
+
+                return false;
+            }
+        }
+
+        private bool ValidarCajaParaPuntoVenta()
+        {
+            if (TieneCajaAbierta())
+                return true;
+
+            FrmMessageBox.Show(
+                "Debe realizar la apertura de caja antes de ingresar al Punto de Venta.",
+                "Caja requerida",
+                MessageType.Warning);
+
+            return false;
+        }
+
+        private bool ValidarCajaParaSalir()
+        {
+            if (!TieneCajaAbierta())
+                return true;
+
+            FrmMessageBox.Show(
+                "No puede salir del sistema mientras tenga una caja abierta.\n\n" +
+                "Realice primero el cierre de caja y luego vuelva a intentarlo.",
+                "Cierre de caja requerido",
+                MessageType.Warning);
+
+            return false;
         }
         #endregion
 
@@ -176,6 +250,9 @@ namespace Ocean_Desk_dv.UI
         /// <param name="e"></param>
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
+            if (!ValidarCajaParaSalir())
+                return;
+
             login.LimpiarCampos(); // Llamar al método LimpiarCampos() del formulario de login para limpiar los campos de usuario y contraseña
 
             this.Hide();
@@ -216,6 +293,9 @@ namespace Ocean_Desk_dv.UI
 
         private void btnVentas_Click(object sender, EventArgs e)
         {
+            if (!ValidarCajaParaPuntoVenta())
+                return;
+
             SeleccionarBoton(btnVentas);
 
             lblSeccion.Text = "Punto de Venta";
@@ -287,7 +367,7 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Manejo de Caja";
             lblSubtitulo.Text = "Entrada, salida y cierre diario de dinero";
 
-            FrmCaja caja = new FrmCaja();
+            FrmCaja caja = new FrmCaja(_usuarioId);
             AbrirFormularioEnPanel(caja);
         }
 
@@ -322,9 +402,13 @@ namespace Ocean_Desk_dv.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            if (!ValidarCajaParaSalir())
+                return;
+
+            _permitirCerrarFormulario = true;
+
             Application.Exit();
         }
-     
 
         private void btnReportes_Click_1(object sender, EventArgs e)
         {
@@ -338,6 +422,7 @@ namespace Ocean_Desk_dv.UI
             AbrirFormularioEnPanel(reportes);
         }
         #endregion
+
     }
 }
 

@@ -259,6 +259,20 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
+            bool cajaAbierta = _context.CashRegisters.Any(c =>
+            c.OpeningUserId == _usuarioId &&
+            c.Status == "Open");
+
+            if (!cajaAbierta)
+            {
+                _view.MostrarMensaje(
+                    "No puede registrar la venta porque no existe una caja abierta para el usuario actual.\n\n" +
+                    "Realice la apertura de caja antes de continuar.",
+                    "Caja requerida",
+                    true);
+                return;
+            }
+
             if (_view.DetallesVenta == null || _view.DetallesVenta.Count == 0)
             {
                 _view.MostrarMensaje(
@@ -309,11 +323,11 @@ namespace Ocean_Desk_dv.Presenters
             try
             {
                 var detalles = _view.DetallesVenta
-                    .GroupBy(d => d.ProductoId)
-                    .Select(g => new PuntoVentaDetalle
+                    .Select(d => new PuntoVentaDetalle
                     {
-                        ProductoId = g.Key,
-                        Cantidad = g.Sum(x => x.Cantidad)
+                        ProductoId = d.ProductoId,
+                        Cantidad = d.Cantidad,
+                        Observacion = d.Observacion?.Trim() ?? string.Empty
                     })
                     .ToList();
 
@@ -431,7 +445,8 @@ namespace Ocean_Desk_dv.Presenters
                         Quantity = detalleVista.Cantidad,
                         UnitPrice = producto.UnitPrice,
                         Discount = 0m,
-                        Subtotal = subtotalLinea
+                        Subtotal = subtotalLinea,
+                        Notes = string.IsNullOrWhiteSpace(detalleVista.Observacion) ? null : detalleVista.Observacion.Trim()
                     };
 
                     saleDetails.Add(saleDetail);
@@ -476,6 +491,12 @@ namespace Ocean_Desk_dv.Presenters
                     PaymentDateTime = DateTime.Now
                 };
 
+                string prioridadBD = _view.Prioridad switch
+                {
+                    "Alta" => "Urgent",
+                    _ => "Normal"
+                };
+
                 var ordenCocina = new KitchenOrder
                 {
                     Sale = nuevaVenta,
@@ -484,7 +505,7 @@ namespace Ocean_Desk_dv.Presenters
                     ReadyDateTime = null,
                     DeliveredDateTime = null,
                     Status = "Pending",
-                    Priority = "Normal",
+                    Priority = prioridadBD,
                     Notes = "Orden enviada desde Punto de Venta"
                 };
 

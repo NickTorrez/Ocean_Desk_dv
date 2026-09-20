@@ -73,6 +73,10 @@
             lblSubtotal = new Label();
             lblDescuentoTexto = new Label();
             lblDescuento = new Label();
+            pnlPrioridad = new Panel();
+            cmbPrioridad = new ComboBox();
+            ghostlbl = new Label();
+            lblPrioridad = new Label();
             pnlOrderHeader = new Panel();
             lblOrderTitle = new Label();
             pnlNuevoClienteContainer = new Panel();
@@ -110,6 +114,7 @@
             pnlAcciones.SuspendLayout();
             tlpTotal.SuspendLayout();
             tlpOrderFooter.SuspendLayout();
+            pnlPrioridad.SuspendLayout();
             pnlOrderHeader.SuspendLayout();
             pnlNuevoClienteContainer.SuspendLayout();
             pnlNuevoCliente.SuspendLayout();
@@ -335,7 +340,7 @@
             pnlProducts.Location = new Point(0, 75);
             pnlProducts.Name = "pnlProducts";
             pnlProducts.Padding = new Padding(15);
-            pnlProducts.Size = new Size(560, 755);
+            pnlProducts.Size = new Size(540, 755);
             pnlProducts.TabIndex = 1;
             // 
             // flpProducts
@@ -347,7 +352,7 @@
             flpProducts.Margin = new Padding(0);
             flpProducts.Name = "flpProducts";
             flpProducts.Padding = new Padding(5);
-            flpProducts.Size = new Size(530, 660);
+            flpProducts.Size = new Size(510, 660);
             flpProducts.TabIndex = 2;
             // 
             // pnlCategories
@@ -358,7 +363,7 @@
             pnlCategories.Location = new Point(15, 15);
             pnlCategories.Name = "pnlCategories";
             pnlCategories.Padding = new Padding(0, 5, 0, 5);
-            pnlCategories.Size = new Size(530, 65);
+            pnlCategories.Size = new Size(510, 65);
             pnlCategories.TabIndex = 1;
             // 
             // tlpCategories
@@ -381,7 +386,7 @@
             tlpCategories.Name = "tlpCategories";
             tlpCategories.RowCount = 1;
             tlpCategories.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpCategories.Size = new Size(530, 55);
+            tlpCategories.Size = new Size(510, 55);
             tlpCategories.TabIndex = 0;
             // 
             // btnCatTodos
@@ -396,7 +401,7 @@
             btnCatTodos.Location = new Point(4, 3);
             btnCatTodos.Margin = new Padding(4, 3, 4, 3);
             btnCatTodos.Name = "btnCatTodos";
-            btnCatTodos.Size = new Size(80, 49);
+            btnCatTodos.Size = new Size(77, 49);
             btnCatTodos.TabIndex = 5;
             btnCatTodos.TabStop = false;
             btnCatTodos.Text = "Todos";
@@ -411,10 +416,10 @@
             btnCatExtras.FlatStyle = FlatStyle.Flat;
             btnCatExtras.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatExtras.ForeColor = Color.White;
-            btnCatExtras.Location = new Point(444, 3);
+            btnCatExtras.Location = new Point(429, 3);
             btnCatExtras.Margin = new Padding(4, 3, 4, 3);
             btnCatExtras.Name = "btnCatExtras";
-            btnCatExtras.Size = new Size(82, 49);
+            btnCatExtras.Size = new Size(77, 49);
             btnCatExtras.TabIndex = 4;
             btnCatExtras.TabStop = false;
             btnCatExtras.Text = "Extras";
@@ -429,10 +434,10 @@
             btnCatBebidas.FlatStyle = FlatStyle.Flat;
             btnCatBebidas.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatBebidas.ForeColor = Color.White;
-            btnCatBebidas.Location = new Point(356, 3);
+            btnCatBebidas.Location = new Point(344, 3);
             btnCatBebidas.Margin = new Padding(4, 3, 4, 3);
             btnCatBebidas.Name = "btnCatBebidas";
-            btnCatBebidas.Size = new Size(80, 49);
+            btnCatBebidas.Size = new Size(77, 49);
             btnCatBebidas.TabIndex = 3;
             btnCatBebidas.TabStop = false;
             btnCatBebidas.Text = "Bebidas";
@@ -447,10 +452,10 @@
             btnCatEntradas.FlatStyle = FlatStyle.Flat;
             btnCatEntradas.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatEntradas.ForeColor = Color.White;
-            btnCatEntradas.Location = new Point(268, 3);
+            btnCatEntradas.Location = new Point(259, 3);
             btnCatEntradas.Margin = new Padding(4, 3, 4, 3);
             btnCatEntradas.Name = "btnCatEntradas";
-            btnCatEntradas.Size = new Size(80, 49);
+            btnCatEntradas.Size = new Size(77, 49);
             btnCatEntradas.TabIndex = 2;
             btnCatEntradas.TabStop = false;
             btnCatEntradas.Text = "Entradas";
@@ -465,10 +470,10 @@
             btnCatMariscos.FlatStyle = FlatStyle.Flat;
             btnCatMariscos.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatMariscos.ForeColor = Color.White;
-            btnCatMariscos.Location = new Point(180, 3);
+            btnCatMariscos.Location = new Point(174, 3);
             btnCatMariscos.Margin = new Padding(4, 3, 4, 3);
             btnCatMariscos.Name = "btnCatMariscos";
-            btnCatMariscos.Size = new Size(80, 49);
+            btnCatMariscos.Size = new Size(77, 49);
             btnCatMariscos.TabIndex = 1;
             btnCatMariscos.TabStop = false;
             btnCatMariscos.Text = "Mariscos";
@@ -483,10 +488,10 @@
             btnCatCeviche.FlatStyle = FlatStyle.Flat;
             btnCatCeviche.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatCeviche.ForeColor = Color.White;
-            btnCatCeviche.Location = new Point(92, 3);
+            btnCatCeviche.Location = new Point(89, 3);
             btnCatCeviche.Margin = new Padding(4, 3, 4, 3);
             btnCatCeviche.Name = "btnCatCeviche";
-            btnCatCeviche.Size = new Size(80, 49);
+            btnCatCeviche.Size = new Size(77, 49);
             btnCatCeviche.TabIndex = 5;
             btnCatCeviche.TabStop = false;
             btnCatCeviche.Text = "Ceviches";
@@ -497,12 +502,13 @@
             pnlOrder.BackColor = Color.FromArgb(8, 31, 63);
             pnlOrder.Controls.Add(flpOrderItems);
             pnlOrder.Controls.Add(pnlOrderFooter);
+            pnlOrder.Controls.Add(pnlPrioridad);
             pnlOrder.Controls.Add(pnlOrderHeader);
             pnlOrder.Dock = DockStyle.Right;
-            pnlOrder.Location = new Point(560, 75);
+            pnlOrder.Location = new Point(540, 75);
             pnlOrder.Name = "pnlOrder";
             pnlOrder.Padding = new Padding(15);
-            pnlOrder.Size = new Size(380, 755);
+            pnlOrder.Size = new Size(400, 755);
             pnlOrder.TabIndex = 0;
             // 
             // flpOrderItems
@@ -512,10 +518,10 @@
             flpOrderItems.BorderStyle = BorderStyle.FixedSingle;
             flpOrderItems.Dock = DockStyle.Fill;
             flpOrderItems.FlowDirection = FlowDirection.TopDown;
-            flpOrderItems.Location = new Point(15, 70);
+            flpOrderItems.Location = new Point(15, 110);
             flpOrderItems.Name = "flpOrderItems";
             flpOrderItems.Padding = new Padding(5);
-            flpOrderItems.Size = new Size(350, 420);
+            flpOrderItems.Size = new Size(370, 390);
             flpOrderItems.TabIndex = 1;
             flpOrderItems.WrapContents = false;
             // 
@@ -528,10 +534,10 @@
             pnlOrderFooter.Controls.Add(pnlSeparador);
             pnlOrderFooter.Controls.Add(tlpOrderFooter);
             pnlOrderFooter.Dock = DockStyle.Bottom;
-            pnlOrderFooter.Location = new Point(15, 490);
+            pnlOrderFooter.Location = new Point(15, 500);
             pnlOrderFooter.Name = "pnlOrderFooter";
             pnlOrderFooter.Padding = new Padding(10, 10, 5, 5);
-            pnlOrderFooter.Size = new Size(350, 250);
+            pnlOrderFooter.Size = new Size(370, 240);
             pnlOrderFooter.TabIndex = 2;
             // 
             // pnlMetodoPago
@@ -543,7 +549,7 @@
             pnlMetodoPago.Margin = new Padding(0);
             pnlMetodoPago.Name = "pnlMetodoPago";
             pnlMetodoPago.Padding = new Padding(0, 10, 0, 5);
-            pnlMetodoPago.Size = new Size(335, 60);
+            pnlMetodoPago.Size = new Size(355, 60);
             pnlMetodoPago.TabIndex = 10;
             // 
             // cmbMetodoPago
@@ -558,7 +564,7 @@
             cmbMetodoPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
             cmbMetodoPago.Location = new Point(0, 29);
             cmbMetodoPago.Name = "cmbMetodoPago";
-            cmbMetodoPago.Size = new Size(335, 28);
+            cmbMetodoPago.Size = new Size(355, 28);
             cmbMetodoPago.TabIndex = 1;
             // 
             // lblMetodoPago
@@ -568,7 +574,7 @@
             lblMetodoPago.ForeColor = Color.Gainsboro;
             lblMetodoPago.Location = new Point(0, 10);
             lblMetodoPago.Name = "lblMetodoPago";
-            lblMetodoPago.Size = new Size(335, 19);
+            lblMetodoPago.Size = new Size(355, 19);
             lblMetodoPago.TabIndex = 0;
             lblMetodoPago.Text = "Metodo de Pago:";
             lblMetodoPago.TextAlign = ContentAlignment.MiddleLeft;
@@ -578,9 +584,9 @@
             pnlAcciones.Controls.Add(btnCobrar);
             pnlAcciones.Controls.Add(btnCancelarVenta);
             pnlAcciones.Dock = DockStyle.Bottom;
-            pnlAcciones.Location = new Point(10, 195);
+            pnlAcciones.Location = new Point(10, 185);
             pnlAcciones.Name = "pnlAcciones";
-            pnlAcciones.Size = new Size(335, 50);
+            pnlAcciones.Size = new Size(355, 50);
             pnlAcciones.TabIndex = 9;
             // 
             // btnCobrar
@@ -592,7 +598,7 @@
             btnCobrar.FlatStyle = FlatStyle.Flat;
             btnCobrar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCobrar.ForeColor = Color.White;
-            btnCobrar.Location = new Point(155, 0);
+            btnCobrar.Location = new Point(175, 0);
             btnCobrar.Name = "btnCobrar";
             btnCobrar.Size = new Size(180, 50);
             btnCobrar.TabIndex = 10;
@@ -633,7 +639,7 @@
             tlpTotal.Name = "tlpTotal";
             tlpTotal.RowCount = 1;
             tlpTotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpTotal.Size = new Size(335, 29);
+            tlpTotal.Size = new Size(355, 29);
             tlpTotal.TabIndex = 8;
             // 
             // lblTotalTexto
@@ -650,8 +656,8 @@
             // lblTotal
             // 
             lblTotal.Font = new Font("Century Gothic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotal.ForeColor = Color.Gainsboro;
-            lblTotal.Location = new Point(137, 0);
+            lblTotal.ForeColor = Color.WhiteSmoke;
+            lblTotal.Location = new Point(145, 0);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(190, 28);
             lblTotal.TabIndex = 7;
@@ -664,7 +670,7 @@
             pnlSeparador.Dock = DockStyle.Top;
             pnlSeparador.Location = new Point(10, 80);
             pnlSeparador.Name = "pnlSeparador";
-            pnlSeparador.Size = new Size(335, 3);
+            pnlSeparador.Size = new Size(355, 3);
             pnlSeparador.TabIndex = 5;
             // 
             // tlpOrderFooter
@@ -682,7 +688,7 @@
             tlpOrderFooter.RowCount = 2;
             tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpOrderFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpOrderFooter.Size = new Size(335, 70);
+            tlpOrderFooter.Size = new Size(355, 70);
             tlpOrderFooter.TabIndex = 4;
             // 
             // lblSubtotalTexto
@@ -699,8 +705,8 @@
             // lblSubtotal
             // 
             lblSubtotal.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSubtotal.ForeColor = Color.WhiteSmoke;
-            lblSubtotal.Location = new Point(137, 0);
+            lblSubtotal.ForeColor = Color.Gainsboro;
+            lblSubtotal.Location = new Point(145, 0);
             lblSubtotal.Name = "lblSubtotal";
             lblSubtotal.Size = new Size(190, 28);
             lblSubtotal.TabIndex = 1;
@@ -721,13 +727,60 @@
             // lblDescuento
             // 
             lblDescuento.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDescuento.ForeColor = Color.WhiteSmoke;
-            lblDescuento.Location = new Point(137, 35);
+            lblDescuento.ForeColor = Color.Gainsboro;
+            lblDescuento.Location = new Point(145, 35);
             lblDescuento.Name = "lblDescuento";
             lblDescuento.Size = new Size(190, 28);
             lblDescuento.TabIndex = 3;
             lblDescuento.Text = "C$  0.00";
             lblDescuento.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // pnlPrioridad
+            // 
+            pnlPrioridad.Controls.Add(cmbPrioridad);
+            pnlPrioridad.Controls.Add(ghostlbl);
+            pnlPrioridad.Controls.Add(lblPrioridad);
+            pnlPrioridad.Dock = DockStyle.Top;
+            pnlPrioridad.Location = new Point(15, 70);
+            pnlPrioridad.Name = "pnlPrioridad";
+            pnlPrioridad.Padding = new Padding(10, 0, 10, 0);
+            pnlPrioridad.Size = new Size(370, 40);
+            pnlPrioridad.TabIndex = 1;
+            // 
+            // cmbPrioridad
+            // 
+            cmbPrioridad.Dock = DockStyle.Fill;
+            cmbPrioridad.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPrioridad.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbPrioridad.FormattingEnabled = true;
+            cmbPrioridad.Items.AddRange(new object[] { "Normal", "Alta" });
+            cmbPrioridad.Location = new Point(94, 6);
+            cmbPrioridad.Name = "cmbPrioridad";
+            cmbPrioridad.RightToLeft = RightToLeft.No;
+            cmbPrioridad.Size = new Size(266, 28);
+            cmbPrioridad.TabIndex = 1;
+            // 
+            // ghostlbl
+            // 
+            ghostlbl.Dock = DockStyle.Top;
+            ghostlbl.ForeColor = Color.FromArgb(8, 31, 63);
+            ghostlbl.Location = new Point(94, 0);
+            ghostlbl.Name = "ghostlbl";
+            ghostlbl.Size = new Size(266, 6);
+            ghostlbl.TabIndex = 2;
+            ghostlbl.Text = "label1";
+            // 
+            // lblPrioridad
+            // 
+            lblPrioridad.Dock = DockStyle.Left;
+            lblPrioridad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPrioridad.ForeColor = Color.Gainsboro;
+            lblPrioridad.Location = new Point(10, 0);
+            lblPrioridad.Name = "lblPrioridad";
+            lblPrioridad.Size = new Size(84, 40);
+            lblPrioridad.TabIndex = 0;
+            lblPrioridad.Text = "Prioridad:";
+            lblPrioridad.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlOrderHeader
             // 
@@ -736,7 +789,7 @@
             pnlOrderHeader.Dock = DockStyle.Top;
             pnlOrderHeader.Location = new Point(15, 15);
             pnlOrderHeader.Name = "pnlOrderHeader";
-            pnlOrderHeader.Size = new Size(350, 55);
+            pnlOrderHeader.Size = new Size(370, 55);
             pnlOrderHeader.TabIndex = 0;
             // 
             // lblOrderTitle
@@ -746,7 +799,7 @@
             lblOrderTitle.ForeColor = Color.White;
             lblOrderTitle.Location = new Point(0, 0);
             lblOrderTitle.Name = "lblOrderTitle";
-            lblOrderTitle.Size = new Size(350, 55);
+            lblOrderTitle.Size = new Size(370, 55);
             lblOrderTitle.TabIndex = 0;
             lblOrderTitle.Text = "Pedido Actual";
             lblOrderTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -757,7 +810,7 @@
             pnlNuevoClienteContainer.Dock = DockStyle.Fill;
             pnlNuevoClienteContainer.Location = new Point(0, 75);
             pnlNuevoClienteContainer.Name = "pnlNuevoClienteContainer";
-            pnlNuevoClienteContainer.Size = new Size(560, 755);
+            pnlNuevoClienteContainer.Size = new Size(540, 755);
             pnlNuevoClienteContainer.TabIndex = 0;
             pnlNuevoClienteContainer.Visible = false;
             // 
@@ -775,7 +828,7 @@
             pnlNuevoCliente.Controls.Add(pnlNombreClienteInput);
             pnlNuevoCliente.Controls.Add(lblSubtituloNuevoCliente);
             pnlNuevoCliente.Controls.Add(lblTituloNuevoCliente);
-            pnlNuevoCliente.Location = new Point(35, 212);
+            pnlNuevoCliente.Location = new Point(25, 212);
             pnlNuevoCliente.Name = "pnlNuevoCliente";
             pnlNuevoCliente.Padding = new Padding(25, 20, 25, 20);
             pnlNuevoCliente.Size = new Size(490, 330);
@@ -1011,6 +1064,7 @@
             pnlAcciones.ResumeLayout(false);
             tlpTotal.ResumeLayout(false);
             tlpOrderFooter.ResumeLayout(false);
+            pnlPrioridad.ResumeLayout(false);
             pnlOrderHeader.ResumeLayout(false);
             pnlNuevoClienteContainer.ResumeLayout(false);
             pnlNuevoCliente.ResumeLayout(false);
@@ -1091,5 +1145,9 @@
         private Panel pnlLineSecond;
         private Panel pnlLineFirst;
         private MaskedTextBox txtTelefonoNuevoCliente;
+        private Panel pnlPrioridad;
+        private ComboBox cmbPrioridad;
+        private Label lblPrioridad;
+        private Label ghostlbl;
     }
 }

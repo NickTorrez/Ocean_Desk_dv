@@ -63,6 +63,18 @@ namespace Ocean_Desk_dv.UI.Catalogs
             }
         }
 
+        /// <summary>
+        /// Obtiene la prioridad seleccionada para la orden. Los valores mostrados
+        /// en la interfaz son "Normal" y "Alta".
+        /// </summary>
+        public string Prioridad
+        {
+            get
+            {
+                return cmbPrioridad.SelectedItem?.ToString() ?? "Normal";
+            }
+        }
+
         private readonly List<UcOrderItem> _orderItems = new List<UcOrderItem>();
         private readonly int _usuarioId;
         private PuntoVentaPresenter? _presenter;
@@ -98,7 +110,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
                 .Select(item => new PuntoVentaDetalle
                 {
                     ProductoId = item.ProductoId,
-                    Cantidad = item.Cantidad
+                    Cantidad = item.Cantidad,
+                    Observacion = item.Observacion
                 })
                 .ToList();
 
@@ -261,6 +274,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
             flpOrderItems.Controls.Clear();
             BloquearMesa(false);
 
+            cmbPrioridad.SelectedIndex = 0;
             cmbMetodoPago.SelectedIndex = 0;
             cmbCliente.SelectedIndex = 0;
 
@@ -296,6 +310,8 @@ namespace Ocean_Desk_dv.UI.Catalogs
             _usuarioId = usuarioId;
 
             InitializeComponent();
+
+            cmbPrioridad.SelectedIndex = 0;
 
             ConfigurarTipoOrden();
             ConfigurarMetodosPago();

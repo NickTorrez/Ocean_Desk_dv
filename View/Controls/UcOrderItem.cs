@@ -34,7 +34,6 @@ namespace Ocean_Desk_dv.UI.Controls
         }
         #endregion
 
-
         #region Campos y Propiedades de Tarjeta
         private int _productoId;
         private string _nombreProducto = string.Empty;
@@ -87,6 +86,12 @@ namespace Ocean_Desk_dv.UI.Controls
 
                 ActualizarSubtotal();
             }
+        }
+
+        public string Observacion
+        {
+            get => txtObservacion.Text.Trim();
+            set => txtObservacion.Text = value ?? string.Empty;
         }
 
         public decimal Subtotal

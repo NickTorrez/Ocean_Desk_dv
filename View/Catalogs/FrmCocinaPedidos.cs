@@ -200,7 +200,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                         pedido.Mesa,
                         pedido.TipoOrden,
                         pedido.Hora.ToString("HH:mm"),
-                        pedido.Prioridad,
+                        ObtenerTextoPrioridad(pedido.Prioridad),
                         ObtenerTextoEstado(pedido.Estado));
 
                     DataGridViewRow row = dgvPedido.Rows[rowIndex];
@@ -208,7 +208,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                     row.Tag = pedido.KitchenOrderId;
 
                     AplicarEstiloEstado(row, pedido.Estado);
-                    AplicarEstiloPrioridad(row, pedido.Prioridad);
+                    AplicarEstiloPrioridad(dgvPedido.Rows[rowIndex],pedido.Prioridad);
                 }
             }
             finally
@@ -237,7 +237,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             lblTipoOrden.Text = $"Tipo: {pedido.TipoOrden}";
             lblMesa.Text = $"Mesa: {pedido.Mesa}";
             lblEstado.Text = $"Estado: {ObtenerTextoEstado(pedido.Estado).ToUpperInvariant()}";
-            lblPrioridad.Text = $"Prioridad: {pedido.Prioridad.ToUpperInvariant()}";
+            lblPrioridad.Text = $"Prioridad: {ObtenerTextoPrioridad(pedido.Prioridad)}";
 
             AplicarEstiloEstadoDetalle(pedido.Estado);
             AplicarEstiloPrioridadDetalle(pedido.Prioridad);
@@ -413,17 +413,41 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         /// <summary>
-        /// Resalta únicamente la prioridad High. Normal conserva el estilo general.
+        /// Aplica el estilo visual correspondiente a la prioridad del pedido.
+        /// Normal utiliza el color institucional y Urgent se representa como Alta.
         /// </summary>
         private static void AplicarEstiloPrioridad(DataGridViewRow row, string prioridad)
         {
-            if (string.Equals(prioridad, "High", StringComparison.OrdinalIgnoreCase))
+            DataGridViewCellStyle estilo = row.Cells[nameof(colPrioridad)].Style;
+
+            switch (prioridad)
             {
-                row.Cells[nameof(colPrioridad)].Style.Font = new Font(
-                    "Century Gothic",
-                    10.2F,
-                    FontStyle.Bold);
-                row.Cells[nameof(colPrioridad)].Style.ForeColor = Color.FromArgb(185, 28, 28);
+                case "Normal":
+                    estilo.BackColor = Color.FromArgb(232, 244, 248);
+                    estilo.ForeColor = Color.FromArgb(8, 126, 164);
+                    estilo.Font = new Font(
+                        "Century Gothic",
+                        10.2F,
+                        FontStyle.Bold);
+                    break;
+
+                case "Urgent":
+                    estilo.BackColor = Color.FromArgb(254, 226, 226);
+                    estilo.ForeColor = Color.FromArgb(185, 28, 28);
+                    estilo.Font = new Font(
+                        "Century Gothic",
+                        10.2F,
+                        FontStyle.Bold);
+                    break;
+
+                default:
+                    estilo.BackColor = Color.White;
+                    estilo.ForeColor = Color.FromArgb(51, 51, 51);
+                    estilo.Font = new Font(
+                        "Century Gothic",
+                        10.2F,
+                        FontStyle.Regular);
+                    break;
             }
         }
 
@@ -440,17 +464,37 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         private void AplicarEstiloPrioridadDetalle(string prioridad)
         {
-            lblPrioridad.ForeColor = string.Equals(
-                prioridad,
-                "High",
-                StringComparison.OrdinalIgnoreCase)
-                    ? Color.FromArgb(185, 28, 28)
-                    : Color.FromArgb(8, 31, 63);
+            switch (prioridad)
+            {
+                case "Normal":
+                    lblPrioridad.ForeColor =
+                        Color.FromArgb(8, 126, 164);
+                    break;
+
+                case "Urgent":
+                    lblPrioridad.ForeColor =
+                        Color.FromArgb(185, 28, 28);
+                    break;
+
+                default:
+                    lblPrioridad.ForeColor =
+                        Color.FromArgb(8, 31, 63);
+                    break;
+            }
         }
 
         #endregion
 
         #region Utilidades de la Vista
+        private static string ObtenerTextoPrioridad(string prioridad)
+        {
+            return prioridad switch
+            {
+                "Urgent" => "ALTA",
+                "Normal" => "NORMAL",
+                _ => prioridad.ToUpperInvariant()
+            };
+        }
 
         private static string ObtenerTextoEstado(string estado)
         {

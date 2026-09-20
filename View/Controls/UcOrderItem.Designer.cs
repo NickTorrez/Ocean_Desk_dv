@@ -36,18 +36,24 @@
             btnAumentar = new Button();
             pnlBottom = new Panel();
             lblSubtotal = new Label();
+            pnlTop = new Panel();
+            lblObservación = new Label();
+            txtObservacion = new TextBox();
+            pnlObservacion = new Panel();
             pnlBottom.SuspendLayout();
+            pnlTop.SuspendLayout();
+            pnlObservacion.SuspendLayout();
             SuspendLayout();
             // 
             // lblNombreProducto
             // 
             lblNombreProducto.AutoEllipsis = true;
-            lblNombreProducto.Dock = DockStyle.Top;
+            lblNombreProducto.Dock = DockStyle.Left;
             lblNombreProducto.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNombreProducto.ForeColor = Color.FromArgb(8, 31, 63);
-            lblNombreProducto.Location = new Point(10, 10);
+            lblNombreProducto.Location = new Point(0, 0);
             lblNombreProducto.Name = "lblNombreProducto";
-            lblNombreProducto.Size = new Size(290, 25);
+            lblNombreProducto.Size = new Size(221, 30);
             lblNombreProducto.TabIndex = 0;
             lblNombreProducto.Text = "Producto";
             lblNombreProducto.TextAlign = ContentAlignment.MiddleLeft;
@@ -61,9 +67,9 @@
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEliminar.ForeColor = Color.FromArgb(111, 119, 128);
-            btnEliminar.Location = new Point(300, 10);
+            btnEliminar.Location = new Point(290, 0);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(30, 75);
+            btnEliminar.Size = new Size(30, 30);
             btnEliminar.TabIndex = 1;
             btnEliminar.Text = "X";
             btnEliminar.TextAlign = ContentAlignment.TopCenter;
@@ -74,9 +80,9 @@
             lblPrecioUnitario.Dock = DockStyle.Top;
             lblPrecioUnitario.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPrecioUnitario.ForeColor = Color.FromArgb(111, 119, 128);
-            lblPrecioUnitario.Location = new Point(10, 35);
+            lblPrecioUnitario.Location = new Point(10, 40);
             lblPrecioUnitario.Name = "lblPrecioUnitario";
-            lblPrecioUnitario.Size = new Size(290, 22);
+            lblPrecioUnitario.Size = new Size(320, 22);
             lblPrecioUnitario.TabIndex = 2;
             lblPrecioUnitario.Text = "C$ 0.00";
             lblPrecioUnitario.TextAlign = ContentAlignment.MiddleLeft;
@@ -88,7 +94,7 @@
             btnDisminuir.FlatAppearance.BorderSize = 0;
             btnDisminuir.FlatStyle = FlatStyle.Flat;
             btnDisminuir.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDisminuir.Location = new Point(20, 0);
+            btnDisminuir.Location = new Point(20, 10);
             btnDisminuir.Name = "btnDisminuir";
             btnDisminuir.Size = new Size(28, 28);
             btnDisminuir.TabIndex = 3;
@@ -98,10 +104,10 @@
             // lblCantidad
             // 
             lblCantidad.Dock = DockStyle.Fill;
-            lblCantidad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCantidad.Location = new Point(48, 0);
+            lblCantidad.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCantidad.Location = new Point(48, 10);
             lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(95, 28);
+            lblCantidad.Size = new Size(104, 28);
             lblCantidad.TabIndex = 4;
             lblCantidad.Text = "1";
             lblCantidad.TextAlign = ContentAlignment.MiddleCenter;
@@ -113,7 +119,7 @@
             btnAumentar.FlatAppearance.BorderSize = 0;
             btnAumentar.FlatStyle = FlatStyle.Flat;
             btnAumentar.Font = new Font("Century Gothic", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            btnAumentar.Location = new Point(143, 0);
+            btnAumentar.Location = new Point(152, 10);
             btnAumentar.Name = "btnAumentar";
             btnAumentar.Size = new Size(28, 28);
             btnAumentar.TabIndex = 5;
@@ -126,40 +132,88 @@
             pnlBottom.Controls.Add(lblCantidad);
             pnlBottom.Controls.Add(btnAumentar);
             pnlBottom.Controls.Add(btnDisminuir);
-            pnlBottom.Dock = DockStyle.Fill;
-            pnlBottom.Location = new Point(10, 57);
+            pnlBottom.Dock = DockStyle.Left;
+            pnlBottom.Location = new Point(10, 137);
             pnlBottom.Name = "pnlBottom";
-            pnlBottom.Padding = new Padding(20, 0, 20, 0);
-            pnlBottom.Size = new Size(191, 28);
+            pnlBottom.Padding = new Padding(20, 10, 20, 5);
+            pnlBottom.Size = new Size(200, 43);
             pnlBottom.TabIndex = 6;
             // 
             // lblSubtotal
             // 
-            lblSubtotal.Dock = DockStyle.Right;
+            lblSubtotal.Dock = DockStyle.Fill;
             lblSubtotal.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSubtotal.ForeColor = Color.FromArgb(11, 120, 166);
-            lblSubtotal.Location = new Point(201, 57);
+            lblSubtotal.Location = new Point(210, 137);
             lblSubtotal.Name = "lblSubtotal";
-            lblSubtotal.Size = new Size(99, 28);
+            lblSubtotal.Padding = new Padding(0, 10, 0, 0);
+            lblSubtotal.Size = new Size(120, 43);
             lblSubtotal.TabIndex = 7;
             lblSubtotal.Text = "C$ 0.00";
             lblSubtotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // pnlTop
+            // 
+            pnlTop.Controls.Add(lblNombreProducto);
+            pnlTop.Controls.Add(btnEliminar);
+            pnlTop.Dock = DockStyle.Top;
+            pnlTop.Location = new Point(10, 10);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Size = new Size(320, 30);
+            pnlTop.TabIndex = 8;
+            // 
+            // lblObservación
+            // 
+            lblObservación.Dock = DockStyle.Top;
+            lblObservación.Font = new Font("Century Gothic", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblObservación.Location = new Point(0, 0);
+            lblObservación.Name = "lblObservación";
+            lblObservación.Size = new Size(320, 35);
+            lblObservación.TabIndex = 9;
+            lblObservación.Text = "Observación";
+            lblObservación.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtObservacion
+            // 
+            txtObservacion.Dock = DockStyle.Fill;
+            txtObservacion.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtObservacion.Location = new Point(0, 35);
+            txtObservacion.MaxLength = 255;
+            txtObservacion.Multiline = true;
+            txtObservacion.Name = "txtObservacion";
+            txtObservacion.ScrollBars = ScrollBars.Vertical;
+            txtObservacion.Size = new Size(320, 40);
+            txtObservacion.TabIndex = 10;
+            // 
+            // pnlObservacion
+            // 
+            pnlObservacion.Controls.Add(txtObservacion);
+            pnlObservacion.Controls.Add(lblObservación);
+            pnlObservacion.Dock = DockStyle.Top;
+            pnlObservacion.Location = new Point(10, 62);
+            pnlObservacion.Name = "pnlObservacion";
+            pnlObservacion.Size = new Size(320, 75);
+            pnlObservacion.TabIndex = 11;
             // 
             // UcOrderItem
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(pnlBottom);
             Controls.Add(lblSubtotal);
+            Controls.Add(pnlBottom);
+            Controls.Add(pnlObservacion);
             Controls.Add(lblPrecioUnitario);
-            Controls.Add(lblNombreProducto);
-            Controls.Add(btnEliminar);
+            Controls.Add(pnlTop);
+            ForeColor = Color.FromArgb(111, 119, 128);
             Margin = new Padding(0, 0, 0, 8);
             Name = "UcOrderItem";
             Padding = new Padding(10);
-            Size = new Size(340, 95);
+            Size = new Size(340, 190);
             pnlBottom.ResumeLayout(false);
+            pnlTop.ResumeLayout(false);
+            pnlObservacion.ResumeLayout(false);
+            pnlObservacion.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -173,5 +227,9 @@
         private Button btnAumentar;
         private Panel pnlBottom;
         private Label lblSubtotal;
+        private Panel pnlTop;
+        private Label lblObservación;
+        private TextBox txtObservacion;
+        private Panel pnlObservacion;
     }
 }

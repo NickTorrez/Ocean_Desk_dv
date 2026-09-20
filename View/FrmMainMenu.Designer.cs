@@ -124,9 +124,9 @@
             pnlMenu.Controls.Add(lblInventario);
             pnlMenu.Controls.Add(btnCocina);
             pnlMenu.Controls.Add(btnMesas);
-            pnlMenu.Controls.Add(btnCaja);
             pnlMenu.Controls.Add(btnFacturacion);
             pnlMenu.Controls.Add(btnVentas);
+            pnlMenu.Controls.Add(btnCaja);
             pnlMenu.Controls.Add(lblOperaciones);
             pnlMenu.Controls.Add(btnEmpleados);
             pnlMenu.Controls.Add(btnReportes);
@@ -460,7 +460,7 @@
             btnCaja.ForeColor = Color.White;
             btnCaja.Image = Properties.Resources.wallet;
             btnCaja.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCaja.Location = new Point(8, 173);
+            btnCaja.Location = new Point(8, 83);
             btnCaja.Name = "btnCaja";
             btnCaja.Padding = new Padding(15, 0, 0, 0);
             btnCaja.Size = new Size(243, 45);
@@ -484,7 +484,7 @@
             btnFacturacion.ForeColor = Color.White;
             btnFacturacion.Image = Properties.Resources.payment;
             btnFacturacion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnFacturacion.Location = new Point(8, 128);
+            btnFacturacion.Location = new Point(8, 173);
             btnFacturacion.Name = "btnFacturacion";
             btnFacturacion.Padding = new Padding(15, 0, 0, 0);
             btnFacturacion.Size = new Size(243, 45);
@@ -508,7 +508,7 @@
             btnVentas.ForeColor = Color.White;
             btnVentas.Image = Properties.Resources.point_of_sale;
             btnVentas.ImageAlign = ContentAlignment.MiddleLeft;
-            btnVentas.Location = new Point(8, 83);
+            btnVentas.Location = new Point(8, 128);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(15, 0, 0, 0);
             btnVentas.Size = new Size(243, 45);

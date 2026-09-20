@@ -19,6 +19,7 @@ namespace Ocean_Desk_dv.View.Interfaces
         string NuevoClienteTelefono { get; }
 
         IReadOnlyList<PuntoVentaDetalle> DetallesVenta { get; }
+        string Prioridad { get; }
 
         void MostrarProductos(List<Product> productos);
         void MostrarClientes(List<Customer> clientes);
@@ -42,6 +43,7 @@ namespace Ocean_Desk_dv.View.Interfaces
     public class PuntoVentaDetalle
     {
         public int ProductoId { get; set; }
-        public int Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
+        public string Observacion { get; set; } = string.Empty;
     }
 }
