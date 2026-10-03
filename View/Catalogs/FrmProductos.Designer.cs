@@ -96,8 +96,8 @@
             // tlpPrincipal
             // 
             tlpPrincipal.ColumnCount = 2;
-            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.8616867F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.1383133F));
             tlpPrincipal.Controls.Add(pnlDatosProducto, 1, 0);
             tlpPrincipal.Controls.Add(Tcproductos, 0, 0);
             tlpPrincipal.Dock = DockStyle.Fill;
@@ -113,10 +113,10 @@
             // 
             pnlDatosProducto.BackColor = Color.White;
             pnlDatosProducto.Dock = DockStyle.Fill;
-            pnlDatosProducto.Location = new Point(741, 18);
+            pnlDatosProducto.Location = new Point(739, 18);
             pnlDatosProducto.Margin = new Padding(18);
             pnlDatosProducto.Name = "pnlDatosProducto";
-            pnlDatosProducto.Size = new Size(687, 758);
+            pnlDatosProducto.Size = new Size(689, 758);
             pnlDatosProducto.TabIndex = 0;
             // 
             // Tcproductos
@@ -127,7 +127,7 @@
             Tcproductos.Location = new Point(3, 3);
             Tcproductos.Name = "Tcproductos";
             Tcproductos.SelectedIndex = 0;
-            Tcproductos.Size = new Size(717, 788);
+            Tcproductos.Size = new Size(715, 788);
             Tcproductos.TabIndex = 1;
             // 
             // tpCatalogo
@@ -145,7 +145,7 @@
             tpReceta.Location = new Point(4, 29);
             tpReceta.Name = "tpReceta";
             tpReceta.Padding = new Padding(3);
-            tpReceta.Size = new Size(709, 755);
+            tpReceta.Size = new Size(707, 755);
             tpReceta.TabIndex = 1;
             tpReceta.Text = "tabPage2";
             tpReceta.UseVisualStyleBackColor = true;
