@@ -16,5 +16,15 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             InitializeComponent();
         }
+
+        private void tlpBarraSuperior_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtBuscarProducto_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
