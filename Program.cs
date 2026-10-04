@@ -1,6 +1,8 @@
 using Ocean_Desk_dv.UI.Catalogs;
 using Ocean_Desk_dv.UI.Controls;
 using Ocean_Desk_dv.View.Catalogs;
+using System.Windows.Forms;
+
 
 namespace Ocean_Desk_dv
 {
@@ -15,7 +17,9 @@ namespace Ocean_Desk_dv
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new FrmLogin());
+
+            // Application.Run(new FrmLogin());     // original, comentada
+            Application.Run(new FrmProductos());     // temporal para la prueba
         }
     }
-}
+    }
