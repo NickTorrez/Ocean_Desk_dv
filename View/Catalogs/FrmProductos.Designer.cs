@@ -38,6 +38,9 @@
             pnlContenido = new Panel();
             tlpPrincipal = new TableLayoutPanel();
             pnlDatosProducto = new Panel();
+            txtDescripcion = new TextBox();
+            lblPrecio = new Label();
+            lblUnidad = new Label();
             cmbUnidad = new ComboBox();
             lblStockMinimo = new Label();
             nudStockMinimo = new NumericUpDown();
@@ -47,9 +50,16 @@
             btnGuardarProducto = new Button();
             btnLimpiarProducto = new Button();
             Tcproductos = new TabControl();
-            tpCatalogo = new TabPage();
             tpReceta = new TabPage();
-            lblUnidad = new Label();
+            tpCatalogo = new TabPage();
+            cmbCategoria = new ComboBox();
+            lblCategoria = new Label();
+            txtCodigo = new TextBox();
+            lblCodigo = new Label();
+            txtNombre = new TextBox();
+            lblNombre = new Label();
+            nudPrecio = new NumericUpDown();
+            lblDescripcion = new Label();
             pnlBarraSuperior.SuspendLayout();
             tlpBarraSuperior.SuspendLayout();
             pnlContenido.SuspendLayout();
@@ -58,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             pnlAccionesProducto.SuspendLayout();
             Tcproductos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             SuspendLayout();
             // 
             // pnlBarraSuperior
@@ -196,6 +207,16 @@
             // pnlDatosProducto
             // 
             pnlDatosProducto.BackColor = Color.White;
+            pnlDatosProducto.Controls.Add(lblCodigo);
+            pnlDatosProducto.Controls.Add(txtCodigo);
+            pnlDatosProducto.Controls.Add(lblNombre);
+            pnlDatosProducto.Controls.Add(txtNombre);
+            pnlDatosProducto.Controls.Add(lblCategoria);
+            pnlDatosProducto.Controls.Add(cmbCategoria);
+            pnlDatosProducto.Controls.Add(lblDescripcion);
+            pnlDatosProducto.Controls.Add(txtDescripcion);
+            pnlDatosProducto.Controls.Add(lblPrecio);
+            pnlDatosProducto.Controls.Add(nudPrecio);
             pnlDatosProducto.Controls.Add(lblUnidad);
             pnlDatosProducto.Controls.Add(cmbUnidad);
             pnlDatosProducto.Controls.Add(lblStockMinimo);
@@ -208,8 +229,37 @@
             pnlDatosProducto.Location = new Point(484, 18);
             pnlDatosProducto.Margin = new Padding(18);
             pnlDatosProducto.Name = "pnlDatosProducto";
-            pnlDatosProducto.Size = new Size(420, 747);
+            pnlDatosProducto.Size = new Size(420, 717);
             pnlDatosProducto.TabIndex = 0;
+            // 
+            // txtDescripcion
+            // 
+            txtDescripcion.Dock = DockStyle.Top;
+            txtDescripcion.Location = new Point(0, 188);
+            txtDescripcion.MaxLength = 300;
+            txtDescripcion.Multiline = true;
+            txtDescripcion.Name = "txtDescripcion";
+            txtDescripcion.Size = new Size(420, 30);
+            txtDescripcion.TabIndex = 8;
+            // 
+            // lblPrecio
+            // 
+            lblPrecio.Dock = DockStyle.Top;
+            lblPrecio.Location = new Point(0, 168);
+            lblPrecio.Name = "lblPrecio";
+            lblPrecio.Size = new Size(420, 20);
+            lblPrecio.TabIndex = 7;
+            lblPrecio.Text = "Precio";
+            // 
+            // lblUnidad
+            // 
+            lblUnidad.Dock = DockStyle.Top;
+            lblUnidad.ForeColor = Color.FromArgb(111, 119, 128);
+            lblUnidad.Location = new Point(0, 122);
+            lblUnidad.Name = "lblUnidad";
+            lblUnidad.Size = new Size(420, 20);
+            lblUnidad.TabIndex = 5;
+            lblUnidad.Text = "Unidad de medida";
             // 
             // cmbUnidad
             // 
@@ -228,7 +278,7 @@
             lblStockMinimo.Name = "lblStockMinimo";
             lblStockMinimo.Size = new Size(420, 20);
             lblStockMinimo.TabIndex = 3;
-            lblStockMinimo.Text = "label1";
+            lblStockMinimo.Text = "Stock Minimo";
             // 
             // nudStockMinimo
             // 
@@ -270,7 +320,7 @@
             pnlAccionesProducto.Controls.Add(btnGuardarProducto);
             pnlAccionesProducto.Controls.Add(btnLimpiarProducto);
             pnlAccionesProducto.Dock = DockStyle.Bottom;
-            pnlAccionesProducto.Location = new Point(0, 689);
+            pnlAccionesProducto.Location = new Point(0, 659);
             pnlAccionesProducto.Name = "pnlAccionesProducto";
             pnlAccionesProducto.Size = new Size(420, 58);
             pnlAccionesProducto.TabIndex = 0;
@@ -305,14 +355,24 @@
             // 
             // Tcproductos
             // 
-            Tcproductos.Controls.Add(tpCatalogo);
             Tcproductos.Controls.Add(tpReceta);
+            Tcproductos.Controls.Add(tpCatalogo);
             Tcproductos.Dock = DockStyle.Fill;
             Tcproductos.Location = new Point(3, 3);
             Tcproductos.Name = "Tcproductos";
             Tcproductos.SelectedIndex = 0;
             Tcproductos.Size = new Size(460, 777);
             Tcproductos.TabIndex = 1;
+            // 
+            // tpReceta
+            // 
+            tpReceta.Location = new Point(4, 29);
+            tpReceta.Name = "tpReceta";
+            tpReceta.Padding = new Padding(3);
+            tpReceta.Size = new Size(452, 744);
+            tpReceta.TabIndex = 1;
+            tpReceta.Text = "tabPage2";
+            tpReceta.UseVisualStyleBackColor = true;
             // 
             // tpCatalogo
             // 
@@ -324,24 +384,82 @@
             tpCatalogo.Text = "tabPage1";
             tpCatalogo.UseVisualStyleBackColor = true;
             // 
-            // tpReceta
+            // cmbCategoria
             // 
-            tpReceta.Location = new Point(4, 29);
-            tpReceta.Name = "tpReceta";
-            tpReceta.Padding = new Padding(3);
-            tpReceta.Size = new Size(739, 827);
-            tpReceta.TabIndex = 1;
-            tpReceta.Text = "tabPage2";
-            tpReceta.UseVisualStyleBackColor = true;
+            cmbCategoria.Dock = DockStyle.Top;
+            cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCategoria.FormattingEnabled = true;
+            cmbCategoria.Location = new Point(0, 238);
+            cmbCategoria.Name = "cmbCategoria";
+            cmbCategoria.Size = new Size(420, 28);
+            cmbCategoria.TabIndex = 10;
             // 
-            // lblUnidad
+            // lblCategoria
             // 
-            lblUnidad.Dock = DockStyle.Top;
-            lblUnidad.Location = new Point(0, 122);
-            lblUnidad.Name = "lblUnidad";
-            lblUnidad.Size = new Size(420, 20);
-            lblUnidad.TabIndex = 5;
-            lblUnidad.Text = "Unidad de medida";
+            lblCategoria.Dock = DockStyle.Top;
+            lblCategoria.Location = new Point(0, 266);
+            lblCategoria.Name = "lblCategoria";
+            lblCategoria.Size = new Size(420, 20);
+            lblCategoria.TabIndex = 11;
+            lblCategoria.Text = "Categoria";
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.BorderStyle = BorderStyle.FixedSingle;
+            txtCodigo.Dock = DockStyle.Top;
+            txtCodigo.Location = new Point(0, 332);
+            txtCodigo.MaxLength = 30;
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.Size = new Size(420, 26);
+            txtCodigo.TabIndex = 12;
+            // 
+            // lblCodigo
+            // 
+            lblCodigo.Dock = DockStyle.Top;
+            lblCodigo.Location = new Point(0, 358);
+            lblCodigo.Name = "lblCodigo";
+            lblCodigo.Size = new Size(420, 20);
+            lblCodigo.TabIndex = 13;
+            lblCodigo.Text = "Código";
+            // 
+            // txtNombre
+            // 
+            txtNombre.Dock = DockStyle.Top;
+            txtNombre.Location = new Point(0, 286);
+            txtNombre.MaxLength = 150;
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(420, 26);
+            txtNombre.TabIndex = 14;
+            // 
+            // lblNombre
+            // 
+            lblNombre.Dock = DockStyle.Top;
+            lblNombre.Location = new Point(0, 312);
+            lblNombre.Name = "lblNombre";
+            lblNombre.Size = new Size(420, 20);
+            lblNombre.TabIndex = 15;
+            lblNombre.Text = "Nombre,";
+            // 
+            // nudPrecio
+            // 
+            nudPrecio.DecimalPlaces = 2;
+            nudPrecio.Dock = DockStyle.Top;
+            nudPrecio.Increment = new decimal(new int[] { 50, 0, 0, 131072 });
+            nudPrecio.Location = new Point(0, 142);
+            nudPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            nudPrecio.Name = "nudPrecio";
+            nudPrecio.Size = new Size(420, 26);
+            nudPrecio.TabIndex = 6;
+            // 
+            // lblDescripcion
+            // 
+            lblDescripcion.Dock = DockStyle.Top;
+            lblDescripcion.ForeColor = Color.FromArgb(111, 119, 128);
+            lblDescripcion.Location = new Point(0, 218);
+            lblDescripcion.Name = "lblDescripcion";
+            lblDescripcion.Size = new Size(420, 20);
+            lblDescripcion.TabIndex = 16;
+            lblDescripcion.Text = "Descripcion ";
             // 
             // FrmProductos
             // 
@@ -366,6 +484,7 @@
             ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             pnlAccionesProducto.ResumeLayout(false);
             Tcproductos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ResumeLayout(false);
         }
 
@@ -393,5 +512,15 @@
         private Label lblStockMinimo;
         private ComboBox cmbUnidad;
         private Label lblUnidad;
+        private Label lblPrecio;
+        private TextBox txtDescripcion;
+        private Label lblCategoria;
+        private ComboBox cmbCategoria;
+        private Label lblCodigo;
+        private TextBox txtCodigo;
+        private TextBox txtNombre;
+        private Label lblNombre;
+        private Label lblDescripcion;
+        private NumericUpDown nudPrecio;
     }
 }
