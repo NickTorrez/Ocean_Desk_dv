@@ -28,45 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            checkBox1 = new CheckBox();
+            pnlBarraProveedores = new Panel();
+            pnlContenido = new Panel();
             SuspendLayout();
             // 
-            // button1
+            // pnlBarraProveedores
             // 
-            button1.Location = new Point(89, 102);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            pnlBarraProveedores.Dock = DockStyle.Top;
+            pnlBarraProveedores.Location = new Point(0, 0);
+            pnlBarraProveedores.Name = "pnlBarraProveedores";
+            pnlBarraProveedores.Padding = new Padding(12, 8, 12, 8);
+            pnlBarraProveedores.Size = new Size(922, 98);
+            pnlBarraProveedores.TabIndex = 0;
             // 
-            // checkBox1
+            // pnlContenido
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(230, 163);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(101, 24);
-            checkBox1.TabIndex = 1;
-            checkBox1.Text = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
+            pnlContenido.Dock = DockStyle.Fill;
+            pnlContenido.Location = new Point(0, 98);
+            pnlContenido.Name = "pnlContenido";
+            pnlContenido.Padding = new Padding(3, 12, 3, 10);
+            pnlContenido.Size = new Size(922, 685);
+            pnlContenido.TabIndex = 1;
             // 
             // FrmProveedores
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(839, 450);
-            Controls.Add(checkBox1);
-            Controls.Add(button1);
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            ClientSize = new Size(922, 783);
+            Controls.Add(pnlContenido);
+            Controls.Add(pnlBarraProveedores);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmProveedores";
             Text = "FrmProveedores";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-        private CheckBox checkBox1;
+        private Panel pnlBarraProveedores;
+        private Panel pnlContenido;
     }
 }
