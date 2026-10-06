@@ -30,17 +30,17 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             PnlProveedores = new Panel();
+            btnNuevaCompra = new Button();
+            btnEditarProveedor = new Button();
+            btnNuevoProveedor = new Button();
+            txtBuscarProveedor = new TextBox();
             pnlContenido = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             PnlDatos = new Panel();
             tabControl1 = new TabControl();
             TpProveedores = new TabPage();
-            tabPage2 = new TabPage();
-            txtBuscarProveedor = new TextBox();
-            btnNuevoProveedor = new Button();
-            btnEditarProveedor = new Button();
-            btnNuevaCompra = new Button();
             djvCompras = new DataGridView();
+            tabPage2 = new TabPage();
             PnlProveedores.SuspendLayout();
             pnlContenido.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -62,6 +62,56 @@
             PnlProveedores.Padding = new Padding(12, 8, 12, 8);
             PnlProveedores.Size = new Size(922, 78);
             PnlProveedores.TabIndex = 0;
+            // 
+            // btnNuevaCompra
+            // 
+            btnNuevaCompra.BackColor = Color.FromArgb(8, 231, 164);
+            btnNuevaCompra.FlatAppearance.BorderSize = 0;
+            btnNuevaCompra.FlatStyle = FlatStyle.Flat;
+            btnNuevaCompra.ForeColor = Color.White;
+            btnNuevaCompra.Location = new Point(496, 41);
+            btnNuevaCompra.Name = "btnNuevaCompra";
+            btnNuevaCompra.Size = new Size(121, 29);
+            btnNuevaCompra.TabIndex = 3;
+            btnNuevaCompra.Text = "Nueva Compra";
+            btnNuevaCompra.UseVisualStyleBackColor = false;
+            // 
+            // btnEditarProveedor
+            // 
+            btnEditarProveedor.BackColor = Color.FromArgb(238, 247, 243);
+            btnEditarProveedor.FlatStyle = FlatStyle.Flat;
+            btnEditarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
+            btnEditarProveedor.Location = new Point(308, 42);
+            btnEditarProveedor.Name = "btnEditarProveedor";
+            btnEditarProveedor.Size = new Size(137, 29);
+            btnEditarProveedor.TabIndex = 2;
+            btnEditarProveedor.Text = "Editar Proveedor";
+            btnEditarProveedor.UseVisualStyleBackColor = false;
+            // 
+            // btnNuevoProveedor
+            // 
+            btnNuevoProveedor.BackColor = Color.FromArgb(8, 126, 164);
+            btnNuevoProveedor.FlatAppearance.BorderSize = 0;
+            btnNuevoProveedor.FlatStyle = FlatStyle.Flat;
+            btnNuevoProveedor.ForeColor = Color.White;
+            btnNuevoProveedor.Location = new Point(125, 42);
+            btnNuevoProveedor.Name = "btnNuevoProveedor";
+            btnNuevoProveedor.Size = new Size(137, 29);
+            btnNuevoProveedor.TabIndex = 1;
+            btnNuevoProveedor.Text = "Nuevo Proveedor";
+            btnNuevoProveedor.UseVisualStyleBackColor = false;
+            // 
+            // txtBuscarProveedor
+            // 
+            txtBuscarProveedor.BorderStyle = BorderStyle.None;
+            txtBuscarProveedor.Dock = DockStyle.Fill;
+            txtBuscarProveedor.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtBuscarProveedor.Location = new Point(12, 8);
+            txtBuscarProveedor.MaxLength = 150;
+            txtBuscarProveedor.Name = "txtBuscarProveedor";
+            txtBuscarProveedor.Size = new Size(898, 21);
+            txtBuscarProveedor.TabIndex = 0;
+            txtBuscarProveedor.Text = "Buscar Proveedor";
             // 
             // pnlContenido
             // 
@@ -122,66 +172,6 @@
             TpProveedores.TabIndex = 0;
             TpProveedores.Text = "TpProveedores";
             // 
-            // tabPage2
-            // 
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(315, 644);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "TpComprasAsociadas";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // txtBuscarProveedor
-            // 
-            txtBuscarProveedor.BorderStyle = BorderStyle.None;
-            txtBuscarProveedor.Dock = DockStyle.Fill;
-            txtBuscarProveedor.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtBuscarProveedor.Location = new Point(12, 8);
-            txtBuscarProveedor.MaxLength = 150;
-            txtBuscarProveedor.Name = "txtBuscarProveedor";
-            txtBuscarProveedor.Size = new Size(898, 21);
-            txtBuscarProveedor.TabIndex = 0;
-            txtBuscarProveedor.Text = "Buscar Proveedor";
-            // 
-            // btnNuevoProveedor
-            // 
-            btnNuevoProveedor.BackColor = Color.FromArgb(8, 126, 164);
-            btnNuevoProveedor.FlatAppearance.BorderSize = 0;
-            btnNuevoProveedor.FlatStyle = FlatStyle.Flat;
-            btnNuevoProveedor.ForeColor = Color.White;
-            btnNuevoProveedor.Location = new Point(125, 42);
-            btnNuevoProveedor.Name = "btnNuevoProveedor";
-            btnNuevoProveedor.Size = new Size(137, 29);
-            btnNuevoProveedor.TabIndex = 1;
-            btnNuevoProveedor.Text = "Nuevo Proveedor";
-            btnNuevoProveedor.UseVisualStyleBackColor = false;
-            // 
-            // btnEditarProveedor
-            // 
-            btnEditarProveedor.BackColor = Color.FromArgb(238, 247, 243);
-            btnEditarProveedor.FlatStyle = FlatStyle.Flat;
-            btnEditarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
-            btnEditarProveedor.Location = new Point(308, 42);
-            btnEditarProveedor.Name = "btnEditarProveedor";
-            btnEditarProveedor.Size = new Size(137, 29);
-            btnEditarProveedor.TabIndex = 2;
-            btnEditarProveedor.Text = "Editar Proveedor";
-            btnEditarProveedor.UseVisualStyleBackColor = false;
-            // 
-            // btnNuevaCompra
-            // 
-            btnNuevaCompra.BackColor = Color.FromArgb(8, 231, 164);
-            btnNuevaCompra.FlatAppearance.BorderSize = 0;
-            btnNuevaCompra.FlatStyle = FlatStyle.Flat;
-            btnNuevaCompra.ForeColor = Color.White;
-            btnNuevaCompra.Location = new Point(496, 41);
-            btnNuevaCompra.Name = "btnNuevaCompra";
-            btnNuevaCompra.Size = new Size(121, 29);
-            btnNuevaCompra.TabIndex = 3;
-            btnNuevaCompra.Text = "Nueva Compra";
-            btnNuevaCompra.UseVisualStyleBackColor = false;
-            // 
             // djvCompras
             // 
             djvCompras.AllowUserToAddRows = false;
@@ -213,6 +203,16 @@
             djvCompras.Size = new Size(309, 638);
             djvCompras.TabIndex = 0;
             djvCompras.CellContentClick += djvCompras_CellContentClick;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(315, 644);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "TpComprasAsociadas";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // FrmProveedores
             // 
