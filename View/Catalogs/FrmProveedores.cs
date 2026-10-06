@@ -16,5 +16,15 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             InitializeComponent();
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void djvCompras_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
