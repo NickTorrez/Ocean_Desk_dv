@@ -935,7 +935,6 @@
             // 
             txtTelefonoNuevoCliente.BackColor = Color.White;
             txtTelefonoNuevoCliente.BorderStyle = BorderStyle.None;
-            txtTelefonoNuevoCliente.Culture = new System.Globalization.CultureInfo("es-NI");
             txtTelefonoNuevoCliente.Dock = DockStyle.Fill;
             txtTelefonoNuevoCliente.Font = new Font("Century Gothic", 9F);
             txtTelefonoNuevoCliente.Location = new Point(15, 15);
