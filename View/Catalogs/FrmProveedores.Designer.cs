@@ -137,7 +137,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Size = new Size(916, 683);
             tableLayoutPanel1.TabIndex = 0;
-            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // PnlDatos
             // 
