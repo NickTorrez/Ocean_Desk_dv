@@ -19,7 +19,11 @@ namespace Ocean_Desk_dv
             ApplicationConfiguration.Initialize();
 
             // Application.Run(new FrmLogin());     // original, comentada
-            Application.Run(new FrmProductos());     // temporal para la prueba
+            //Application.Run(new FrmProductos());     // temporal para la prueba
+            // Application.Run(new FrmLogin());   // original: no borrar
+            var f = new FrmCompras();
+            f.WindowState = FormWindowState.Maximized;   // solo para la prueba
+            Application.Run(f);
         }
     }
     }
