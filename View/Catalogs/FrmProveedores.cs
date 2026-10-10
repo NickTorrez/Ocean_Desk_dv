@@ -26,5 +26,15 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
 
         }
+
+        private void btnNuevoProveedor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlDatosProveedor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
