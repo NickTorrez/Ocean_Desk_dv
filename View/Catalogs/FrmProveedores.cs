@@ -15,6 +15,9 @@ namespace Ocean_Desk_dv.View.Catalogs
         public FrmProveedores()
         {
             InitializeComponent();
+
+            dgvProveedores.AutoGenerateColumns = false;
+            dgvComprasProveedor.AutoGenerateColumns = false;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -33,6 +36,16 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         private void pnlDatosProveedor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvComprasProveedor_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblProveedorSeleccionado_Click(object sender, EventArgs e)
         {
 
         }
