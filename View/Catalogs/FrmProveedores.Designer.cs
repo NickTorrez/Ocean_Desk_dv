@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             pnlBarraProveedores = new Panel();
             btnCambiarEstadoProveedor = new Button();
             btnEditarProveedor = new Button();
@@ -37,32 +37,32 @@
             pnlContenido = new Panel();
             tlpPrincipalProveedores = new TableLayoutPanel();
             pnlDatosProveedor = new Panel();
-            tcProveedores = new TabControl();
-            tpProveedores = new TabPage();
-            dgvProveedores = new DataGridView();
-            tpComprasAsociadas = new TabPage();
+            lblTelefonoProveedor = new Label();
+            lblNombreProveedor = new Label();
             txtNombreProveedor = new TextBox();
             lblContactoProveedor = new Label();
             txtContactoProveedor = new TextBox();
-            lblTelefonoProveedor = new Label();
             txtTelefonoProveedor = new TextBox();
             lblCorreoProveedor = new Label();
             txtCorreoProveedor = new TextBox();
             lblDireccionProveedor = new Label();
             txtDireccionProveedor = new TextBox();
             pnlAccionesProveedor = new Panel();
-            btnCancelarProveedor = new Button();
             btnGuardarProveedor = new Button();
+            btnCancelarProveedor = new Button();
             chkActivoProveedor = new CheckBox();
-            lblNombreProveedor = new Label();
+            tcProveedores = new TabControl();
+            tpProveedores = new TabPage();
+            dgvProveedores = new DataGridView();
+            tpComprasAsociadas = new TabPage();
             pnlBarraProveedores.SuspendLayout();
             pnlContenido.SuspendLayout();
             tlpPrincipalProveedores.SuspendLayout();
             pnlDatosProveedor.SuspendLayout();
+            pnlAccionesProveedor.SuspendLayout();
             tcProveedores.SuspendLayout();
             tpProveedores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).BeginInit();
-            pnlAccionesProveedor.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBarraProveedores
@@ -148,8 +148,8 @@
             tlpPrincipalProveedores.ColumnCount = 2;
             tlpPrincipalProveedores.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36F));
             tlpPrincipalProveedores.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64F));
-            tlpPrincipalProveedores.Controls.Add(pnlDatosProveedor, 1, 0);
-            tlpPrincipalProveedores.Controls.Add(tcProveedores, 0, 0);
+            tlpPrincipalProveedores.Controls.Add(tcProveedores, 1, 0);
+            tlpPrincipalProveedores.Controls.Add(pnlDatosProveedor, 0, 0);
             tlpPrincipalProveedores.Dock = DockStyle.Fill;
             tlpPrincipalProveedores.Location = new Point(3, 12);
             tlpPrincipalProveedores.Name = "tlpPrincipalProveedores";
@@ -162,101 +162,58 @@
             // pnlDatosProveedor
             // 
             pnlDatosProveedor.BackColor = Color.White;
-            pnlDatosProveedor.Controls.Add(lblTelefonoProveedor);
-            pnlDatosProveedor.Controls.Add(lblNombreProveedor);
-            pnlDatosProveedor.Controls.Add(txtNombreProveedor);
-            pnlDatosProveedor.Controls.Add(lblContactoProveedor);
-            pnlDatosProveedor.Controls.Add(txtContactoProveedor);
-            pnlDatosProveedor.Controls.Add(txtTelefonoProveedor);
-            pnlDatosProveedor.Controls.Add(lblCorreoProveedor);
-            pnlDatosProveedor.Controls.Add(txtCorreoProveedor);
-            pnlDatosProveedor.Controls.Add(lblDireccionProveedor);
-            pnlDatosProveedor.Controls.Add(txtDireccionProveedor);
             pnlDatosProveedor.Controls.Add(pnlAccionesProveedor);
             pnlDatosProveedor.Controls.Add(chkActivoProveedor);
+            pnlDatosProveedor.Controls.Add(txtDireccionProveedor);
+            pnlDatosProveedor.Controls.Add(lblDireccionProveedor);
+            pnlDatosProveedor.Controls.Add(txtCorreoProveedor);
+            pnlDatosProveedor.Controls.Add(lblCorreoProveedor);
+            pnlDatosProveedor.Controls.Add(txtTelefonoProveedor);
+            pnlDatosProveedor.Controls.Add(lblTelefonoProveedor);
+            pnlDatosProveedor.Controls.Add(txtContactoProveedor);
+            pnlDatosProveedor.Controls.Add(lblContactoProveedor);
+            pnlDatosProveedor.Controls.Add(txtNombreProveedor);
+            pnlDatosProveedor.Controls.Add(lblNombreProveedor);
             pnlDatosProveedor.Dock = DockStyle.Fill;
             pnlDatosProveedor.Font = new Font("Century Gothic", 9F);
-            pnlDatosProveedor.Location = new Point(339, 3);
+            pnlDatosProveedor.Location = new Point(3, 3);
             pnlDatosProveedor.Name = "pnlDatosProveedor";
             pnlDatosProveedor.Padding = new Padding(18, 0, 0, 0);
-            pnlDatosProveedor.Size = new Size(592, 704);
+            pnlDatosProveedor.Size = new Size(330, 704);
             pnlDatosProveedor.TabIndex = 0;
             pnlDatosProveedor.Paint += pnlDatosProveedor_Paint;
             // 
-            // tcProveedores
+            // lblTelefonoProveedor
             // 
-            tcProveedores.Controls.Add(tpProveedores);
-            tcProveedores.Controls.Add(tpComprasAsociadas);
-            tcProveedores.Dock = DockStyle.Fill;
-            tcProveedores.Font = new Font("Century Gothic", 9F);
-            tcProveedores.Location = new Point(3, 3);
-            tcProveedores.Name = "tcProveedores";
-            tcProveedores.SelectedIndex = 0;
-            tcProveedores.Size = new Size(330, 704);
-            tcProveedores.TabIndex = 1;
+            lblTelefonoProveedor.BackColor = Color.White;
+            lblTelefonoProveedor.Dock = DockStyle.Top;
+            lblTelefonoProveedor.Font = new Font("Century Gothic", 9F);
+            lblTelefonoProveedor.ForeColor = Color.FromArgb(111, 119, 128);
+            lblTelefonoProveedor.Location = new Point(18, 92);
+            lblTelefonoProveedor.Name = "lblTelefonoProveedor";
+            lblTelefonoProveedor.Size = new Size(312, 20);
+            lblTelefonoProveedor.TabIndex = 7;
+            lblTelefonoProveedor.Text = "Teléfono";
             // 
-            // tpProveedores
+            // lblNombreProveedor
             // 
-            tpProveedores.AccessibleDescription = "";
-            tpProveedores.AccessibleName = "";
-            tpProveedores.BackColor = Color.Transparent;
-            tpProveedores.Controls.Add(dgvProveedores);
-            tpProveedores.Location = new Point(4, 29);
-            tpProveedores.Name = "tpProveedores";
-            tpProveedores.Padding = new Padding(3);
-            tpProveedores.Size = new Size(322, 691);
-            tpProveedores.TabIndex = 0;
-            tpProveedores.Text = "Proveedores";
-            // 
-            // dgvProveedores
-            // 
-            dgvProveedores.AllowUserToAddRows = false;
-            dgvProveedores.AllowUserToDeleteRows = false;
-            dgvProveedores.AllowUserToResizeColumns = false;
-            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProveedores.BorderStyle = BorderStyle.None;
-            dgvProveedores.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle42.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle42.BackColor = Color.FromArgb(0, 15, 255, 255);
-            dataGridViewCellStyle42.Font = new Font("Century Gothic", 9F);
-            dataGridViewCellStyle42.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle42.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle42.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle42.WrapMode = DataGridViewTriState.False;
-            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle42;
-            dgvProveedores.Dock = DockStyle.Fill;
-            dgvProveedores.EnableHeadersVisualStyles = false;
-            dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
-            dgvProveedores.Location = new Point(3, 3);
-            dgvProveedores.MultiSelect = false;
-            dgvProveedores.Name = "dgvProveedores";
-            dgvProveedores.RowHeadersVisible = false;
-            dgvProveedores.RowHeadersWidth = 51;
-            dgvProveedores.RowTemplate.Height = 38;
-            dgvProveedores.ScrollBars = ScrollBars.None;
-            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProveedores.Size = new Size(316, 685);
-            dgvProveedores.TabIndex = 0;
-            dgvProveedores.CellContentClick += djvCompras_CellContentClick;
-            // 
-            // tpComprasAsociadas
-            // 
-            tpComprasAsociadas.Location = new Point(4, 29);
-            tpComprasAsociadas.Name = "tpComprasAsociadas";
-            tpComprasAsociadas.Padding = new Padding(3);
-            tpComprasAsociadas.Size = new Size(322, 671);
-            tpComprasAsociadas.TabIndex = 1;
-            tpComprasAsociadas.Text = "Compras asociadas";
-            tpComprasAsociadas.UseVisualStyleBackColor = true;
+            lblNombreProveedor.BackColor = Color.White;
+            lblNombreProveedor.Dock = DockStyle.Top;
+            lblNombreProveedor.Font = new Font("Century Gothic", 9F);
+            lblNombreProveedor.ForeColor = Color.FromArgb(111, 119, 128);
+            lblNombreProveedor.Location = new Point(18, 0);
+            lblNombreProveedor.Name = "lblNombreProveedor";
+            lblNombreProveedor.Size = new Size(312, 20);
+            lblNombreProveedor.TabIndex = 11;
+            lblNombreProveedor.Text = "Nombre";
             // 
             // txtNombreProveedor
             // 
             txtNombreProveedor.Dock = DockStyle.Top;
-            txtNombreProveedor.Location = new Point(18, 222);
+            txtNombreProveedor.Location = new Point(18, 20);
             txtNombreProveedor.MaxLength = 150;
             txtNombreProveedor.Name = "txtNombreProveedor";
-            txtNombreProveedor.Size = new Size(574, 26);
+            txtNombreProveedor.Size = new Size(312, 26);
             txtNombreProveedor.TabIndex = 10;
             // 
             // lblContactoProveedor
@@ -265,40 +222,28 @@
             lblContactoProveedor.Dock = DockStyle.Top;
             lblContactoProveedor.Font = new Font("Century Gothic", 9F);
             lblContactoProveedor.ForeColor = Color.FromArgb(111, 119, 128);
-            lblContactoProveedor.Location = new Point(18, 202);
+            lblContactoProveedor.Location = new Point(18, 46);
             lblContactoProveedor.Name = "lblContactoProveedor";
-            lblContactoProveedor.Size = new Size(574, 20);
+            lblContactoProveedor.Size = new Size(312, 20);
             lblContactoProveedor.TabIndex = 9;
             lblContactoProveedor.Text = "Contacto";
             // 
             // txtContactoProveedor
             // 
             txtContactoProveedor.Dock = DockStyle.Top;
-            txtContactoProveedor.Location = new Point(18, 176);
+            txtContactoProveedor.Location = new Point(18, 66);
             txtContactoProveedor.MaxLength = 100;
             txtContactoProveedor.Name = "txtContactoProveedor";
-            txtContactoProveedor.Size = new Size(574, 26);
+            txtContactoProveedor.Size = new Size(312, 26);
             txtContactoProveedor.TabIndex = 8;
-            // 
-            // lblTelefonoProveedor
-            // 
-            lblTelefonoProveedor.BackColor = Color.White;
-            lblTelefonoProveedor.Dock = DockStyle.Top;
-            lblTelefonoProveedor.Font = new Font("Century Gothic", 9F);
-            lblTelefonoProveedor.ForeColor = Color.FromArgb(111, 119, 128);
-            lblTelefonoProveedor.Location = new Point(18, 268);
-            lblTelefonoProveedor.Name = "lblTelefonoProveedor";
-            lblTelefonoProveedor.Size = new Size(574, 20);
-            lblTelefonoProveedor.TabIndex = 7;
-            lblTelefonoProveedor.Text = "Teléfono";
             // 
             // txtTelefonoProveedor
             // 
             txtTelefonoProveedor.Dock = DockStyle.Top;
-            txtTelefonoProveedor.Location = new Point(18, 150);
+            txtTelefonoProveedor.Location = new Point(18, 112);
             txtTelefonoProveedor.MaxLength = 20;
             txtTelefonoProveedor.Name = "txtTelefonoProveedor";
-            txtTelefonoProveedor.Size = new Size(574, 26);
+            txtTelefonoProveedor.Size = new Size(312, 26);
             txtTelefonoProveedor.TabIndex = 6;
             // 
             // lblCorreoProveedor
@@ -307,19 +252,19 @@
             lblCorreoProveedor.Dock = DockStyle.Top;
             lblCorreoProveedor.Font = new Font("Century Gothic", 9F);
             lblCorreoProveedor.ForeColor = Color.FromArgb(111, 119, 128);
-            lblCorreoProveedor.Location = new Point(18, 130);
+            lblCorreoProveedor.Location = new Point(18, 138);
             lblCorreoProveedor.Name = "lblCorreoProveedor";
-            lblCorreoProveedor.Size = new Size(574, 20);
+            lblCorreoProveedor.Size = new Size(312, 20);
             lblCorreoProveedor.TabIndex = 5;
             lblCorreoProveedor.Text = "Correo";
             // 
             // txtCorreoProveedor
             // 
             txtCorreoProveedor.Dock = DockStyle.Top;
-            txtCorreoProveedor.Location = new Point(18, 104);
+            txtCorreoProveedor.Location = new Point(18, 158);
             txtCorreoProveedor.MaxLength = 150;
             txtCorreoProveedor.Name = "txtCorreoProveedor";
-            txtCorreoProveedor.Size = new Size(574, 26);
+            txtCorreoProveedor.Size = new Size(312, 26);
             txtCorreoProveedor.TabIndex = 4;
             // 
             // lblDireccionProveedor
@@ -328,20 +273,20 @@
             lblDireccionProveedor.Dock = DockStyle.Top;
             lblDireccionProveedor.Font = new Font("Century Gothic", 9F);
             lblDireccionProveedor.ForeColor = Color.FromArgb(111, 119, 128);
-            lblDireccionProveedor.Location = new Point(18, 84);
+            lblDireccionProveedor.Location = new Point(18, 184);
             lblDireccionProveedor.Name = "lblDireccionProveedor";
-            lblDireccionProveedor.Size = new Size(574, 20);
+            lblDireccionProveedor.Size = new Size(312, 20);
             lblDireccionProveedor.TabIndex = 3;
             lblDireccionProveedor.Text = "Dirección";
             // 
             // txtDireccionProveedor
             // 
             txtDireccionProveedor.Dock = DockStyle.Top;
-            txtDireccionProveedor.Location = new Point(18, 24);
+            txtDireccionProveedor.Location = new Point(18, 204);
             txtDireccionProveedor.MaxLength = 250;
             txtDireccionProveedor.Multiline = true;
             txtDireccionProveedor.Name = "txtDireccionProveedor";
-            txtDireccionProveedor.Size = new Size(574, 60);
+            txtDireccionProveedor.Size = new Size(312, 60);
             txtDireccionProveedor.TabIndex = 2;
             // 
             // pnlAccionesProveedor
@@ -352,22 +297,8 @@
             pnlAccionesProveedor.ForeColor = Color.White;
             pnlAccionesProveedor.Location = new Point(18, 644);
             pnlAccionesProveedor.Name = "pnlAccionesProveedor";
-            pnlAccionesProveedor.Size = new Size(574, 60);
+            pnlAccionesProveedor.Size = new Size(312, 60);
             pnlAccionesProveedor.TabIndex = 1;
-            // 
-            // btnCancelarProveedor
-            // 
-            btnCancelarProveedor.BackColor = Color.FromArgb(238, 243, 247);
-            btnCancelarProveedor.FlatAppearance.BorderSize = 0;
-            btnCancelarProveedor.FlatStyle = FlatStyle.Flat;
-            btnCancelarProveedor.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCancelarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
-            btnCancelarProveedor.Location = new Point(185, 0);
-            btnCancelarProveedor.Name = "btnCancelarProveedor";
-            btnCancelarProveedor.Size = new Size(120, 40);
-            btnCancelarProveedor.TabIndex = 2;
-            btnCancelarProveedor.Text = "Cancelar";
-            btnCancelarProveedor.UseVisualStyleBackColor = false;
             // 
             // btnGuardarProveedor
             // 
@@ -383,30 +314,100 @@
             btnGuardarProveedor.Text = "Guardar";
             btnGuardarProveedor.UseVisualStyleBackColor = false;
             // 
+            // btnCancelarProveedor
+            // 
+            btnCancelarProveedor.BackColor = Color.FromArgb(238, 243, 247);
+            btnCancelarProveedor.FlatAppearance.BorderSize = 0;
+            btnCancelarProveedor.FlatStyle = FlatStyle.Flat;
+            btnCancelarProveedor.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCancelarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
+            btnCancelarProveedor.Location = new Point(185, 0);
+            btnCancelarProveedor.Name = "btnCancelarProveedor";
+            btnCancelarProveedor.Size = new Size(120, 40);
+            btnCancelarProveedor.TabIndex = 2;
+            btnCancelarProveedor.Text = "Cancelar";
+            btnCancelarProveedor.UseVisualStyleBackColor = false;
+            // 
             // chkActivoProveedor
             // 
             chkActivoProveedor.AutoSize = true;
             chkActivoProveedor.Checked = true;
             chkActivoProveedor.CheckState = CheckState.Checked;
             chkActivoProveedor.Dock = DockStyle.Top;
-            chkActivoProveedor.Location = new Point(18, 0);
+            chkActivoProveedor.Location = new Point(18, 264);
             chkActivoProveedor.Name = "chkActivoProveedor";
-            chkActivoProveedor.Size = new Size(574, 24);
+            chkActivoProveedor.Size = new Size(312, 24);
             chkActivoProveedor.TabIndex = 1;
             chkActivoProveedor.Text = "Activo";
             chkActivoProveedor.UseVisualStyleBackColor = true;
             // 
-            // lblNombreProveedor
+            // tcProveedores
             // 
-            lblNombreProveedor.BackColor = Color.White;
-            lblNombreProveedor.Dock = DockStyle.Top;
-            lblNombreProveedor.Font = new Font("Century Gothic", 9F);
-            lblNombreProveedor.ForeColor = Color.FromArgb(111, 119, 128);
-            lblNombreProveedor.Location = new Point(18, 248);
-            lblNombreProveedor.Name = "lblNombreProveedor";
-            lblNombreProveedor.Size = new Size(574, 20);
-            lblNombreProveedor.TabIndex = 11;
-            lblNombreProveedor.Text = "Nombre";
+            tcProveedores.Controls.Add(tpProveedores);
+            tcProveedores.Controls.Add(tpComprasAsociadas);
+            tcProveedores.Dock = DockStyle.Fill;
+            tcProveedores.Font = new Font("Century Gothic", 9F);
+            tcProveedores.Location = new Point(339, 3);
+            tcProveedores.Name = "tcProveedores";
+            tcProveedores.SelectedIndex = 0;
+            tcProveedores.Size = new Size(592, 704);
+            tcProveedores.TabIndex = 2;
+            // 
+            // tpProveedores
+            // 
+            tpProveedores.AccessibleDescription = "";
+            tpProveedores.AccessibleName = "";
+            tpProveedores.BackColor = Color.Transparent;
+            tpProveedores.Controls.Add(dgvProveedores);
+            tpProveedores.Location = new Point(4, 29);
+            tpProveedores.Name = "tpProveedores";
+            tpProveedores.Padding = new Padding(3);
+            tpProveedores.Size = new Size(584, 671);
+            tpProveedores.TabIndex = 0;
+            tpProveedores.Text = "Proveedores";
+            // 
+            // dgvProveedores
+            // 
+            dgvProveedores.AllowUserToAddRows = false;
+            dgvProveedores.AllowUserToDeleteRows = false;
+            dgvProveedores.AllowUserToResizeColumns = false;
+            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProveedores.BackgroundColor = Color.FromArgb(245, 247, 250);
+            dgvProveedores.BorderStyle = BorderStyle.None;
+            dgvProveedores.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(0, 15, 255, 255);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle1;
+            dgvProveedores.Dock = DockStyle.Fill;
+            dgvProveedores.EnableHeadersVisualStyles = false;
+            dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
+            dgvProveedores.Location = new Point(3, 3);
+            dgvProveedores.MultiSelect = false;
+            dgvProveedores.Name = "dgvProveedores";
+            dgvProveedores.ReadOnly = true;
+            dgvProveedores.RowHeadersVisible = false;
+            dgvProveedores.RowHeadersWidth = 51;
+            dgvProveedores.RowTemplate.Height = 38;
+            dgvProveedores.ScrollBars = ScrollBars.None;
+            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProveedores.Size = new Size(578, 665);
+            dgvProveedores.TabIndex = 0;
+            // 
+            // tpComprasAsociadas
+            // 
+            tpComprasAsociadas.Location = new Point(4, 29);
+            tpComprasAsociadas.Name = "tpComprasAsociadas";
+            tpComprasAsociadas.Padding = new Padding(3);
+            tpComprasAsociadas.Size = new Size(322, 671);
+            tpComprasAsociadas.TabIndex = 1;
+            tpComprasAsociadas.Text = "Compras asociadas";
+            tpComprasAsociadas.UseVisualStyleBackColor = true;
             // 
             // FrmProveedores
             // 
@@ -426,10 +427,10 @@
             tlpPrincipalProveedores.ResumeLayout(false);
             pnlDatosProveedor.ResumeLayout(false);
             pnlDatosProveedor.PerformLayout();
+            pnlAccionesProveedor.ResumeLayout(false);
             tcProveedores.ResumeLayout(false);
             tpProveedores.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).EndInit();
-            pnlAccionesProveedor.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -439,15 +440,11 @@
         private Panel pnlContenido;
         private TableLayoutPanel tlpPrincipalProveedores;
         private Panel pnlDatosProveedor;
-        private TabControl tcProveedores;
-        private TabPage tpComprasAsociadas;
         private Button btnCambiarEstadoProveedor;
         private Button btnEditarProveedor;
         private Button btnNuevoProveedor;
         private TextBox txt;
         private TextBox txtBuscarProveedor;
-        private TabPage tpProveedores;
-        private DataGridView dgvProveedores;
         private TextBox txtNombreProveedor;
         private Label lblContactoProveedor;
         private TextBox txtContactoProveedor;
@@ -462,5 +459,9 @@
         private Button btnGuardarProveedor;
         private Label lblNombreProveedor;
         private CheckBox chkActivoProveedor;
+        private TabControl tcProveedores;
+        private TabPage tpProveedores;
+        private DataGridView dgvProveedores;
+        private TabPage tpComprasAsociadas;
     }
 }
