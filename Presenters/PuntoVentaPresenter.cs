@@ -471,7 +471,7 @@ namespace Ocean_Desk_dv.Presenters
                 var nuevaVenta = new Sale
                 {
                     SaleDateTime = DateTime.Now,
-                    UserId = _usuarioId,
+                    UserId = null, //_usuarioId,
                     CustomerId = _view.ClienteIdSeleccionado,
                     OrderType = tipoOrden,
                     TableId = mesaId,

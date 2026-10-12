@@ -166,7 +166,7 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
         var venta = new Sale
         {
             SaleDateTime = DateTime.Now,
-            UserId = solicitud.UsuarioId,
+            UserId = null, //solicitud.UsuarioId,
             CustomerId = solicitud.ClienteId,
             OrderType = solicitud.TipoOrden,
             TableId = mesaId,

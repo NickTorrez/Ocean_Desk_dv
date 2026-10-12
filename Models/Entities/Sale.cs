@@ -9,7 +9,7 @@ public partial class Sale
 
     public DateTime SaleDateTime { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public int? CustomerId { get; set; }
 
