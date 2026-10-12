@@ -31,15 +31,15 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             pnlBarraCompras = new Panel();
             tlpBarraCompras = new TableLayoutPanel();
             txtBuscarCompra = new TextBox();
@@ -48,12 +48,6 @@
             btnNuevaCompra = new Button();
             splCompras = new SplitContainer();
             dgvCompras = new DataGridView();
-            colIdCompra = new DataGridViewTextBoxColumn();
-            colFechaCompra = new DataGridViewTextBoxColumn();
-            colProveedorCompra = new DataGridViewTextBoxColumn();
-            colTotalCompra = new DataGridViewTextBoxColumn();
-            colEstadoCompra = new DataGridViewTextBoxColumn();
-            colRecibidaCompra = new DataGridViewTextBoxColumn();
             dgvDetalleCompra = new DataGridView();
             colProductoCompra = new DataGridViewTextBoxColumn();
             colUnidadCompra = new DataGridViewTextBoxColumn();
@@ -80,6 +74,12 @@
             lblTotalCompra = new Label();
             lblSubtotalCompra = new Label();
             pnlContenido = new Panel();
+            colIdCompra = new DataGridViewTextBoxColumn();
+            colFechaCompra = new DataGridViewTextBoxColumn();
+            colProveedorCompra = new DataGridViewTextBoxColumn();
+            colTotalCompra = new DataGridViewTextBoxColumn();
+            colEstadoCompra = new DataGridViewTextBoxColumn();
+            colRecibidaCompra = new DataGridViewTextBoxColumn();
             pnlBarraCompras.SuspendLayout();
             tlpBarraCompras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splCompras).BeginInit();
@@ -186,7 +186,7 @@
             splCompras.Panel2.Controls.Add(pnlAccionesDetalle);
             splCompras.Panel2.Controls.Add(pnlDatosCompra);
             splCompras.Panel2.Controls.Add(pnlResumenCompra);
-            splCompras.Size = new Size(934, 808);
+            splCompras.Size = new Size(934, 730);
             splCompras.SplitterDistance = 450;
             splCompras.TabIndex = 0;
             // 
@@ -237,77 +237,8 @@
             dgvCompras.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.FromArgb(0, 1, 68, 219);
             dgvCompras.RowTemplate.Height = 38;
             dgvCompras.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCompras.Size = new Size(450, 808);
+            dgvCompras.Size = new Size(450, 730);
             dgvCompras.TabIndex = 0;
-            // 
-            // colIdCompra
-            // 
-            colIdCompra.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompra.DefaultCellStyle = dataGridViewCellStyle3;
-            colIdCompra.FillWeight = 65F;
-            colIdCompra.HeaderText = "\tN.º";
-            colIdCompra.MinimumWidth = 6;
-            colIdCompra.Name = "colIdCompra";
-            colIdCompra.ReadOnly = true;
-            // 
-            // colFechaCompra
-            // 
-            colFechaCompra.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "dd/MM/yyyy";
-            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle4;
-            colFechaCompra.FillWeight = 105F;
-            colFechaCompra.HeaderText = "Fecha";
-            colFechaCompra.MinimumWidth = 6;
-            colFechaCompra.Name = "colFechaCompra";
-            colFechaCompra.ReadOnly = true;
-            // 
-            // colProveedorCompra
-            // 
-            colProveedorCompra.DataPropertyName = "SupplierName";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle5;
-            colProveedorCompra.FillWeight = 180F;
-            colProveedorCompra.HeaderText = "Proveedor";
-            colProveedorCompra.MinimumWidth = 6;
-            colProveedorCompra.Name = "colProveedorCompra";
-            colProveedorCompra.ReadOnly = true;
-            // 
-            // colTotalCompra
-            // 
-            colTotalCompra.DataPropertyName = "Total";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C$ #,##0.00";
-            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle6;
-            colTotalCompra.FillWeight = 105F;
-            colTotalCompra.HeaderText = "Total";
-            colTotalCompra.MinimumWidth = 6;
-            colTotalCompra.Name = "colTotalCompra";
-            colTotalCompra.ReadOnly = true;
-            // 
-            // colEstadoCompra
-            // 
-            colEstadoCompra.DataPropertyName = "Status";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle7;
-            colEstadoCompra.FillWeight = 105F;
-            colEstadoCompra.HeaderText = "Estado";
-            colEstadoCompra.MinimumWidth = 6;
-            colEstadoCompra.Name = "colEstadoCompra";
-            colEstadoCompra.ReadOnly = true;
-            // 
-            // colRecibidaCompra
-            // 
-            colRecibidaCompra.DataPropertyName = "ReceivedDate";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "dd/MM/yyyy";
-            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle8;
-            colRecibidaCompra.FillWeight = 110F;
-            colRecibidaCompra.HeaderText = "Recepción";
-            colRecibidaCompra.MinimumWidth = 6;
-            colRecibidaCompra.Name = "colRecibidaCompra";
-            colRecibidaCompra.ReadOnly = true;
             // 
             // dgvDetalleCompra
             // 
@@ -352,7 +283,7 @@
             dgvDetalleCompra.RowHeadersWidth = 51;
             dgvDetalleCompra.RowTemplate.Height = 38;
             dgvDetalleCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDetalleCompra.Size = new Size(480, 397);
+            dgvDetalleCompra.Size = new Size(480, 319);
             dgvDetalleCompra.TabIndex = 94;
             // 
             // colProductoCompra
@@ -565,7 +496,7 @@
             pnlResumenCompra.Controls.Add(lblTotalCompra);
             pnlResumenCompra.Controls.Add(lblSubtotalCompra);
             pnlResumenCompra.Dock = DockStyle.Bottom;
-            pnlResumenCompra.Location = new Point(0, 695);
+            pnlResumenCompra.Location = new Point(0, 617);
             pnlResumenCompra.Name = "pnlResumenCompra";
             pnlResumenCompra.Padding = new Padding(10, 8, 10, 8);
             pnlResumenCompra.Size = new Size(480, 113);
@@ -630,19 +561,87 @@
             pnlContenido.BackColor = Color.Transparent;
             pnlContenido.Controls.Add(splCompras);
             pnlContenido.Dock = DockStyle.Fill;
-            pnlContenido.Location = new Point(0, 0);
+            pnlContenido.Location = new Point(0, 78);
             pnlContenido.Name = "pnlContenido";
             pnlContenido.Padding = new Padding(3, 12, 3, 10);
-            pnlContenido.Size = new Size(940, 830);
+            pnlContenido.Size = new Size(940, 752);
             pnlContenido.TabIndex = 1;
+            // 
+            // colIdCompra
+            // 
+            colIdCompra.DataPropertyName = "PurchaseId";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            colIdCompra.FillWeight = 65F;
+            colIdCompra.HeaderText = "\tN.º";
+            colIdCompra.MinimumWidth = 6;
+            colIdCompra.Name = "colIdCompra";
+            colIdCompra.ReadOnly = true;
+            // 
+            // colFechaCompra
+            // 
+            colFechaCompra.DataPropertyName = "PurchaseDate";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "dd/MM/yyyy";
+            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle4;
+            colFechaCompra.FillWeight = 105F;
+            colFechaCompra.HeaderText = "Fecha";
+            colFechaCompra.MinimumWidth = 6;
+            colFechaCompra.Name = "colFechaCompra";
+            colFechaCompra.ReadOnly = true;
+            // 
+            // colProveedorCompra
+            // 
+            colProveedorCompra.DataPropertyName = "SupplierName";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle5;
+            colProveedorCompra.FillWeight = 180F;
+            colProveedorCompra.HeaderText = "Proveedor";
+            colProveedorCompra.MinimumWidth = 6;
+            colProveedorCompra.Name = "colProveedorCompra";
+            colProveedorCompra.ReadOnly = true;
+            // 
+            // colTotalCompra
+            // 
+            colTotalCompra.DataPropertyName = "Total";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "C$ #,##0.00";
+            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle6;
+            colTotalCompra.FillWeight = 105F;
+            colTotalCompra.HeaderText = "Total";
+            colTotalCompra.MinimumWidth = 6;
+            colTotalCompra.Name = "colTotalCompra";
+            colTotalCompra.ReadOnly = true;
+            // 
+            // colEstadoCompra
+            // 
+            colEstadoCompra.DataPropertyName = "Status";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle7;
+            colEstadoCompra.FillWeight = 105F;
+            colEstadoCompra.HeaderText = "Estado";
+            colEstadoCompra.MinimumWidth = 6;
+            colEstadoCompra.Name = "colEstadoCompra";
+            colEstadoCompra.ReadOnly = true;
+            // 
+            // colRecibidaCompra
+            // 
+            colRecibidaCompra.DataPropertyName = "ReceivedDate";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Format = "dd/MM/yyyy";
+            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle8;
+            colRecibidaCompra.HeaderText = "Recepción";
+            colRecibidaCompra.MinimumWidth = 6;
+            colRecibidaCompra.Name = "colRecibidaCompra";
+            colRecibidaCompra.ReadOnly = true;
             // 
             // FrmCompras
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlBarraCompras);
             Controls.Add(pnlContenido);
+            Controls.Add(pnlBarraCompras);
             Font = new Font("Century Gothic", 8.25F);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmCompras";
@@ -671,12 +670,6 @@
         private SplitContainer splCompras;
         private Panel pnlContenido;
         private DataGridView dgvCompras;
-        private DataGridViewTextBoxColumn colIdCompra;
-        private DataGridViewTextBoxColumn colFechaCompra;
-        private DataGridViewTextBoxColumn colProveedorCompra;
-        private DataGridViewTextBoxColumn colTotalCompra;
-        private DataGridViewTextBoxColumn colEstadoCompra;
-        private DataGridViewTextBoxColumn colRecibidaCompra;
         private Panel pnlDatosCompra;
         private Label lblProveedorCompra;
         private DateTimePicker dtpFechaCompra;
@@ -707,5 +700,11 @@
         private Panel pnlAccionesDetalle;
         private Button btnAgregarProducto;
         private Button btnRegistrarRecepcion;
+        private DataGridViewTextBoxColumn colIdCompra;
+        private DataGridViewTextBoxColumn colFechaCompra;
+        private DataGridViewTextBoxColumn colProveedorCompra;
+        private DataGridViewTextBoxColumn colTotalCompra;
+        private DataGridViewTextBoxColumn colEstadoCompra;
+        private DataGridViewTextBoxColumn colRecibidaCompra;
     }
 }
