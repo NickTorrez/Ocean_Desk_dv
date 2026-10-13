@@ -47,7 +47,7 @@ public partial class OceanDeskDbContext : DbContext
     public virtual DbSet<TableRestaurant> TableRestaurants { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseSqlServer("Server=DESKTOP-444I7CB\\MSSQLSERVERSS;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+    => optionsBuilder.UseSqlServer("Server=GUAPOLLON\\DEV_KIYO;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
