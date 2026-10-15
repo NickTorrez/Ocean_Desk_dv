@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             pnlLista = new Panel();
-            pnlDetalles = new Panel();
-            pnlAcciones = new Panel();
             pnlResumen = new Panel();
-            pnlBusqueda = new Panel();
-            txtBuscar = new TextBox();
-            chkSoloActivos = new CheckBox();
-            btnBuscar = new Button();
             tlpResumen = new TableLayoutPanel();
             pnlCardTotal = new Panel();
-            pnlCardActivos = new Panel();
-            pnlCardFrecuentes = new Panel();
-            lblValorTotal = new Label();
             lblTituloTotal = new Label();
-            lblValorActivos = new Label();
+            lblValorTotal = new Label();
+            pnlCardActivos = new Panel();
             lblTituloActivos = new Label();
-            lblValorFrecuentes = new Label();
+            lblValorActivos = new Label();
+            pnlCardFrecuentes = new Panel();
             lblTituloFrecuentes = new Label();
+            lblValorFrecuentes = new Label();
+            pnlBusqueda = new Panel();
+            btnBuscar = new Button();
+            chkSoloActivos = new CheckBox();
+            txtBuscar = new TextBox();
+            pnlAcciones = new Panel();
+            pnlDetalles = new Panel();
             pnlLista.SuspendLayout();
             pnlResumen.SuspendLayout();
-            pnlBusqueda.SuspendLayout();
             tlpResumen.SuspendLayout();
             pnlCardTotal.SuspendLayout();
             pnlCardActivos.SuspendLayout();
             pnlCardFrecuentes.SuspendLayout();
+            pnlBusqueda.SuspendLayout();
             SuspendLayout();
             // 
             // pnlLista
@@ -69,26 +69,6 @@
             pnlLista.Size = new Size(922, 783);
             pnlLista.TabIndex = 0;
             // 
-            // pnlDetalles
-            // 
-            pnlDetalles.BackColor = Color.White;
-            pnlDetalles.Dock = DockStyle.Right;
-            pnlDetalles.Location = new Point(582, 10);
-            pnlDetalles.Name = "pnlDetalles";
-            pnlDetalles.Padding = new Padding(15, 12, 15, 12);
-            pnlDetalles.Size = new Size(330, 763);
-            pnlDetalles.TabIndex = 0;
-            // 
-            // pnlAcciones
-            // 
-            pnlAcciones.BackColor = Color.White;
-            pnlAcciones.Dock = DockStyle.Bottom;
-            pnlAcciones.Location = new Point(3, 708);
-            pnlAcciones.Name = "pnlAcciones";
-            pnlAcciones.Padding = new Padding(15, 6, 15, 8);
-            pnlAcciones.Size = new Size(579, 65);
-            pnlAcciones.TabIndex = 1;
-            // 
             // pnlResumen
             // 
             pnlResumen.BackColor = Color.White;
@@ -99,56 +79,6 @@
             pnlResumen.Padding = new Padding(15, 10, 15, 10);
             pnlResumen.Size = new Size(579, 90);
             pnlResumen.TabIndex = 0;
-            // 
-            // pnlBusqueda
-            // 
-            pnlBusqueda.Controls.Add(btnBuscar);
-            pnlBusqueda.Controls.Add(chkSoloActivos);
-            pnlBusqueda.Controls.Add(txtBuscar);
-            pnlBusqueda.Dock = DockStyle.Top;
-            pnlBusqueda.Location = new Point(3, 10);
-            pnlBusqueda.Name = "pnlBusqueda";
-            pnlBusqueda.Size = new Size(579, 125);
-            pnlBusqueda.TabIndex = 2;
-            // 
-            // txtBuscar
-            // 
-            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscar.ForeColor = Color.FromArgb(8, 31, 63);
-            txtBuscar.Location = new Point(15, 22);
-            txtBuscar.Name = "txtBuscar";
-            txtBuscar.PlaceholderText = "Buscar por nombre, teléfono o correo";
-            txtBuscar.Size = new Size(420, 26);
-            txtBuscar.TabIndex = 0;
-            // 
-            // chkSoloActivos
-            // 
-            chkSoloActivos.AutoSize = true;
-            chkSoloActivos.Checked = true;
-            chkSoloActivos.CheckState = CheckState.Checked;
-            chkSoloActivos.Cursor = Cursors.Hand;
-            chkSoloActivos.Location = new Point(455, 23);
-            chkSoloActivos.Name = "chkSoloActivos";
-            chkSoloActivos.Size = new Size(119, 24);
-            chkSoloActivos.TabIndex = 1;
-            chkSoloActivos.Text = "Solo activos";
-            chkSoloActivos.UseVisualStyleBackColor = true;
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnBuscar.BackColor = Color.FromArgb(8, 126, 164);
-            btnBuscar.Cursor = Cursors.Hand;
-            btnBuscar.FlatAppearance.BorderSize = 0;
-            btnBuscar.FlatStyle = FlatStyle.Flat;
-            btnBuscar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBuscar.ForeColor = Color.White;
-            btnBuscar.Location = new Point(795, 15);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(130, 40);
-            btnBuscar.TabIndex = 2;
-            btnBuscar.Text = "BUSCAR";
-            btnBuscar.UseVisualStyleBackColor = false;
             // 
             // tlpResumen
             // 
@@ -180,24 +110,15 @@
             pnlCardTotal.Size = new Size(115, 37);
             pnlCardTotal.TabIndex = 0;
             // 
-            // pnlCardActivos
+            // lblTituloTotal
             // 
-            pnlCardActivos.Controls.Add(lblTituloActivos);
-            pnlCardActivos.Controls.Add(lblValorActivos);
-            pnlCardActivos.Location = new Point(125, 10);
-            pnlCardActivos.Margin = new Padding(0, 10, 10, 0);
-            pnlCardActivos.Name = "pnlCardActivos";
-            pnlCardActivos.Size = new Size(115, 40);
-            pnlCardActivos.TabIndex = 1;
-            // 
-            // pnlCardFrecuentes
-            // 
-            pnlCardFrecuentes.Controls.Add(lblTituloFrecuentes);
-            pnlCardFrecuentes.Controls.Add(lblValorFrecuentes);
-            pnlCardFrecuentes.Location = new Point(3, 53);
-            pnlCardFrecuentes.Name = "pnlCardFrecuentes";
-            pnlCardFrecuentes.Size = new Size(119, 14);
-            pnlCardFrecuentes.TabIndex = 2;
+            lblTituloTotal.Dock = DockStyle.Top;
+            lblTituloTotal.ForeColor = Color.FromArgb(111, 119, 128);
+            lblTituloTotal.Location = new Point(15, 8);
+            lblTituloTotal.Name = "lblTituloTotal";
+            lblTituloTotal.Size = new Size(85, 24);
+            lblTituloTotal.TabIndex = 1;
+            lblTituloTotal.Text = "Clientes registrados";
             // 
             // lblValorTotal
             // 
@@ -211,24 +132,15 @@
             lblValorTotal.Text = "0";
             lblValorTotal.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lblTituloTotal
+            // pnlCardActivos
             // 
-            lblTituloTotal.Dock = DockStyle.Top;
-            lblTituloTotal.ForeColor = Color.FromArgb(111, 119, 128);
-            lblTituloTotal.Location = new Point(15, 8);
-            lblTituloTotal.Name = "lblTituloTotal";
-            lblTituloTotal.Size = new Size(85, 24);
-            lblTituloTotal.TabIndex = 1;
-            lblTituloTotal.Text = "Clientes registrados";
-            // 
-            // lblValorActivos
-            // 
-            lblValorActivos.AutoSize = true;
-            lblValorActivos.Location = new Point(0, 0);
-            lblValorActivos.Name = "lblValorActivos";
-            lblValorActivos.Size = new Size(53, 20);
-            lblValorActivos.TabIndex = 0;
-            lblValorActivos.Text = "label1";
+            pnlCardActivos.Controls.Add(lblTituloActivos);
+            pnlCardActivos.Controls.Add(lblValorActivos);
+            pnlCardActivos.Location = new Point(125, 10);
+            pnlCardActivos.Margin = new Padding(0, 10, 10, 0);
+            pnlCardActivos.Name = "pnlCardActivos";
+            pnlCardActivos.Size = new Size(115, 40);
+            pnlCardActivos.TabIndex = 1;
             // 
             // lblTituloActivos
             // 
@@ -240,14 +152,23 @@
             lblTituloActivos.TabIndex = 1;
             lblTituloActivos.Text = "Clientes activos";
             // 
-            // lblValorFrecuentes
+            // lblValorActivos
             // 
-            lblValorFrecuentes.AutoSize = true;
-            lblValorFrecuentes.Location = new Point(0, 0);
-            lblValorFrecuentes.Name = "lblValorFrecuentes";
-            lblValorFrecuentes.Size = new Size(53, 20);
-            lblValorFrecuentes.TabIndex = 0;
-            lblValorFrecuentes.Text = "label1";
+            lblValorActivos.AutoSize = true;
+            lblValorActivos.Location = new Point(0, 0);
+            lblValorActivos.Name = "lblValorActivos";
+            lblValorActivos.Size = new Size(53, 20);
+            lblValorActivos.TabIndex = 0;
+            lblValorActivos.Text = "label1";
+            // 
+            // pnlCardFrecuentes
+            // 
+            pnlCardFrecuentes.Controls.Add(lblTituloFrecuentes);
+            pnlCardFrecuentes.Controls.Add(lblValorFrecuentes);
+            pnlCardFrecuentes.Location = new Point(3, 53);
+            pnlCardFrecuentes.Name = "pnlCardFrecuentes";
+            pnlCardFrecuentes.Size = new Size(119, 14);
+            pnlCardFrecuentes.TabIndex = 2;
             // 
             // lblTituloFrecuentes
             // 
@@ -258,6 +179,85 @@
             lblTituloFrecuentes.Size = new Size(150, 20);
             lblTituloFrecuentes.TabIndex = 1;
             lblTituloFrecuentes.Text = "Clientes frecuentes";
+            // 
+            // lblValorFrecuentes
+            // 
+            lblValorFrecuentes.AutoSize = true;
+            lblValorFrecuentes.Location = new Point(0, 0);
+            lblValorFrecuentes.Name = "lblValorFrecuentes";
+            lblValorFrecuentes.Size = new Size(53, 20);
+            lblValorFrecuentes.TabIndex = 0;
+            lblValorFrecuentes.Text = "label1";
+            // 
+            // pnlBusqueda
+            // 
+            pnlBusqueda.Controls.Add(btnBuscar);
+            pnlBusqueda.Controls.Add(chkSoloActivos);
+            pnlBusqueda.Controls.Add(txtBuscar);
+            pnlBusqueda.Dock = DockStyle.Top;
+            pnlBusqueda.Location = new Point(3, 10);
+            pnlBusqueda.Name = "pnlBusqueda";
+            pnlBusqueda.Size = new Size(579, 125);
+            pnlBusqueda.TabIndex = 2;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnBuscar.BackColor = Color.FromArgb(8, 126, 164);
+            btnBuscar.Cursor = Cursors.Hand;
+            btnBuscar.FlatAppearance.BorderSize = 0;
+            btnBuscar.FlatStyle = FlatStyle.Flat;
+            btnBuscar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.ForeColor = Color.White;
+            btnBuscar.Location = new Point(795, 15);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(130, 40);
+            btnBuscar.TabIndex = 2;
+            btnBuscar.Text = "BUSCAR";
+            btnBuscar.UseVisualStyleBackColor = false;
+            // 
+            // chkSoloActivos
+            // 
+            chkSoloActivos.AutoSize = true;
+            chkSoloActivos.Checked = true;
+            chkSoloActivos.CheckState = CheckState.Checked;
+            chkSoloActivos.Cursor = Cursors.Hand;
+            chkSoloActivos.Location = new Point(455, 23);
+            chkSoloActivos.Name = "chkSoloActivos";
+            chkSoloActivos.Size = new Size(119, 24);
+            chkSoloActivos.TabIndex = 1;
+            chkSoloActivos.Text = "Solo activos";
+            chkSoloActivos.UseVisualStyleBackColor = true;
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.ForeColor = Color.FromArgb(8, 31, 63);
+            txtBuscar.Location = new Point(15, 22);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.PlaceholderText = "Buscar por nombre, teléfono o correo";
+            txtBuscar.Size = new Size(420, 26);
+            txtBuscar.TabIndex = 0;
+            // 
+            // pnlAcciones
+            // 
+            pnlAcciones.BackColor = Color.White;
+            pnlAcciones.Dock = DockStyle.Bottom;
+            pnlAcciones.Location = new Point(3, 708);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Padding = new Padding(15, 6, 15, 8);
+            pnlAcciones.Size = new Size(579, 65);
+            pnlAcciones.TabIndex = 1;
+            // 
+            // pnlDetalles
+            // 
+            pnlDetalles.BackColor = Color.White;
+            pnlDetalles.Dock = DockStyle.Right;
+            pnlDetalles.Location = new Point(582, 10);
+            pnlDetalles.Name = "pnlDetalles";
+            pnlDetalles.Padding = new Padding(15, 12, 15, 12);
+            pnlDetalles.Size = new Size(330, 763);
+            pnlDetalles.TabIndex = 0;
             // 
             // FrmClientes
             // 
@@ -273,8 +273,6 @@
             Text = "FrmClientes";
             pnlLista.ResumeLayout(false);
             pnlResumen.ResumeLayout(false);
-            pnlBusqueda.ResumeLayout(false);
-            pnlBusqueda.PerformLayout();
             tlpResumen.ResumeLayout(false);
             pnlCardTotal.ResumeLayout(false);
             pnlCardTotal.PerformLayout();
@@ -282,6 +280,8 @@
             pnlCardActivos.PerformLayout();
             pnlCardFrecuentes.ResumeLayout(false);
             pnlCardFrecuentes.PerformLayout();
+            pnlBusqueda.ResumeLayout(false);
+            pnlBusqueda.PerformLayout();
             ResumeLayout(false);
         }
 

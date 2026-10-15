@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
             pnlBarraCompras = new Panel();
             tlpBarraCompras = new TableLayoutPanel();
             txtBuscarCompra = new TextBox();
@@ -158,12 +158,13 @@
             // btnNuevaCompra
             // 
             btnNuevaCompra.BackColor = Color.FromArgb(8, 126, 164);
+            btnNuevaCompra.Dock = DockStyle.Fill;
             btnNuevaCompra.FlatAppearance.BorderSize = 0;
             btnNuevaCompra.FlatStyle = FlatStyle.Flat;
             btnNuevaCompra.ForeColor = Color.White;
             btnNuevaCompra.Location = new Point(784, 3);
             btnNuevaCompra.Name = "btnNuevaCompra";
-            btnNuevaCompra.Size = new Size(129, 25);
+            btnNuevaCompra.Size = new Size(129, 56);
             btnNuevaCompra.TabIndex = 2;
             btnNuevaCompra.Text = "Nueva compra";
             btnNuevaCompra.UseVisualStyleBackColor = false;
@@ -194,33 +195,33 @@
             // 
             dgvCompras.AllowUserToAddRows = false;
             dgvCompras.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(14, 203, 255, 140);
-            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9.8F);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(0, 1, 68, 219);
-            dgvCompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(14, 203, 255, 140);
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9.8F);
+            dataGridViewCellStyle13.ForeColor = Color.FromArgb(0, 1, 68, 219);
+            dgvCompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             dgvCompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCompras.BackgroundColor = Color.White;
             dgvCompras.BorderStyle = BorderStyle.None;
             dgvCompras.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvCompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle14.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle14.ForeColor = Color.White;
+            dataGridViewCellStyle14.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            dgvCompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             dgvCompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { colIdCompra, colFechaCompra, colProveedorCompra, colTotalCompra, colEstadoCompra, colRecibidaCompra });
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dgvCompras.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = Color.White;
+            dataGridViewCellStyle21.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle21.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle21.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.False;
+            dgvCompras.DefaultCellStyle = dataGridViewCellStyle21;
             dgvCompras.Dock = DockStyle.Fill;
             dgvCompras.EnableHeadersVisualStyles = false;
             dgvCompras.GridColor = SystemColors.Menu;
@@ -243,8 +244,8 @@
             // colIdCompra
             // 
             colIdCompra.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompra.DefaultCellStyle = dataGridViewCellStyle15;
             colIdCompra.FillWeight = 65F;
             colIdCompra.HeaderText = "\tN.º";
             colIdCompra.MinimumWidth = 6;
@@ -254,9 +255,9 @@
             // colFechaCompra
             // 
             colFechaCompra.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "dd/MM/yyyy";
-            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.Format = "dd/MM/yyyy";
+            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle16;
             colFechaCompra.FillWeight = 105F;
             colFechaCompra.HeaderText = "Fecha";
             colFechaCompra.MinimumWidth = 6;
@@ -266,8 +267,8 @@
             // colProveedorCompra
             // 
             colProveedorCompra.DataPropertyName = "SupplierName";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle17;
             colProveedorCompra.FillWeight = 180F;
             colProveedorCompra.HeaderText = "Proveedor";
             colProveedorCompra.MinimumWidth = 6;
@@ -277,9 +278,9 @@
             // colTotalCompra
             // 
             colTotalCompra.DataPropertyName = "Total";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C$ #,##0.00";
-            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "C$ #,##0.00";
+            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle18;
             colTotalCompra.FillWeight = 105F;
             colTotalCompra.HeaderText = "Total";
             colTotalCompra.MinimumWidth = 6;
@@ -289,8 +290,8 @@
             // colEstadoCompra
             // 
             colEstadoCompra.DataPropertyName = "Status";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle19;
             colEstadoCompra.FillWeight = 105F;
             colEstadoCompra.HeaderText = "Estado";
             colEstadoCompra.MinimumWidth = 6;
@@ -300,9 +301,9 @@
             // colRecibidaCompra
             // 
             colRecibidaCompra.DataPropertyName = "ReceivedDate";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "dd/MM/yyyy";
-            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "dd/MM/yyyy";
+            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle20;
             colRecibidaCompra.HeaderText = "Recepción";
             colRecibidaCompra.MinimumWidth = 6;
             colRecibidaCompra.Name = "colRecibidaCompra";
@@ -312,33 +313,33 @@
             // 
             dgvDetalleCompra.AllowUserToDeleteRows = false;
             dgvDetalleCompra.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.FromArgb(8, 31, 63);
-            dgvDetalleCompra.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle22.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle22.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = Color.FromArgb(8, 31, 63);
+            dgvDetalleCompra.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
             dgvDetalleCompra.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDetalleCompra.BackgroundColor = Color.White;
             dgvDetalleCompra.BorderStyle = BorderStyle.None;
             dgvDetalleCompra.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle11.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle11.ForeColor = Color.White;
-            dataGridViewCellStyle11.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle11.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle23.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle23.ForeColor = Color.White;
+            dataGridViewCellStyle23.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle23.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
+            dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { colProductoCompra, colUnidadCompra, colCantidadCompra, colCostoCompra, colSubtotalCompra, colRecepcionCompra, colObservacionCompra });
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
-            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = Color.White;
+            dataGridViewCellStyle24.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle24.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle24.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.False;
+            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle24;
             dgvDetalleCompra.Dock = DockStyle.Fill;
             dgvDetalleCompra.EnableHeadersVisualStyles = false;
             dgvDetalleCompra.GridColor = Color.FromArgb(230, 234, 238);
