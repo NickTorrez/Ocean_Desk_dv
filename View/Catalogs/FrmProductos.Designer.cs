@@ -75,9 +75,9 @@
             pnlDescripcion = new Panel();
             lblDescripcion = new Label();
             pnlInputDescripcion = new Panel();
-            panel3 = new Panel();
             txtDescripcion = new TextBox();
-            panel9 = new Panel();
+            panel3 = new Panel();
+            pnlPrecio = new Panel();
             lblPrecio = new Label();
             pnlInputPrecio = new Panel();
             nudPrecio = new NumericUpDown();
@@ -145,7 +145,7 @@
             pnlInputCategoria.SuspendLayout();
             pnlDescripcion.SuspendLayout();
             pnlInputDescripcion.SuspendLayout();
-            panel9.SuspendLayout();
+            pnlPrecio.SuspendLayout();
             pnlInputPrecio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             pnlUnidadMedida.SuspendLayout();
@@ -385,7 +385,7 @@
             pnlContainerDatosProducto.Dock = DockStyle.Fill;
             pnlContainerDatosProducto.Location = new Point(3, 3);
             pnlContainerDatosProducto.Name = "pnlContainerDatosProducto";
-            pnlContainerDatosProducto.Padding = new Padding(13, 10, 13, 10);
+            pnlContainerDatosProducto.Padding = new Padding(2, 10, 13, 10);
             pnlContainerDatosProducto.Size = new Size(285, 684);
             pnlContainerDatosProducto.TabIndex = 18;
             // 
@@ -396,11 +396,11 @@
             pnlDatosProducto.Controls.Add(tlpButonRegister);
             pnlDatosProducto.Dock = DockStyle.Fill;
             pnlDatosProducto.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pnlDatosProducto.Location = new Point(13, 10);
+            pnlDatosProducto.Location = new Point(2, 10);
             pnlDatosProducto.Margin = new Padding(0);
             pnlDatosProducto.Name = "pnlDatosProducto";
             pnlDatosProducto.Padding = new Padding(10);
-            pnlDatosProducto.Size = new Size(259, 664);
+            pnlDatosProducto.Size = new Size(270, 664);
             pnlDatosProducto.TabIndex = 0;
             // 
             // tlpInputProducto
@@ -415,7 +415,7 @@
             tlpInputProducto.Controls.Add(pnlInputCategoria, 0, 5);
             tlpInputProducto.Controls.Add(pnlDescripcion, 0, 6);
             tlpInputProducto.Controls.Add(pnlInputDescripcion, 0, 7);
-            tlpInputProducto.Controls.Add(panel9, 0, 8);
+            tlpInputProducto.Controls.Add(pnlPrecio, 0, 8);
             tlpInputProducto.Controls.Add(pnlInputPrecio, 0, 9);
             tlpInputProducto.Controls.Add(pnlUnidadMedida, 0, 10);
             tlpInputProducto.Controls.Add(pnlInputMedida, 0, 11);
@@ -443,7 +443,7 @@
             tlpInputProducto.RowStyles.Add(new RowStyle(SizeType.Percent, 8.693952F));
             tlpInputProducto.RowStyles.Add(new RowStyle(SizeType.Percent, 5.96491241F));
             tlpInputProducto.RowStyles.Add(new RowStyle(SizeType.Percent, 5.614035F));
-            tlpInputProducto.Size = new Size(239, 575);
+            tlpInputProducto.Size = new Size(250, 575);
             tlpInputProducto.TabIndex = 18;
             // 
             // pnlCodigo
@@ -460,6 +460,7 @@
             lblCodigo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCodigo.Location = new Point(0, 0);
             lblCodigo.Name = "lblCodigo";
+            lblCodigo.Padding = new Padding(5, 0, 0, 0);
             lblCodigo.Size = new Size(233, 18);
             lblCodigo.TabIndex = 13;
             lblCodigo.Text = "Código";
@@ -472,28 +473,28 @@
             pnlInputCodigo.Dock = DockStyle.Fill;
             pnlInputCodigo.Location = new Point(3, 27);
             pnlInputCodigo.Name = "pnlInputCodigo";
-            pnlInputCodigo.Padding = new Padding(5, 10, 5, 10);
-            pnlInputCodigo.Size = new Size(233, 42);
+            pnlInputCodigo.Padding = new Padding(10, 10, 10, 15);
+            pnlInputCodigo.Size = new Size(244, 42);
             pnlInputCodigo.TabIndex = 1;
             // 
             // panel1
             // 
             panel1.BackColor = Color.MidnightBlue;
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(5, 30);
+            panel1.Location = new Point(10, 25);
             panel1.Name = "panel1";
-            panel1.Size = new Size(223, 2);
+            panel1.Size = new Size(224, 2);
             panel1.TabIndex = 13;
             // 
             // txtCodigo
             // 
             txtCodigo.BorderStyle = BorderStyle.None;
             txtCodigo.Dock = DockStyle.Fill;
-            txtCodigo.Location = new Point(5, 10);
+            txtCodigo.Location = new Point(10, 10);
             txtCodigo.MaxLength = 30;
             txtCodigo.Name = "txtCodigo";
             txtCodigo.PlaceholderText = "#0000";
-            txtCodigo.Size = new Size(223, 19);
+            txtCodigo.Size = new Size(224, 19);
             txtCodigo.TabIndex = 12;
             // 
             // pnlNombre
@@ -502,7 +503,7 @@
             pnlNombre.Dock = DockStyle.Fill;
             pnlNombre.Location = new Point(3, 75);
             pnlNombre.Name = "pnlNombre";
-            pnlNombre.Size = new Size(233, 18);
+            pnlNombre.Size = new Size(244, 18);
             pnlNombre.TabIndex = 2;
             // 
             // lblNombre
@@ -511,7 +512,8 @@
             lblNombre.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNombre.Location = new Point(0, 0);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(233, 18);
+            lblNombre.Padding = new Padding(5, 0, 0, 0);
+            lblNombre.Size = new Size(244, 18);
             lblNombre.TabIndex = 15;
             lblNombre.Text = "Nombre";
             lblNombre.TextAlign = ContentAlignment.BottomLeft;
@@ -523,28 +525,28 @@
             pnlInputNombre.Dock = DockStyle.Fill;
             pnlInputNombre.Location = new Point(3, 99);
             pnlInputNombre.Name = "pnlInputNombre";
-            pnlInputNombre.Padding = new Padding(5, 10, 5, 10);
-            pnlInputNombre.Size = new Size(233, 42);
+            pnlInputNombre.Padding = new Padding(10, 10, 10, 15);
+            pnlInputNombre.Size = new Size(244, 42);
             pnlInputNombre.TabIndex = 3;
             // 
             // panel2
             // 
             panel2.BackColor = Color.MidnightBlue;
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(5, 30);
+            panel2.Location = new Point(10, 25);
             panel2.Name = "panel2";
-            panel2.Size = new Size(223, 2);
+            panel2.Size = new Size(224, 2);
             panel2.TabIndex = 15;
             // 
             // txtNombre
             // 
             txtNombre.BorderStyle = BorderStyle.None;
             txtNombre.Dock = DockStyle.Fill;
-            txtNombre.Location = new Point(5, 10);
+            txtNombre.Location = new Point(10, 10);
             txtNombre.MaxLength = 150;
             txtNombre.Name = "txtNombre";
             txtNombre.PlaceholderText = "Ej.: Ceviche...";
-            txtNombre.Size = new Size(223, 19);
+            txtNombre.Size = new Size(224, 19);
             txtNombre.TabIndex = 14;
             // 
             // pnlCategoria
@@ -553,7 +555,7 @@
             pnlCategoria.Dock = DockStyle.Fill;
             pnlCategoria.Location = new Point(3, 147);
             pnlCategoria.Name = "pnlCategoria";
-            pnlCategoria.Size = new Size(233, 18);
+            pnlCategoria.Size = new Size(244, 18);
             pnlCategoria.TabIndex = 4;
             // 
             // lblCategoria
@@ -562,7 +564,8 @@
             lblCategoria.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCategoria.Location = new Point(0, 0);
             lblCategoria.Name = "lblCategoria";
-            lblCategoria.Size = new Size(233, 18);
+            lblCategoria.Padding = new Padding(5, 0, 0, 0);
+            lblCategoria.Size = new Size(244, 18);
             lblCategoria.TabIndex = 11;
             lblCategoria.Text = "Categoría";
             lblCategoria.TextAlign = ContentAlignment.BottomLeft;
@@ -573,8 +576,8 @@
             pnlInputCategoria.Dock = DockStyle.Fill;
             pnlInputCategoria.Location = new Point(3, 171);
             pnlInputCategoria.Name = "pnlInputCategoria";
-            pnlInputCategoria.Padding = new Padding(5, 10, 5, 10);
-            pnlInputCategoria.Size = new Size(233, 42);
+            pnlInputCategoria.Padding = new Padding(10);
+            pnlInputCategoria.Size = new Size(244, 42);
             pnlInputCategoria.TabIndex = 5;
             // 
             // cmbCategoria
@@ -582,9 +585,9 @@
             cmbCategoria.Dock = DockStyle.Fill;
             cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoria.FormattingEnabled = true;
-            cmbCategoria.Location = new Point(5, 10);
+            cmbCategoria.Location = new Point(10, 10);
             cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(223, 28);
+            cmbCategoria.Size = new Size(224, 28);
             cmbCategoria.TabIndex = 10;
             // 
             // pnlDescripcion
@@ -593,7 +596,7 @@
             pnlDescripcion.Dock = DockStyle.Fill;
             pnlDescripcion.Location = new Point(3, 219);
             pnlDescripcion.Name = "pnlDescripcion";
-            pnlDescripcion.Size = new Size(233, 18);
+            pnlDescripcion.Size = new Size(244, 18);
             pnlDescripcion.TabIndex = 6;
             // 
             // lblDescripcion
@@ -603,56 +606,59 @@
             lblDescripcion.ForeColor = Color.Black;
             lblDescripcion.Location = new Point(0, 0);
             lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new Size(233, 18);
+            lblDescripcion.Padding = new Padding(5, 0, 0, 0);
+            lblDescripcion.Size = new Size(244, 18);
             lblDescripcion.TabIndex = 16;
             lblDescripcion.Text = "Descripción ";
             lblDescripcion.TextAlign = ContentAlignment.BottomLeft;
             // 
             // pnlInputDescripcion
             // 
-            pnlInputDescripcion.Controls.Add(panel3);
             pnlInputDescripcion.Controls.Add(txtDescripcion);
+            pnlInputDescripcion.Controls.Add(panel3);
             pnlInputDescripcion.Dock = DockStyle.Fill;
             pnlInputDescripcion.Location = new Point(3, 243);
             pnlInputDescripcion.Name = "pnlInputDescripcion";
-            pnlInputDescripcion.Padding = new Padding(5, 10, 5, 10);
-            pnlInputDescripcion.Size = new Size(233, 42);
+            pnlInputDescripcion.Padding = new Padding(10, 10, 10, 15);
+            pnlInputDescripcion.Size = new Size(244, 42);
             pnlInputDescripcion.TabIndex = 7;
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.MidnightBlue;
-            panel3.Dock = DockStyle.Bottom;
-            panel3.Location = new Point(5, 30);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(223, 2);
-            panel3.TabIndex = 9;
             // 
             // txtDescripcion
             // 
             txtDescripcion.BorderStyle = BorderStyle.None;
             txtDescripcion.Dock = DockStyle.Top;
-            txtDescripcion.Location = new Point(5, 10);
+            txtDescripcion.Location = new Point(10, 10);
             txtDescripcion.MaxLength = 300;
-            txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(223, 19);
+            txtDescripcion.Size = new Size(224, 19);
             txtDescripcion.TabIndex = 8;
             // 
-            // panel9
+            // panel3
             // 
-            panel9.Controls.Add(lblPrecio);
-            panel9.Location = new Point(3, 291);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(233, 18);
-            panel9.TabIndex = 8;
+            panel3.BackColor = Color.MidnightBlue;
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(10, 25);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(224, 2);
+            panel3.TabIndex = 9;
+            // 
+            // pnlPrecio
+            // 
+            pnlPrecio.Controls.Add(lblPrecio);
+            pnlPrecio.Dock = DockStyle.Fill;
+            pnlPrecio.Location = new Point(3, 291);
+            pnlPrecio.Name = "pnlPrecio";
+            pnlPrecio.Size = new Size(244, 18);
+            pnlPrecio.TabIndex = 8;
             // 
             // lblPrecio
             // 
+            lblPrecio.Dock = DockStyle.Fill;
             lblPrecio.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPrecio.Location = new Point(3, 0);
+            lblPrecio.Location = new Point(0, 0);
             lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(228, 20);
+            lblPrecio.Padding = new Padding(5, 0, 0, 0);
+            lblPrecio.Size = new Size(244, 18);
             lblPrecio.TabIndex = 7;
             lblPrecio.Text = "Precio";
             lblPrecio.TextAlign = ContentAlignment.BottomLeft;
@@ -663,8 +669,8 @@
             pnlInputPrecio.Dock = DockStyle.Fill;
             pnlInputPrecio.Location = new Point(3, 315);
             pnlInputPrecio.Name = "pnlInputPrecio";
-            pnlInputPrecio.Padding = new Padding(5, 10, 5, 10);
-            pnlInputPrecio.Size = new Size(233, 42);
+            pnlInputPrecio.Padding = new Padding(10);
+            pnlInputPrecio.Size = new Size(244, 42);
             pnlInputPrecio.TabIndex = 9;
             // 
             // nudPrecio
@@ -673,10 +679,10 @@
             nudPrecio.Dock = DockStyle.Fill;
             nudPrecio.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             nudPrecio.Increment = new decimal(new int[] { 50, 0, 0, 131072 });
-            nudPrecio.Location = new Point(5, 10);
+            nudPrecio.Location = new Point(10, 10);
             nudPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudPrecio.Name = "nudPrecio";
-            nudPrecio.Size = new Size(223, 26);
+            nudPrecio.Size = new Size(224, 26);
             nudPrecio.TabIndex = 6;
             // 
             // pnlUnidadMedida
@@ -685,7 +691,7 @@
             pnlUnidadMedida.Dock = DockStyle.Fill;
             pnlUnidadMedida.Location = new Point(3, 363);
             pnlUnidadMedida.Name = "pnlUnidadMedida";
-            pnlUnidadMedida.Size = new Size(233, 18);
+            pnlUnidadMedida.Size = new Size(244, 18);
             pnlUnidadMedida.TabIndex = 10;
             // 
             // lblUnidad
@@ -695,7 +701,8 @@
             lblUnidad.ForeColor = Color.Black;
             lblUnidad.Location = new Point(0, 0);
             lblUnidad.Name = "lblUnidad";
-            lblUnidad.Size = new Size(233, 18);
+            lblUnidad.Padding = new Padding(5, 0, 0, 0);
+            lblUnidad.Size = new Size(244, 18);
             lblUnidad.TabIndex = 5;
             lblUnidad.Text = "Unidad de medida";
             lblUnidad.TextAlign = ContentAlignment.BottomLeft;
@@ -706,8 +713,8 @@
             pnlInputMedida.Dock = DockStyle.Fill;
             pnlInputMedida.Location = new Point(3, 387);
             pnlInputMedida.Name = "pnlInputMedida";
-            pnlInputMedida.Padding = new Padding(5, 10, 5, 10);
-            pnlInputMedida.Size = new Size(233, 42);
+            pnlInputMedida.Padding = new Padding(10);
+            pnlInputMedida.Size = new Size(244, 42);
             pnlInputMedida.TabIndex = 11;
             // 
             // cmbUnidad
@@ -715,9 +722,9 @@
             cmbUnidad.Dock = DockStyle.Fill;
             cmbUnidad.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbUnidad.FormattingEnabled = true;
-            cmbUnidad.Location = new Point(5, 10);
+            cmbUnidad.Location = new Point(10, 10);
             cmbUnidad.Name = "cmbUnidad";
-            cmbUnidad.Size = new Size(223, 28);
+            cmbUnidad.Size = new Size(224, 28);
             cmbUnidad.TabIndex = 4;
             // 
             // pnlStockMinimo
@@ -726,7 +733,7 @@
             pnlStockMinimo.Dock = DockStyle.Fill;
             pnlStockMinimo.Location = new Point(3, 435);
             pnlStockMinimo.Name = "pnlStockMinimo";
-            pnlStockMinimo.Size = new Size(233, 18);
+            pnlStockMinimo.Size = new Size(244, 18);
             pnlStockMinimo.TabIndex = 12;
             // 
             // lblStockMinimo
@@ -735,7 +742,8 @@
             lblStockMinimo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblStockMinimo.Location = new Point(0, 0);
             lblStockMinimo.Name = "lblStockMinimo";
-            lblStockMinimo.Size = new Size(233, 18);
+            lblStockMinimo.Padding = new Padding(5, 0, 0, 0);
+            lblStockMinimo.Size = new Size(244, 18);
             lblStockMinimo.TabIndex = 3;
             lblStockMinimo.Text = "Stock Minimo";
             lblStockMinimo.TextAlign = ContentAlignment.BottomLeft;
@@ -746,17 +754,17 @@
             pnlInputStock.Dock = DockStyle.Fill;
             pnlInputStock.Location = new Point(3, 459);
             pnlInputStock.Name = "pnlInputStock";
-            pnlInputStock.Padding = new Padding(5, 10, 5, 10);
-            pnlInputStock.Size = new Size(233, 42);
+            pnlInputStock.Padding = new Padding(10);
+            pnlInputStock.Size = new Size(244, 42);
             pnlInputStock.TabIndex = 13;
             // 
             // nudStockMinimo
             // 
             nudStockMinimo.DecimalPlaces = 2;
             nudStockMinimo.Dock = DockStyle.Fill;
-            nudStockMinimo.Location = new Point(5, 10);
+            nudStockMinimo.Location = new Point(10, 10);
             nudStockMinimo.Name = "nudStockMinimo";
-            nudStockMinimo.Size = new Size(223, 26);
+            nudStockMinimo.Size = new Size(224, 26);
             nudStockMinimo.TabIndex = 0;
             // 
             // pnlDisponibilidad
@@ -766,7 +774,7 @@
             pnlDisponibilidad.Location = new Point(3, 507);
             pnlDisponibilidad.Name = "pnlDisponibilidad";
             pnlDisponibilidad.Padding = new Padding(5, 0, 0, 0);
-            pnlDisponibilidad.Size = new Size(233, 27);
+            pnlDisponibilidad.Size = new Size(244, 27);
             pnlDisponibilidad.TabIndex = 14;
             // 
             // chkDisponible
@@ -777,7 +785,8 @@
             chkDisponible.Dock = DockStyle.Fill;
             chkDisponible.Location = new Point(5, 0);
             chkDisponible.Name = "chkDisponible";
-            chkDisponible.Size = new Size(228, 27);
+            chkDisponible.Padding = new Padding(5, 0, 0, 0);
+            chkDisponible.Size = new Size(239, 27);
             chkDisponible.TabIndex = 2;
             chkDisponible.Text = "Disponible ";
             chkDisponible.UseVisualStyleBackColor = true;
@@ -789,7 +798,7 @@
             pnlEstado.Location = new Point(3, 540);
             pnlEstado.Name = "pnlEstado";
             pnlEstado.Padding = new Padding(5, 0, 0, 0);
-            pnlEstado.Size = new Size(233, 32);
+            pnlEstado.Size = new Size(244, 32);
             pnlEstado.TabIndex = 15;
             // 
             // chkActivo
@@ -800,7 +809,8 @@
             chkActivo.Dock = DockStyle.Fill;
             chkActivo.Location = new Point(5, 0);
             chkActivo.Name = "chkActivo";
-            chkActivo.Size = new Size(228, 32);
+            chkActivo.Padding = new Padding(5, 0, 0, 0);
+            chkActivo.Size = new Size(239, 32);
             chkActivo.TabIndex = 1;
             chkActivo.Text = "Activo";
             chkActivo.UseVisualStyleBackColor = true;
@@ -818,7 +828,7 @@
             tlpButonRegister.RowCount = 1;
             tlpButonRegister.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpButonRegister.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpButonRegister.Size = new Size(239, 69);
+            tlpButonRegister.Size = new Size(250, 69);
             tlpButonRegister.TabIndex = 17;
             // 
             // pnlButonLimpiar
@@ -828,7 +838,7 @@
             pnlButonLimpiar.Location = new Point(3, 3);
             pnlButonLimpiar.Name = "pnlButonLimpiar";
             pnlButonLimpiar.Padding = new Padding(3);
-            pnlButonLimpiar.Size = new Size(113, 63);
+            pnlButonLimpiar.Size = new Size(119, 63);
             pnlButonLimpiar.TabIndex = 0;
             // 
             // btnLimpiarProducto
@@ -841,7 +851,7 @@
             btnLimpiarProducto.ForeColor = Color.FromArgb(8, 31, 63);
             btnLimpiarProducto.Location = new Point(3, 3);
             btnLimpiarProducto.Name = "btnLimpiarProducto";
-            btnLimpiarProducto.Size = new Size(107, 57);
+            btnLimpiarProducto.Size = new Size(113, 57);
             btnLimpiarProducto.TabIndex = 1;
             btnLimpiarProducto.Text = "Limpiar";
             btnLimpiarProducto.UseVisualStyleBackColor = false;
@@ -850,10 +860,10 @@
             // 
             pnlButonGuardar.Controls.Add(btnGuardarProducto);
             pnlButonGuardar.Dock = DockStyle.Fill;
-            pnlButonGuardar.Location = new Point(122, 3);
+            pnlButonGuardar.Location = new Point(128, 3);
             pnlButonGuardar.Name = "pnlButonGuardar";
             pnlButonGuardar.Padding = new Padding(3);
-            pnlButonGuardar.Size = new Size(114, 63);
+            pnlButonGuardar.Size = new Size(119, 63);
             pnlButonGuardar.TabIndex = 1;
             // 
             // btnGuardarProducto
@@ -866,7 +876,7 @@
             btnGuardarProducto.ForeColor = Color.White;
             btnGuardarProducto.Location = new Point(3, 3);
             btnGuardarProducto.Name = "btnGuardarProducto";
-            btnGuardarProducto.Size = new Size(108, 57);
+            btnGuardarProducto.Size = new Size(113, 57);
             btnGuardarProducto.TabIndex = 1;
             btnGuardarProducto.Text = "Guardar";
             btnGuardarProducto.UseVisualStyleBackColor = false;
@@ -1257,7 +1267,7 @@
             pnlDescripcion.ResumeLayout(false);
             pnlInputDescripcion.ResumeLayout(false);
             pnlInputDescripcion.PerformLayout();
-            panel9.ResumeLayout(false);
+            pnlPrecio.ResumeLayout(false);
             pnlInputPrecio.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             pnlUnidadMedida.ResumeLayout(false);
@@ -1363,7 +1373,7 @@
         private Panel pnlInputCategoria;
         private Panel pnlDescripcion;
         private Panel pnlInputDescripcion;
-        private Panel panel9;
+        private Panel pnlPrecio;
         private Panel pnlInputPrecio;
         private Panel pnlUnidadMedida;
         private Panel pnlInputMedida;

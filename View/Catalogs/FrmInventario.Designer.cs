@@ -85,6 +85,7 @@
             cmbTipoMovimiento = new ComboBox();
             dtpHasta = new DateTimePicker();
             dtpDesde = new DateTimePicker();
+            panel1 = new Panel();
             pnlFiltros.SuspendLayout();
             tlpFiltros.SuspendLayout();
             tcInventario.SuspendLayout();
@@ -94,6 +95,7 @@
             tpMovimientos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMovimientos).BeginInit();
             pnlFriltrosMovimientos.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlFiltros
@@ -101,10 +103,10 @@
             pnlFiltros.BackColor = Color.White;
             pnlFiltros.Controls.Add(tlpFiltros);
             pnlFiltros.Dock = DockStyle.Top;
-            pnlFiltros.Location = new Point(0, 0);
+            pnlFiltros.Location = new Point(5, 5);
             pnlFiltros.Name = "pnlFiltros";
             pnlFiltros.Padding = new Padding(12, 8, 12, 8);
-            pnlFiltros.Size = new Size(940, 78);
+            pnlFiltros.Size = new Size(930, 78);
             pnlFiltros.TabIndex = 0;
             // 
             // tlpFiltros
@@ -126,7 +128,7 @@
             tlpFiltros.Name = "tlpFiltros";
             tlpFiltros.RowCount = 1;
             tlpFiltros.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpFiltros.Size = new Size(916, 62);
+            tlpFiltros.Size = new Size(906, 62);
             tlpFiltros.TabIndex = 0;
             // 
             // txtBuscarInventario
@@ -136,7 +138,7 @@
             txtBuscarInventario.Location = new Point(3, 17);
             txtBuscarInventario.MaxLength = 150;
             txtBuscarInventario.Name = "txtBuscarInventario";
-            txtBuscarInventario.Size = new Size(268, 28);
+            txtBuscarInventario.Size = new Size(265, 28);
             txtBuscarInventario.TabIndex = 0;
             // 
             // cmbCategoriaInventario
@@ -144,9 +146,9 @@
             cmbCategoriaInventario.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cmbCategoriaInventario.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoriaInventario.FormattingEnabled = true;
-            cmbCategoriaInventario.Location = new Point(277, 17);
+            cmbCategoriaInventario.Location = new Point(274, 17);
             cmbCategoriaInventario.Name = "cmbCategoriaInventario";
-            cmbCategoriaInventario.Size = new Size(158, 28);
+            cmbCategoriaInventario.Size = new Size(157, 28);
             cmbCategoriaInventario.TabIndex = 1;
             // 
             // cmbEstadoStock
@@ -155,9 +157,9 @@
             cmbEstadoStock.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstadoStock.FormattingEnabled = true;
             cmbEstadoStock.Items.AddRange(new object[] { "Todos", "Normal", "Bajo", "Agotado" });
-            cmbEstadoStock.Location = new Point(441, 17);
+            cmbEstadoStock.Location = new Point(437, 17);
             cmbEstadoStock.Name = "cmbEstadoStock";
-            cmbEstadoStock.Size = new Size(158, 28);
+            cmbEstadoStock.Size = new Size(157, 28);
             cmbEstadoStock.TabIndex = 2;
             // 
             // cmbVencimiento
@@ -166,9 +168,9 @@
             cmbVencimiento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbVencimiento.FormattingEnabled = true;
             cmbVencimiento.Items.AddRange(new object[] { "Todos", "Próximos a vencer ", "Vencidos" });
-            cmbVencimiento.Location = new Point(605, 17);
+            cmbVencimiento.Location = new Point(600, 17);
             cmbVencimiento.Name = "cmbVencimiento";
-            cmbVencimiento.Size = new Size(158, 28);
+            cmbVencimiento.Size = new Size(157, 28);
             cmbVencimiento.TabIndex = 3;
             // 
             // btnRefrescarInventario
@@ -179,9 +181,9 @@
             btnRefrescarInventario.FlatStyle = FlatStyle.Flat;
             btnRefrescarInventario.Font = new Font("Century Gothic", 9.75F);
             btnRefrescarInventario.ForeColor = Color.White;
-            btnRefrescarInventario.Location = new Point(769, 3);
+            btnRefrescarInventario.Location = new Point(763, 3);
             btnRefrescarInventario.Name = "btnRefrescarInventario";
-            btnRefrescarInventario.Size = new Size(144, 56);
+            btnRefrescarInventario.Size = new Size(140, 56);
             btnRefrescarInventario.TabIndex = 4;
             btnRefrescarInventario.Text = "Refrescar";
             btnRefrescarInventario.UseVisualStyleBackColor = false;
@@ -192,20 +194,20 @@
             tcInventario.Controls.Add(tpMovimientos);
             tcInventario.Dock = DockStyle.Fill;
             tcInventario.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tcInventario.Location = new Point(0, 78);
+            tcInventario.Location = new Point(0, 7);
             tcInventario.Name = "tcInventario";
             tcInventario.SelectedIndex = 0;
-            tcInventario.Size = new Size(940, 752);
+            tcInventario.Size = new Size(930, 735);
             tcInventario.TabIndex = 1;
             // 
             // tcExistencias
             // 
-            tcExistencias.Controls.Add(pnlAcccionesInventario);
             tcExistencias.Controls.Add(dgvExistencias);
+            tcExistencias.Controls.Add(pnlAcccionesInventario);
             tcExistencias.Location = new Point(4, 30);
             tcExistencias.Name = "tcExistencias";
             tcExistencias.Padding = new Padding(3);
-            tcExistencias.Size = new Size(932, 718);
+            tcExistencias.Size = new Size(922, 701);
             tcExistencias.TabIndex = 0;
             tcExistencias.Text = "Existencias";
             tcExistencias.UseVisualStyleBackColor = true;
@@ -218,10 +220,10 @@
             pnlAcccionesInventario.Controls.Add(btnRegistrarAjuste);
             pnlAcccionesInventario.Controls.Add(btnRegistrarPerdida);
             pnlAcccionesInventario.Dock = DockStyle.Bottom;
-            pnlAcccionesInventario.Location = new Point(3, 657);
+            pnlAcccionesInventario.Location = new Point(3, 640);
             pnlAcccionesInventario.Name = "pnlAcccionesInventario";
             pnlAcccionesInventario.Padding = new Padding(10, 8, 10, 8);
-            pnlAcccionesInventario.Size = new Size(926, 58);
+            pnlAcccionesInventario.Size = new Size(916, 58);
             pnlAcccionesInventario.TabIndex = 0;
             // 
             // btnRegistrarEntrada
@@ -320,7 +322,7 @@
             dgvExistencias.RowHeadersWidth = 51;
             dgvExistencias.RowTemplate.Height = 38;
             dgvExistencias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvExistencias.Size = new Size(926, 712);
+            dgvExistencias.Size = new Size(916, 637);
             dgvExistencias.TabIndex = 1;
             dgvExistencias.CellContentClick += dgvExistencias_CellContentClick;
             // 
@@ -587,17 +589,28 @@
             dtpDesde.Size = new Size(250, 27);
             dtpDesde.TabIndex = 0;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(tcInventario);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(5, 83);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(0, 7, 0, 0);
+            panel1.Size = new Size(930, 742);
+            panel1.TabIndex = 2;
+            // 
             // FrmInventario
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(tcInventario);
+            Controls.Add(panel1);
             Controls.Add(pnlFiltros);
             Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmInventario";
+            Padding = new Padding(5);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmInventario";
             pnlFiltros.ResumeLayout(false);
@@ -610,6 +623,7 @@
             tpMovimientos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMovimientos).EndInit();
             pnlFriltrosMovimientos.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -651,5 +665,6 @@
         private DataGridViewTextBoxColumn colUnidadMov;
         private DataGridViewTextBoxColumn colOrigenMov;
         private DataGridViewTextBoxColumn colObservacionesMov;
+        private Panel panel1;
     }
 }
