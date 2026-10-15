@@ -28,25 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
             pnlBarraCompras = new Panel();
             tlpBarraCompras = new TableLayoutPanel();
             txtBuscarCompra = new TextBox();
             dtpFechaCompraFiltro = new DateTimePicker();
             cmbEstadoCompra = new ComboBox();
             btnNuevaCompra = new Button();
-            splCompras = new SplitContainer();
             dgvCompras = new DataGridView();
             colIdCompra = new DataGridViewTextBoxColumn();
             colFechaCompra = new DataGridViewTextBoxColumn();
@@ -62,7 +61,6 @@
             colSubtotalCompra = new DataGridViewTextBoxColumn();
             colRecepcionCompra = new DataGridViewTextBoxColumn();
             colObservacionCompra = new DataGridViewTextBoxColumn();
-            pnlAccionesDetalle = new Panel();
             btnRegistrarRecepcion = new Button();
             btnAgregarProducto = new Button();
             pnlDatosCompra = new Panel();
@@ -79,19 +77,64 @@
             btnCancelarCompra = new Button();
             lblTotalCompra = new Label();
             lblSubtotalCompra = new Label();
-            pnlContenido = new Panel();
+            pnlContainer = new Panel();
+            tlpContainer = new TableLayoutPanel();
+            pnlDgv = new Panel();
+            pnlProveedorProducto = new Panel();
+            tlpProveedorInput = new TableLayoutPanel();
+            pnlProveedor = new Panel();
+            pnlInputProveedor = new Panel();
+            pnlFechaCompra = new Panel();
+            pnlFecha = new Panel();
+            panel1 = new Panel();
+            pnlFactura = new Panel();
+            pnlNotas = new Panel();
+            pnlInputNotas = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            pnlAgregarProducto = new Panel();
+            pnlRegistrarRecepcion = new Panel();
+            tlpValores = new TableLayoutPanel();
+            tlpButtons = new TableLayoutPanel();
+            pnlCancelar = new Panel();
+            pnlGuardarCompra = new Panel();
+            pnlSeacrh = new Panel();
+            pictureBox1 = new PictureBox();
+            pnlInputBuscar = new Panel();
+            pnlCompraFecha = new Panel();
+            pnlEstadoCompra = new Panel();
+            pnlNuevaCompra = new Panel();
             pnlBarraCompras.SuspendLayout();
             tlpBarraCompras.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splCompras).BeginInit();
-            splCompras.Panel1.SuspendLayout();
-            splCompras.Panel2.SuspendLayout();
-            splCompras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCompras).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleCompra).BeginInit();
-            pnlAccionesDetalle.SuspendLayout();
             pnlDatosCompra.SuspendLayout();
             pnlResumenCompra.SuspendLayout();
-            pnlContenido.SuspendLayout();
+            pnlContainer.SuspendLayout();
+            tlpContainer.SuspendLayout();
+            pnlDgv.SuspendLayout();
+            pnlProveedorProducto.SuspendLayout();
+            tlpProveedorInput.SuspendLayout();
+            pnlProveedor.SuspendLayout();
+            pnlInputProveedor.SuspendLayout();
+            pnlFechaCompra.SuspendLayout();
+            pnlFecha.SuspendLayout();
+            panel1.SuspendLayout();
+            pnlFactura.SuspendLayout();
+            pnlNotas.SuspendLayout();
+            pnlInputNotas.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            pnlAgregarProducto.SuspendLayout();
+            pnlRegistrarRecepcion.SuspendLayout();
+            tlpValores.SuspendLayout();
+            tlpButtons.SuspendLayout();
+            pnlCancelar.SuspendLayout();
+            pnlGuardarCompra.SuspendLayout();
+            pnlSeacrh.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pnlInputBuscar.SuspendLayout();
+            pnlCompraFecha.SuspendLayout();
+            pnlEstadoCompra.SuspendLayout();
+            pnlNuevaCompra.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBarraCompras
@@ -106,15 +149,17 @@
             // 
             // tlpBarraCompras
             // 
-            tlpBarraCompras.ColumnCount = 4;
-            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 135F));
-            tlpBarraCompras.Controls.Add(txtBuscarCompra, 0, 0);
-            tlpBarraCompras.Controls.Add(dtpFechaCompraFiltro, 1, 0);
-            tlpBarraCompras.Controls.Add(cmbEstadoCompra, 2, 0);
-            tlpBarraCompras.Controls.Add(btnNuevaCompra, 3, 0);
+            tlpBarraCompras.ColumnCount = 5;
+            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 6.626506F));
+            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.62029F));
+            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.623579F));
+            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.623579F));
+            tlpBarraCompras.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5060425F));
+            tlpBarraCompras.Controls.Add(pnlSeacrh, 0, 0);
+            tlpBarraCompras.Controls.Add(pnlInputBuscar, 1, 0);
+            tlpBarraCompras.Controls.Add(pnlCompraFecha, 2, 0);
+            tlpBarraCompras.Controls.Add(pnlEstadoCompra, 3, 0);
+            tlpBarraCompras.Controls.Add(pnlNuevaCompra, 4, 0);
             tlpBarraCompras.Dock = DockStyle.Fill;
             tlpBarraCompras.Location = new Point(12, 8);
             tlpBarraCompras.Margin = new Padding(0);
@@ -130,29 +175,31 @@
             txtBuscarCompra.CausesValidation = false;
             txtBuscarCompra.Dock = DockStyle.Fill;
             txtBuscarCompra.Font = new Font("Century Gothic", 10.2F);
-            txtBuscarCompra.Location = new Point(3, 3);
+            txtBuscarCompra.Location = new Point(5, 5);
             txtBuscarCompra.Name = "txtBuscarCompra";
-            txtBuscarCompra.Size = new Size(475, 21);
+            txtBuscarCompra.Size = new Size(200, 21);
             txtBuscarCompra.TabIndex = 0;
             // 
             // dtpFechaCompraFiltro
             // 
+            dtpFechaCompraFiltro.Dock = DockStyle.Fill;
             dtpFechaCompraFiltro.Font = new Font("Century Gothic", 9F);
             dtpFechaCompraFiltro.Format = DateTimePickerFormat.Short;
-            dtpFechaCompraFiltro.Location = new Point(484, 3);
+            dtpFechaCompraFiltro.Location = new Point(5, 5);
             dtpFechaCompraFiltro.Name = "dtpFechaCompraFiltro";
-            dtpFechaCompraFiltro.Size = new Size(144, 26);
+            dtpFechaCompraFiltro.Size = new Size(200, 26);
             dtpFechaCompraFiltro.TabIndex = 1;
             // 
             // cmbEstadoCompra
             // 
+            cmbEstadoCompra.Dock = DockStyle.Fill;
             cmbEstadoCompra.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstadoCompra.Font = new Font("Century Gothic", 10.2F);
             cmbEstadoCompra.FormattingEnabled = true;
             cmbEstadoCompra.Items.AddRange(new object[] { "Todos,", "Pendiente, ", "Recibida, ", "Anulada." });
-            cmbEstadoCompra.Location = new Point(634, 3);
+            cmbEstadoCompra.Location = new Point(5, 5);
             cmbEstadoCompra.Name = "cmbEstadoCompra";
-            cmbEstadoCompra.Size = new Size(144, 29);
+            cmbEstadoCompra.Size = new Size(200, 29);
             cmbEstadoCompra.TabIndex = 0;
             // 
             // btnNuevaCompra
@@ -162,69 +209,46 @@
             btnNuevaCompra.FlatAppearance.BorderSize = 0;
             btnNuevaCompra.FlatStyle = FlatStyle.Flat;
             btnNuevaCompra.ForeColor = Color.White;
-            btnNuevaCompra.Location = new Point(784, 3);
+            btnNuevaCompra.Location = new Point(0, 0);
             btnNuevaCompra.Name = "btnNuevaCompra";
-            btnNuevaCompra.Size = new Size(129, 56);
+            btnNuevaCompra.Size = new Size(202, 56);
             btnNuevaCompra.TabIndex = 2;
             btnNuevaCompra.Text = "Nueva compra";
             btnNuevaCompra.UseVisualStyleBackColor = false;
-            btnNuevaCompra.Click += btnNuevaCompra_Click;
-            // 
-            // splCompras
-            // 
-            splCompras.Dock = DockStyle.Fill;
-            splCompras.Location = new Point(3, 12);
-            splCompras.Name = "splCompras";
-            // 
-            // splCompras.Panel1
-            // 
-            splCompras.Panel1.Controls.Add(dgvCompras);
-            // 
-            // splCompras.Panel2
-            // 
-            splCompras.Panel2.BackColor = Color.FromArgb(14, 158, 45, 18);
-            splCompras.Panel2.Controls.Add(dgvDetalleCompra);
-            splCompras.Panel2.Controls.Add(pnlAccionesDetalle);
-            splCompras.Panel2.Controls.Add(pnlDatosCompra);
-            splCompras.Panel2.Controls.Add(pnlResumenCompra);
-            splCompras.Size = new Size(934, 730);
-            splCompras.SplitterDistance = 450;
-            splCompras.TabIndex = 0;
             // 
             // dgvCompras
             // 
             dgvCompras.AllowUserToAddRows = false;
             dgvCompras.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(14, 203, 255, 140);
-            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9.8F);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(0, 1, 68, 219);
-            dgvCompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(14, 203, 255, 140);
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9.8F);
+            dataGridViewCellStyle13.ForeColor = Color.FromArgb(0, 1, 68, 219);
+            dgvCompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             dgvCompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCompras.BackgroundColor = Color.White;
             dgvCompras.BorderStyle = BorderStyle.None;
             dgvCompras.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvCompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle14.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle14.ForeColor = Color.White;
+            dataGridViewCellStyle14.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            dgvCompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             dgvCompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { colIdCompra, colFechaCompra, colProveedorCompra, colTotalCompra, colEstadoCompra, colRecibidaCompra });
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dgvCompras.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = Color.White;
+            dataGridViewCellStyle21.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle21.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle21.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.False;
+            dgvCompras.DefaultCellStyle = dataGridViewCellStyle21;
             dgvCompras.Dock = DockStyle.Fill;
             dgvCompras.EnableHeadersVisualStyles = false;
-            dgvCompras.GridColor = SystemColors.Menu;
+            dgvCompras.GridColor = SystemColors.ControlDark;
             dgvCompras.Location = new Point(0, 0);
             dgvCompras.MultiSelect = false;
             dgvCompras.Name = "dgvCompras";
@@ -238,14 +262,14 @@
             dgvCompras.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.FromArgb(0, 1, 68, 219);
             dgvCompras.RowTemplate.Height = 38;
             dgvCompras.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCompras.Size = new Size(450, 730);
+            dgvCompras.Size = new Size(464, 739);
             dgvCompras.TabIndex = 0;
             // 
             // colIdCompra
             // 
             colIdCompra.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompra.DefaultCellStyle = dataGridViewCellStyle15;
             colIdCompra.FillWeight = 65F;
             colIdCompra.HeaderText = "\tN.º";
             colIdCompra.MinimumWidth = 6;
@@ -255,9 +279,9 @@
             // colFechaCompra
             // 
             colFechaCompra.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "dd/MM/yyyy";
-            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.Format = "dd/MM/yyyy";
+            colFechaCompra.DefaultCellStyle = dataGridViewCellStyle16;
             colFechaCompra.FillWeight = 105F;
             colFechaCompra.HeaderText = "Fecha";
             colFechaCompra.MinimumWidth = 6;
@@ -267,8 +291,8 @@
             // colProveedorCompra
             // 
             colProveedorCompra.DataPropertyName = "SupplierName";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProveedorCompra.DefaultCellStyle = dataGridViewCellStyle17;
             colProveedorCompra.FillWeight = 180F;
             colProveedorCompra.HeaderText = "Proveedor";
             colProveedorCompra.MinimumWidth = 6;
@@ -278,9 +302,9 @@
             // colTotalCompra
             // 
             colTotalCompra.DataPropertyName = "Total";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C$ #,##0.00";
-            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "C$ #,##0.00";
+            colTotalCompra.DefaultCellStyle = dataGridViewCellStyle18;
             colTotalCompra.FillWeight = 105F;
             colTotalCompra.HeaderText = "Total";
             colTotalCompra.MinimumWidth = 6;
@@ -290,8 +314,8 @@
             // colEstadoCompra
             // 
             colEstadoCompra.DataPropertyName = "Status";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompra.DefaultCellStyle = dataGridViewCellStyle19;
             colEstadoCompra.FillWeight = 105F;
             colEstadoCompra.HeaderText = "Estado";
             colEstadoCompra.MinimumWidth = 6;
@@ -301,9 +325,9 @@
             // colRecibidaCompra
             // 
             colRecibidaCompra.DataPropertyName = "ReceivedDate";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "dd/MM/yyyy";
-            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "dd/MM/yyyy";
+            colRecibidaCompra.DefaultCellStyle = dataGridViewCellStyle20;
             colRecibidaCompra.HeaderText = "Recepción";
             colRecibidaCompra.MinimumWidth = 6;
             colRecibidaCompra.Name = "colRecibidaCompra";
@@ -313,37 +337,36 @@
             // 
             dgvDetalleCompra.AllowUserToDeleteRows = false;
             dgvDetalleCompra.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.FromArgb(8, 31, 63);
-            dgvDetalleCompra.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle22.BackColor = Color.White;
+            dataGridViewCellStyle22.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = Color.FromArgb(8, 31, 63);
+            dgvDetalleCompra.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
             dgvDetalleCompra.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDetalleCompra.BackgroundColor = Color.White;
             dgvDetalleCompra.BorderStyle = BorderStyle.None;
             dgvDetalleCompra.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle11.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle11.ForeColor = Color.White;
-            dataGridViewCellStyle11.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle11.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle23.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle23.ForeColor = Color.White;
+            dataGridViewCellStyle23.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle23.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle23.SelectionForeColor = Color.White;
+            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
+            dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { colProductoCompra, colUnidadCompra, colCantidadCompra, colCostoCompra, colSubtotalCompra, colRecepcionCompra, colObservacionCompra });
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
-            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = Color.White;
+            dataGridViewCellStyle24.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle24.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle24.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.False;
+            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle24;
             dgvDetalleCompra.Dock = DockStyle.Fill;
             dgvDetalleCompra.EnableHeadersVisualStyles = false;
-            dgvDetalleCompra.GridColor = Color.FromArgb(230, 234, 238);
-            dgvDetalleCompra.Location = new Point(0, 298);
+            dgvDetalleCompra.GridColor = SystemColors.ControlDark;
+            dgvDetalleCompra.Location = new Point(5, 389);
             dgvDetalleCompra.MultiSelect = false;
             dgvDetalleCompra.Name = "dgvDetalleCompra";
             dgvDetalleCompra.ReadOnly = true;
@@ -352,7 +375,7 @@
             dgvDetalleCompra.RowHeadersWidth = 51;
             dgvDetalleCompra.RowTemplate.Height = 38;
             dgvDetalleCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDetalleCompra.Size = new Size(480, 319);
+            dgvDetalleCompra.Size = new Size(454, 232);
             dgvDetalleCompra.TabIndex = 94;
             // 
             // colProductoCompra
@@ -418,41 +441,32 @@
             colObservacionCompra.Name = "colObservacionCompra";
             colObservacionCompra.ReadOnly = true;
             // 
-            // pnlAccionesDetalle
-            // 
-            pnlAccionesDetalle.BackColor = Color.White;
-            pnlAccionesDetalle.Controls.Add(btnRegistrarRecepcion);
-            pnlAccionesDetalle.Controls.Add(btnAgregarProducto);
-            pnlAccionesDetalle.Dock = DockStyle.Top;
-            pnlAccionesDetalle.Location = new Point(0, 240);
-            pnlAccionesDetalle.Name = "pnlAccionesDetalle";
-            pnlAccionesDetalle.Padding = new Padding(10, 8, 10, 8);
-            pnlAccionesDetalle.Size = new Size(480, 58);
-            pnlAccionesDetalle.TabIndex = 96;
-            // 
             // btnRegistrarRecepcion
             // 
             btnRegistrarRecepcion.BackColor = Color.FromArgb(238, 243, 247);
-            btnRegistrarRecepcion.Dock = DockStyle.Right;
+            btnRegistrarRecepcion.Dock = DockStyle.Fill;
+            btnRegistrarRecepcion.FlatAppearance.BorderSize = 0;
+            btnRegistrarRecepcion.FlatStyle = FlatStyle.Flat;
+            btnRegistrarRecepcion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrarRecepcion.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarRecepcion.Location = new Point(300, 8);
+            btnRegistrarRecepcion.Location = new Point(5, 5);
             btnRegistrarRecepcion.Name = "btnRegistrarRecepcion";
-            btnRegistrarRecepcion.Size = new Size(170, 42);
+            btnRegistrarRecepcion.Size = new Size(204, 41);
             btnRegistrarRecepcion.TabIndex = 1;
             btnRegistrarRecepcion.Text = "Registrar recepción";
             btnRegistrarRecepcion.UseVisualStyleBackColor = false;
             // 
             // btnAgregarProducto
             // 
-            btnAgregarProducto.BackColor = Color.FromArgb(238, 243, 247);
-            btnAgregarProducto.Dock = DockStyle.Left;
+            btnAgregarProducto.BackColor = Color.FromArgb(21, 128, 61);
+            btnAgregarProducto.Dock = DockStyle.Fill;
             btnAgregarProducto.FlatAppearance.BorderSize = 0;
             btnAgregarProducto.FlatStyle = FlatStyle.Flat;
-            btnAgregarProducto.Font = new Font("Century Gothic", 9F);
-            btnAgregarProducto.ForeColor = Color.FromArgb(8, 31, 63);
-            btnAgregarProducto.Location = new Point(10, 8);
+            btnAgregarProducto.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarProducto.ForeColor = Color.White;
+            btnAgregarProducto.Location = new Point(5, 5);
             btnAgregarProducto.Name = "btnAgregarProducto";
-            btnAgregarProducto.Size = new Size(150, 42);
+            btnAgregarProducto.Size = new Size(204, 41);
             btnAgregarProducto.TabIndex = 0;
             btnAgregarProducto.Text = "Agregar producto";
             btnAgregarProducto.UseVisualStyleBackColor = false;
@@ -460,128 +474,125 @@
             // pnlDatosCompra
             // 
             pnlDatosCompra.BackColor = Color.White;
-            pnlDatosCompra.Controls.Add(txtNotasCompra);
-            pnlDatosCompra.Controls.Add(lblNotasCompra);
-            pnlDatosCompra.Controls.Add(txtDocumentoCompra);
-            pnlDatosCompra.Controls.Add(lblDocumentoCompra);
-            pnlDatosCompra.Controls.Add(dtpFechaCompra);
-            pnlDatosCompra.Controls.Add(lblFechaCompra);
-            pnlDatosCompra.Controls.Add(cmbProveedorCompra);
-            pnlDatosCompra.Controls.Add(lblProveedorCompra);
+            pnlDatosCompra.Controls.Add(tlpProveedorInput);
+            pnlDatosCompra.Controls.Add(tableLayoutPanel2);
             pnlDatosCompra.Dock = DockStyle.Top;
-            pnlDatosCompra.Location = new Point(0, 0);
+            pnlDatosCompra.Location = new Point(5, 5);
             pnlDatosCompra.Name = "pnlDatosCompra";
-            pnlDatosCompra.Padding = new Padding(12);
-            pnlDatosCompra.Size = new Size(480, 240);
+            pnlDatosCompra.Padding = new Padding(7);
+            pnlDatosCompra.Size = new Size(454, 384);
             pnlDatosCompra.TabIndex = 0;
             // 
             // txtNotasCompra
             // 
-            txtNotasCompra.Dock = DockStyle.Top;
-            txtNotasCompra.Location = new Point(12, 180);
+            txtNotasCompra.Dock = DockStyle.Fill;
+            txtNotasCompra.Location = new Point(5, 5);
             txtNotasCompra.MaxLength = 250;
             txtNotasCompra.Multiline = true;
             txtNotasCompra.Name = "txtNotasCompra";
-            txtNotasCompra.Size = new Size(456, 55);
+            txtNotasCompra.Size = new Size(424, 37);
             txtNotasCompra.TabIndex = 7;
             // 
             // lblNotasCompra
             // 
-            lblNotasCompra.AutoSize = true;
-            lblNotasCompra.Dock = DockStyle.Top;
-            lblNotasCompra.ForeColor = Color.FromArgb(111, 119, 128);
-            lblNotasCompra.Location = new Point(12, 161);
+            lblNotasCompra.Dock = DockStyle.Fill;
+            lblNotasCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNotasCompra.ForeColor = Color.Black;
+            lblNotasCompra.Location = new Point(0, 0);
             lblNotasCompra.Name = "lblNotasCompra";
-            lblNotasCompra.Size = new Size(48, 19);
+            lblNotasCompra.Size = new Size(434, 20);
             lblNotasCompra.TabIndex = 6;
             lblNotasCompra.Text = "Notas";
             // 
             // txtDocumentoCompra
             // 
-            txtDocumentoCompra.Dock = DockStyle.Top;
+            txtDocumentoCompra.Dock = DockStyle.Fill;
             txtDocumentoCompra.Font = new Font("Century Gothic", 9F);
-            txtDocumentoCompra.Location = new Point(12, 135);
+            txtDocumentoCompra.Location = new Point(5, 5);
             txtDocumentoCompra.MaxLength = 50;
             txtDocumentoCompra.Name = "txtDocumentoCompra";
-            txtDocumentoCompra.Size = new Size(456, 26);
+            txtDocumentoCompra.Size = new Size(424, 26);
             txtDocumentoCompra.TabIndex = 5;
             // 
             // lblDocumentoCompra
             // 
-            lblDocumentoCompra.Dock = DockStyle.Top;
-            lblDocumentoCompra.ForeColor = Color.FromArgb(111, 119, 128);
-            lblDocumentoCompra.Location = new Point(12, 105);
+            lblDocumentoCompra.Dock = DockStyle.Fill;
+            lblDocumentoCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDocumentoCompra.ForeColor = Color.Black;
+            lblDocumentoCompra.Location = new Point(0, 0);
             lblDocumentoCompra.Name = "lblDocumentoCompra";
-            lblDocumentoCompra.Size = new Size(456, 30);
+            lblDocumentoCompra.Size = new Size(434, 20);
             lblDocumentoCompra.TabIndex = 4;
             lblDocumentoCompra.Text = "Documento/Factura del proveedor";
-            lblDocumentoCompra.Click += label1_Click;
+            lblDocumentoCompra.TextAlign = ContentAlignment.BottomLeft;
             // 
             // dtpFechaCompra
             // 
-            dtpFechaCompra.Dock = DockStyle.Top;
+            dtpFechaCompra.Dock = DockStyle.Fill;
             dtpFechaCompra.Font = new Font("Century Gothic", 9F);
             dtpFechaCompra.Format = DateTimePickerFormat.Short;
-            dtpFechaCompra.Location = new Point(12, 79);
+            dtpFechaCompra.Location = new Point(5, 5);
             dtpFechaCompra.Name = "dtpFechaCompra";
-            dtpFechaCompra.Size = new Size(456, 26);
+            dtpFechaCompra.Size = new Size(424, 26);
             dtpFechaCompra.TabIndex = 3;
             // 
             // lblFechaCompra
             // 
-            lblFechaCompra.Dock = DockStyle.Top;
-            lblFechaCompra.ForeColor = Color.FromArgb(111, 119, 128);
-            lblFechaCompra.Location = new Point(12, 59);
+            lblFechaCompra.Dock = DockStyle.Fill;
+            lblFechaCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFechaCompra.ForeColor = Color.Black;
+            lblFechaCompra.Location = new Point(0, 0);
             lblFechaCompra.Name = "lblFechaCompra";
-            lblFechaCompra.Size = new Size(456, 20);
+            lblFechaCompra.Size = new Size(434, 20);
             lblFechaCompra.TabIndex = 2;
             lblFechaCompra.Text = "Fecha de compra";
+            lblFechaCompra.TextAlign = ContentAlignment.BottomLeft;
             // 
             // cmbProveedorCompra
             // 
-            cmbProveedorCompra.Dock = DockStyle.Top;
+            cmbProveedorCompra.Dock = DockStyle.Fill;
             cmbProveedorCompra.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbProveedorCompra.FormattingEnabled = true;
-            cmbProveedorCompra.Location = new Point(12, 32);
+            cmbProveedorCompra.Location = new Point(5, 5);
             cmbProveedorCompra.Name = "cmbProveedorCompra";
-            cmbProveedorCompra.Size = new Size(456, 27);
+            cmbProveedorCompra.Size = new Size(424, 27);
             cmbProveedorCompra.TabIndex = 1;
             // 
             // lblProveedorCompra
             // 
-            lblProveedorCompra.Dock = DockStyle.Top;
-            lblProveedorCompra.ForeColor = Color.FromArgb(111, 119, 128);
-            lblProveedorCompra.Location = new Point(12, 12);
+            lblProveedorCompra.Dock = DockStyle.Fill;
+            lblProveedorCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblProveedorCompra.ForeColor = Color.Black;
+            lblProveedorCompra.Location = new Point(0, 0);
             lblProveedorCompra.Name = "lblProveedorCompra";
-            lblProveedorCompra.Size = new Size(456, 20);
+            lblProveedorCompra.Size = new Size(434, 20);
             lblProveedorCompra.TabIndex = 0;
             lblProveedorCompra.Text = "Proveedor";
+            lblProveedorCompra.TextAlign = ContentAlignment.BottomLeft;
             // 
             // pnlResumenCompra
             // 
             pnlResumenCompra.BackColor = Color.White;
-            pnlResumenCompra.Controls.Add(btnGuardarCompra);
-            pnlResumenCompra.Controls.Add(btnCancelarCompra);
-            pnlResumenCompra.Controls.Add(lblTotalCompra);
-            pnlResumenCompra.Controls.Add(lblSubtotalCompra);
+            pnlResumenCompra.Controls.Add(tlpButtons);
+            pnlResumenCompra.Controls.Add(tlpValores);
             pnlResumenCompra.Dock = DockStyle.Bottom;
-            pnlResumenCompra.Location = new Point(0, 617);
+            pnlResumenCompra.Location = new Point(5, 621);
             pnlResumenCompra.Name = "pnlResumenCompra";
-            pnlResumenCompra.Padding = new Padding(10, 8, 10, 8);
-            pnlResumenCompra.Size = new Size(480, 113);
+            pnlResumenCompra.Padding = new Padding(10, 8, 10, 4);
+            pnlResumenCompra.Size = new Size(454, 113);
             pnlResumenCompra.TabIndex = 92;
             // 
             // btnGuardarCompra
             // 
             btnGuardarCompra.BackColor = Color.FromArgb(8, 126, 164);
-            btnGuardarCompra.Dock = DockStyle.Right;
+            btnGuardarCompra.Dock = DockStyle.Fill;
             btnGuardarCompra.FlatAppearance.BorderSize = 0;
             btnGuardarCompra.FlatStyle = FlatStyle.Flat;
-            btnGuardarCompra.Font = new Font("Century Gothic", 9F);
+            btnGuardarCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnGuardarCompra.ForeColor = Color.White;
-            btnGuardarCompra.Location = new Point(330, 63);
+            btnGuardarCompra.Location = new Point(0, 0);
             btnGuardarCompra.Name = "btnGuardarCompra";
-            btnGuardarCompra.Size = new Size(140, 42);
+            btnGuardarCompra.Size = new Size(211, 34);
             btnGuardarCompra.TabIndex = 3;
             btnGuardarCompra.Text = "Guardar Compra";
             btnGuardarCompra.UseVisualStyleBackColor = false;
@@ -589,59 +600,340 @@
             // btnCancelarCompra
             // 
             btnCancelarCompra.BackColor = Color.FromArgb(238, 243, 247);
-            btnCancelarCompra.Dock = DockStyle.Left;
+            btnCancelarCompra.Dock = DockStyle.Fill;
             btnCancelarCompra.FlatAppearance.BorderSize = 0;
             btnCancelarCompra.FlatStyle = FlatStyle.Flat;
-            btnCancelarCompra.Font = new Font("Century Gothic", 9F);
+            btnCancelarCompra.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelarCompra.ForeColor = Color.FromArgb(8, 31, 63);
-            btnCancelarCompra.Location = new Point(10, 63);
+            btnCancelarCompra.Location = new Point(0, 0);
             btnCancelarCompra.Name = "btnCancelarCompra";
-            btnCancelarCompra.Size = new Size(120, 42);
+            btnCancelarCompra.Size = new Size(211, 34);
             btnCancelarCompra.TabIndex = 2;
             btnCancelarCompra.Text = "Cancelar";
             btnCancelarCompra.UseVisualStyleBackColor = false;
             // 
             // lblTotalCompra
             // 
-            lblTotalCompra.Dock = DockStyle.Top;
+            lblTotalCompra.Dock = DockStyle.Fill;
             lblTotalCompra.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalCompra.ForeColor = Color.FromArgb(8, 126, 164);
-            lblTotalCompra.Location = new Point(10, 33);
+            lblTotalCompra.Location = new Point(3, 29);
             lblTotalCompra.Name = "lblTotalCompra";
-            lblTotalCompra.Size = new Size(460, 30);
+            lblTotalCompra.Size = new Size(428, 30);
             lblTotalCompra.TabIndex = 1;
             lblTotalCompra.Text = "Total: C$ 0.00";
             lblTotalCompra.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblSubtotalCompra
             // 
-            lblSubtotalCompra.Dock = DockStyle.Top;
+            lblSubtotalCompra.Dock = DockStyle.Fill;
             lblSubtotalCompra.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSubtotalCompra.ForeColor = Color.FromArgb(8, 31, 63);
-            lblSubtotalCompra.Location = new Point(10, 8);
+            lblSubtotalCompra.Location = new Point(3, 0);
             lblSubtotalCompra.Name = "lblSubtotalCompra";
-            lblSubtotalCompra.Size = new Size(460, 25);
+            lblSubtotalCompra.Size = new Size(428, 29);
             lblSubtotalCompra.TabIndex = 0;
             lblSubtotalCompra.Text = "Subtotal: C$ 0.00";
             lblSubtotalCompra.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // pnlContenido
+            // pnlContainer
             // 
-            pnlContenido.BackColor = Color.Transparent;
-            pnlContenido.Controls.Add(splCompras);
-            pnlContenido.Dock = DockStyle.Fill;
-            pnlContenido.Location = new Point(0, 78);
-            pnlContenido.Name = "pnlContenido";
-            pnlContenido.Padding = new Padding(3, 12, 3, 10);
-            pnlContenido.Size = new Size(940, 752);
-            pnlContenido.TabIndex = 1;
+            pnlContainer.Controls.Add(tlpContainer);
+            pnlContainer.Dock = DockStyle.Fill;
+            pnlContainer.Location = new Point(0, 78);
+            pnlContainer.Name = "pnlContainer";
+            pnlContainer.Padding = new Padding(0, 7, 0, 0);
+            pnlContainer.Size = new Size(940, 752);
+            pnlContainer.TabIndex = 4;
+            // 
+            // tlpContainer
+            // 
+            tlpContainer.ColumnCount = 2;
+            tlpContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpContainer.Controls.Add(pnlDgv, 0, 0);
+            tlpContainer.Controls.Add(pnlProveedorProducto, 1, 0);
+            tlpContainer.Dock = DockStyle.Fill;
+            tlpContainer.Location = new Point(0, 7);
+            tlpContainer.Name = "tlpContainer";
+            tlpContainer.RowCount = 1;
+            tlpContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpContainer.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpContainer.Size = new Size(940, 745);
+            tlpContainer.TabIndex = 2;
+            // 
+            // pnlDgv
+            // 
+            pnlDgv.Controls.Add(dgvCompras);
+            pnlDgv.Dock = DockStyle.Fill;
+            pnlDgv.Location = new Point(3, 3);
+            pnlDgv.Name = "pnlDgv";
+            pnlDgv.Size = new Size(464, 739);
+            pnlDgv.TabIndex = 2;
+            // 
+            // pnlProveedorProducto
+            // 
+            pnlProveedorProducto.Controls.Add(dgvDetalleCompra);
+            pnlProveedorProducto.Controls.Add(pnlResumenCompra);
+            pnlProveedorProducto.Controls.Add(pnlDatosCompra);
+            pnlProveedorProducto.Dock = DockStyle.Fill;
+            pnlProveedorProducto.Location = new Point(473, 3);
+            pnlProveedorProducto.Name = "pnlProveedorProducto";
+            pnlProveedorProducto.Padding = new Padding(5);
+            pnlProveedorProducto.Size = new Size(464, 739);
+            pnlProveedorProducto.TabIndex = 3;
+            // 
+            // tlpProveedorInput
+            // 
+            tlpProveedorInput.ColumnCount = 1;
+            tlpProveedorInput.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpProveedorInput.Controls.Add(pnlProveedor, 0, 0);
+            tlpProveedorInput.Controls.Add(pnlInputProveedor, 0, 1);
+            tlpProveedorInput.Controls.Add(pnlFechaCompra, 0, 2);
+            tlpProveedorInput.Controls.Add(pnlFecha, 0, 3);
+            tlpProveedorInput.Controls.Add(panel1, 0, 4);
+            tlpProveedorInput.Controls.Add(pnlFactura, 0, 5);
+            tlpProveedorInput.Controls.Add(pnlNotas, 0, 6);
+            tlpProveedorInput.Controls.Add(pnlInputNotas, 0, 7);
+            tlpProveedorInput.Dock = DockStyle.Fill;
+            tlpProveedorInput.Location = new Point(7, 7);
+            tlpProveedorInput.Name = "tlpProveedorInput";
+            tlpProveedorInput.RowCount = 8;
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 8.333541F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6670837F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 8.333542F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6670837F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 8.333542F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6670818F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 8.332709F));
+            tlpProveedorInput.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6654186F));
+            tlpProveedorInput.Size = new Size(440, 313);
+            tlpProveedorInput.TabIndex = 8;
+            // 
+            // pnlProveedor
+            // 
+            pnlProveedor.Controls.Add(lblProveedorCompra);
+            pnlProveedor.Dock = DockStyle.Fill;
+            pnlProveedor.Location = new Point(3, 3);
+            pnlProveedor.Name = "pnlProveedor";
+            pnlProveedor.Size = new Size(434, 20);
+            pnlProveedor.TabIndex = 8;
+            // 
+            // pnlInputProveedor
+            // 
+            pnlInputProveedor.Controls.Add(cmbProveedorCompra);
+            pnlInputProveedor.Dock = DockStyle.Fill;
+            pnlInputProveedor.Location = new Point(3, 29);
+            pnlInputProveedor.Name = "pnlInputProveedor";
+            pnlInputProveedor.Padding = new Padding(5);
+            pnlInputProveedor.Size = new Size(434, 46);
+            pnlInputProveedor.TabIndex = 9;
+            // 
+            // pnlFechaCompra
+            // 
+            pnlFechaCompra.Controls.Add(lblFechaCompra);
+            pnlFechaCompra.Dock = DockStyle.Fill;
+            pnlFechaCompra.Location = new Point(3, 81);
+            pnlFechaCompra.Name = "pnlFechaCompra";
+            pnlFechaCompra.Size = new Size(434, 20);
+            pnlFechaCompra.TabIndex = 10;
+            // 
+            // pnlFecha
+            // 
+            pnlFecha.Controls.Add(dtpFechaCompra);
+            pnlFecha.Dock = DockStyle.Fill;
+            pnlFecha.Location = new Point(3, 107);
+            pnlFecha.Name = "pnlFecha";
+            pnlFecha.Padding = new Padding(5);
+            pnlFecha.Size = new Size(434, 46);
+            pnlFecha.TabIndex = 11;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(lblDocumentoCompra);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 159);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(434, 20);
+            panel1.TabIndex = 12;
+            // 
+            // pnlFactura
+            // 
+            pnlFactura.Controls.Add(txtDocumentoCompra);
+            pnlFactura.Dock = DockStyle.Fill;
+            pnlFactura.Location = new Point(3, 185);
+            pnlFactura.Name = "pnlFactura";
+            pnlFactura.Padding = new Padding(5);
+            pnlFactura.Size = new Size(434, 46);
+            pnlFactura.TabIndex = 13;
+            // 
+            // pnlNotas
+            // 
+            pnlNotas.Controls.Add(lblNotasCompra);
+            pnlNotas.Dock = DockStyle.Fill;
+            pnlNotas.Location = new Point(3, 237);
+            pnlNotas.Name = "pnlNotas";
+            pnlNotas.Size = new Size(434, 20);
+            pnlNotas.TabIndex = 14;
+            // 
+            // pnlInputNotas
+            // 
+            pnlInputNotas.Controls.Add(txtNotasCompra);
+            pnlInputNotas.Dock = DockStyle.Fill;
+            pnlInputNotas.Location = new Point(3, 263);
+            pnlInputNotas.Name = "pnlInputNotas";
+            pnlInputNotas.Padding = new Padding(5);
+            pnlInputNotas.Size = new Size(434, 47);
+            pnlInputNotas.TabIndex = 15;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(pnlRegistrarRecepcion, 1, 0);
+            tableLayoutPanel2.Controls.Add(pnlAgregarProducto, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Bottom;
+            tableLayoutPanel2.Location = new Point(7, 320);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(440, 57);
+            tableLayoutPanel2.TabIndex = 9;
+            // 
+            // pnlAgregarProducto
+            // 
+            pnlAgregarProducto.Controls.Add(btnAgregarProducto);
+            pnlAgregarProducto.Dock = DockStyle.Fill;
+            pnlAgregarProducto.Location = new Point(3, 3);
+            pnlAgregarProducto.Name = "pnlAgregarProducto";
+            pnlAgregarProducto.Padding = new Padding(5);
+            pnlAgregarProducto.Size = new Size(214, 51);
+            pnlAgregarProducto.TabIndex = 0;
+            // 
+            // pnlRegistrarRecepcion
+            // 
+            pnlRegistrarRecepcion.Controls.Add(btnRegistrarRecepcion);
+            pnlRegistrarRecepcion.Dock = DockStyle.Fill;
+            pnlRegistrarRecepcion.Location = new Point(223, 3);
+            pnlRegistrarRecepcion.Name = "pnlRegistrarRecepcion";
+            pnlRegistrarRecepcion.Padding = new Padding(5);
+            pnlRegistrarRecepcion.Size = new Size(214, 51);
+            pnlRegistrarRecepcion.TabIndex = 1;
+            // 
+            // tlpValores
+            // 
+            tlpValores.ColumnCount = 1;
+            tlpValores.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpValores.Controls.Add(lblTotalCompra, 0, 1);
+            tlpValores.Controls.Add(lblSubtotalCompra, 0, 0);
+            tlpValores.Dock = DockStyle.Top;
+            tlpValores.Location = new Point(10, 8);
+            tlpValores.Name = "tlpValores";
+            tlpValores.RowCount = 2;
+            tlpValores.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpValores.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpValores.Size = new Size(434, 59);
+            tlpValores.TabIndex = 4;
+            // 
+            // tlpButtons
+            // 
+            tlpButtons.ColumnCount = 2;
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpButtons.Controls.Add(pnlCancelar, 0, 0);
+            tlpButtons.Controls.Add(pnlGuardarCompra, 1, 0);
+            tlpButtons.Dock = DockStyle.Bottom;
+            tlpButtons.Location = new Point(10, 69);
+            tlpButtons.Name = "tlpButtons";
+            tlpButtons.RowCount = 1;
+            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpButtons.Size = new Size(434, 40);
+            tlpButtons.TabIndex = 5;
+            // 
+            // pnlCancelar
+            // 
+            pnlCancelar.Controls.Add(btnCancelarCompra);
+            pnlCancelar.Location = new Point(3, 3);
+            pnlCancelar.Name = "pnlCancelar";
+            pnlCancelar.Size = new Size(211, 34);
+            pnlCancelar.TabIndex = 0;
+            // 
+            // pnlGuardarCompra
+            // 
+            pnlGuardarCompra.Controls.Add(btnGuardarCompra);
+            pnlGuardarCompra.Location = new Point(220, 3);
+            pnlGuardarCompra.Name = "pnlGuardarCompra";
+            pnlGuardarCompra.Size = new Size(211, 34);
+            pnlGuardarCompra.TabIndex = 1;
+            // 
+            // pnlSeacrh
+            // 
+            pnlSeacrh.Controls.Add(pictureBox1);
+            pnlSeacrh.Dock = DockStyle.Fill;
+            pnlSeacrh.Location = new Point(3, 3);
+            pnlSeacrh.Name = "pnlSeacrh";
+            pnlSeacrh.Padding = new Padding(15, 5, 0, 5);
+            pnlSeacrh.Size = new Size(54, 56);
+            pnlSeacrh.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = Properties.Resources.search_32;
+            pictureBox1.Location = new Point(15, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(39, 46);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pnlInputBuscar
+            // 
+            pnlInputBuscar.Controls.Add(txtBuscarCompra);
+            pnlInputBuscar.Dock = DockStyle.Fill;
+            pnlInputBuscar.Location = new Point(63, 3);
+            pnlInputBuscar.Name = "pnlInputBuscar";
+            pnlInputBuscar.Padding = new Padding(5);
+            pnlInputBuscar.Size = new Size(210, 56);
+            pnlInputBuscar.TabIndex = 1;
+            // 
+            // pnlCompraFecha
+            // 
+            pnlCompraFecha.Controls.Add(dtpFechaCompraFiltro);
+            pnlCompraFecha.Dock = DockStyle.Fill;
+            pnlCompraFecha.Location = new Point(279, 3);
+            pnlCompraFecha.Name = "pnlCompraFecha";
+            pnlCompraFecha.Padding = new Padding(5);
+            pnlCompraFecha.Size = new Size(210, 56);
+            pnlCompraFecha.TabIndex = 2;
+            // 
+            // pnlEstadoCompra
+            // 
+            pnlEstadoCompra.Controls.Add(cmbEstadoCompra);
+            pnlEstadoCompra.Dock = DockStyle.Fill;
+            pnlEstadoCompra.Location = new Point(495, 3);
+            pnlEstadoCompra.Name = "pnlEstadoCompra";
+            pnlEstadoCompra.Padding = new Padding(5);
+            pnlEstadoCompra.Size = new Size(210, 56);
+            pnlEstadoCompra.TabIndex = 3;
+            // 
+            // pnlNuevaCompra
+            // 
+            pnlNuevaCompra.Controls.Add(btnNuevaCompra);
+            pnlNuevaCompra.Dock = DockStyle.Fill;
+            pnlNuevaCompra.Location = new Point(711, 3);
+            pnlNuevaCompra.Name = "pnlNuevaCompra";
+            pnlNuevaCompra.Size = new Size(202, 56);
+            pnlNuevaCompra.TabIndex = 4;
             // 
             // FrmCompras
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlContenido);
+            Controls.Add(pnlContainer);
             Controls.Add(pnlBarraCompras);
             Font = new Font("Century Gothic", 8.25F);
             FormBorderStyle = FormBorderStyle.None;
@@ -650,26 +942,45 @@
             Text = "FrmCompras";
             pnlBarraCompras.ResumeLayout(false);
             tlpBarraCompras.ResumeLayout(false);
-            tlpBarraCompras.PerformLayout();
-            splCompras.Panel1.ResumeLayout(false);
-            splCompras.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splCompras).EndInit();
-            splCompras.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCompras).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleCompra).EndInit();
-            pnlAccionesDetalle.ResumeLayout(false);
             pnlDatosCompra.ResumeLayout(false);
-            pnlDatosCompra.PerformLayout();
             pnlResumenCompra.ResumeLayout(false);
-            pnlContenido.ResumeLayout(false);
+            pnlContainer.ResumeLayout(false);
+            tlpContainer.ResumeLayout(false);
+            pnlDgv.ResumeLayout(false);
+            pnlProveedorProducto.ResumeLayout(false);
+            tlpProveedorInput.ResumeLayout(false);
+            pnlProveedor.ResumeLayout(false);
+            pnlInputProveedor.ResumeLayout(false);
+            pnlFechaCompra.ResumeLayout(false);
+            pnlFecha.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            pnlFactura.ResumeLayout(false);
+            pnlFactura.PerformLayout();
+            pnlNotas.ResumeLayout(false);
+            pnlInputNotas.ResumeLayout(false);
+            pnlInputNotas.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            pnlAgregarProducto.ResumeLayout(false);
+            pnlRegistrarRecepcion.ResumeLayout(false);
+            tlpValores.ResumeLayout(false);
+            tlpButtons.ResumeLayout(false);
+            pnlCancelar.ResumeLayout(false);
+            pnlGuardarCompra.ResumeLayout(false);
+            pnlSeacrh.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            pnlInputBuscar.ResumeLayout(false);
+            pnlInputBuscar.PerformLayout();
+            pnlCompraFecha.ResumeLayout(false);
+            pnlEstadoCompra.ResumeLayout(false);
+            pnlNuevaCompra.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel pnlBarraCompras;
-        private SplitContainer splCompras;
-        private Panel pnlContenido;
         private DataGridView dgvCompras;
         private Panel pnlDatosCompra;
         private Label lblProveedorCompra;
@@ -698,7 +1009,6 @@
         private Label lblSubtotalCompra;
         private Button btnCancelarCompra;
         private Button btnGuardarCompra;
-        private Panel pnlAccionesDetalle;
         private Button btnAgregarProducto;
         private Button btnRegistrarRecepcion;
         private DataGridViewTextBoxColumn colIdCompra;
@@ -707,5 +1017,31 @@
         private DataGridViewTextBoxColumn colTotalCompra;
         private DataGridViewTextBoxColumn colEstadoCompra;
         private DataGridViewTextBoxColumn colRecibidaCompra;
+        private Panel pnlContainer;
+        private TableLayoutPanel tlpContainer;
+        private Panel pnlDgv;
+        private Panel pnlProveedorProducto;
+        private TableLayoutPanel tlpProveedorInput;
+        private Panel pnlProveedor;
+        private Panel pnlInputProveedor;
+        private Panel pnlFechaCompra;
+        private Panel pnlFecha;
+        private Panel panel1;
+        private Panel pnlFactura;
+        private Panel pnlNotas;
+        private Panel pnlInputNotas;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Panel pnlRegistrarRecepcion;
+        private Panel pnlAgregarProducto;
+        private TableLayoutPanel tlpValores;
+        private TableLayoutPanel tlpButtons;
+        private Panel pnlCancelar;
+        private Panel pnlGuardarCompra;
+        private Panel pnlSeacrh;
+        private PictureBox pictureBox1;
+        private Panel pnlInputBuscar;
+        private Panel pnlCompraFecha;
+        private Panel pnlEstadoCompra;
+        private Panel pnlNuevaCompra;
     }
 }

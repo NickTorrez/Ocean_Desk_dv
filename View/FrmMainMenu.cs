@@ -291,6 +291,12 @@ namespace Ocean_Desk_dv.UI
         private void btnInventario_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnInventario);
+
+            lblSeccion.Text = "Control de Inventario";
+            lblSubtitulo.Text = "Existencia y movimientos de materia prima"; 
+
+            FrmInventario inventario = new FrmInventario();
+            AbrirFormularioEnPanel(inventario);
         }
 
         private void btnCompras_Click(object sender, EventArgs e)

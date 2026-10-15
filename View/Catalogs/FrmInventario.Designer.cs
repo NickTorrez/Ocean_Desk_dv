@@ -28,37 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle85 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle86 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle95 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle96 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle97 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle105 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle98 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle99 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle100 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle101 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle102 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle103 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle104 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle87 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle88 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle89 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle90 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle91 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle92 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle93 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle94 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
             pnlFiltros = new Panel();
             tlpFiltros = new TableLayoutPanel();
+            pnlSearch = new Panel();
+            pictureBox1 = new PictureBox();
+            pnlInputSearch = new Panel();
+            panel2 = new Panel();
             txtBuscarInventario = new TextBox();
+            pnlCategoria = new Panel();
             cmbCategoriaInventario = new ComboBox();
+            pnlEstado = new Panel();
             cmbEstadoStock = new ComboBox();
+            pnlVencimiento = new Panel();
             cmbVencimiento = new ComboBox();
+            pnlRefrescar = new Panel();
             btnRefrescarInventario = new Button();
             tcInventario = new TabControl();
             tcExistencias = new TabPage();
             dgvExistencias = new DataGridView();
+            colCodigoInv = new DataGridViewTextBoxColumn();
+            colProductoInv = new DataGridViewTextBoxColumn();
+            colCategoriaInv = new DataGridViewTextBoxColumn();
+            colUnidadInv = new DataGridViewTextBoxColumn();
+            colStockActual = new DataGridViewTextBoxColumn();
+            colStockMinimo = new DataGridViewTextBoxColumn();
+            colEstadoStock = new DataGridViewTextBoxColumn();
+            colVencimiento = new DataGridViewTextBoxColumn();
             pnlAcccionesInventario = new Panel();
             tlpButonsdgv = new TableLayoutPanel();
             pnlMerma = new Panel();
@@ -79,31 +95,23 @@
             colOrigenMov = new DataGridViewTextBoxColumn();
             colObservacionesMov = new DataGridViewTextBoxColumn();
             pnlFriltrosMovimientos = new Panel();
-            cmbTipoMovimiento = new ComboBox();
-            dtpHasta = new DateTimePicker();
-            dtpDesde = new DateTimePicker();
-            pnlContainerTab = new Panel();
-            colCodigoInv = new DataGridViewTextBoxColumn();
-            colProductoInv = new DataGridViewTextBoxColumn();
-            colCategoriaInv = new DataGridViewTextBoxColumn();
-            colUnidadInv = new DataGridViewTextBoxColumn();
-            colStockActual = new DataGridViewTextBoxColumn();
-            colStockMinimo = new DataGridViewTextBoxColumn();
-            colEstadoStock = new DataGridViewTextBoxColumn();
-            colVencimiento = new DataGridViewTextBoxColumn();
             tableLayoutPanel1 = new TableLayoutPanel();
             pnlDesde = new Panel();
+            dtpDesde = new DateTimePicker();
             pnlHasta = new Panel();
+            dtpHasta = new DateTimePicker();
             pnlMovimiento = new Panel();
-            panel1 = new Panel();
-            panel2 = new Panel();
-            panel3 = new Panel();
-            panel4 = new Panel();
-            panel5 = new Panel();
-            panel6 = new Panel();
-            pictureBox1 = new PictureBox();
+            cmbTipoMovimiento = new ComboBox();
+            pnlContainerTab = new Panel();
             pnlFiltros.SuspendLayout();
             tlpFiltros.SuspendLayout();
+            pnlSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pnlInputSearch.SuspendLayout();
+            pnlCategoria.SuspendLayout();
+            pnlEstado.SuspendLayout();
+            pnlVencimiento.SuspendLayout();
+            pnlRefrescar.SuspendLayout();
             tcInventario.SuspendLayout();
             tcExistencias.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvExistencias).BeginInit();
@@ -116,13 +124,11 @@
             tpMovimientos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMovimientos).BeginInit();
             pnlFriltrosMovimientos.SuspendLayout();
-            pnlContainerTab.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             pnlDesde.SuspendLayout();
             pnlHasta.SuspendLayout();
             pnlMovimiento.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pnlContainerTab.SuspendLayout();
             SuspendLayout();
             // 
             // pnlFiltros
@@ -139,18 +145,18 @@
             // tlpFiltros
             // 
             tlpFiltros.ColumnCount = 6;
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.898776F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.6907673F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.3526134F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.3526134F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.3526134F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.3526134F));
-            tlpFiltros.Controls.Add(panel1, 0, 0);
-            tlpFiltros.Controls.Add(panel2, 1, 0);
-            tlpFiltros.Controls.Add(panel3, 2, 0);
-            tlpFiltros.Controls.Add(panel4, 3, 0);
-            tlpFiltros.Controls.Add(panel5, 4, 0);
-            tlpFiltros.Controls.Add(panel6, 5, 0);
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.202847F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5707512F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
+            tlpFiltros.Controls.Add(pnlSearch, 0, 0);
+            tlpFiltros.Controls.Add(pnlInputSearch, 1, 0);
+            tlpFiltros.Controls.Add(pnlCategoria, 2, 0);
+            tlpFiltros.Controls.Add(pnlEstado, 3, 0);
+            tlpFiltros.Controls.Add(pnlVencimiento, 4, 0);
+            tlpFiltros.Controls.Add(pnlRefrescar, 5, 0);
             tlpFiltros.Dock = DockStyle.Fill;
             tlpFiltros.Location = new Point(12, 8);
             tlpFiltros.Margin = new Padding(0);
@@ -160,59 +166,142 @@
             tlpFiltros.Size = new Size(906, 62);
             tlpFiltros.TabIndex = 0;
             // 
+            // pnlSearch
+            // 
+            pnlSearch.Controls.Add(pictureBox1);
+            pnlSearch.Dock = DockStyle.Fill;
+            pnlSearch.Location = new Point(3, 3);
+            pnlSearch.Name = "pnlSearch";
+            pnlSearch.Padding = new Padding(5, 9, 0, 9);
+            pnlSearch.Size = new Size(41, 56);
+            pnlSearch.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = Properties.Resources.search_32;
+            pictureBox1.Location = new Point(5, 9);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(36, 38);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // pnlInputSearch
+            // 
+            pnlInputSearch.Controls.Add(panel2);
+            pnlInputSearch.Controls.Add(txtBuscarInventario);
+            pnlInputSearch.Dock = DockStyle.Fill;
+            pnlInputSearch.Location = new Point(50, 3);
+            pnlInputSearch.Name = "pnlInputSearch";
+            pnlInputSearch.Padding = new Padding(3, 10, 3, 20);
+            pnlInputSearch.Size = new Size(198, 56);
+            pnlInputSearch.TabIndex = 1;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.MidnightBlue;
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(3, 34);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(192, 2);
+            panel2.TabIndex = 16;
+            // 
             // txtBuscarInventario
             // 
-            txtBuscarInventario.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtBuscarInventario.BorderStyle = BorderStyle.None;
+            txtBuscarInventario.Dock = DockStyle.Top;
             txtBuscarInventario.Font = new Font("Century Gothic", 10.2F);
-            txtBuscarInventario.Location = new Point(239, 251);
+            txtBuscarInventario.Location = new Point(3, 10);
             txtBuscarInventario.MaxLength = 150;
             txtBuscarInventario.Name = "txtBuscarInventario";
-            txtBuscarInventario.Size = new Size(265, 28);
+            txtBuscarInventario.PlaceholderText = "Buscar insumo...";
+            txtBuscarInventario.Size = new Size(192, 21);
             txtBuscarInventario.TabIndex = 0;
+            // 
+            // pnlCategoria
+            // 
+            pnlCategoria.Controls.Add(cmbCategoriaInventario);
+            pnlCategoria.Dock = DockStyle.Fill;
+            pnlCategoria.Location = new Point(254, 3);
+            pnlCategoria.Name = "pnlCategoria";
+            pnlCategoria.Padding = new Padding(10);
+            pnlCategoria.Size = new Size(157, 56);
+            pnlCategoria.TabIndex = 2;
             // 
             // cmbCategoriaInventario
             // 
-            cmbCategoriaInventario.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cmbCategoriaInventario.Dock = DockStyle.Fill;
             cmbCategoriaInventario.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoriaInventario.FormattingEnabled = true;
-            cmbCategoriaInventario.Location = new Point(598, 238);
+            cmbCategoriaInventario.Location = new Point(10, 10);
             cmbCategoriaInventario.Name = "cmbCategoriaInventario";
-            cmbCategoriaInventario.Size = new Size(157, 27);
+            cmbCategoriaInventario.Size = new Size(137, 28);
             cmbCategoriaInventario.TabIndex = 1;
+            // 
+            // pnlEstado
+            // 
+            pnlEstado.Controls.Add(cmbEstadoStock);
+            pnlEstado.Dock = DockStyle.Fill;
+            pnlEstado.Location = new Point(417, 3);
+            pnlEstado.Name = "pnlEstado";
+            pnlEstado.Padding = new Padding(10);
+            pnlEstado.Size = new Size(157, 56);
+            pnlEstado.TabIndex = 3;
             // 
             // cmbEstadoStock
             // 
-            cmbEstadoStock.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cmbEstadoStock.Dock = DockStyle.Fill;
             cmbEstadoStock.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstadoStock.FormattingEnabled = true;
             cmbEstadoStock.Items.AddRange(new object[] { "Todos", "Normal", "Bajo", "Agotado" });
-            cmbEstadoStock.Location = new Point(422, 355);
+            cmbEstadoStock.Location = new Point(10, 10);
             cmbEstadoStock.Name = "cmbEstadoStock";
-            cmbEstadoStock.Size = new Size(157, 27);
+            cmbEstadoStock.Size = new Size(137, 28);
             cmbEstadoStock.TabIndex = 2;
+            // 
+            // pnlVencimiento
+            // 
+            pnlVencimiento.Controls.Add(cmbVencimiento);
+            pnlVencimiento.Dock = DockStyle.Fill;
+            pnlVencimiento.Location = new Point(580, 3);
+            pnlVencimiento.Name = "pnlVencimiento";
+            pnlVencimiento.Padding = new Padding(10);
+            pnlVencimiento.Size = new Size(157, 56);
+            pnlVencimiento.TabIndex = 4;
             // 
             // cmbVencimiento
             // 
-            cmbVencimiento.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cmbVencimiento.Dock = DockStyle.Fill;
             cmbVencimiento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbVencimiento.FormattingEnabled = true;
             cmbVencimiento.Items.AddRange(new object[] { "Todos", "Próximos a vencer ", "Vencidos" });
-            cmbVencimiento.Location = new Point(642, 368);
+            cmbVencimiento.Location = new Point(10, 10);
             cmbVencimiento.Name = "cmbVencimiento";
-            cmbVencimiento.Size = new Size(157, 27);
+            cmbVencimiento.Size = new Size(137, 28);
             cmbVencimiento.TabIndex = 3;
+            // 
+            // pnlRefrescar
+            // 
+            pnlRefrescar.Controls.Add(btnRefrescarInventario);
+            pnlRefrescar.Dock = DockStyle.Fill;
+            pnlRefrescar.Location = new Point(743, 3);
+            pnlRefrescar.Name = "pnlRefrescar";
+            pnlRefrescar.Padding = new Padding(5);
+            pnlRefrescar.Size = new Size(160, 56);
+            pnlRefrescar.TabIndex = 5;
             // 
             // btnRefrescarInventario
             // 
-            btnRefrescarInventario.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             btnRefrescarInventario.BackColor = Color.FromArgb(8, 126, 164);
+            btnRefrescarInventario.Dock = DockStyle.Fill;
             btnRefrescarInventario.FlatAppearance.BorderSize = 0;
             btnRefrescarInventario.FlatStyle = FlatStyle.Flat;
-            btnRefrescarInventario.Font = new Font("Century Gothic", 9.75F);
+            btnRefrescarInventario.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRefrescarInventario.ForeColor = Color.White;
-            btnRefrescarInventario.Location = new Point(752, 128);
+            btnRefrescarInventario.Location = new Point(5, 5);
             btnRefrescarInventario.Name = "btnRefrescarInventario";
-            btnRefrescarInventario.Size = new Size(140, 56);
+            btnRefrescarInventario.Size = new Size(150, 46);
             btnRefrescarInventario.TabIndex = 4;
             btnRefrescarInventario.Text = "Refrescar";
             btnRefrescarInventario.UseVisualStyleBackColor = false;
@@ -249,31 +338,31 @@
             dgvExistencias.AllowUserToOrderColumns = true;
             dgvExistencias.AllowUserToResizeColumns = false;
             dgvExistencias.AllowUserToResizeRows = false;
-            dataGridViewCellStyle85.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle85.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvExistencias.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle85;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvExistencias.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvExistencias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvExistencias.BorderStyle = BorderStyle.None;
             dgvExistencias.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle86.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle86.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle86.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle86.ForeColor = Color.White;
-            dataGridViewCellStyle86.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle86.SelectionBackColor = Color.MidnightBlue;
-            dataGridViewCellStyle86.SelectionForeColor = Color.White;
-            dataGridViewCellStyle86.WrapMode = DataGridViewTriState.True;
-            dgvExistencias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle86;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvExistencias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvExistencias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvExistencias.Columns.AddRange(new DataGridViewColumn[] { colCodigoInv, colProductoInv, colCategoriaInv, colUnidadInv, colStockActual, colStockMinimo, colEstadoStock, colVencimiento });
-            dataGridViewCellStyle95.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle95.BackColor = Color.White;
-            dataGridViewCellStyle95.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle95.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle95.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle95.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle95.WrapMode = DataGridViewTriState.False;
-            dgvExistencias.DefaultCellStyle = dataGridViewCellStyle95;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle11.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.False;
+            dgvExistencias.DefaultCellStyle = dataGridViewCellStyle11;
             dgvExistencias.Dock = DockStyle.Fill;
             dgvExistencias.EnableHeadersVisualStyles = false;
             dgvExistencias.GridColor = SystemColors.ControlDark;
@@ -287,6 +376,95 @@
             dgvExistencias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvExistencias.Size = new Size(916, 610);
             dgvExistencias.TabIndex = 1;
+            // 
+            // colCodigoInv
+            // 
+            colCodigoInv.DataPropertyName = "ProductCode";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colCodigoInv.DefaultCellStyle = dataGridViewCellStyle3;
+            colCodigoInv.FillWeight = 85F;
+            colCodigoInv.HeaderText = "Código";
+            colCodigoInv.MinimumWidth = 6;
+            colCodigoInv.Name = "colCodigoInv";
+            colCodigoInv.ReadOnly = true;
+            // 
+            // colProductoInv
+            // 
+            colProductoInv.DataPropertyName = "ProductName";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProductoInv.DefaultCellStyle = dataGridViewCellStyle4;
+            colProductoInv.FillWeight = 180F;
+            colProductoInv.HeaderText = "Producto";
+            colProductoInv.MinimumWidth = 6;
+            colProductoInv.Name = "colProductoInv";
+            colProductoInv.ReadOnly = true;
+            // 
+            // colCategoriaInv
+            // 
+            colCategoriaInv.DataPropertyName = "CategoryName";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCategoriaInv.DefaultCellStyle = dataGridViewCellStyle5;
+            colCategoriaInv.FillWeight = 110F;
+            colCategoriaInv.HeaderText = "Categoria";
+            colCategoriaInv.MinimumWidth = 6;
+            colCategoriaInv.Name = "colCategoriaInv";
+            colCategoriaInv.ReadOnly = true;
+            // 
+            // colUnidadInv
+            // 
+            colUnidadInv.DataPropertyName = "UnitName";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUnidadInv.DefaultCellStyle = dataGridViewCellStyle6;
+            colUnidadInv.FillWeight = 80F;
+            colUnidadInv.HeaderText = "Unidad";
+            colUnidadInv.MinimumWidth = 6;
+            colUnidadInv.Name = "colUnidadInv";
+            colUnidadInv.ReadOnly = true;
+            // 
+            // colStockActual
+            // 
+            colStockActual.DataPropertyName = "CurrentStock";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colStockActual.DefaultCellStyle = dataGridViewCellStyle7;
+            colStockActual.HeaderText = "StockActual";
+            colStockActual.MinimumWidth = 6;
+            colStockActual.Name = "colStockActual";
+            colStockActual.ReadOnly = true;
+            // 
+            // colStockMinimo
+            // 
+            colStockMinimo.DataPropertyName = "MinimumStock";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.NullValue = null;
+            colStockMinimo.DefaultCellStyle = dataGridViewCellStyle8;
+            colStockMinimo.HeaderText = "Stock Minimo";
+            colStockMinimo.MinimumWidth = 6;
+            colStockMinimo.Name = "colStockMinimo";
+            colStockMinimo.ReadOnly = true;
+            // 
+            // colEstadoStock
+            // 
+            colEstadoStock.DataPropertyName = "StockStatus";
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoStock.DefaultCellStyle = dataGridViewCellStyle9;
+            colEstadoStock.FillWeight = 95F;
+            colEstadoStock.HeaderText = "Estado ";
+            colEstadoStock.MinimumWidth = 6;
+            colEstadoStock.Name = "colEstadoStock";
+            colEstadoStock.ReadOnly = true;
+            // 
+            // colVencimiento
+            // 
+            colVencimiento.DataPropertyName = "ExpirationDate";
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Format = "d";
+            dataGridViewCellStyle10.NullValue = null;
+            colVencimiento.DefaultCellStyle = dataGridViewCellStyle10;
+            colVencimiento.FillWeight = 110F;
+            colVencimiento.HeaderText = "Vencimiento";
+            colVencimiento.MinimumWidth = 6;
+            colVencimiento.Name = "colVencimiento";
+            colVencimiento.ReadOnly = true;
             // 
             // pnlAcccionesInventario
             // 
@@ -373,19 +551,20 @@
             pnlSalida.Dock = DockStyle.Fill;
             pnlSalida.Location = new Point(451, 3);
             pnlSalida.Name = "pnlSalida";
+            pnlSalida.Padding = new Padding(5);
             pnlSalida.Size = new Size(218, 55);
             pnlSalida.TabIndex = 2;
             // 
             // btnRegistrarSalida
             // 
-            btnRegistrarSalida.BackColor = Color.FromArgb(238, 243, 247);
+            btnRegistrarSalida.BackColor = Color.FromArgb(217, 119, 6);
             btnRegistrarSalida.Dock = DockStyle.Fill;
             btnRegistrarSalida.FlatAppearance.BorderSize = 0;
             btnRegistrarSalida.FlatStyle = FlatStyle.Flat;
-            btnRegistrarSalida.ForeColor = Color.FromArgb(8, 31, 63);
-            btnRegistrarSalida.Location = new Point(0, 0);
+            btnRegistrarSalida.ForeColor = Color.White;
+            btnRegistrarSalida.Location = new Point(5, 5);
             btnRegistrarSalida.Name = "btnRegistrarSalida";
-            btnRegistrarSalida.Size = new Size(218, 55);
+            btnRegistrarSalida.Size = new Size(208, 45);
             btnRegistrarSalida.TabIndex = 1;
             btnRegistrarSalida.Text = "Salida";
             btnRegistrarSalida.UseVisualStyleBackColor = false;
@@ -396,6 +575,7 @@
             pnlEntrada.Dock = DockStyle.Fill;
             pnlEntrada.Location = new Point(675, 3);
             pnlEntrada.Name = "pnlEntrada";
+            pnlEntrada.Padding = new Padding(5);
             pnlEntrada.Size = new Size(218, 55);
             pnlEntrada.TabIndex = 3;
             // 
@@ -405,22 +585,17 @@
             btnRegistrarEntrada.Dock = DockStyle.Fill;
             btnRegistrarEntrada.FlatAppearance.BorderSize = 0;
             btnRegistrarEntrada.FlatStyle = FlatStyle.Flat;
-            btnRegistrarEntrada.Font = new Font("Century Gothic", 9.75F);
+            btnRegistrarEntrada.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrarEntrada.ForeColor = Color.White;
-            btnRegistrarEntrada.Location = new Point(0, 0);
+            btnRegistrarEntrada.Location = new Point(5, 5);
             btnRegistrarEntrada.Name = "btnRegistrarEntrada";
-            btnRegistrarEntrada.Size = new Size(218, 55);
+            btnRegistrarEntrada.Size = new Size(208, 45);
             btnRegistrarEntrada.TabIndex = 0;
             btnRegistrarEntrada.Text = "Entrada";
             btnRegistrarEntrada.UseVisualStyleBackColor = false;
             // 
             // tpMovimientos
             // 
-            tpMovimientos.Controls.Add(btnRefrescarInventario);
-            tpMovimientos.Controls.Add(cmbVencimiento);
-            tpMovimientos.Controls.Add(cmbEstadoStock);
-            tpMovimientos.Controls.Add(cmbCategoriaInventario);
-            tpMovimientos.Controls.Add(txtBuscarInventario);
             tpMovimientos.Controls.Add(dgvMovimientos);
             tpMovimientos.Controls.Add(pnlFriltrosMovimientos);
             tpMovimientos.Location = new Point(4, 38);
@@ -436,31 +611,31 @@
             dgvMovimientos.AllowUserToAddRows = false;
             dgvMovimientos.AllowUserToDeleteRows = false;
             dgvMovimientos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle96.BackColor = Color.FromArgb(248, 250, 252);
-            dgvMovimientos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle96;
+            dataGridViewCellStyle12.BackColor = Color.FromArgb(248, 250, 252);
+            dgvMovimientos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvMovimientos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvMovimientos.BackgroundColor = Color.FromArgb(230, 234, 238);
             dgvMovimientos.BorderStyle = BorderStyle.None;
             dgvMovimientos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle97.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle97.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle97.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle97.ForeColor = Color.White;
-            dataGridViewCellStyle97.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle97.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle97.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle97.WrapMode = DataGridViewTriState.True;
-            dgvMovimientos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle97;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.White;
+            dataGridViewCellStyle13.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle13.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dgvMovimientos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvMovimientos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMovimientos.Columns.AddRange(new DataGridViewColumn[] { colFechaMov, colTipoMov, colProductoMov, colCantidadMov, colUnidadMov, colOrigenMov, colObservacionesMov });
-            dataGridViewCellStyle105.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle105.BackColor = Color.White;
-            dataGridViewCellStyle105.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle105.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle105.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle105.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle105.WrapMode = DataGridViewTriState.False;
-            dgvMovimientos.DefaultCellStyle = dataGridViewCellStyle105;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = Color.White;
+            dataGridViewCellStyle21.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle21.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle21.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.False;
+            dgvMovimientos.DefaultCellStyle = dataGridViewCellStyle21;
             dgvMovimientos.Dock = DockStyle.Fill;
             dgvMovimientos.EnableHeadersVisualStyles = false;
             dgvMovimientos.GridColor = Color.FromArgb(230, 234, 238);
@@ -478,10 +653,10 @@
             // colFechaMov
             // 
             colFechaMov.DataPropertyName = "MovementDataTime";
-            dataGridViewCellStyle98.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle98.Format = "g";
-            dataGridViewCellStyle98.NullValue = null;
-            colFechaMov.DefaultCellStyle = dataGridViewCellStyle98;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Format = "g";
+            dataGridViewCellStyle14.NullValue = null;
+            colFechaMov.DefaultCellStyle = dataGridViewCellStyle14;
             colFechaMov.FillWeight = 105F;
             colFechaMov.HeaderText = "Fecha";
             colFechaMov.MinimumWidth = 6;
@@ -491,8 +666,8 @@
             // colTipoMov
             // 
             colTipoMov.DataPropertyName = "MovementType";
-            dataGridViewCellStyle99.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTipoMov.DefaultCellStyle = dataGridViewCellStyle99;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTipoMov.DefaultCellStyle = dataGridViewCellStyle15;
             colTipoMov.FillWeight = 110F;
             colTipoMov.HeaderText = "Tipo";
             colTipoMov.MinimumWidth = 6;
@@ -502,8 +677,8 @@
             // colProductoMov
             // 
             colProductoMov.DataPropertyName = "ProductName";
-            dataGridViewCellStyle100.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProductoMov.DefaultCellStyle = dataGridViewCellStyle100;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProductoMov.DefaultCellStyle = dataGridViewCellStyle16;
             colProductoMov.FillWeight = 180F;
             colProductoMov.HeaderText = "Producto";
             colProductoMov.MinimumWidth = 6;
@@ -513,9 +688,9 @@
             // colCantidadMov
             // 
             colCantidadMov.DataPropertyName = "Quantity";
-            dataGridViewCellStyle101.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle101.NullValue = null;
-            colCantidadMov.DefaultCellStyle = dataGridViewCellStyle101;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.NullValue = null;
+            colCantidadMov.DefaultCellStyle = dataGridViewCellStyle17;
             colCantidadMov.HeaderText = "Cantidad";
             colCantidadMov.MinimumWidth = 6;
             colCantidadMov.Name = "colCantidadMov";
@@ -524,8 +699,8 @@
             // colUnidadMov
             // 
             colUnidadMov.DataPropertyName = "UnitName";
-            dataGridViewCellStyle102.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colUnidadMov.DefaultCellStyle = dataGridViewCellStyle102;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUnidadMov.DefaultCellStyle = dataGridViewCellStyle18;
             colUnidadMov.FillWeight = 80F;
             colUnidadMov.HeaderText = "Unidad";
             colUnidadMov.MinimumWidth = 6;
@@ -535,8 +710,8 @@
             // colOrigenMov
             // 
             colOrigenMov.DataPropertyName = "Source";
-            dataGridViewCellStyle103.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colOrigenMov.DefaultCellStyle = dataGridViewCellStyle103;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colOrigenMov.DefaultCellStyle = dataGridViewCellStyle19;
             colOrigenMov.FillWeight = 120F;
             colOrigenMov.HeaderText = "Origen";
             colOrigenMov.MinimumWidth = 6;
@@ -546,8 +721,8 @@
             // colObservacionesMov
             // 
             colObservacionesMov.DataPropertyName = "Notes";
-            dataGridViewCellStyle104.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colObservacionesMov.DefaultCellStyle = dataGridViewCellStyle104;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colObservacionesMov.DefaultCellStyle = dataGridViewCellStyle20;
             colObservacionesMov.FillWeight = 220F;
             colObservacionesMov.HeaderText = "Observaciones";
             colObservacionesMov.MinimumWidth = 6;
@@ -564,136 +739,6 @@
             pnlFriltrosMovimientos.Padding = new Padding(10, 8, 10, 8);
             pnlFriltrosMovimientos.Size = new Size(916, 62);
             pnlFriltrosMovimientos.TabIndex = 0;
-            // 
-            // cmbTipoMovimiento
-            // 
-            cmbTipoMovimiento.Dock = DockStyle.Fill;
-            cmbTipoMovimiento.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbTipoMovimiento.FormattingEnabled = true;
-            cmbTipoMovimiento.Items.AddRange(new object[] { "Todos", "", "Entrada", "", "Salida", "", "Ajuste", "", "Pérdida/Dañado", "", "Compra", "", "Venta" });
-            cmbTipoMovimiento.Location = new Point(5, 5);
-            cmbTipoMovimiento.Name = "cmbTipoMovimiento";
-            cmbTipoMovimiento.Size = new Size(284, 27);
-            cmbTipoMovimiento.TabIndex = 2;
-            // 
-            // dtpHasta
-            // 
-            dtpHasta.Dock = DockStyle.Fill;
-            dtpHasta.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dtpHasta.Format = DateTimePickerFormat.Short;
-            dtpHasta.Location = new Point(5, 5);
-            dtpHasta.Name = "dtpHasta";
-            dtpHasta.Size = new Size(282, 28);
-            dtpHasta.TabIndex = 1;
-            // 
-            // dtpDesde
-            // 
-            dtpDesde.Dock = DockStyle.Fill;
-            dtpDesde.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dtpDesde.Format = DateTimePickerFormat.Short;
-            dtpDesde.Location = new Point(5, 5);
-            dtpDesde.Name = "dtpDesde";
-            dtpDesde.Size = new Size(282, 28);
-            dtpDesde.TabIndex = 0;
-            // 
-            // pnlContainerTab
-            // 
-            pnlContainerTab.Controls.Add(tcInventario);
-            pnlContainerTab.Dock = DockStyle.Fill;
-            pnlContainerTab.Location = new Point(5, 83);
-            pnlContainerTab.Name = "pnlContainerTab";
-            pnlContainerTab.Padding = new Padding(0, 7, 0, 0);
-            pnlContainerTab.Size = new Size(930, 742);
-            pnlContainerTab.TabIndex = 2;
-            // 
-            // colCodigoInv
-            // 
-            colCodigoInv.DataPropertyName = "ProductCode";
-            dataGridViewCellStyle87.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colCodigoInv.DefaultCellStyle = dataGridViewCellStyle87;
-            colCodigoInv.FillWeight = 85F;
-            colCodigoInv.HeaderText = "Código";
-            colCodigoInv.MinimumWidth = 6;
-            colCodigoInv.Name = "colCodigoInv";
-            colCodigoInv.ReadOnly = true;
-            // 
-            // colProductoInv
-            // 
-            colProductoInv.DataPropertyName = "ProductName";
-            dataGridViewCellStyle88.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProductoInv.DefaultCellStyle = dataGridViewCellStyle88;
-            colProductoInv.FillWeight = 180F;
-            colProductoInv.HeaderText = "Producto";
-            colProductoInv.MinimumWidth = 6;
-            colProductoInv.Name = "colProductoInv";
-            colProductoInv.ReadOnly = true;
-            // 
-            // colCategoriaInv
-            // 
-            colCategoriaInv.DataPropertyName = "CategoryName";
-            dataGridViewCellStyle89.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCategoriaInv.DefaultCellStyle = dataGridViewCellStyle89;
-            colCategoriaInv.FillWeight = 110F;
-            colCategoriaInv.HeaderText = "Categoria";
-            colCategoriaInv.MinimumWidth = 6;
-            colCategoriaInv.Name = "colCategoriaInv";
-            colCategoriaInv.ReadOnly = true;
-            // 
-            // colUnidadInv
-            // 
-            colUnidadInv.DataPropertyName = "UnitName";
-            dataGridViewCellStyle90.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colUnidadInv.DefaultCellStyle = dataGridViewCellStyle90;
-            colUnidadInv.FillWeight = 80F;
-            colUnidadInv.HeaderText = "Unidad";
-            colUnidadInv.MinimumWidth = 6;
-            colUnidadInv.Name = "colUnidadInv";
-            colUnidadInv.ReadOnly = true;
-            // 
-            // colStockActual
-            // 
-            colStockActual.DataPropertyName = "CurrentStock";
-            dataGridViewCellStyle91.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colStockActual.DefaultCellStyle = dataGridViewCellStyle91;
-            colStockActual.HeaderText = "StockActual";
-            colStockActual.MinimumWidth = 6;
-            colStockActual.Name = "colStockActual";
-            colStockActual.ReadOnly = true;
-            // 
-            // colStockMinimo
-            // 
-            colStockMinimo.DataPropertyName = "MinimumStock";
-            dataGridViewCellStyle92.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle92.NullValue = null;
-            colStockMinimo.DefaultCellStyle = dataGridViewCellStyle92;
-            colStockMinimo.HeaderText = "Stock Minimo";
-            colStockMinimo.MinimumWidth = 6;
-            colStockMinimo.Name = "colStockMinimo";
-            colStockMinimo.ReadOnly = true;
-            // 
-            // colEstadoStock
-            // 
-            colEstadoStock.DataPropertyName = "StockStatus";
-            dataGridViewCellStyle93.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoStock.DefaultCellStyle = dataGridViewCellStyle93;
-            colEstadoStock.FillWeight = 95F;
-            colEstadoStock.HeaderText = "Estado ";
-            colEstadoStock.MinimumWidth = 6;
-            colEstadoStock.Name = "colEstadoStock";
-            colEstadoStock.ReadOnly = true;
-            // 
-            // colVencimiento
-            // 
-            colVencimiento.DataPropertyName = "ExpirationDate";
-            dataGridViewCellStyle94.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle94.Format = "d";
-            dataGridViewCellStyle94.NullValue = null;
-            colVencimiento.DefaultCellStyle = dataGridViewCellStyle94;
-            colVencimiento.FillWeight = 110F;
-            colVencimiento.HeaderText = "Vencimiento";
-            colVencimiento.MinimumWidth = 6;
-            colVencimiento.Name = "colVencimiento";
-            colVencimiento.ReadOnly = true;
             // 
             // tableLayoutPanel1
             // 
@@ -723,6 +768,16 @@
             pnlDesde.Size = new Size(292, 40);
             pnlDesde.TabIndex = 0;
             // 
+            // dtpDesde
+            // 
+            dtpDesde.Dock = DockStyle.Fill;
+            dtpDesde.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpDesde.Format = DateTimePickerFormat.Short;
+            dtpDesde.Location = new Point(5, 5);
+            dtpDesde.Name = "dtpDesde";
+            dtpDesde.Size = new Size(282, 28);
+            dtpDesde.TabIndex = 0;
+            // 
             // pnlHasta
             // 
             pnlHasta.Controls.Add(dtpHasta);
@@ -732,6 +787,16 @@
             pnlHasta.Padding = new Padding(5, 5, 5, 0);
             pnlHasta.Size = new Size(292, 40);
             pnlHasta.TabIndex = 1;
+            // 
+            // dtpHasta
+            // 
+            dtpHasta.Dock = DockStyle.Fill;
+            dtpHasta.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpHasta.Format = DateTimePickerFormat.Short;
+            dtpHasta.Location = new Point(5, 5);
+            dtpHasta.Name = "dtpHasta";
+            dtpHasta.Size = new Size(282, 28);
+            dtpHasta.TabIndex = 1;
             // 
             // pnlMovimiento
             // 
@@ -743,61 +808,26 @@
             pnlMovimiento.Size = new Size(294, 40);
             pnlMovimiento.TabIndex = 2;
             // 
-            // panel1
+            // cmbTipoMovimiento
             // 
-            panel1.Controls.Add(pictureBox1);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 3);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(20, 7, 0, 7);
-            panel1.Size = new Size(74, 56);
-            panel1.TabIndex = 0;
+            cmbTipoMovimiento.Dock = DockStyle.Fill;
+            cmbTipoMovimiento.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipoMovimiento.FormattingEnabled = true;
+            cmbTipoMovimiento.Items.AddRange(new object[] { "Todos", "", "Entrada", "", "Salida", "", "Ajuste", "", "Pérdida/Dañado", "", "Compra", "", "Venta" });
+            cmbTipoMovimiento.Location = new Point(5, 5);
+            cmbTipoMovimiento.Name = "cmbTipoMovimiento";
+            cmbTipoMovimiento.Size = new Size(284, 27);
+            cmbTipoMovimiento.TabIndex = 2;
             // 
-            // panel2
+            // pnlContainerTab
             // 
-            panel2.Location = new Point(83, 3);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(190, 56);
-            panel2.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            panel3.Location = new Point(279, 3);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(151, 56);
-            panel3.TabIndex = 2;
-            // 
-            // panel4
-            // 
-            panel4.Location = new Point(436, 3);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(151, 56);
-            panel4.TabIndex = 3;
-            // 
-            // panel5
-            // 
-            panel5.Location = new Point(593, 3);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(151, 56);
-            panel5.TabIndex = 4;
-            // 
-            // panel6
-            // 
-            panel6.Location = new Point(750, 3);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(153, 56);
-            panel6.TabIndex = 5;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Image = Properties.Resources.search_32;
-            pictureBox1.Location = new Point(20, 7);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(54, 42);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
+            pnlContainerTab.Controls.Add(tcInventario);
+            pnlContainerTab.Dock = DockStyle.Fill;
+            pnlContainerTab.Location = new Point(5, 83);
+            pnlContainerTab.Name = "pnlContainerTab";
+            pnlContainerTab.Padding = new Padding(0, 7, 0, 0);
+            pnlContainerTab.Size = new Size(930, 742);
+            pnlContainerTab.TabIndex = 2;
             // 
             // FrmInventario
             // 
@@ -815,6 +845,14 @@
             Text = "FrmInventario";
             pnlFiltros.ResumeLayout(false);
             tlpFiltros.ResumeLayout(false);
+            pnlSearch.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            pnlInputSearch.ResumeLayout(false);
+            pnlInputSearch.PerformLayout();
+            pnlCategoria.ResumeLayout(false);
+            pnlEstado.ResumeLayout(false);
+            pnlVencimiento.ResumeLayout(false);
+            pnlRefrescar.ResumeLayout(false);
             tcInventario.ResumeLayout(false);
             tcExistencias.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvExistencias).EndInit();
@@ -825,16 +863,13 @@
             pnlSalida.ResumeLayout(false);
             pnlEntrada.ResumeLayout(false);
             tpMovimientos.ResumeLayout(false);
-            tpMovimientos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMovimientos).EndInit();
             pnlFriltrosMovimientos.ResumeLayout(false);
-            pnlContainerTab.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             pnlDesde.ResumeLayout(false);
             pnlHasta.ResumeLayout(false);
             pnlMovimiento.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            pnlContainerTab.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -886,12 +921,13 @@
         private Panel pnlDesde;
         private Panel pnlHasta;
         private Panel pnlMovimiento;
-        private Panel panel1;
-        private Panel panel2;
-        private Panel panel3;
-        private Panel panel4;
-        private Panel panel5;
-        private Panel panel6;
+        private Panel pnlSearch;
+        private Panel pnlInputSearch;
+        private Panel pnlCategoria;
+        private Panel pnlEstado;
+        private Panel pnlVencimiento;
+        private Panel pnlRefrescar;
         private PictureBox pictureBox1;
+        private Panel panel2;
     }
 }
