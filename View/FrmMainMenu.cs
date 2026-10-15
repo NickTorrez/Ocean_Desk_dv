@@ -1,5 +1,6 @@
 ﻿using Ocean_Desk_dv;
 using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Services;
 using Ocean_Desk_dv.UI.Catalogs;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.Catalogs;
@@ -279,6 +280,12 @@ namespace Ocean_Desk_dv.UI
         private void btnProductos_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnProductos);
+
+            lblSeccion.Text = "Gestión de Productos";
+            lblSubtitulo.Text = "Adición de platicas y control de recetas";
+
+            FrmProductos productos = new FrmProductos();
+            AbrirFormularioEnPanel(productos);
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
@@ -312,7 +319,7 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Facturación";
             lblSubtitulo.Text = "Gestión y Consultas de Comprobantes";
 
-            FrmFacturacion facturacion = new FrmFacturacion();
+            FrmFacturacion facturacion = new FrmFacturacion(_usuarioId);
             AbrirFormularioEnPanel(facturacion);
         }
 
