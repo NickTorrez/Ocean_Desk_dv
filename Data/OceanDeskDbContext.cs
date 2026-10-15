@@ -18,6 +18,10 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<AuditLog> AuditLogs { get; set; }
 
+    public virtual DbSet<BitacoraCashMovement> BitacoraCashMovements { get; set; }
+
+    public virtual DbSet<BitacoraGlobal> BitacoraGlobals { get; set; }
+
     public virtual DbSet<CashMovement> CashMovements { get; set; }
 
     public virtual DbSet<CashRegister> CashRegisters { get; set; }
@@ -38,6 +42,8 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<Reservation> Reservations { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     public virtual DbSet<Sale> Sales { get; set; }
 
     public virtual DbSet<SaleDetail> SaleDetails { get; set; }
@@ -46,14 +52,16 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<TableRestaurant> TableRestaurants { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseSqlServer("Server=DESKTOP-444I7CB\\MSSQLSERVERSS;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-444I7CB\\MSSQLSERVERSS;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AuditLog>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__AuditLog__A17F2398293C7C15");
+            entity.HasKey(e => e.AuditId).HasName("PK__AuditLog__A17F239889F40EC3");
 
             entity.ToTable("AuditLog");
 
@@ -75,11 +83,56 @@ public partial class OceanDeskDbContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<BitacoraCashMovement>(entity =>
+        {
+            entity.HasKey(e => e.BitacoraId);
+
+            entity.ToTable("BitacoraCashMovement");
+
+            entity.Property(e => e.ActionType)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.ChangeDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.TableName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("CashMovement");
+        });
+
+        modelBuilder.Entity<BitacoraGlobal>(entity =>
+        {
+            entity.HasKey(e => e.BitacoraId).HasName("PK__Bitacora__7ACF9B386D2CF83F");
+
+            entity.ToTable("BitacoraGlobal");
+
+            entity.Property(e => e.ActionType)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.ChangeDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.TableName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<CashMovement>(entity =>
         {
-            entity.HasKey(e => e.CashMovementId).HasName("PK__CashMove__BB9938A6AFC01AF5");
+            entity.HasKey(e => e.CashMovementId).HasName("PK__CashMove__BB9938A6532B0A0D");
 
-            entity.ToTable("CashMovement", tb => tb.HasTrigger("TRG_CashMovement_Audit"));
+            entity.ToTable("CashMovement", tb =>
+                {
+                    tb.HasTrigger("TRG_Audit_CashMovement");
+                    tb.HasTrigger("TRG_CashMovement_Audit");
+                });
 
             entity.HasIndex(e => e.CashRegisterId, "IX_CashMovement_CashRegisterId");
 
@@ -111,13 +164,9 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<CashRegister>(entity =>
         {
-            entity.HasKey(e => e.CashRegisterId).HasName("PK__CashRegi__7B5CAE9427202BDE");
+            entity.HasKey(e => e.CashRegisterId).HasName("PK__CashRegi__7B5CAE9460E38C5F");
 
-            entity.ToTable("CashRegister", tb =>
-                {
-                    tb.HasTrigger("TRG_CashRegister_Audit");
-                    tb.HasTrigger("TRG_CashRegister_CalculateDifference");
-                });
+            entity.ToTable("CashRegister", tb => tb.HasTrigger("TRG_CashRegister_Audit"));
 
             entity.Property(e => e.ActualCash).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.ClosingDateTime).HasPrecision(0);
@@ -156,7 +205,7 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<Invoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__D796AAB53CC24C48");
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__D796AAB558B31AF1");
 
             entity.ToTable("Invoice", tb => tb.HasTrigger("TRG_Invoice_Audit"));
 
@@ -192,13 +241,9 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<KitchenOrder>(entity =>
         {
-            entity.HasKey(e => e.KitchenOrderId).HasName("PK__KitchenO__4F08F9852FB26E1F");
+            entity.HasKey(e => e.KitchenOrderId).HasName("PK__KitchenO__4F08F985F46C78FC");
 
-            entity.ToTable("KitchenOrder", tb =>
-                {
-                    tb.HasTrigger("TRG_KitchenOrder_Audit");
-                    tb.HasTrigger("TRG_KitchenOrder_AuditStatus");
-                });
+            entity.ToTable("KitchenOrder", tb => tb.HasTrigger("TRG_KitchenOrder_Audit"));
 
             entity.HasIndex(e => e.ReceptionDateTime, "IX_KitchenOrder_ReceptionDateTime");
 
@@ -230,7 +275,7 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<KitchenOrderDetail>(entity =>
         {
-            entity.HasKey(e => e.KitchenOrderDetailId).HasName("PK__KitchenO__C2B2DB19BDDBE7F0");
+            entity.HasKey(e => e.KitchenOrderDetailId).HasName("PK__KitchenO__C2B2DB19E949AAC7");
 
             entity.ToTable("KitchenOrderDetail", tb => tb.HasTrigger("TRG_KitchenOrderDetail_Audit"));
 
@@ -250,7 +295,7 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<KitchenOrderHistory>(entity =>
         {
-            entity.HasKey(e => e.KitchenOrderHistoryId).HasName("PK__KitchenO__B3F43896A5870401");
+            entity.HasKey(e => e.KitchenOrderHistoryId).HasName("PK__KitchenO__B3F438967997B6AA");
 
             entity.ToTable("KitchenOrderHistory");
 
@@ -269,6 +314,10 @@ public partial class OceanDeskDbContext : DbContext
                 .HasForeignKey(d => d.KitchenOrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_KitchenOrderHistory_KitchenOrder");
+
+            entity.HasOne(d => d.User).WithMany(p => p.KitchenOrderHistories)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_History_User");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -314,13 +363,9 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<Reservation>(entity =>
         {
-            entity.HasKey(e => e.ReservationId).HasName("PK__Reservat__B7EE5F2406C71C84");
+            entity.HasKey(e => e.ReservationId).HasName("PK__Reservat__B7EE5F247B8B9590");
 
-            entity.ToTable("Reservation", tb =>
-                {
-                    tb.HasTrigger("TRG_Reservation_Audit");
-                    tb.HasTrigger("TRG_Reservation_UpdateTableStatus");
-                });
+            entity.ToTable("Reservation", tb => tb.HasTrigger("TRG_Reservation_Audit"));
 
             entity.HasIndex(e => e.CustomerId, "IX_Reservation_CustomerId");
 
@@ -341,11 +386,34 @@ public partial class OceanDeskDbContext : DbContext
                 .HasConstraintName("FK_Reservation_Table");
         });
 
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.ToTable("Role");
+
+            entity.HasIndex(e => e.RoleCode, "UQ_Role_RoleCode").IsUnique();
+
+            entity.HasIndex(e => e.RoleName, "UQ_Role_RoleName").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Description).HasMaxLength(250);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.RoleCode)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.RoleName).HasMaxLength(80);
+        });
+
         modelBuilder.Entity<Sale>(entity =>
         {
-            entity.HasKey(e => e.SaleId).HasName("PK__Sale__1EE3C3FF8C7610D9");
+            entity.HasKey(e => e.SaleId).HasName("PK__Sale__1EE3C3FF6F479B23");
 
-            entity.ToTable("Sale", tb => tb.HasTrigger("TRG_Sale_Audit"));
+            entity.ToTable("Sale", tb =>
+                {
+                    tb.HasTrigger("TRG_Audit_Sale");
+                    tb.HasTrigger("TRG_Sale_Audit");
+                });
 
             entity.HasIndex(e => e.CustomerId, "IX_Sale_CustomerId");
 
@@ -375,11 +443,16 @@ public partial class OceanDeskDbContext : DbContext
             entity.HasOne(d => d.Table).WithMany(p => p.Sales)
                 .HasForeignKey(d => d.TableId)
                 .HasConstraintName("FK_Sale_TableRestaurant");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Sales)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Sale_User");
         });
 
         modelBuilder.Entity<SaleDetail>(entity =>
         {
-            entity.HasKey(e => e.SaleDetailId).HasName("PK__SaleDeta__70DB14FE2F98DDC4");
+            entity.HasKey(e => e.SaleDetailId).HasName("PK__SaleDeta__70DB14FEE505BCEA");
 
             entity.ToTable("SaleDetail", tb => tb.HasTrigger("TRG_SaleDetail_Audit"));
 
@@ -406,7 +479,7 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<SalePayment>(entity =>
         {
-            entity.HasKey(e => e.SalePaymentId).HasName("PK__SalePaym__C5E7A5450C0A25B3");
+            entity.HasKey(e => e.SalePaymentId).HasName("PK__SalePaym__C5E7A5451D8D2084");
 
             entity.ToTable("SalePayment", tb => tb.HasTrigger("TRG_SalePayment_Audit"));
 
@@ -430,7 +503,7 @@ public partial class OceanDeskDbContext : DbContext
 
         modelBuilder.Entity<TableRestaurant>(entity =>
         {
-            entity.HasKey(e => e.TableId).HasName("PK__TableRes__7D5F01EEAB5A39E2");
+            entity.HasKey(e => e.TableId).HasName("PK__TableRes__7D5F01EE9662828A");
 
             entity.ToTable("TableRestaurant", tb => tb.HasTrigger("TRG_TableRestaurant_Audit"));
 
@@ -442,6 +515,41 @@ public partial class OceanDeskDbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasDefaultValue("Available");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("User");
+
+            entity.HasIndex(e => e.IsActive, "IX_User_IsActive");
+
+            entity.HasIndex(e => e.RoleId, "IX_User_RoleId");
+
+            entity.HasIndex(e => e.Username, "UQ_User_Username").IsUnique();
+
+            entity.HasIndex(e => e.Email, "UX_User_Email")
+                .IsUnique()
+                .HasFilter("([Email] IS NOT NULL)");
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Email).HasMaxLength(150);
+            entity.Property(e => e.FirstName).HasMaxLength(80);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.LastLoginAt).HasPrecision(0);
+            entity.Property(e => e.LastName).HasMaxLength(80);
+            entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
+            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt).HasPrecision(0);
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Role");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -40,4 +40,6 @@ public partial class Sale
     public virtual ICollection<SalePayment> SalePayments { get; set; } = new List<SalePayment>();
 
     public virtual TableRestaurant? Table { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }

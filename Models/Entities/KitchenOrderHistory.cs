@@ -20,4 +20,6 @@ public partial class KitchenOrderHistory
     public string? Notes { get; set; }
 
     public virtual KitchenOrder KitchenOrder { get; set; } = null!;
+
+    public virtual User? User { get; set; }
 }
