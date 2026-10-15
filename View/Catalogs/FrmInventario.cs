@@ -16,10 +16,5 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             InitializeComponent();
         }
-
-        private void dgvExistencias_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }
