@@ -302,6 +302,12 @@ namespace Ocean_Desk_dv.UI
         private void btnCompras_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnCompras);
+
+            lblSeccion.Text = "Gestión de Compras";
+            lblSubtitulo.Text = "Control y seguimiento de compras a proveedores";
+
+            FrmCompras compras = new FrmCompras();
+            AbrirFormularioEnPanel(compras);
         }
 
         private void btnVentas_Click(object sender, EventArgs e)

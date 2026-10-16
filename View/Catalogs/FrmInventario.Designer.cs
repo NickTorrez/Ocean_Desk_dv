@@ -172,7 +172,7 @@
             pnlSearch.Dock = DockStyle.Fill;
             pnlSearch.Location = new Point(3, 3);
             pnlSearch.Name = "pnlSearch";
-            pnlSearch.Padding = new Padding(5, 9, 0, 9);
+            pnlSearch.Padding = new Padding(5, 10, 0, 9);
             pnlSearch.Size = new Size(41, 56);
             pnlSearch.TabIndex = 0;
             // 
@@ -180,9 +180,9 @@
             // 
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Image = Properties.Resources.search_32;
-            pictureBox1.Location = new Point(5, 9);
+            pictureBox1.Location = new Point(5, 10);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(36, 38);
+            pictureBox1.Size = new Size(36, 37);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -194,7 +194,7 @@
             pnlInputSearch.Dock = DockStyle.Fill;
             pnlInputSearch.Location = new Point(50, 3);
             pnlInputSearch.Name = "pnlInputSearch";
-            pnlInputSearch.Padding = new Padding(3, 10, 3, 20);
+            pnlInputSearch.Padding = new Padding(3, 15, 3, 15);
             pnlInputSearch.Size = new Size(198, 56);
             pnlInputSearch.TabIndex = 1;
             // 
@@ -202,7 +202,7 @@
             // 
             panel2.BackColor = Color.MidnightBlue;
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(3, 34);
+            panel2.Location = new Point(3, 39);
             panel2.Name = "panel2";
             panel2.Size = new Size(192, 2);
             panel2.TabIndex = 16;
@@ -212,7 +212,7 @@
             txtBuscarInventario.BorderStyle = BorderStyle.None;
             txtBuscarInventario.Dock = DockStyle.Top;
             txtBuscarInventario.Font = new Font("Century Gothic", 10.2F);
-            txtBuscarInventario.Location = new Point(3, 10);
+            txtBuscarInventario.Location = new Point(3, 15);
             txtBuscarInventario.MaxLength = 150;
             txtBuscarInventario.Name = "txtBuscarInventario";
             txtBuscarInventario.PlaceholderText = "Buscar insumo...";
@@ -225,7 +225,7 @@
             pnlCategoria.Dock = DockStyle.Fill;
             pnlCategoria.Location = new Point(254, 3);
             pnlCategoria.Name = "pnlCategoria";
-            pnlCategoria.Padding = new Padding(10);
+            pnlCategoria.Padding = new Padding(10, 15, 10, 10);
             pnlCategoria.Size = new Size(157, 56);
             pnlCategoria.TabIndex = 2;
             // 
@@ -234,7 +234,8 @@
             cmbCategoriaInventario.Dock = DockStyle.Fill;
             cmbCategoriaInventario.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoriaInventario.FormattingEnabled = true;
-            cmbCategoriaInventario.Location = new Point(10, 10);
+            cmbCategoriaInventario.Items.AddRange(new object[] { "Seleccione Categoria..." });
+            cmbCategoriaInventario.Location = new Point(10, 15);
             cmbCategoriaInventario.Name = "cmbCategoriaInventario";
             cmbCategoriaInventario.Size = new Size(137, 28);
             cmbCategoriaInventario.TabIndex = 1;
@@ -245,7 +246,7 @@
             pnlEstado.Dock = DockStyle.Fill;
             pnlEstado.Location = new Point(417, 3);
             pnlEstado.Name = "pnlEstado";
-            pnlEstado.Padding = new Padding(10);
+            pnlEstado.Padding = new Padding(10, 15, 10, 10);
             pnlEstado.Size = new Size(157, 56);
             pnlEstado.TabIndex = 3;
             // 
@@ -254,8 +255,8 @@
             cmbEstadoStock.Dock = DockStyle.Fill;
             cmbEstadoStock.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstadoStock.FormattingEnabled = true;
-            cmbEstadoStock.Items.AddRange(new object[] { "Todos", "Normal", "Bajo", "Agotado" });
-            cmbEstadoStock.Location = new Point(10, 10);
+            cmbEstadoStock.Items.AddRange(new object[] { "Seleccione Estado de Stock...", "Todos", "Normal", "Bajo", "Agotado" });
+            cmbEstadoStock.Location = new Point(10, 15);
             cmbEstadoStock.Name = "cmbEstadoStock";
             cmbEstadoStock.Size = new Size(137, 28);
             cmbEstadoStock.TabIndex = 2;
@@ -266,7 +267,7 @@
             pnlVencimiento.Dock = DockStyle.Fill;
             pnlVencimiento.Location = new Point(580, 3);
             pnlVencimiento.Name = "pnlVencimiento";
-            pnlVencimiento.Padding = new Padding(10);
+            pnlVencimiento.Padding = new Padding(10, 15, 10, 10);
             pnlVencimiento.Size = new Size(157, 56);
             pnlVencimiento.TabIndex = 4;
             // 
@@ -275,8 +276,8 @@
             cmbVencimiento.Dock = DockStyle.Fill;
             cmbVencimiento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbVencimiento.FormattingEnabled = true;
-            cmbVencimiento.Items.AddRange(new object[] { "Todos", "Próximos a vencer ", "Vencidos" });
-            cmbVencimiento.Location = new Point(10, 10);
+            cmbVencimiento.Items.AddRange(new object[] { "Seleccione Vencimiento...", "Todos", "Próximos a vencer ", "Vencidos" });
+            cmbVencimiento.Location = new Point(10, 15);
             cmbVencimiento.Name = "cmbVencimiento";
             cmbVencimiento.Size = new Size(137, 28);
             cmbVencimiento.TabIndex = 3;
@@ -614,7 +615,6 @@
             dataGridViewCellStyle12.BackColor = Color.FromArgb(248, 250, 252);
             dgvMovimientos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvMovimientos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMovimientos.BackgroundColor = Color.FromArgb(230, 234, 238);
             dgvMovimientos.BorderStyle = BorderStyle.None;
             dgvMovimientos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -622,8 +622,8 @@
             dataGridViewCellStyle13.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dataGridViewCellStyle13.ForeColor = Color.White;
             dataGridViewCellStyle13.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle13.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle13.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle13.SelectionForeColor = Color.White;
             dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
             dgvMovimientos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvMovimientos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
