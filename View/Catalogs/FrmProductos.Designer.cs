@@ -207,7 +207,6 @@
             tlpBarraSuperior.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpBarraSuperior.Size = new Size(892, 62);
             tlpBarraSuperior.TabIndex = 0;
-            tlpBarraSuperior.Paint += tlpBarraSuperior_Paint;
             // 
             // pnlHeaderNuevo
             // 
@@ -324,7 +323,6 @@
             txtBuscarProducto.PlaceholderText = "Buscar Producto...";
             txtBuscarProducto.Size = new Size(283, 21);
             txtBuscarProducto.TabIndex = 1;
-            txtBuscarProducto.TextChanged += txtBuscarProducto_TextChanged;
             // 
             // label1
             // 

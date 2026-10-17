@@ -1,5 +1,6 @@
 ﻿using Ocean_Desk_dv;
 using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.Services;
 using Ocean_Desk_dv.UI.Catalogs;
 using Ocean_Desk_dv.UI.MessageBox;
@@ -284,7 +285,14 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Gestión de Productos";
             lblSubtitulo.Text = "Adición de platicas y control de recetas";
 
+            // Crear la vista, el repositorio y el Presenter desde el punto de composición.
+            // El formulario no construye directamente el contexto ni consulta la base de datos.
             FrmProductos productos = new FrmProductos();
+            ProductosPresenter presenter = new ProductosPresenter(
+                productos,
+                OceanDeskRepositoryFactory.CrearProductosRepository());
+
+            productos.VincularPresenter(presenter);
             AbrirFormularioEnPanel(productos);
         }
 
