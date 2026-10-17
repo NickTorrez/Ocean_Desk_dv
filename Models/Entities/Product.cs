@@ -25,7 +25,21 @@ public partial class Product
 
     public DateTime? UpdatedAt { get; set; }
 
+    public string ProductType { get; set; } = null!;
+
+    public int? UnitOfMeasureId { get; set; }
+
+    public virtual Inventory? Inventory { get; set; }
+
+    public virtual ICollection<InventoryMovement> InventoryMovements { get; set; } = new List<InventoryMovement>();
+
     public virtual ProductCategory ProductCategory { get; set; } = null!;
 
+    public virtual Recipe? Recipe { get; set; }
+
+    public virtual ICollection<RecipeDetail> RecipeDetails { get; set; } = new List<RecipeDetail>();
+
     public virtual ICollection<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
+
+    public virtual UnitOfMeasure? UnitOfMeasure { get; set; }
 }

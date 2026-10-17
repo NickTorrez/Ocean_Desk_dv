@@ -28,6 +28,10 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<Inventory> Inventories { get; set; }
+
+    public virtual DbSet<InventoryMovement> InventoryMovements { get; set; }
+
     public virtual DbSet<Invoice> Invoices { get; set; }
 
     public virtual DbSet<KitchenOrder> KitchenOrders { get; set; }
@@ -40,6 +44,10 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+    public virtual DbSet<Recipe> Recipes { get; set; }
+
+    public virtual DbSet<RecipeDetail> RecipeDetails { get; set; }
+
     public virtual DbSet<Reservation> Reservations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -51,6 +59,8 @@ public partial class OceanDeskDbContext : DbContext
     public virtual DbSet<SalePayment> SalePayments { get; set; }
 
     public virtual DbSet<TableRestaurant> TableRestaurants { get; set; }
+
+    public virtual DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -203,6 +213,54 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.UpdatedAt).HasPrecision(0);
         });
 
+        modelBuilder.Entity<Inventory>(entity =>
+        {
+            entity.HasKey(e => e.ProductId);
+
+            entity.ToTable("Inventory");
+
+            entity.Property(e => e.ProductId).ValueGeneratedNever();
+            entity.Property(e => e.CurrentStock).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.MinimumStock).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.UpdatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+
+            entity.HasOne(d => d.Product).WithOne(p => p.Inventory)
+                .HasForeignKey<Inventory>(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Inventory_Product");
+        });
+
+        modelBuilder.Entity<InventoryMovement>(entity =>
+        {
+            entity.ToTable("InventoryMovement");
+
+            entity.HasIndex(e => new { e.ProductId, e.MovementDateTime }, "IX_InventoryMovement_Product_Date").IsDescending(false, true);
+
+            entity.HasIndex(e => e.SaleId, "IX_InventoryMovement_SaleId").HasFilter("([SaleId] IS NOT NULL)");
+
+            entity.Property(e => e.MovementDateTime)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.MovementType).HasMaxLength(20);
+            entity.Property(e => e.Notes).HasMaxLength(500);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.ReferenceId).HasMaxLength(50);
+            entity.Property(e => e.ReferenceType).HasMaxLength(30);
+            entity.Property(e => e.StockAfter).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.StockBefore).HasColumnType("decimal(12, 4)");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InventoryMovements)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InventoryMovement_Product");
+
+            entity.HasOne(d => d.Sale).WithMany(p => p.InventoryMovements)
+                .HasForeignKey(d => d.SaleId)
+                .HasConstraintName("FK_InventoryMovement_Sale");
+        });
+
         modelBuilder.Entity<Invoice>(entity =>
         {
             entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__D796AAB558B31AF1");
@@ -328,6 +386,8 @@ public partial class OceanDeskDbContext : DbContext
 
             entity.HasIndex(e => e.ProductName, "IX_Product_ProductName");
 
+            entity.HasIndex(e => new { e.ProductType, e.IsActive }, "IX_Product_ProductType_IsActive");
+
             entity.HasIndex(e => e.ProductCode, "UQ_Product_ProductCode").IsUnique();
 
             entity.Property(e => e.CreatedAt)
@@ -338,6 +398,9 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.IsAvailable).HasDefaultValue(true);
             entity.Property(e => e.ProductCode).HasMaxLength(30);
             entity.Property(e => e.ProductName).HasMaxLength(150);
+            entity.Property(e => e.ProductType)
+                .HasMaxLength(20)
+                .HasDefaultValue("FinishedProduct");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
@@ -345,6 +408,10 @@ public partial class OceanDeskDbContext : DbContext
                 .HasForeignKey(d => d.ProductCategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_ProductCategory");
+
+            entity.HasOne(d => d.UnitOfMeasure).WithMany(p => p.Products)
+                .HasForeignKey(d => d.UnitOfMeasureId)
+                .HasConstraintName("FK_Product_UnitOfMeasure");
         });
 
         modelBuilder.Entity<ProductCategory>(entity =>
@@ -359,6 +426,50 @@ public partial class OceanDeskDbContext : DbContext
                 .HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.Description).HasMaxLength(250);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
+        });
+
+        modelBuilder.Entity<Recipe>(entity =>
+        {
+            entity.ToTable("Recipe");
+
+            entity.HasIndex(e => e.ProductId, "UQ_Recipe_ProductId").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Instructions).HasMaxLength(1000);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+            entity.HasOne(d => d.Product).WithOne(p => p.Recipe)
+                .HasForeignKey<Recipe>(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Recipe_Product");
+        });
+
+        modelBuilder.Entity<RecipeDetail>(entity =>
+        {
+            entity.ToTable("RecipeDetail");
+
+            entity.HasIndex(e => e.IngredientProductId, "IX_RecipeDetail_IngredientProductId");
+
+            entity.HasIndex(e => new { e.RecipeId, e.IngredientProductId }, "UQ_RecipeDetail_Recipe_Ingredient").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Notes).HasMaxLength(250);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(12, 4)");
+
+            entity.HasOne(d => d.IngredientProduct).WithMany(p => p.RecipeDetails)
+                .HasForeignKey(d => d.IngredientProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RecipeDetail_IngredientProduct");
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeDetails)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RecipeDetail_Recipe");
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -515,6 +626,23 @@ public partial class OceanDeskDbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasDefaultValue("Available");
+        });
+
+        modelBuilder.Entity<UnitOfMeasure>(entity =>
+        {
+            entity.ToTable("UnitOfMeasure");
+
+            entity.HasIndex(e => e.UnitCode, "UQ_UnitOfMeasure_UnitCode").IsUnique();
+
+            entity.HasIndex(e => e.UnitName, "UQ_UnitOfMeasure_UnitName").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UnitCode).HasMaxLength(20);
+            entity.Property(e => e.UnitName).HasMaxLength(50);
+            entity.Property(e => e.UnitSymbol).HasMaxLength(10);
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -31,6 +31,8 @@ public partial class Sale
 
     public virtual Customer? Customer { get; set; }
 
+    public virtual ICollection<InventoryMovement> InventoryMovements { get; set; } = new List<InventoryMovement>();
+
     public virtual Invoice? Invoice { get; set; }
 
     public virtual KitchenOrder? KitchenOrder { get; set; }

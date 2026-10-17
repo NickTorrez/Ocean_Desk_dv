@@ -152,6 +152,7 @@
             // 
             // tlpFilters
             // 
+            tlpFilters.BackColor = Color.FromArgb(245, 247, 250);
             tlpFilters.ColumnCount = 4;
             tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));

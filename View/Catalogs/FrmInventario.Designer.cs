@@ -144,13 +144,14 @@
             // 
             // tlpFiltros
             // 
+            tlpFiltros.BackColor = Color.FromArgb(245, 247, 250);
             tlpFiltros.ColumnCount = 6;
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.202847F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5707512F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
-            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.0565987F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.0487F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.84555F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.2764378F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.2764378F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.2764378F));
+            tlpFiltros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.2764378F));
             tlpFiltros.Controls.Add(pnlSearch, 0, 0);
             tlpFiltros.Controls.Add(pnlInputSearch, 1, 0);
             tlpFiltros.Controls.Add(pnlCategoria, 2, 0);
@@ -172,17 +173,17 @@
             pnlSearch.Dock = DockStyle.Fill;
             pnlSearch.Location = new Point(3, 3);
             pnlSearch.Name = "pnlSearch";
-            pnlSearch.Padding = new Padding(5, 10, 0, 9);
-            pnlSearch.Size = new Size(41, 56);
+            pnlSearch.Padding = new Padding(2, 10, 0, 9);
+            pnlSearch.Size = new Size(30, 56);
             pnlSearch.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Image = Properties.Resources.search_32;
-            pictureBox1.Location = new Point(5, 10);
+            pictureBox1.Location = new Point(2, 10);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(36, 37);
+            pictureBox1.Size = new Size(28, 37);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -192,10 +193,10 @@
             pnlInputSearch.Controls.Add(panel2);
             pnlInputSearch.Controls.Add(txtBuscarInventario);
             pnlInputSearch.Dock = DockStyle.Fill;
-            pnlInputSearch.Location = new Point(50, 3);
+            pnlInputSearch.Location = new Point(39, 3);
             pnlInputSearch.Name = "pnlInputSearch";
             pnlInputSearch.Padding = new Padding(3, 15, 3, 15);
-            pnlInputSearch.Size = new Size(198, 56);
+            pnlInputSearch.Size = new Size(200, 56);
             pnlInputSearch.TabIndex = 1;
             // 
             // panel2
@@ -204,7 +205,7 @@
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(3, 39);
             panel2.Name = "panel2";
-            panel2.Size = new Size(192, 2);
+            panel2.Size = new Size(194, 2);
             panel2.TabIndex = 16;
             // 
             // txtBuscarInventario
@@ -216,17 +217,17 @@
             txtBuscarInventario.MaxLength = 150;
             txtBuscarInventario.Name = "txtBuscarInventario";
             txtBuscarInventario.PlaceholderText = "Buscar insumo...";
-            txtBuscarInventario.Size = new Size(192, 21);
+            txtBuscarInventario.Size = new Size(194, 21);
             txtBuscarInventario.TabIndex = 0;
             // 
             // pnlCategoria
             // 
             pnlCategoria.Controls.Add(cmbCategoriaInventario);
             pnlCategoria.Dock = DockStyle.Fill;
-            pnlCategoria.Location = new Point(254, 3);
+            pnlCategoria.Location = new Point(245, 3);
             pnlCategoria.Name = "pnlCategoria";
             pnlCategoria.Padding = new Padding(10, 15, 10, 10);
-            pnlCategoria.Size = new Size(157, 56);
+            pnlCategoria.Size = new Size(159, 56);
             pnlCategoria.TabIndex = 2;
             // 
             // cmbCategoriaInventario
@@ -237,17 +238,17 @@
             cmbCategoriaInventario.Items.AddRange(new object[] { "Seleccione Categoria..." });
             cmbCategoriaInventario.Location = new Point(10, 15);
             cmbCategoriaInventario.Name = "cmbCategoriaInventario";
-            cmbCategoriaInventario.Size = new Size(137, 28);
+            cmbCategoriaInventario.Size = new Size(139, 28);
             cmbCategoriaInventario.TabIndex = 1;
             // 
             // pnlEstado
             // 
             pnlEstado.Controls.Add(cmbEstadoStock);
             pnlEstado.Dock = DockStyle.Fill;
-            pnlEstado.Location = new Point(417, 3);
+            pnlEstado.Location = new Point(410, 3);
             pnlEstado.Name = "pnlEstado";
             pnlEstado.Padding = new Padding(10, 15, 10, 10);
-            pnlEstado.Size = new Size(157, 56);
+            pnlEstado.Size = new Size(159, 56);
             pnlEstado.TabIndex = 3;
             // 
             // cmbEstadoStock
@@ -258,17 +259,17 @@
             cmbEstadoStock.Items.AddRange(new object[] { "Seleccione Estado de Stock...", "Todos", "Normal", "Bajo", "Agotado" });
             cmbEstadoStock.Location = new Point(10, 15);
             cmbEstadoStock.Name = "cmbEstadoStock";
-            cmbEstadoStock.Size = new Size(137, 28);
+            cmbEstadoStock.Size = new Size(139, 28);
             cmbEstadoStock.TabIndex = 2;
             // 
             // pnlVencimiento
             // 
             pnlVencimiento.Controls.Add(cmbVencimiento);
             pnlVencimiento.Dock = DockStyle.Fill;
-            pnlVencimiento.Location = new Point(580, 3);
+            pnlVencimiento.Location = new Point(575, 3);
             pnlVencimiento.Name = "pnlVencimiento";
             pnlVencimiento.Padding = new Padding(10, 15, 10, 10);
-            pnlVencimiento.Size = new Size(157, 56);
+            pnlVencimiento.Size = new Size(159, 56);
             pnlVencimiento.TabIndex = 4;
             // 
             // cmbVencimiento
@@ -279,17 +280,17 @@
             cmbVencimiento.Items.AddRange(new object[] { "Seleccione Vencimiento...", "Todos", "Próximos a vencer ", "Vencidos" });
             cmbVencimiento.Location = new Point(10, 15);
             cmbVencimiento.Name = "cmbVencimiento";
-            cmbVencimiento.Size = new Size(137, 28);
+            cmbVencimiento.Size = new Size(139, 28);
             cmbVencimiento.TabIndex = 3;
             // 
             // pnlRefrescar
             // 
             pnlRefrescar.Controls.Add(btnRefrescarInventario);
             pnlRefrescar.Dock = DockStyle.Fill;
-            pnlRefrescar.Location = new Point(743, 3);
+            pnlRefrescar.Location = new Point(740, 3);
             pnlRefrescar.Name = "pnlRefrescar";
             pnlRefrescar.Padding = new Padding(5);
-            pnlRefrescar.Size = new Size(160, 56);
+            pnlRefrescar.Size = new Size(163, 56);
             pnlRefrescar.TabIndex = 5;
             // 
             // btnRefrescarInventario
@@ -302,7 +303,7 @@
             btnRefrescarInventario.ForeColor = Color.White;
             btnRefrescarInventario.Location = new Point(5, 5);
             btnRefrescarInventario.Name = "btnRefrescarInventario";
-            btnRefrescarInventario.Size = new Size(150, 46);
+            btnRefrescarInventario.Size = new Size(153, 46);
             btnRefrescarInventario.TabIndex = 4;
             btnRefrescarInventario.Text = "Refrescar";
             btnRefrescarInventario.UseVisualStyleBackColor = false;
