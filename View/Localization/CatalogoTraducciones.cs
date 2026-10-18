@@ -45,7 +45,8 @@ namespace Ocean_Desk_dv.View.Localization
         {
             ["Avocado"] = "Aguacate", ["Cilantro"] = "Cilantro", ["Fish"] = "Pescado",
             ["Green Pepper"] = "Pimiento verde", ["Lemon"] = "Limón", ["Lime"] = "Limón",
-            ["Onion"] = "Cebolla", ["Shrimp"] = "Camarón", ["Tomato"] = "Tomate", ["Tomatoes"] = "Tomates"
+            ["Onion"] = "Cebolla", ["Shrimp"] = "Camarón", ["Tomato"] = "Tomate", ["Tomatoes"] = "Tomates",
+            ["Squid"] = "Calamar", ["Black Clam"] = "Concha negra", ["Octopus"] = "Pulpo"
         };
 
         /// <summary>Traduce el nombre de una categoría; si no existe traducción, conserva el original.</summary>
