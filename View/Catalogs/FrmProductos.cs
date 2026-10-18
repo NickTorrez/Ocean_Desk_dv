@@ -89,25 +89,91 @@ namespace Ocean_Desk_dv.View.Catalogs
             IsActive = chkActivo.Checked
         };
 
+
+        /// <summary>
+        /// Convierte los objetos de los ComboBox en textos legibles para el usuario.
+        /// </summary>
+        private static void FormatearTextoCombo(object? sender, ListControlConvertEventArgs e)
+        {
+            e.Value = e.ListItem switch
+            {
+                CategoriaProductoDto categoria => categoria.CategoryName,
+                UnidadMedidaDto unidad => unidad.UnitName,
+                ProductoRecetaSelectorDto producto => producto.TextoMostrar,
+                IngredienteSelectorDto ingrediente => ingrediente.TextoMostrar,
+                _ => e.Value
+            };
+        }
+
+
+        /// <summary>
+        /// Configura los ComboBox para mostrar propiedades legibles de los DTO.
+        /// Comprueba también qué tipo de objeto contiene cada lista enlazada.
+        /// </summary>
         private void PrepararEnlaces()
         {
             dgvProductos.AutoGenerateColumns = false;
             dgvProductos.DataSource = _productos;
+
             dgvReceta.AutoGenerateColumns = false;
             dgvReceta.DataSource = _detalles;
-            cmbCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbCategoria.DisplayMember = nameof(CategoriaProductoDto.CategoryName);
-            cmbCategoria.ValueMember = nameof(CategoriaProductoDto.ProductCategoryId);
-            cmbCategoria.DataSource = _categorias;
-            cmbUnidad.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbUnidad.DisplayMember = nameof(UnidadMedidaDto.UnitName);
-            cmbUnidad.ValueMember = nameof(UnidadMedidaDto.UnitOfMeasureId);
-            cmbUnidad.DataSource = _unidades;
-            cmbProductoReceta.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbProductoReceta.DisplayMember = nameof(ProductoRecetaSelectorDto.TextoMostrar);
-            cmbProductoReceta.ValueMember = nameof(ProductoRecetaSelectorDto.ProductId);
-            cmbProductoReceta.DataSource = _productosReceta;
+
+            ConfigurarComboBox(
+                cmbCategoria,
+                _categorias,
+                nameof(CategoriaProductoDto.CategoryName),
+                nameof(CategoriaProductoDto.ProductCategoryId));
+
+            ConfigurarComboBox(
+                cmbUnidad,
+                _unidades,
+                nameof(UnidadMedidaDto.UnitName),
+                nameof(UnidadMedidaDto.UnitOfMeasureId));
+
+            ConfigurarComboBox(
+                cmbProductoReceta,
+                _productosReceta,
+                nameof(ProductoRecetaSelectorDto.TextoMostrar),
+                nameof(ProductoRecetaSelectorDto.ProductId));
         }
+
+        /// <summary>
+        /// Establece las propiedades de presentación y valor de un ComboBox.
+        /// </summary>
+        private static void ConfigurarComboBox(
+            ComboBox combo,
+            BindingSource origen,
+            string propiedadVisible,
+            string propiedadValor)
+        {
+            combo.BeginUpdate();
+
+            try
+            {
+
+                combo.FormattingEnabled = true;
+                combo.Format -= FormatearTextoCombo;
+                combo.Format += FormatearTextoCombo;
+
+                combo.DataSource = null;
+                combo.Items.Clear();
+
+                combo.DropDownStyle = ComboBoxStyle.DropDownList;
+                combo.FormattingEnabled = true;
+
+                combo.DisplayMember = propiedadVisible;
+                combo.ValueMember = propiedadValor;
+                combo.DataSource = origen;
+
+                // Fuerza la actualización de la presentación del control.
+                combo.Refresh();
+            }
+            finally
+            {
+                combo.EndUpdate();
+            }
+        }
+
 
         /// <summary>Añade los campos de receta que no existen en el diseñador original.</summary>
         private void CrearControlesReceta()
@@ -190,9 +256,36 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         public void MostrarProductos(IReadOnlyList<ProductoCatalogoDto> productos) { _productos.DataSource = productos.ToList(); }
-        public void MostrarCategorias(IReadOnlyList<CategoriaProductoDto> categorias) { _categorias.DataSource = categorias.ToList(); if (cmbCategoria.Items.Count > 0) cmbCategoria.SelectedIndex = 0; }
-        public void MostrarUnidades(IReadOnlyList<UnidadMedidaDto> unidades) { _unidades.DataSource = unidades.ToList(); if (cmbUnidad.Items.Count > 0) cmbUnidad.SelectedIndex = 0; }
-        public void MostrarProductosParaReceta(IReadOnlyList<ProductoRecetaSelectorDto> productos) { _actualizando = true; try { _productosReceta.DataSource = productos.ToList(); if (cmbProductoReceta.Items.Count > 0) cmbProductoReceta.SelectedIndex = 0; } finally { _actualizando = false; } }
+
+        public void MostrarCategorias(IReadOnlyList<CategoriaProductoDto> categorias)
+        {
+            _categorias.DataSource = categorias.ToList();
+            if (cmbCategoria.Items.Count > 0 && cmbCategoria.SelectedIndex < 0)
+                cmbCategoria.SelectedIndex = 0;
+        }
+
+        public void MostrarUnidades(IReadOnlyList<UnidadMedidaDto> unidades)
+        {
+            _unidades.DataSource = unidades.ToList();
+            if (cmbUnidad.Items.Count > 0 && cmbUnidad.SelectedIndex < 0)
+                cmbUnidad.SelectedIndex = 0;
+        }
+
+        public void MostrarProductosParaReceta(IReadOnlyList<ProductoRecetaSelectorDto> productos)
+        {
+            _actualizando = true;
+            try
+            {
+                _productosReceta.DataSource = productos.ToList();
+                if (cmbProductoReceta.Items.Count > 0 && cmbProductoReceta.SelectedIndex < 0)
+                    cmbProductoReceta.SelectedIndex = 0;
+            }
+            finally
+            {
+                _actualizando = false;
+            }
+        }
+
         public void MostrarIngredientesDisponibles(IReadOnlyList<IngredienteSelectorDto> ingredientes) { _ingredientes.DataSource = ingredientes.ToList(); }
 
         /// <summary>Coloca los datos del producto elegido en los campos para edición.</summary>

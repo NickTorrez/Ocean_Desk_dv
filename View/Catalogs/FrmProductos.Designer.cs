@@ -917,6 +917,7 @@
             dgvProductos.AllowUserToAddRows = false;
             dgvProductos.AllowUserToDeleteRows = false;
             dgvProductos.AllowUserToResizeColumns = false;
+            dgvProductos.AllowUserToResizeRows = false;
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProductos.BorderStyle = BorderStyle.None;
             dgvProductos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -1119,7 +1120,6 @@
             cmbProductoReceta.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbProductoReceta.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbProductoReceta.FormattingEnabled = true;
-            cmbProductoReceta.Items.AddRange(new object[] { "Seleccione Producto en Existencia..." });
             cmbProductoReceta.Location = new Point(30, 8);
             cmbProductoReceta.Name = "cmbProductoReceta";
             cmbProductoReceta.Size = new Size(547, 29);
