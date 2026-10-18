@@ -57,7 +57,58 @@ namespace Ocean_Desk_dv.View.Catalogs
             PrepararEnlaces();
             CrearControlesReceta();
             ConectarEventos();
+            ConfigurarEstadoInicialProducto();
+        }
 
+        /// <summary>
+        /// Deshabilita los controles de captura al iniciar el formulario para evitar
+        /// modificaciones hasta que el usuario elija Nuevo o Editar.
+        /// </summary>
+        private void ConfigurarEstadoInicialProducto()
+        {
+            EstablecerEdicionProductoHabilitada(false);
+            RestablecerCamposProducto();
+        }
+
+        /// <summary>
+        /// Activa o desactiva todos los controles que permiten capturar datos del producto.
+        /// </summary>
+        /// <param name="habilitar">True permite capturar; false bloquea la edición.</param>
+        private void EstablecerEdicionProductoHabilitada(bool habilitar)
+        {
+            txtCodigo.Enabled = habilitar;
+            txtNombre.Enabled = habilitar;
+            txtDescripcion.Enabled = habilitar;
+            cmbCategoria.Enabled = habilitar;
+            nudPrecio.Enabled = habilitar;
+            cmbUnidad.Enabled = habilitar;
+            nudStockMinimo.Enabled = habilitar;
+            chkDisponible.Enabled = habilitar;
+            chkActivo.Enabled = habilitar;
+            btnLimpiarProducto.Enabled = habilitar;
+            btnGuardarProducto.Enabled = habilitar;
+        }
+
+        /// <summary>
+        /// Restablece los valores de captura sin cambiar el estado habilitado de los controles.
+        /// </summary>
+        private void RestablecerCamposProducto()
+        {
+            _productoEnEdicionId = null;
+            txtCodigo.Clear();
+            txtNombre.Clear();
+            txtDescripcion.Clear();
+
+            if (cmbCategoria.Items.Count > 0)
+                cmbCategoria.SelectedIndex = 0;
+
+            if (cmbUnidad.Items.Count > 0)
+                cmbUnidad.SelectedIndex = 0;
+
+            nudPrecio.Value = nudPrecio.Minimum;
+            nudStockMinimo.Value = nudStockMinimo.Minimum;
+            chkDisponible.Checked = true;
+            chkActivo.Checked = true;
         }
 
         /// <summary>Asocia el Presenter y ejecuta la carga inicial de datos.</summary>
@@ -201,7 +252,11 @@ namespace Ocean_Desk_dv.View.Catalogs
             btnNuevoProducto.Click += (_, _) => NuevoProductoSolicitado?.Invoke(this, EventArgs.Empty);
             btnEditarProducto.Click += (_, _) => EditarProductoSolicitado?.Invoke(this, EventArgs.Empty);
             btnCambiarEstado.Click += (_, _) => CambiarEstadoProductoSolicitado?.Invoke(this, EventArgs.Empty);
-            btnLimpiarProducto.Click += (_, _) => LimpiarProductoSolicitado?.Invoke(this, EventArgs.Empty);
+            btnLimpiarProducto.Click += (_, _) =>
+            {
+                LimpiarFormularioProducto();
+                EstablecerEdicionProductoHabilitada(false);
+            };
             btnGuardarProducto.Click += (_, _) => GuardarProductoSolicitado?.Invoke(this, EventArgs.Empty);
             dgvProductos.SelectionChanged += (_, _) => ProductoSeleccionadoCambiado?.Invoke(this, EventArgs.Empty);
             cmbProductoReceta.SelectedValueChanged += (_, _) => { if (!_actualizando) ProductoRecetaSeleccionadoCambiado?.Invoke(this, EventArgs.Empty); };
@@ -279,25 +334,36 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         public void MostrarIngredientesDisponibles(IReadOnlyList<IngredienteSelectorDto> ingredientes) { _ingredientes.DataSource = ingredientes.ToList(); }
 
-        /// <summary>Coloca los datos del producto elegido en los campos para edición.</summary>
+        /// <summary>
+        /// Carga los datos del producto seleccionado y habilita su edición.
+        /// </summary>
         public void CargarProductoEnFormulario(ProductoCatalogoDto p)
         {
+            if (p is null)
+                throw new ArgumentNullException(nameof(p));
+
+            EstablecerEdicionProductoHabilitada(true);
             _productoEnEdicionId = p.ProductId;
-            txtCodigo.Text = p.ProductCode; txtNombre.Text = p.ProductName; txtDescripcion.Text = p.Description ?? string.Empty;
-            SeleccionarValor(cmbCategoria, p.ProductCategoryId); SeleccionarValor(cmbUnidad, p.UnitOfMeasureId);
+            txtCodigo.Text = p.ProductCode;
+            txtNombre.Text = p.ProductName;
+            txtDescripcion.Text = p.Description ?? string.Empty;
+            SeleccionarValor(cmbCategoria, p.ProductCategoryId);
+            SeleccionarValor(cmbUnidad, p.UnitOfMeasureId);
             nudPrecio.Value = Math.Max(nudPrecio.Minimum, Math.Min(nudPrecio.Maximum, p.UnitPrice));
-            chkDisponible.Checked = p.IsAvailable; chkActivo.Checked = p.IsActive;
+            chkDisponible.Checked = p.IsAvailable;
+            chkActivo.Checked = p.IsActive;
+            txtNombre.Focus();
         }
 
-        /// <summary>Limpia los campos de producto y prepara el registro de uno nuevo.</summary>
-        public void LimpiarFormularioProducto()
-        {
-            _productoEnEdicionId = null; txtCodigo.Clear(); txtNombre.Clear(); txtDescripcion.Clear();
-            if (cmbCategoria.Items.Count > 0) cmbCategoria.SelectedIndex = 0;
-            if (cmbUnidad.Items.Count > 0) cmbUnidad.SelectedIndex = 0;
-            nudPrecio.Value = nudPrecio.Minimum; nudStockMinimo.Value = nudStockMinimo.Minimum;
-            chkDisponible.Checked = true; chkActivo.Checked = true; txtCodigo.Focus();
-        }
+        /// <summary>
+    /// Limpia el formulario y lo deja en modo captura para registrar un producto nuevo.
+    /// </summary>
+    public void LimpiarFormularioProducto()
+    {
+        RestablecerCamposProducto();
+        EstablecerEdicionProductoHabilitada(true);
+        txtCodigo.Focus();
+    }
 
         /// <summary>
         /// Selecciona en el ComboBox el elemento cuyo SelectedValue coincide con valor; si valor es nulo selecciona el

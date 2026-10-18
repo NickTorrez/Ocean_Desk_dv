@@ -55,7 +55,7 @@ public sealed class ProductosPresenter : IDisposable
         _view.NuevoProductoSolicitado += AlSolicitarNuevoProducto;
         _view.EditarProductoSolicitado += AlSolicitarEditarProducto;
         _view.CambiarEstadoProductoSolicitado += AlSolicitarCambiarEstado;
-        _view.LimpiarProductoSolicitado += AlSolicitarLimpiarProducto;
+        //_view.LimpiarProductoSolicitado += AlSolicitarLimpiarProducto;
         _view.GuardarProductoSolicitado += AlSolicitarGuardarProducto;
         _view.ProductoSeleccionadoCambiado += AlCambiarProductoSeleccionado;
         _view.ProductoRecetaSeleccionadoCambiado += AlCambiarProductoReceta;
@@ -286,7 +286,7 @@ public sealed class ProductosPresenter : IDisposable
         _view.NuevoProductoSolicitado -= AlSolicitarNuevoProducto;
         _view.EditarProductoSolicitado -= AlSolicitarEditarProducto;
         _view.CambiarEstadoProductoSolicitado -= AlSolicitarCambiarEstado;
-        _view.LimpiarProductoSolicitado -= AlSolicitarLimpiarProducto;
+        //_view.LimpiarProductoSolicitado -= AlSolicitarLimpiarProducto;
         _view.GuardarProductoSolicitado -= AlSolicitarGuardarProducto;
         _view.ProductoSeleccionadoCambiado -= AlCambiarProductoSeleccionado;
         _view.ProductoRecetaSeleccionadoCambiado -= AlCambiarProductoReceta;
