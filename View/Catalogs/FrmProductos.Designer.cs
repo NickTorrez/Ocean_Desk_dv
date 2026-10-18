@@ -1067,6 +1067,7 @@
             dgvReceta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvReceta.Size = new Size(607, 540);
             dgvReceta.TabIndex = 2;
+            dgvReceta.CellFormatting += dgvReceta_CellFormatting;
             // 
             // colIngrediente
             // 

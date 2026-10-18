@@ -11,6 +11,7 @@ using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.View.Interfaces;
 using Ocean_Desk_dv.View.MessageBox;
+using Ocean_Desk_dv.View.Localization;
 
 namespace Ocean_Desk_dv.View.Catalogs
 {
@@ -51,6 +52,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                 lbl.ForeColor = ColorTranslator.FromHtml("#6F7780");
 
             AplicarEstiloGrid(dgvProductos);
+            dgvReceta.CellFormatting += dgvReceta_CellFormatting;
             AplicarEstiloGrid(dgvReceta);
             PrepararEnlaces();
             CrearControlesReceta();
@@ -89,22 +91,11 @@ namespace Ocean_Desk_dv.View.Catalogs
             IsActive = chkActivo.Checked
         };
 
-
-        /// <summary>
-        /// Convierte los objetos de los ComboBox en textos legibles para el usuario.
-        /// </summary>
+        /// <summary>Convierte los objetos enlazados a los ComboBox en textos de presentación en español.</summary>
         private static void FormatearTextoCombo(object? sender, ListControlConvertEventArgs e)
         {
-            e.Value = e.ListItem switch
-            {
-                CategoriaProductoDto categoria => categoria.CategoryName,
-                UnidadMedidaDto unidad => unidad.UnitName,
-                ProductoRecetaSelectorDto producto => producto.TextoMostrar,
-                IngredienteSelectorDto ingrediente => ingrediente.TextoMostrar,
-                _ => e.Value
-            };
+            e.Value = CatalogoTraducciones.TextoCombo(e.ListItem);
         }
-
 
         /// <summary>
         /// Configura los ComboBox para mostrar propiedades legibles de los DTO.
@@ -308,9 +299,38 @@ namespace Ocean_Desk_dv.View.Catalogs
             chkDisponible.Checked = true; chkActivo.Checked = true; txtCodigo.Focus();
         }
 
+        /// <summary>
+        /// Selecciona en el ComboBox el elemento cuyo SelectedValue coincide con valor; si valor es nulo selecciona el
+        /// primer elemento si existe alguno.
+        /// </summary>
+        /// <remarks>Si existe un valor pero no hay ningún elemento con ese SelectedValue, la selección
+        /// queda sin elemento seleccionado.</remarks>
+        /// <param name="combo">ComboBox donde se realiza la selección; si no tiene elementos no se realiza ninguna selección.</param>
+        /// <param name="valor">Valor a buscar en SelectedValue; si es nulo se selecciona el primer elemento si existe.</param>
         private static void SeleccionarValor(ComboBox combo, int? valor) { if (valor.HasValue && combo.Items.Count > 0) combo.SelectedValue = valor.Value; else if (combo.Items.Count > 0) combo.SelectedIndex = 0; }
+
+        /// <summary>
+        /// Muestra los detalles de la receta en la interfaz, enlazando la colección al control de datos y
+        /// restableciendo los campos de entrada.
+        /// </summary>
+        /// <remarks>Convierte la colección a List para asignarla a DataSource; limpia el cuadro de notas
+        /// y establece el control de cantidad en su valor mínimo.</remarks>
+        /// <param name="detalles">Colección de DetalleRecetaDto que se enlaza al control de datos para su visualización.</param>
         public void MostrarDetallesReceta(IReadOnlyList<DetalleRecetaDto> detalles) { _detalles.DataSource = detalles.ToList(); txtNotasIngrediente.Clear(); nudCantidadIngrediente.Value = nudCantidadIngrediente.Minimum; }
+
+        /// <summary>
+        /// Actualiza txtInstruccionesReceta.Text con las instrucciones de la receta.
+        /// </summary>
+        /// <remarks>Sustituye null por string.Empty antes de asignar al control de interfaz.</remarks>
+        /// <param name="instrucciones">Texto con las instrucciones de la receta; si es null se reemplaza por string.Empty.</param>
         public void MostrarInstruccionesReceta(string instrucciones) { txtInstruccionesReceta.Text = instrucciones ?? string.Empty; }
+
+        /// <summary>
+        /// Muestra un mensaje de alerta o información en la interfaz.
+        /// </summary>
+        /// <param name="mensaje">Texto del mensaje a mostrar.</param>
+        /// <param name="titulo">Título del cuadro de mensaje.</param>
+        /// <param name="esError">Indica si el mensaje es un error.</param>
         public void MostrarMensaje(string mensaje, string titulo = "Productos", bool esError = false) => System.Windows.Forms.MessageBox.Show(this, mensaje, titulo, System.Windows.Forms.MessageBoxButtons.OK, esError ? System.Windows.Forms.MessageBoxIcon.Warning : System.Windows.Forms.MessageBoxIcon.Information);
 
         /// <summary>Traduce los valores booleanos de la tabla a etiquetas legibles.</summary>
@@ -320,6 +340,25 @@ namespace Ocean_Desk_dv.View.Catalogs
             string columna = dgvProductos.Columns[e.ColumnIndex].Name;
             if (columna == "colDisponible") { e.Value = valor ? "Sí" : "No"; e.FormattingApplied = true; }
             else if (columna == "colActivo") { e.Value = valor ? "Activo" : "Inactivo"; e.CellStyle.ForeColor = valor ? Color.FromArgb(42, 122, 82) : Color.FromArgb(163, 61, 61); e.FormattingApplied = true; }
+        }
+
+        /// <summary>Traduce ingredientes y unidades al mostrarlos en la tabla de receta.</summary>
+        private void dgvReceta_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || dgvReceta.Rows[e.RowIndex].DataBoundItem is not DetalleRecetaDto detalle)
+                return;
+
+            string columna = dgvReceta.Columns[e.ColumnIndex].Name;
+            if (columna == "colIngrediente")
+            {
+                e.Value = CatalogoTraducciones.TraducirIngrediente(detalle.IngredientCode, detalle.IngredientName);
+                e.FormattingApplied = true;
+            }
+            else if (columna == "colUnidadReceta")
+            {
+                e.Value = CatalogoTraducciones.TraducirUnidad(detalle.UnitCode, detalle.UnitName);
+                e.FormattingApplied = true;
+            }
         }
     }
 }
