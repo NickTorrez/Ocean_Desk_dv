@@ -127,8 +127,14 @@ public sealed class ProductoRecetaSelectorDto
     /// <summary>Nombre visible del producto terminado.</summary>
     public string ProductName { get; init; } = string.Empty;
 
-    /// <summary>Texto preparado para mostrarse en un ComboBox.</summary>
-    public string TextoMostrar => $"{ProductCode} - {ProductName}";
+    /// <summary>
+    /// Texto que se muestra en el selector de productos para recetas.
+    /// El identificador cero representa la opción predeterminada.
+    /// </summary>
+    public string TextoMostrar =>
+        ProductId <= 0
+            ? ProductName
+            : $"{ProductCode} - {ProductName}";
 }
 
 /// <summary>

@@ -33,25 +33,37 @@ public sealed class ProductosPresenter : IDisposable
 
     }
 
-    /// <summary>Realiza la carga inicial de catálogos, productos e ingredientes.</summary>
+    /// <summary>
+    /// Realiza la carga inicial de catálogos, productos e ingredientes.
+    /// </summary>
     public void Inicializar()
     {
         EjecutarSeguro(() =>
         {
-            _view.MostrarCategorias(_repository.ObtenerCategoriasActivas());
-            _view.MostrarUnidades(_repository.ObtenerUnidadesActivas());
-            _productos = _repository.ObtenerProductos(_view.TextoBusqueda);
+            _view.MostrarCategorias(
+                _repository.ObtenerCategoriasActivas());
+
+            _view.MostrarUnidades(
+                _repository.ObtenerUnidadesActivas());
+
+            _productos = _repository.ObtenerProductos(
+                _view.TextoBusqueda);
+
             _view.MostrarProductos(_productos);
-            _view.MostrarProductosParaReceta(_repository.ObtenerProductosTerminadosParaReceta());
+
+            _view.MostrarProductosParaReceta(
+                _repository.ObtenerProductosTerminadosParaReceta());
+
             _ingredientes = _repository.ObtenerIngredientesActivos();
+
             _view.MostrarIngredientesDisponibles(_ingredientes);
-            _view.MostrarDetallesReceta(Array.Empty<DetalleRecetaDto>());
-            // Carga la receta correspondiente al producto inicialmente seleccionado.
-            AlCambiarProductoReceta(this, EventArgs.Empty);
-            // Carga la receta correspondiente al producto seleccionado inicialmente.
-            AlCambiarProductoReceta(this, EventArgs.Empty);
+
+            // La tabla de ingredientes comienza vacía.
+            _view.MostrarDetallesReceta(
+                Array.Empty<DetalleRecetaDto>());
+
+            // Las instrucciones también comienzan vacías.
             _view.MostrarInstruccionesReceta(string.Empty);
-           
         });
     }
 
@@ -256,7 +268,24 @@ public sealed class ProductosPresenter : IDisposable
         };
         ResultadoOperacionDto resultado = _repository.GuardarReceta(solicitud);
         _view.MostrarMensaje(resultado.Mensaje, esError: !resultado.Exito);
-        if (resultado.Exito) AlCambiarProductoReceta(this, EventArgs.Empty);
+
+        // Solo se limpia la pantalla si la receta se guardó correctamente.
+        if (resultado.Exito)
+        {
+            // Limpia la lista temporal de ingredientes.
+            _detallesTemporales.Clear();
+
+            // Limpia la tabla de ingredientes.
+            _view.MostrarDetallesReceta(
+                Array.Empty<DetalleRecetaDto>());
+
+            // Limpia las instrucciones de preparación.
+            _view.MostrarInstruccionesReceta(string.Empty);
+
+            // Recarga el selector y vuelve a "Seleccione el Producto...".
+            _view.MostrarProductosParaReceta(
+                _repository.ObtenerProductosTerminadosParaReceta());
+        }
     });
 
     private ProductoCatalogoDto? BuscarProductoSeleccionado() =>

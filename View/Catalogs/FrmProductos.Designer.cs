@@ -1125,6 +1125,7 @@
             // txtInstruccionesReceta
             // 
             txtInstruccionesReceta.Dock = DockStyle.Top;
+            txtInstruccionesReceta.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtInstruccionesReceta.Location = new Point(30, 76);
             txtInstruccionesReceta.MaxLength = 1000;
             txtInstruccionesReceta.Multiline = true;

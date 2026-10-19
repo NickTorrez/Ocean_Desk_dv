@@ -645,16 +645,36 @@ namespace Ocean_Desk_dv.View.Catalogs
                 cmbUnidad.SelectedIndex = 0;
         }
 
-        public void MostrarProductosParaReceta(IReadOnlyList<ProductoRecetaSelectorDto> productos)
+        /// <summary>
+        /// Carga los productos terminados en el selector de recetas e incluye
+        /// una opción predeterminada sin producto seleccionado.
+        /// </summary>
+        /// <param name="productos">Productos terminados disponibles.</param>
+        public void MostrarProductosParaReceta(
+            IReadOnlyList<ProductoRecetaSelectorDto> productos)
         {
             _actualizando = true;
 
             try
             {
-                _productosReceta.DataSource = productos.ToList();
+                // El identificador cero está reservado para la opción predeterminada.
+                var opciones = new List<ProductoRecetaSelectorDto>
+        {
+            new ProductoRecetaSelectorDto
+            {
+                ProductId = 0,
+                ProductCode = string.Empty,
+                ProductName = "Seleccione el Producto..."
+            }
+        };
 
-                if (cmbProductoReceta.Items.Count > 0 &&
-                    cmbProductoReceta.SelectedIndex < 0)
+                // Agrega los productos reales después de la opción predeterminada.
+                opciones.AddRange(productos);
+
+                _productosReceta.DataSource = opciones;
+
+                // Selecciona siempre el elemento predeterminado.
+                if (cmbProductoReceta.Items.Count > 0)
                 {
                     cmbProductoReceta.SelectedIndex = 0;
                 }
@@ -664,6 +684,8 @@ namespace Ocean_Desk_dv.View.Catalogs
                 _actualizando = false;
             }
 
+            // Sin producto seleccionado, los botones dependientes de la receta
+            // deberán permanecer deshabilitados.
             ActualizarEstadoBotonesReceta();
         }
 
