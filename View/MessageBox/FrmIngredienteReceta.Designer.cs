@@ -44,14 +44,16 @@
             pnlUnidadMedida = new Panel();
             lblAyuda = new Label();
             lblNotas = new Label();
-            textBox1 = new TextBox();
+            txtNotas = new TextBox();
             pnlInputNotas = new Panel();
             pnlContainerNotas = new Panel();
-            panel1 = new Panel();
+            pnlLabelNotas = new Panel();
             pnlPie = new Panel();
-            pnlButtons = new Panel();
-            btnAccept = new Button();
-            btnCancel = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            pnlCancelar = new Panel();
+            btnCancelar = new Button();
+            pnlGuardar = new Panel();
+            btnAceptar = new Button();
             pnlHeader.SuspendLayout();
             pnlIngredientes.SuspendLayout();
             tlpIngrediente.SuspendLayout();
@@ -63,9 +65,11 @@
             pnlUnidadMedida.SuspendLayout();
             pnlInputNotas.SuspendLayout();
             pnlContainerNotas.SuspendLayout();
-            panel1.SuspendLayout();
+            pnlLabelNotas.SuspendLayout();
             pnlPie.SuspendLayout();
-            pnlButtons.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            pnlCancelar.SuspendLayout();
+            pnlGuardar.SuspendLayout();
             SuspendLayout();
             // 
             // lblTitulo
@@ -139,6 +143,7 @@
             pnlLabel.Dock = DockStyle.Fill;
             pnlLabel.Location = new Point(3, 3);
             pnlLabel.Name = "pnlLabel";
+            pnlLabel.Padding = new Padding(10, 0, 0, 0);
             pnlLabel.Size = new Size(186, 40);
             pnlLabel.TabIndex = 0;
             // 
@@ -146,12 +151,12 @@
             // 
             lblIngrediente.Dock = DockStyle.Fill;
             lblIngrediente.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblIngrediente.Location = new Point(0, 0);
+            lblIngrediente.Location = new Point(10, 0);
             lblIngrediente.Name = "lblIngrediente";
-            lblIngrediente.Size = new Size(186, 40);
+            lblIngrediente.Size = new Size(176, 40);
             lblIngrediente.TabIndex = 0;
             lblIngrediente.Text = "Ingrediente:";
-            lblIngrediente.TextAlign = ContentAlignment.MiddleRight;
+            lblIngrediente.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlCombo
             // 
@@ -179,6 +184,7 @@
             pnlLabelCantidad.Dock = DockStyle.Fill;
             pnlLabelCantidad.Location = new Point(3, 49);
             pnlLabelCantidad.Name = "pnlLabelCantidad";
+            pnlLabelCantidad.Padding = new Padding(10, 0, 0, 0);
             pnlLabelCantidad.Size = new Size(186, 36);
             pnlLabelCantidad.TabIndex = 2;
             // 
@@ -186,12 +192,12 @@
             // 
             lblCantidad.Dock = DockStyle.Fill;
             lblCantidad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCantidad.Location = new Point(0, 0);
+            lblCantidad.Location = new Point(10, 0);
             lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(186, 36);
+            lblCantidad.Size = new Size(176, 36);
             lblCantidad.TabIndex = 1;
             lblCantidad.Text = "Cantidad y Unidad:";
-            lblCantidad.TextAlign = ContentAlignment.MiddleRight;
+            lblCantidad.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlNumeric
             // 
@@ -239,27 +245,27 @@
             // 
             lblNotas.Dock = DockStyle.Fill;
             lblNotas.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNotas.Location = new Point(40, 0);
+            lblNotas.Location = new Point(15, 0);
             lblNotas.Name = "lblNotas";
-            lblNotas.Size = new Size(600, 34);
+            lblNotas.Size = new Size(625, 34);
             lblNotas.TabIndex = 2;
             lblNotas.Text = "Notas:";
             lblNotas.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // textBox1
+            // txtNotas
             // 
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Location = new Point(20, 10);
-            textBox1.MaxLength = 250;
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Escribe algun dato de relevancia aqui...";
-            textBox1.Size = new Size(600, 74);
-            textBox1.TabIndex = 6;
+            txtNotas.Dock = DockStyle.Fill;
+            txtNotas.Location = new Point(20, 10);
+            txtNotas.MaxLength = 250;
+            txtNotas.Multiline = true;
+            txtNotas.Name = "txtNotas";
+            txtNotas.PlaceholderText = "Escribe algun dato de relevancia aqui...";
+            txtNotas.Size = new Size(600, 74);
+            txtNotas.TabIndex = 6;
             // 
             // pnlInputNotas
             // 
-            pnlInputNotas.Controls.Add(textBox1);
+            pnlInputNotas.Controls.Add(txtNotas);
             pnlInputNotas.Dock = DockStyle.Fill;
             pnlInputNotas.Location = new Point(0, 34);
             pnlInputNotas.Name = "pnlInputNotas";
@@ -270,75 +276,98 @@
             // pnlContainerNotas
             // 
             pnlContainerNotas.Controls.Add(pnlInputNotas);
-            pnlContainerNotas.Controls.Add(panel1);
+            pnlContainerNotas.Controls.Add(pnlLabelNotas);
             pnlContainerNotas.Dock = DockStyle.Fill;
             pnlContainerNotas.Location = new Point(0, 197);
             pnlContainerNotas.Name = "pnlContainerNotas";
             pnlContainerNotas.Size = new Size(640, 128);
             pnlContainerNotas.TabIndex = 7;
             // 
-            // panel1
+            // pnlLabelNotas
             // 
-            panel1.Controls.Add(lblNotas);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(40, 0, 0, 0);
-            panel1.Size = new Size(640, 34);
-            panel1.TabIndex = 7;
+            pnlLabelNotas.Controls.Add(lblNotas);
+            pnlLabelNotas.Dock = DockStyle.Top;
+            pnlLabelNotas.Location = new Point(0, 0);
+            pnlLabelNotas.Name = "pnlLabelNotas";
+            pnlLabelNotas.Padding = new Padding(15, 0, 0, 0);
+            pnlLabelNotas.Size = new Size(640, 34);
+            pnlLabelNotas.TabIndex = 7;
             // 
             // pnlPie
             // 
             pnlPie.BackColor = Color.FromArgb(245, 247, 250);
-            pnlPie.Controls.Add(pnlButtons);
+            pnlPie.Controls.Add(tableLayoutPanel1);
             pnlPie.Dock = DockStyle.Bottom;
             pnlPie.Location = new Point(0, 325);
             pnlPie.Name = "pnlPie";
-            pnlPie.Padding = new Padding(0, 5, 20, 5);
+            pnlPie.Padding = new Padding(0, 3, 20, 3);
             pnlPie.Size = new Size(640, 55);
             pnlPie.TabIndex = 7;
             // 
-            // pnlButtons
+            // tableLayoutPanel1
             // 
-            pnlButtons.Controls.Add(btnAccept);
-            pnlButtons.Controls.Add(btnCancel);
-            pnlButtons.Dock = DockStyle.Right;
-            pnlButtons.Location = new Point(380, 5);
-            pnlButtons.Name = "pnlButtons";
-            pnlButtons.Size = new Size(240, 45);
-            pnlButtons.TabIndex = 3;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tableLayoutPanel1.Controls.Add(pnlCancelar, 0, 0);
+            tableLayoutPanel1.Controls.Add(pnlGuardar, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Right;
+            tableLayoutPanel1.Location = new Point(254, 3);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(366, 49);
+            tableLayoutPanel1.TabIndex = 4;
             // 
-            // btnAccept
+            // pnlCancelar
             // 
-            btnAccept.BackColor = Color.FromArgb(8, 126, 164);
-            btnAccept.Cursor = Cursors.Hand;
-            btnAccept.Dock = DockStyle.Right;
-            btnAccept.FlatAppearance.BorderSize = 0;
-            btnAccept.FlatStyle = FlatStyle.Flat;
-            btnAccept.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAccept.ForeColor = Color.White;
-            btnAccept.Location = new Point(125, 0);
-            btnAccept.Name = "btnAccept";
-            btnAccept.Size = new Size(115, 45);
-            btnAccept.TabIndex = 0;
-            btnAccept.Text = "ACEPTAR";
-            btnAccept.UseVisualStyleBackColor = false;
+            pnlCancelar.Controls.Add(btnCancelar);
+            pnlCancelar.Dock = DockStyle.Fill;
+            pnlCancelar.Location = new Point(3, 3);
+            pnlCancelar.Name = "pnlCancelar";
+            pnlCancelar.Size = new Size(140, 43);
+            pnlCancelar.TabIndex = 0;
             // 
-            // btnCancel
+            // btnCancelar
             // 
-            btnCancel.BackColor = Color.Red;
-            btnCancel.Cursor = Cursors.Hand;
-            btnCancel.Dock = DockStyle.Left;
-            btnCancel.FlatAppearance.BorderSize = 0;
-            btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(0, 0);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(115, 45);
-            btnCancel.TabIndex = 1;
-            btnCancel.Text = "CANCELAR";
-            btnCancel.UseVisualStyleBackColor = false;
+            btnCancelar.BackColor = Color.Red;
+            btnCancelar.Cursor = Cursors.Hand;
+            btnCancelar.Dock = DockStyle.Fill;
+            btnCancelar.FlatAppearance.BorderSize = 0;
+            btnCancelar.FlatStyle = FlatStyle.Flat;
+            btnCancelar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.ForeColor = Color.White;
+            btnCancelar.Location = new Point(0, 0);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(140, 43);
+            btnCancelar.TabIndex = 1;
+            btnCancelar.Text = "CANCELAR";
+            btnCancelar.UseVisualStyleBackColor = false;
+            // 
+            // pnlGuardar
+            // 
+            pnlGuardar.Controls.Add(btnAceptar);
+            pnlGuardar.Dock = DockStyle.Fill;
+            pnlGuardar.Location = new Point(149, 3);
+            pnlGuardar.Name = "pnlGuardar";
+            pnlGuardar.Size = new Size(214, 43);
+            pnlGuardar.TabIndex = 1;
+            // 
+            // btnAceptar
+            // 
+            btnAceptar.BackColor = Color.FromArgb(8, 126, 164);
+            btnAceptar.Cursor = Cursors.Hand;
+            btnAceptar.Dock = DockStyle.Fill;
+            btnAceptar.FlatAppearance.BorderSize = 0;
+            btnAceptar.FlatStyle = FlatStyle.Flat;
+            btnAceptar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAceptar.ForeColor = Color.White;
+            btnAceptar.Location = new Point(0, 0);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(214, 43);
+            btnAceptar.TabIndex = 0;
+            btnAceptar.Text = "GUARDAR RECETA";
+            btnAceptar.UseVisualStyleBackColor = false;
             // 
             // FrmIngredienteReceta
             // 
@@ -368,9 +397,11 @@
             pnlInputNotas.ResumeLayout(false);
             pnlInputNotas.PerformLayout();
             pnlContainerNotas.ResumeLayout(false);
-            panel1.ResumeLayout(false);
+            pnlLabelNotas.ResumeLayout(false);
             pnlPie.ResumeLayout(false);
-            pnlButtons.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            pnlCancelar.ResumeLayout(false);
+            pnlGuardar.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -392,13 +423,15 @@
         private Panel pnlUnidadMedida;
         private Label lblAyuda;
         private Label lblNotas;
-        private TextBox textBox1;
+        private TextBox txtNotas;
         private Panel pnlInputNotas;
         private Panel pnlContainerNotas;
-        private Panel panel1;
+        private Panel pnlLabelNotas;
         private Panel pnlPie;
-        private Panel pnlButtons;
-        private Button btnAccept;
-        private Button btnCancel;
+        private Button btnAceptar;
+        private Button btnCancelar;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Panel pnlCancelar;
+        private Panel pnlGuardar;
     }
 }

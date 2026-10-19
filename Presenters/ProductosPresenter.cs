@@ -30,6 +30,7 @@ public sealed class ProductosPresenter : IDisposable
         _view = view ?? throw new ArgumentNullException(nameof(view));
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         SuscribirEventos();
+
     }
 
     /// <summary>Realiza la carga inicial de catálogos, productos e ingredientes.</summary>
@@ -45,7 +46,12 @@ public sealed class ProductosPresenter : IDisposable
             _ingredientes = _repository.ObtenerIngredientesActivos();
             _view.MostrarIngredientesDisponibles(_ingredientes);
             _view.MostrarDetallesReceta(Array.Empty<DetalleRecetaDto>());
+            // Carga la receta correspondiente al producto inicialmente seleccionado.
+            AlCambiarProductoReceta(this, EventArgs.Empty);
+            // Carga la receta correspondiente al producto seleccionado inicialmente.
+            AlCambiarProductoReceta(this, EventArgs.Empty);
             _view.MostrarInstruccionesReceta(string.Empty);
+           
         });
     }
 
@@ -55,7 +61,6 @@ public sealed class ProductosPresenter : IDisposable
         _view.NuevoProductoSolicitado += AlSolicitarNuevoProducto;
         _view.EditarProductoSolicitado += AlSolicitarEditarProducto;
         _view.CambiarEstadoProductoSolicitado += AlSolicitarCambiarEstado;
-        //_view.LimpiarProductoSolicitado += AlSolicitarLimpiarProducto;
         _view.GuardarProductoSolicitado += AlSolicitarGuardarProducto;
         _view.ProductoSeleccionadoCambiado += AlCambiarProductoSeleccionado;
         _view.ProductoRecetaSeleccionadoCambiado += AlCambiarProductoReceta;
@@ -259,11 +264,22 @@ public sealed class ProductosPresenter : IDisposable
             ? _productos.FirstOrDefault(p => p.ProductId == _view.ProductoSeleccionadoId.Value)
             : null;
 
+    /// <summary>
+    /// Recarga los productos y sincroniza el selector y la receta mostrada.
+    /// </summary>
     private void RecargarProductos()
     {
-        _productos = _repository.ObtenerProductos(_view.TextoBusqueda);
+        _productos = _repository.ObtenerProductos(
+            _view.TextoBusqueda);
+
         _view.MostrarProductos(_productos);
-        _view.MostrarProductosParaReceta(_repository.ObtenerProductosTerminadosParaReceta());
+
+        _view.MostrarProductosParaReceta(
+            _repository.ObtenerProductosTerminadosParaReceta());
+
+        // El enlace del ComboBox se realiza sin propagar su evento.
+        // Cargamos explícitamente la receta seleccionada después de recargar.
+        AlCambiarProductoReceta(this, EventArgs.Empty);
     }
 
     private void MostrarDetallesTemporales() => _view.MostrarDetallesReceta(_detallesTemporales.ToArray());

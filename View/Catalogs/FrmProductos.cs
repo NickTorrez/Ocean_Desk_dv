@@ -11,7 +11,7 @@ using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.View.Interfaces;
 using Ocean_Desk_dv.UI.MessageBox;
-
+using Ocean_Desk_dv.View.MessageBox;
 using Ocean_Desk_dv.View.Localization;
 
 namespace Ocean_Desk_dv.View.Catalogs
@@ -56,8 +56,103 @@ namespace Ocean_Desk_dv.View.Catalogs
             AplicarEstiloGrid(dgvProductos);
             AplicarEstiloGrid(dgvReceta);
             PrepararEnlaces();
+
+            // Configura cómo se seleccionan las líneas de receta.
+            ConfigurarComportamientoSeleccionReceta();
+
             ConectarEventos();
             ConfigurarEstadoInicialProducto();
+
+            // Los botones comienzan en el estado que corresponda
+            // a la selección actual.
+            ActualizarEstadoBotonesReceta();
+        }
+
+        /// <summary>
+        /// Configura la selección de filas y el aspecto visual de los botones
+        /// que administran los ingredientes de la receta.
+        /// </summary>
+        private void ConfigurarComportamientoSeleccionReceta()
+        {
+            // La tabla se utiliza para consultar las líneas de receta.
+            // Los cambios se realizan mediante el formulario modal.
+            dgvReceta.ReadOnly = true;
+
+            // El usuario selecciona una fila completa por vez.
+            dgvReceta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvReceta.MultiSelect = false;
+
+            // Limpia cualquier selección inicial.
+            dgvReceta.ClearSelection();
+
+            // Utiliza un estilo consistente para Agregar y Editar.
+            foreach (Button boton in new[]
+            {
+                btnAgregarIngrediente,
+                btnEditarIngrediente
+            })
+            {
+                boton.FlatStyle = FlatStyle.Flat;
+                boton.UseVisualStyleBackColor = false;
+
+                boton.BackColor = Color.FromArgb(238, 243, 247);
+                boton.ForeColor = Color.FromArgb(8, 31, 63);
+
+                boton.FlatAppearance.BorderSize = 0;
+
+                // Evita que el color del botón cambie de forma inesperada
+                // al pasar el cursor o presionarlo.
+                boton.FlatAppearance.MouseOverBackColor =
+                    Color.FromArgb(220, 231, 239);
+
+                boton.FlatAppearance.MouseDownBackColor =
+                    Color.FromArgb(207, 220, 231);
+            }
+
+            // Editar, Quitar y Guardar dependen de la selección y del contenido.
+            btnEditarIngrediente.Enabled = false;
+            btnQuitarIngrediente.Enabled = false;
+            btnGuardarReceta.Enabled = false;
+        }
+
+        /// <summary>
+        /// Habilita o deshabilita los botones según el producto seleccionado,
+        /// los ingredientes disponibles y la selección de la tabla.
+        /// </summary>
+        private void ActualizarEstadoBotonesReceta()
+        {
+            bool productoSeleccionado =
+                ProductoRecetaSeleccionadoId.HasValue;
+
+            bool hayIngredientesDisponibles =
+                _ingredientes.Count > 0;
+
+            bool filaSeleccionada =
+                dgvReceta.SelectedRows.Count > 0 &&
+                dgvReceta.SelectedRows[0].DataBoundItem
+                    is DetalleRecetaDto;
+
+            bool hayDetalles =
+                _detalles.Count > 0;
+
+            // Agregar depende de que exista un producto y haya ingredientes.
+            btnAgregarIngrediente.Enabled =
+                productoSeleccionado &&
+                hayIngredientesDisponibles;
+
+            // Editar y Quitar requieren una fila seleccionada.
+            btnEditarIngrediente.Enabled =
+                productoSeleccionado &&
+                filaSeleccionada;
+
+            btnQuitarIngrediente.Enabled =
+                productoSeleccionado &&
+                filaSeleccionada;
+
+            // No se puede guardar una receta vacía.
+            btnGuardarReceta.Enabled =
+                productoSeleccionado &&
+                hayDetalles;
         }
 
         /// <summary>
@@ -228,7 +323,13 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// Notas confirmadas en el formulario modal.
         /// </summary>
         public string? NotasIngrediente => _notasIngrediente;
-        public int? DetalleIngredienteSeleccionadoId => (dgvReceta.CurrentRow?.DataBoundItem as DetalleRecetaDto)?.IngredientProductId;
+        /// <summary>
+        /// Obtiene el identificador del ingrediente de la fila seleccionada.
+        /// Devuelve null cuando no existe una selección explícita.
+        /// </summary>
+        public int? DetalleIngredienteSeleccionadoId => dgvReceta.SelectedRows.Count > 0 && dgvReceta.SelectedRows[0].DataBoundItem is DetalleRecetaDto detalle
+                    ? detalle.IngredientProductId
+                    : null;
         public IReadOnlyList<DetalleRecetaDto> DetallesRecetaActuales => _detalles.List.Cast<object>().OfType<DetalleRecetaDto>().ToArray();
 
         /// <summary>Convierte los campos del formulario en el DTO que usa el repositorio.</summary>
@@ -357,7 +458,27 @@ namespace Ocean_Desk_dv.View.Catalogs
             };
 
             dgvProductos.SelectionChanged += (_, _) => ProductoSeleccionadoCambiado?.Invoke(this, EventArgs.Empty);
-            cmbProductoReceta.SelectedValueChanged += (_, _) => { if (!_actualizando) ProductoRecetaSeleccionadoCambiado?.Invoke(this, EventArgs.Empty); };
+
+            // Al cambiar el producto, actualiza el estado de los botones
+            // y solicita al Presenter que cargue la receta correspondiente.
+            cmbProductoReceta.SelectedValueChanged += (_, _) =>
+            {
+                if (_actualizando)
+                    return;
+
+                ActualizarEstadoBotonesReceta();
+
+                ProductoRecetaSeleccionadoCambiado?.Invoke(
+                    this,
+                    EventArgs.Empty);
+            };
+
+            // Los botones de edición dependen de la fila seleccionada.
+            dgvReceta.SelectionChanged += (_, _) =>
+            {
+                ActualizarEstadoBotonesReceta();
+            };
+
             btnAgregarIngrediente.Click += (_, _) => AbrirEditorIngrediente(false);
             btnEditarIngrediente.Click += (_, _) => AbrirEditorIngrediente(true);
             btnQuitarIngrediente.Click += (_, _) => QuitarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
@@ -373,9 +494,8 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// </param>
         private void AbrirEditorIngrediente(bool editar)
         {
-            DetalleRecetaDto? detalle = editar
-                ? dgvReceta.CurrentRow?.DataBoundItem as DetalleRecetaDto
-                : null;
+            DetalleRecetaDto? detalle = editar && dgvReceta.SelectedRows.Count > 0 ? dgvReceta.SelectedRows[0].DataBoundItem as DetalleRecetaDto
+            : null;
 
             if (editar && detalle is null)
             {
@@ -528,19 +648,36 @@ namespace Ocean_Desk_dv.View.Catalogs
         public void MostrarProductosParaReceta(IReadOnlyList<ProductoRecetaSelectorDto> productos)
         {
             _actualizando = true;
+
             try
             {
                 _productosReceta.DataSource = productos.ToList();
-                if (cmbProductoReceta.Items.Count > 0 && cmbProductoReceta.SelectedIndex < 0)
+
+                if (cmbProductoReceta.Items.Count > 0 &&
+                    cmbProductoReceta.SelectedIndex < 0)
+                {
                     cmbProductoReceta.SelectedIndex = 0;
+                }
             }
             finally
             {
                 _actualizando = false;
             }
+
+            ActualizarEstadoBotonesReceta();
         }
 
-        public void MostrarIngredientesDisponibles(IReadOnlyList<IngredienteSelectorDto> ingredientes) { _ingredientes.DataSource = ingredientes.ToList(); }
+        /// <summary>
+        /// Actualiza la lista de ingredientes que pueden añadirse a las recetas.
+        /// </summary>
+        /// <param name="ingredientes">Ingredientes disponibles para selección.</param>
+        public void MostrarIngredientesDisponibles(
+            IReadOnlyList<IngredienteSelectorDto> ingredientes)
+        {
+            _ingredientes.DataSource = ingredientes.ToList();
+
+            ActualizarEstadoBotonesReceta();
+        }
 
         /// <summary>
         /// Carga los datos del producto seleccionado y habilita su edición.
@@ -591,24 +728,26 @@ namespace Ocean_Desk_dv.View.Catalogs
         private static void SeleccionarValor(ComboBox combo, int? valor) { if (valor.HasValue && combo.Items.Count > 0) combo.SelectedValue = valor.Value; else if (combo.Items.Count > 0) combo.SelectedIndex = 0; }
 
         /// <summary>
-        /// Muestra los detalles de la receta en la interfaz, enlazando la colección al control de datos y
-        /// restableciendo los campos de entrada.
+        /// Muestra los ingredientes de la receta y restablece la selección.
         /// </summary>
-        /// <remarks>Convierte la colección a List para asignarla a DataSource; limpia el cuadro de notas
-        /// y establece el control de cantidad en su valor mínimo.</remarks>
-        /// <param name="detalles">Colección de DetalleRecetaDto que se enlaza al control de datos para su visualización.</param>
-        /// <summary>
-        /// Muestra los ingredientes de la receta seleccionada en la tabla.
-        /// </summary>
-        /// <param name="detalles">Ingredientes y cantidades de la receta.</param>
+        /// <param name="detalles">
+        /// Ingredientes y cantidades que componen la receta.
+        /// </param>
         public void MostrarDetallesReceta(
             IReadOnlyList<DetalleRecetaDto> detalles)
         {
             _detalles.DataSource = detalles.ToList();
 
+            // Evita que quede seleccionada automáticamente una línea anterior.
+            dgvReceta.ClearSelection();
+
+            // Limpia los valores temporales del último ingrediente editado.
             _ingredienteSeleccionadoId = null;
             _cantidadIngrediente = 0m;
             _notasIngrediente = null;
+
+            // Actualiza los botones después de enlazar los datos.
+            ActualizarEstadoBotonesReceta();
         }
 
         /// <summary>

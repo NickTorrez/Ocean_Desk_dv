@@ -43,10 +43,64 @@ namespace Ocean_Desk_dv.View.Localization
 
         private static readonly Dictionary<string, string> IngredientesPorNombre = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["Avocado"] = "Aguacate", ["Cilantro"] = "Cilantro", ["Fish"] = "Pescado",
-            ["Green Pepper"] = "Pimiento verde", ["Lemon"] = "Limón", ["Lime"] = "Limón",
-            ["Onion"] = "Cebolla", ["Shrimp"] = "Camarón", ["Tomato"] = "Tomate", ["Tomatoes"] = "Tomates",
-            ["Squid"] = "Calamar", ["Black Clam"] = "Concha negra", ["Octopus"] = "Pulpo"
+            // Frutas y vegetales.
+            ["Avocado"] = "Aguacate",
+            ["Avocados"] = "Aguacates",
+
+            ["Green Pepper"] = "Pimiento verde",
+            ["Green Peppers"] = "Pimientos verdes",
+
+            ["Green Plantain"] = "Plátano verde",
+            ["Green Plantains"] = "Plátanos verdes",
+
+            ["Plantain"] = "Plátano",
+            ["Plantains"] = "Plátanos",
+
+            ["Lemon"] = "Limón",
+            ["Lemons"] = "Limones",
+            ["Lime"] = "Limón",
+            ["Limes"] = "Limones",
+
+            ["Onion"] = "Cebolla",
+            ["Onions"] = "Cebollas",
+
+            ["Tomato"] = "Tomate",
+            ["Tomatoes"] = "Tomates",
+
+            // Mariscos y pescados.
+            ["Black Clam"] = "Concha negra",
+            ["Black Clams"] = "Conchas negras",
+
+            ["Fish"] = "Pescado",
+
+            ["Shrimp"] = "Camarón",
+            ["Shrimps"] = "Camarones",
+
+            ["Prawn"] = "Camarón",
+            ["Prawns"] = "Camarones",
+
+            ["Squid"] = "Calamar",
+            ["Squids"] = "Calamares",
+
+            ["Octopus"] = "Pulpo",
+            ["Octopuses"] = "Pulpos",
+
+            // Condimentos y otros ingredientes.
+            ["Cilantro"] = "Cilantro",
+            ["Coriander"] = "Cilantro",
+
+            ["Garlic"] = "Ajo",
+            ["Garlic Clove"] = "Diente de ajo",
+            ["Garlic Cloves"] = "Dientes de ajo",
+
+            ["Cheese"] = "Queso",
+
+            ["Cooking Oil"] = "Aceite de cocina",
+            ["Vegetable Oil"] = "Aceite vegetal",
+
+            ["Cracker"] = "Galleta salada",
+            ["Crackers"] = "Galletas saladas",
+            ["Saltine Crackers"] = "Galletas saladas"
         };
 
         /// <summary>Traduce el nombre de una categoría; si no existe traducción, conserva el original.</summary>
@@ -73,8 +127,8 @@ namespace Ocean_Desk_dv.View.Localization
         {
             CategoriaProductoDto categoria => TraducirCategoria(categoria.CategoryName),
             UnidadMedidaDto unidad => TraducirUnidad(unidad.UnitCode, unidad.UnitName),
-            ProductoRecetaSelectorDto producto => $"{producto.ProductCode} - {TraducirIngrediente(producto.ProductCode, producto.ProductName)}",
-            IngredienteSelectorDto ingrediente => $"{TraducirIngrediente(ingrediente.ProductCode, ingrediente.ProductName)} ({TraducirUnidad(ingrediente.UnitCode, ingrediente.UnitCode)})",
+            ProductoRecetaSelectorDto producto => $"{producto.ProductCode} - {producto.ProductName}",
+            IngredienteSelectorDto ingrediente => $"{TraducirIngrediente(ingrediente.ProductCode, ingrediente.ProductName)} ({TraducirUnidad(ingrediente.UnitCode, ingrediente.UnitName)})",
             _ => Convert.ToString(elemento, CultureInfo.CurrentCulture) ?? string.Empty
         };
 
