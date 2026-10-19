@@ -115,6 +115,8 @@
             colUnidadReceta = new DataGridViewTextBoxColumn();
             colCantidadReceta = new DataGridViewTextBoxColumn();
             pnlSeleccionReceta = new Panel();
+            txtInstruccionesReceta = new TextBox();
+            label2 = new Label();
             cmbProductoReceta = new ComboBox();
             pnlAccionesReceta = new Panel();
             tlpButtonsdgv = new TableLayoutPanel();
@@ -1060,14 +1062,15 @@
             dgvReceta.Dock = DockStyle.Fill;
             dgvReceta.EnableHeadersVisualStyles = false;
             dgvReceta.GridColor = Color.FromArgb(230, 234, 238);
-            dgvReceta.Location = new Point(0, 45);
+            dgvReceta.Location = new Point(0, 160);
             dgvReceta.MultiSelect = false;
             dgvReceta.Name = "dgvReceta";
             dgvReceta.ReadOnly = true;
             dgvReceta.RowHeadersVisible = false;
             dgvReceta.RowHeadersWidth = 51;
+            dgvReceta.ScrollBars = ScrollBars.Vertical;
             dgvReceta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvReceta.Size = new Size(607, 540);
+            dgvReceta.Size = new Size(607, 425);
             dgvReceta.TabIndex = 2;
             dgvReceta.CellFormatting += dgvReceta_CellFormatting;
             // 
@@ -1109,13 +1112,35 @@
             // pnlSeleccionReceta
             // 
             pnlSeleccionReceta.BackColor = Color.White;
+            pnlSeleccionReceta.Controls.Add(txtInstruccionesReceta);
+            pnlSeleccionReceta.Controls.Add(label2);
             pnlSeleccionReceta.Controls.Add(cmbProductoReceta);
             pnlSeleccionReceta.Dock = DockStyle.Top;
             pnlSeleccionReceta.Location = new Point(0, 0);
             pnlSeleccionReceta.Name = "pnlSeleccionReceta";
             pnlSeleccionReceta.Padding = new Padding(30, 8, 30, 8);
-            pnlSeleccionReceta.Size = new Size(607, 45);
+            pnlSeleccionReceta.Size = new Size(607, 160);
             pnlSeleccionReceta.TabIndex = 0;
+            // 
+            // txtInstruccionesReceta
+            // 
+            txtInstruccionesReceta.Dock = DockStyle.Top;
+            txtInstruccionesReceta.Location = new Point(30, 76);
+            txtInstruccionesReceta.MaxLength = 1000;
+            txtInstruccionesReceta.Multiline = true;
+            txtInstruccionesReceta.Name = "txtInstruccionesReceta";
+            txtInstruccionesReceta.Size = new Size(547, 72);
+            txtInstruccionesReceta.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.Dock = DockStyle.Top;
+            label2.Location = new Point(30, 37);
+            label2.Name = "label2";
+            label2.Size = new Size(547, 39);
+            label2.TabIndex = 1;
+            label2.Text = "Instrucciones de Preparación";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbProductoReceta
             // 
@@ -1321,6 +1346,7 @@
             tpReceta.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvReceta).EndInit();
             pnlSeleccionReceta.ResumeLayout(false);
+            pnlSeleccionReceta.PerformLayout();
             pnlAccionesReceta.ResumeLayout(false);
             tlpButtonsdgv.ResumeLayout(false);
             pnlAgregar.ResumeLayout(false);
@@ -1417,5 +1443,7 @@
         private Panel pnlEstado;
         private Panel panel4;
         private MaskedTextBox txtCodigo;
+        private TextBox txtInstruccionesReceta;
+        private Label label2;
     }
 }

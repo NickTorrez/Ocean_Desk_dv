@@ -11,7 +11,7 @@ using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.View.Interfaces;
 using Ocean_Desk_dv.UI.MessageBox;
-using Ocean_Desk_dv.View.MessageBox;
+
 using Ocean_Desk_dv.View.Localization;
 
 namespace Ocean_Desk_dv.View.Catalogs
@@ -54,7 +54,6 @@ namespace Ocean_Desk_dv.View.Catalogs
 
             ConfigurarMascaraCodigo();
             AplicarEstiloGrid(dgvProductos);
-            dgvReceta.CellFormatting += dgvReceta_CellFormatting;
             AplicarEstiloGrid(dgvReceta);
             PrepararEnlaces();
             ConectarEventos();
@@ -366,9 +365,12 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         /// <summary>
-        /// Abre el formulario modal para agregar un ingrediente o editar uno existente.
+        /// Abre el formulario modal para agregar un ingrediente o editar
+        /// un ingrediente existente de la receta.
         /// </summary>
-        /// <param name="editar">Indica si se editará el ingrediente seleccionado.</param>
+        /// <param name="editar">
+        /// True para editar el ingrediente seleccionado; false para agregar uno.
+        /// </param>
         private void AbrirEditorIngrediente(bool editar)
         {
             DetalleRecetaDto? detalle = editar
@@ -390,10 +392,11 @@ namespace Ocean_Desk_dv.View.Catalogs
                 .OfType<IngredienteSelectorDto>()
                 .ToList();
 
-            // Permite conservar el ingrediente de una receta existente aunque
-            // ya no aparezca en la lista de ingredientes activos.
+            // Conserva el ingrediente de la receta aunque ya no figure
+            // en la lista de ingredientes activos.
             if (detalle is not null &&
-                !ingredientes.Any(i => i.ProductId == detalle.IngredientProductId))
+                !ingredientes.Any(i =>
+                    i.ProductId == detalle.IngredientProductId))
             {
                 ingredientes.Add(new IngredienteSelectorDto
                 {
@@ -419,28 +422,41 @@ namespace Ocean_Desk_dv.View.Catalogs
                 ingredientes,
                 detalle);
 
+            // Cancelar no debe modificar la receta temporal.
             if (formulario.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            if (!formulario.IngredienteSeleccionadoId.HasValue)
+            DetalleRecetaDto? resultado = formulario.DetalleResultado;
+
+            if (resultado is null ||
+                resultado.IngredientProductId <= 0)
             {
                 MostrarMensaje(
-                    "Seleccione un ingrediente válido.",
-                    "Ingrediente requerido",
+                    "No se recibieron datos válidos del ingrediente.",
+                    "Ingrediente inválido",
                     true);
 
                 return;
             }
 
-            // Conserva los valores confirmados para que el Presenter los valide.
-            _ingredienteSeleccionadoId = formulario.IngredienteSeleccionadoId;
-            _cantidadIngrediente = formulario.Cantidad;
-            _notasIngrediente = formulario.Notas;
+            // Conserva los datos confirmados para que el Presenter
+            // ejecute sus validaciones y actualice la receta temporal.
+            _ingredienteSeleccionadoId = resultado.IngredientProductId;
+            _cantidadIngrediente = resultado.Quantity;
+            _notasIngrediente = resultado.Notes;
 
             if (editar)
-                EditarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
+            {
+                EditarIngredienteSolicitado?.Invoke(
+                    this,
+                    EventArgs.Empty);
+            }
             else
-                AgregarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
+            {
+                AgregarIngredienteSolicitado?.Invoke(
+                    this,
+                    EventArgs.Empty);
+            }
         }
 
         /// <summary>
