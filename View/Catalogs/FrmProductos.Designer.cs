@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             pnlBarraSuperior = new Panel();
             tlpBarraSuperior = new TableLayoutPanel();
             pnlHeaderNuevo = new Panel();
@@ -64,6 +64,7 @@
             lblCodigo = new Label();
             pnlInputCodigo = new Panel();
             panel1 = new Panel();
+            txtCodigo = new MaskedTextBox();
             pnlNombre = new Panel();
             lblNombre = new Label();
             pnlInputNombre = new Panel();
@@ -125,7 +126,6 @@
             btnQuitarIngrediente = new Button();
             pnlGuardar = new Panel();
             btnGuardarReceta = new Button();
-            txtCodigo = new MaskedTextBox();
             pnlBarraSuperior.SuspendLayout();
             tlpBarraSuperior.SuspendLayout();
             pnlHeaderNuevo.SuspendLayout();
@@ -254,7 +254,7 @@
             btnEditarProducto.FlatAppearance.BorderSize = 0;
             btnEditarProducto.FlatStyle = FlatStyle.Flat;
             btnEditarProducto.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEditarProducto.ForeColor = Color.FromArgb(8, 31, 63);
+            btnEditarProducto.ForeColor = Color.White;
             btnEditarProducto.Location = new Point(3, 3);
             btnEditarProducto.Name = "btnEditarProducto";
             btnEditarProducto.Size = new Size(160, 50);
@@ -490,6 +490,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(214, 2);
             panel1.TabIndex = 13;
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.BorderStyle = BorderStyle.None;
+            txtCodigo.Dock = DockStyle.Top;
+            txtCodigo.Location = new Point(15, 10);
+            txtCodigo.Mask = "AAA-000";
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.PromptChar = '#';
+            txtCodigo.Size = new Size(214, 19);
+            txtCodigo.TabIndex = 1;
             // 
             // pnlNombre
             // 
@@ -912,24 +923,24 @@
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProductos.BorderStyle = BorderStyle.None;
             dgvProductos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle27.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle27.ForeColor = Color.White;
-            dataGridViewCellStyle27.SelectionBackColor = Color.MidnightBlue;
-            dataGridViewCellStyle27.SelectionForeColor = Color.White;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { colCodigo, colNombre, colCategoria, colPrecio, colDisponible, colActivo });
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = SystemColors.Window;
-            dataGridViewCellStyle34.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle34.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle34.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.False;
-            dgvProductos.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Window;
+            dataGridViewCellStyle8.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dgvProductos.DefaultCellStyle = dataGridViewCellStyle8;
             dgvProductos.Dock = DockStyle.Fill;
             dgvProductos.EnableHeadersVisualStyles = false;
             dgvProductos.GridColor = SystemColors.ControlDark;
@@ -948,8 +959,8 @@
             // colCodigo
             // 
             colCodigo.DataPropertyName = "ProductCode";
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colCodigo.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colCodigo.DefaultCellStyle = dataGridViewCellStyle2;
             colCodigo.HeaderText = "Código";
             colCodigo.MinimumWidth = 6;
             colCodigo.Name = "colCodigo";
@@ -958,8 +969,8 @@
             // colNombre
             // 
             colNombre.DataPropertyName = "ProductName";
-            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colNombre.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colNombre.DefaultCellStyle = dataGridViewCellStyle3;
             colNombre.HeaderText = "Producto";
             colNombre.MinimumWidth = 6;
             colNombre.Name = "colNombre";
@@ -968,8 +979,8 @@
             // colCategoria
             // 
             colCategoria.DataPropertyName = "CategoryName";
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCategoria.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCategoria.DefaultCellStyle = dataGridViewCellStyle4;
             colCategoria.HeaderText = "Categoría";
             colCategoria.MinimumWidth = 6;
             colCategoria.Name = "colCategoria";
@@ -978,9 +989,9 @@
             // colPrecio
             // 
             colPrecio.DataPropertyName = "UnitPrice";
-            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.Format = "\"C$ \"#,##0.00";
-            colPrecio.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "\"C$ \"#,##0.00";
+            colPrecio.DefaultCellStyle = dataGridViewCellStyle5;
             colPrecio.HeaderText = "Precio";
             colPrecio.MinimumWidth = 6;
             colPrecio.Name = "colPrecio";
@@ -989,8 +1000,8 @@
             // colDisponible
             // 
             colDisponible.DataPropertyName = "IsAvailable";
-            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colDisponible.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colDisponible.DefaultCellStyle = dataGridViewCellStyle6;
             colDisponible.HeaderText = "Disponible";
             colDisponible.MinimumWidth = 6;
             colDisponible.Name = "colDisponible";
@@ -999,8 +1010,8 @@
             // colActivo
             // 
             colActivo.DataPropertyName = "IsActive";
-            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colActivo.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colActivo.DefaultCellStyle = dataGridViewCellStyle7;
             colActivo.HeaderText = "Estado";
             colActivo.MinimumWidth = 6;
             colActivo.Name = "colActivo";
@@ -1028,24 +1039,24 @@
             dgvReceta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvReceta.BorderStyle = BorderStyle.None;
             dgvReceta.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle35.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle35.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle35.ForeColor = Color.White;
-            dataGridViewCellStyle35.SelectionBackColor = Color.MidnightBlue;
-            dataGridViewCellStyle35.SelectionForeColor = Color.White;
-            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
-            dgvReceta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.White;
+            dataGridViewCellStyle9.SelectionBackColor = Color.MidnightBlue;
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvReceta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvReceta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvReceta.Columns.AddRange(new DataGridViewColumn[] { colIngrediente, colUnidadReceta, colCantidadReceta });
-            dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle39.BackColor = Color.White;
-            dataGridViewCellStyle39.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle39.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle39.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle39.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle39.WrapMode = DataGridViewTriState.False;
-            dgvReceta.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = Color.White;
+            dataGridViewCellStyle13.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle13.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.False;
+            dgvReceta.DefaultCellStyle = dataGridViewCellStyle13;
             dgvReceta.Dock = DockStyle.Fill;
             dgvReceta.EnableHeadersVisualStyles = false;
             dgvReceta.GridColor = Color.FromArgb(230, 234, 238);
@@ -1063,8 +1074,8 @@
             // colIngrediente
             // 
             colIngrediente.DataPropertyName = "IngredientName";
-            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colIngrediente.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colIngrediente.DefaultCellStyle = dataGridViewCellStyle10;
             colIngrediente.FillWeight = 210F;
             colIngrediente.HeaderText = "Ingrediente";
             colIngrediente.MinimumWidth = 6;
@@ -1075,8 +1086,8 @@
             // 
             colUnidadReceta.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colUnidadReceta.DataPropertyName = "UnitName";
-            dataGridViewCellStyle37.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colUnidadReceta.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUnidadReceta.DefaultCellStyle = dataGridViewCellStyle11;
             colUnidadReceta.FillWeight = 90F;
             colUnidadReceta.HeaderText = "Unidad";
             colUnidadReceta.MinimumWidth = 6;
@@ -1087,9 +1098,9 @@
             // colCantidadReceta
             // 
             colCantidadReceta.DataPropertyName = "Quantity";
-            dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle38.Format = "#,##0.00";
-            colCantidadReceta.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "#,##0.00";
+            colCantidadReceta.DefaultCellStyle = dataGridViewCellStyle12;
             colCantidadReceta.HeaderText = "Cantidad";
             colCantidadReceta.MinimumWidth = 6;
             colCantidadReceta.Name = "colCantidadReceta";
@@ -1250,16 +1261,6 @@
             btnGuardarReceta.Text = "Guardar receta";
             btnGuardarReceta.UseVisualStyleBackColor = false;
             // 
-            // txtCodigo
-            // 
-            txtCodigo.BorderStyle = BorderStyle.None;
-            txtCodigo.Dock = DockStyle.Top;
-            txtCodigo.Location = new Point(15, 10);
-            txtCodigo.Mask = "AAA-000";
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(214, 19);
-            txtCodigo.TabIndex = 1;
-            // 
             // FrmProductos
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -1356,7 +1357,6 @@
         private Label lblCategoria;
         private ComboBox cmbCategoria;
         private Label lblCodigo;
-        private TextBox txtCodigo;
         private TextBox txtNombre;
         private Label lblNombre;
         private Label lblDescripcion;

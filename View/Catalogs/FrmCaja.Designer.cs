@@ -339,7 +339,7 @@
             pnlMovimientos.Location = new Point(0, 260);
             pnlMovimientos.Name = "pnlMovimientos";
             pnlMovimientos.Padding = new Padding(3, 10, 3, 10);
-            pnlMovimientos.Size = new Size(940, 570);
+            pnlMovimientos.Size = new Size(940, 505);
             pnlMovimientos.TabIndex = 2;
             // 
             // dgvMovimientosCaja
@@ -396,7 +396,7 @@
             dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dgvMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle11;
             dgvMovimientosCaja.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMovimientosCaja.Size = new Size(934, 550);
+            dgvMovimientosCaja.Size = new Size(934, 485);
             dgvMovimientosCaja.TabIndex = 0;
             dgvMovimientosCaja.CellFormatting += dgvMovimientosCaja_CellFormatting;
             // 
@@ -751,8 +751,8 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlAcciones);
             Controls.Add(pnlMovimientos);
+            Controls.Add(pnlAcciones);
             Controls.Add(pnlUltimoCierre);
             Controls.Add(pnlResumen);
             Controls.Add(pnlEstadoCaja);

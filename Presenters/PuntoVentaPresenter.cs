@@ -48,15 +48,20 @@ namespace Ocean_Desk_dv.Presenters
             CargarMesasDisponibles();
         }
 
+        /// <summary>
+        /// Carga los productos activos para mostrarlos en Punto de Venta.
+        /// Los productos no disponibles permanecen visibles, pero sus tarjetas
+        /// se muestran deshabilitadas para impedir que se agreguen al pedido.
+        /// </summary>
         private void CargarCatalogo()
         {
             var productos = _context.Products
-                .AsNoTracking()
-                .Include(p => p.ProductCategory)
-                .Where(p => p.IsActive && p.IsAvailable)
-                .OrderBy(p => p.ProductCategory.CategoryName)
-                .ThenBy(p => p.ProductName)
-                .ToList();
+            .AsNoTracking()
+            .Include(p => p.ProductCategory)
+            .Where(p => p.IsActive && p.ProductType == "FinishedProduct")
+            .OrderBy(p => p.ProductCategory.CategoryName)
+            .ThenBy(p => p.ProductName)
+            .ToList();
 
             _view.MostrarProductos(productos);
         }

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.View.Interfaces;
+using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.MessageBox;
 using Ocean_Desk_dv.View.Localization;
 
@@ -24,12 +25,12 @@ namespace Ocean_Desk_dv.View.Catalogs
         private readonly BindingSource _productosReceta = new();
         private readonly BindingSource _ingredientes = new();
         private readonly BindingSource _detalles = new();
-        private ComboBox cmbIngrediente = null!;
-        private NumericUpDown nudCantidadIngrediente = null!;
-        private TextBox txtNotasIngrediente = null!;
-        private TextBox txtInstruccionesReceta = null!;
+
         private ProductosPresenter? _presenter;
         private int? _productoEnEdicionId;
+        private int? _ingredienteSeleccionadoId;
+        private decimal _cantidadIngrediente;
+        private string? _notasIngrediente;
         private bool _actualizando;
 
         public event EventHandler? BusquedaCambiada;
@@ -51,14 +52,65 @@ namespace Ocean_Desk_dv.View.Catalogs
             foreach (Label lbl in new[] { lblCodigo, lblNombre, lblCategoria, lblDescripcion, lblPrecio, lblUnidad, lblStockMinimo })
                 lbl.ForeColor = ColorTranslator.FromHtml("#6F7780");
 
+            ConfigurarMascaraCodigo();
             AplicarEstiloGrid(dgvProductos);
             dgvReceta.CellFormatting += dgvReceta_CellFormatting;
             AplicarEstiloGrid(dgvReceta);
             PrepararEnlaces();
-            CrearControlesReceta();
             ConectarEventos();
             ConfigurarEstadoInicialProducto();
         }
+
+        /// <summary>
+        /// Configura el formato del código para aceptar tres letras,
+        /// un guion y tres dígitos obligatorios.
+        /// </summary>
+        private void ConfigurarMascaraCodigo()
+        {
+            txtCodigo.Mask = "LLL-000";
+            txtCodigo.PromptChar = '#';
+            txtCodigo.TextMaskFormat = MaskFormat.IncludeLiterals;
+
+            txtCodigo.KeyPress -= TxtCodigo_KeyPress;
+            txtCodigo.KeyPress += TxtCodigo_KeyPress;
+
+            txtCodigo.HidePromptOnLeave = false;
+        }
+
+        /// <summary>
+        /// Convierte las letras ingresadas en el código a mayúsculas.
+        /// </summary>
+        private void TxtCodigo_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            e.KeyChar = char.ToUpperInvariant(e.KeyChar);
+        }
+
+        /// <summary>
+        /// Prefijos permitidos para los códigos de productos de Ocean Desk.
+        /// Los prefijos propuestos para futuras categorías deben coordinarse
+        /// con las categorías y reglas de negocio antes de utilizarlos.
+        /// Utilizar HashSet facilita comprobar si un prefijo está permitido y evita duplicados.
+        /// </summary>
+        private static readonly HashSet<string> PrefijosProductoPermitidos = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "PRD", // Productos genéricos o terminados.
+            "CEV", // Ceviches.
+            "BEB", // Bebidas.
+            "ENT", // Entradas y acompañamientos.
+            "MAR", // Mariscos.
+            "PES", // Pescados.
+            "CAR", // Carnes y proteínas terrestres.
+            "ENS", // Ensaladas.
+            "POS", // Postres.
+            "SOP", // Sopas y caldos.
+            "COM", // Combos y promociones.
+            "SAL", // Salsas y aderezos.
+            "INS", // Insumos generales de cocina.
+            "CON", // Condimentos y especias.
+            "PAN", // Panadería.
+            "LAC"  // Lácteos.
+        };
+
 
         /// <summary>
         /// Deshabilita los controles de captura al iniciar el formulario para evitar
@@ -111,6 +163,45 @@ namespace Ocean_Desk_dv.View.Catalogs
             chkActivo.Checked = true;
         }
 
+        /// <summary>
+        /// Comprueba que el código del producto tenga un prefijo autorizado
+        /// y que cumpla el formato AAA-000.
+        /// </summary>
+        /// <returns>
+        /// true si el código es válido; false si falta completar la máscara
+        /// o el prefijo no está permitido.
+        /// </returns>
+        private bool ValidarCodigoProducto()
+        {
+            if (!txtCodigo.MaskCompleted)
+            {
+                MostrarMensaje(
+                    "Complete el código del producto con el formato AAA-000.",
+                    "Código de producto",
+                    true);
+
+                txtCodigo.Focus();
+                return false;
+            }
+
+            string codigo = txtCodigo.Text.Trim().ToUpperInvariant();
+            string prefijo = codigo[..3];
+
+            if (!PrefijosProductoPermitidos.Contains(prefijo))
+            {
+                MostrarMensaje(
+                    $"El prefijo '{prefijo}' no está permitido. " +
+                    "Consulte la lista de prefijos autorizados.",
+                    "Prefijo no válido",
+                    true);
+
+                txtCodigo.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>Asocia el Presenter y ejecuta la carga inicial de datos.</summary>
         public void VincularPresenter(ProductosPresenter presenter)
         {
@@ -121,10 +212,23 @@ namespace Ocean_Desk_dv.View.Catalogs
         public string TextoBusqueda => txtBuscarProducto.Text;
         public int? ProductoSeleccionadoId => (dgvProductos.CurrentRow?.DataBoundItem as ProductoCatalogoDto)?.ProductId;
         public int? ProductoRecetaSeleccionadoId => cmbProductoReceta.SelectedValue is int id && id > 0 ? id : null;
+
         public string InstruccionesReceta => txtInstruccionesReceta.Text.Trim();
-        public int? IngredienteSeleccionadoId => cmbIngrediente.SelectedValue is int id && id > 0 ? id : null;
-        public decimal CantidadIngrediente => nudCantidadIngrediente.Value;
-        public string? NotasIngrediente => string.IsNullOrWhiteSpace(txtNotasIngrediente.Text) ? null : txtNotasIngrediente.Text.Trim();
+
+        /// <summary>
+        /// Identificador del ingrediente confirmado en el formulario modal.
+        /// </summary>
+        public int? IngredienteSeleccionadoId => _ingredienteSeleccionadoId;
+
+        /// <summary>
+        /// Cantidad confirmada en el formulario modal.
+        /// </summary>
+        public decimal CantidadIngrediente => _cantidadIngrediente;
+
+        /// <summary>
+        /// Notas confirmadas en el formulario modal.
+        /// </summary>
+        public string? NotasIngrediente => _notasIngrediente;
         public int? DetalleIngredienteSeleccionadoId => (dgvReceta.CurrentRow?.DataBoundItem as DetalleRecetaDto)?.IngredientProductId;
         public IReadOnlyList<DetalleRecetaDto> DetallesRecetaActuales => _detalles.List.Cast<object>().OfType<DetalleRecetaDto>().ToArray();
 
@@ -216,68 +320,156 @@ namespace Ocean_Desk_dv.View.Catalogs
             }
         }
 
-
-        /// <summary>Añade los campos de receta que no existen en el diseñador original.</summary>
-        private void CrearControlesReceta()
-        {
-            pnlSeleccionReceta.SuspendLayout();
-            pnlSeleccionReceta.Height = 178;
-            cmbProductoReceta.Dock = DockStyle.None;
-            cmbProductoReceta.Location = new Point(30, 8);
-            cmbProductoReceta.Size = new Size(Math.Max(260, pnlSeleccionReceta.ClientSize.Width - 60), 28);
-            cmbProductoReceta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pnlSeleccionReceta.Controls.Add(Etiqueta("Ingrediente", 30, 43, 100));
-            cmbIngrediente = new ComboBox { Name = "cmbIngrediente", DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Century Gothic", 9F), Location = new Point(30, 64), Size = new Size(250, 27) };
-            cmbIngrediente.DisplayMember = nameof(IngredienteSelectorDto.TextoMostrar);
-            cmbIngrediente.ValueMember = nameof(IngredienteSelectorDto.ProductId);
-            cmbIngrediente.DataSource = _ingredientes;
-            pnlSeleccionReceta.Controls.Add(cmbIngrediente);
-            pnlSeleccionReceta.Controls.Add(Etiqueta("Cantidad", 294, 43, 100));
-            nudCantidadIngrediente = new NumericUpDown { Name = "nudCantidadIngrediente", DecimalPlaces = 4, Minimum = 0.0001M, Maximum = 999999999M, Increment = 0.1M, Font = new Font("Century Gothic", 9F), Location = new Point(294, 64), Size = new Size(100, 27) };
-            pnlSeleccionReceta.Controls.Add(nudCantidadIngrediente);
-            pnlSeleccionReceta.Controls.Add(Etiqueta("Notas (opcional)", 408, 43, 140));
-            txtNotasIngrediente = new TextBox { Name = "txtNotasIngrediente", Font = new Font("Century Gothic", 9F), Location = new Point(408, 64), Size = new Size(Math.Max(100, pnlSeleccionReceta.ClientSize.Width - 438), 27), Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
-            pnlSeleccionReceta.Controls.Add(txtNotasIngrediente);
-            pnlSeleccionReceta.Controls.Add(Etiqueta("Instrucciones de preparación", 30, 99, 220));
-            txtInstruccionesReceta = new TextBox { Name = "txtInstruccionesReceta", Multiline = true, ScrollBars = ScrollBars.Vertical, MaxLength = 1000, Font = new Font("Century Gothic", 9F), Location = new Point(30, 120), Size = new Size(Math.Max(260, pnlSeleccionReceta.ClientSize.Width - 60), 48), Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
-            pnlSeleccionReceta.Controls.Add(txtInstruccionesReceta);
-            pnlSeleccionReceta.ResumeLayout();
-        }
-
-        private static Label Etiqueta(string texto, int x, int y, int ancho) => new Label { Text = texto, AutoSize = false, Location = new Point(x, y), Size = new Size(ancho, 19), Font = new Font("Century Gothic", 8.5F, FontStyle.Bold), ForeColor = Color.FromArgb(8, 31, 63) };
-
         private void ConectarEventos()
         {
             txtBuscarProducto.TextChanged += (_, _) => BusquedaCambiada?.Invoke(this, EventArgs.Empty);
             btnNuevoProducto.Click += (_, _) => NuevoProductoSolicitado?.Invoke(this, EventArgs.Empty);
             btnEditarProducto.Click += (_, _) => EditarProductoSolicitado?.Invoke(this, EventArgs.Empty);
-            btnCambiarEstado.Click += (_, _) => CambiarEstadoProductoSolicitado?.Invoke(this, EventArgs.Empty);
+            btnCambiarEstado.Click += (_, _) => SolicitarCambioEstadoConConfirmacion();
             btnLimpiarProducto.Click += (_, _) =>
             {
                 LimpiarFormularioProducto();
                 EstablecerEdicionProductoHabilitada(false);
             };
-            btnGuardarProducto.Click += (_, _) => GuardarProductoSolicitado?.Invoke(this, EventArgs.Empty);
+
+            btnGuardarProducto.Click += (_, _) =>
+            {
+                {
+                    if (ValidarCodigoProducto())
+                    {
+                        GuardarProductoSolicitado?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+
+            };
+
+            // Mantiene la disponibilidad coherente con el estado del producto.
+            chkActivo.CheckedChanged += (_, _) =>
+            {
+                if (!chkActivo.Checked)
+                {
+                    chkDisponible.Checked = false;
+                    chkDisponible.Enabled = false;
+                }
+                else
+                {
+                    chkDisponible.Enabled = true;
+                }
+            };
+
             dgvProductos.SelectionChanged += (_, _) => ProductoSeleccionadoCambiado?.Invoke(this, EventArgs.Empty);
             cmbProductoReceta.SelectedValueChanged += (_, _) => { if (!_actualizando) ProductoRecetaSeleccionadoCambiado?.Invoke(this, EventArgs.Empty); };
-            btnAgregarIngrediente.Click += (_, _) => AgregarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
-            btnEditarIngrediente.Click += (_, _) => EditarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
+            btnAgregarIngrediente.Click += (_, _) => AbrirEditorIngrediente(false);
+            btnEditarIngrediente.Click += (_, _) => AbrirEditorIngrediente(true);
             btnQuitarIngrediente.Click += (_, _) => QuitarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
             btnGuardarReceta.Click += (_, _) => GuardarRecetaSolicitado?.Invoke(this, EventArgs.Empty);
-            dgvReceta.SelectionChanged += (_, _) => CargarDetalleSeleccionadoEnCampos();
         }
 
-        private void CargarDetalleSeleccionadoEnCampos()
+        /// <summary>
+        /// Abre el formulario modal para agregar un ingrediente o editar uno existente.
+        /// </summary>
+        /// <param name="editar">Indica si se editará el ingrediente seleccionado.</param>
+        private void AbrirEditorIngrediente(bool editar)
         {
-            if (dgvReceta.CurrentRow?.DataBoundItem is not DetalleRecetaDto detalle) return;
-            _actualizando = true;
-            try
+            DetalleRecetaDto? detalle = editar
+                ? dgvReceta.CurrentRow?.DataBoundItem as DetalleRecetaDto
+                : null;
+
+            if (editar && detalle is null)
             {
-                cmbIngrediente.SelectedValue = detalle.IngredientProductId;
-                nudCantidadIngrediente.Value = Math.Max(nudCantidadIngrediente.Minimum, Math.Min(nudCantidadIngrediente.Maximum, detalle.Quantity));
-                txtNotasIngrediente.Text = detalle.Notes ?? string.Empty;
+                MostrarMensaje(
+                    "Seleccione un ingrediente de la receta antes de editar.",
+                    "Ingrediente requerido",
+                    true);
+
+                return;
             }
-            finally { _actualizando = false; }
+
+            List<IngredienteSelectorDto> ingredientes = _ingredientes.List
+                .Cast<object>()
+                .OfType<IngredienteSelectorDto>()
+                .ToList();
+
+            // Permite conservar el ingrediente de una receta existente aunque
+            // ya no aparezca en la lista de ingredientes activos.
+            if (detalle is not null &&
+                !ingredientes.Any(i => i.ProductId == detalle.IngredientProductId))
+            {
+                ingredientes.Add(new IngredienteSelectorDto
+                {
+                    ProductId = detalle.IngredientProductId,
+                    ProductCode = detalle.IngredientCode,
+                    ProductName = detalle.IngredientName,
+                    UnitCode = detalle.UnitCode,
+                    UnitName = detalle.UnitName
+                });
+            }
+
+            if (ingredientes.Count == 0)
+            {
+                MostrarMensaje(
+                    "No hay ingredientes disponibles para agregar.",
+                    "Ingredientes no disponibles",
+                    true);
+
+                return;
+            }
+
+            using var formulario = new FrmIngredienteReceta(
+                ingredientes,
+                detalle);
+
+            if (formulario.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            if (!formulario.IngredienteSeleccionadoId.HasValue)
+            {
+                MostrarMensaje(
+                    "Seleccione un ingrediente válido.",
+                    "Ingrediente requerido",
+                    true);
+
+                return;
+            }
+
+            // Conserva los valores confirmados para que el Presenter los valide.
+            _ingredienteSeleccionadoId = formulario.IngredienteSeleccionadoId;
+            _cantidadIngrediente = formulario.Cantidad;
+            _notasIngrediente = formulario.Notas;
+
+            if (editar)
+                EditarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
+            else
+                AgregarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Solicita confirmación antes de cambiar el estado del producto seleccionado.
+        /// Si el usuario confirma, notifica la solicitud al Presenter.
+        /// </summary>
+        private void SolicitarCambioEstadoConConfirmacion()
+        {
+            if (dgvProductos.CurrentRow?.DataBoundItem is not ProductoCatalogoDto producto)
+            {
+                MostrarMensaje(
+                    "Seleccione un producto del catálogo antes de cambiar su estado.",
+                    "Producto no seleccionado",
+                    true);
+
+                return;
+            }
+
+            string nuevoEstado = producto.IsActive ? "inactivo" : "activo";
+
+            DialogResult respuesta = FrmMessageBox.Show(
+                $"¿Desea cambiar el estado del producto '{producto.ProductName}' a {nuevoEstado}?",
+                "Confirmar cambio de estado",
+                MessageType.Confirmation);
+
+            if (respuesta == DialogResult.Yes)
+            {
+                CambiarEstadoProductoSolicitado?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void AplicarEstiloGrid(DataGridView dgv)
@@ -353,17 +545,24 @@ namespace Ocean_Desk_dv.View.Catalogs
             chkDisponible.Checked = p.IsAvailable;
             chkActivo.Checked = p.IsActive;
             txtNombre.Focus();
+
+            // Un producto inactivo nunca puede quedar disponible para la venta.
+            chkDisponible.Enabled = p.IsActive;
+            if (!p.IsActive)
+            {
+                chkDisponible.Checked = false;
+            }
         }
 
         /// <summary>
-    /// Limpia el formulario y lo deja en modo captura para registrar un producto nuevo.
-    /// </summary>
-    public void LimpiarFormularioProducto()
-    {
-        RestablecerCamposProducto();
-        EstablecerEdicionProductoHabilitada(true);
-        txtCodigo.Focus();
-    }
+        /// Limpia el formulario y lo deja en modo captura para registrar un producto nuevo.
+        /// </summary>
+        public void LimpiarFormularioProducto()
+        {
+            RestablecerCamposProducto();
+            EstablecerEdicionProductoHabilitada(true);
+            txtCodigo.Focus();
+        }
 
         /// <summary>
         /// Selecciona en el ComboBox el elemento cuyo SelectedValue coincide con valor; si valor es nulo selecciona el
@@ -382,7 +581,19 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// <remarks>Convierte la colección a List para asignarla a DataSource; limpia el cuadro de notas
         /// y establece el control de cantidad en su valor mínimo.</remarks>
         /// <param name="detalles">Colección de DetalleRecetaDto que se enlaza al control de datos para su visualización.</param>
-        public void MostrarDetallesReceta(IReadOnlyList<DetalleRecetaDto> detalles) { _detalles.DataSource = detalles.ToList(); txtNotasIngrediente.Clear(); nudCantidadIngrediente.Value = nudCantidadIngrediente.Minimum; }
+        /// <summary>
+        /// Muestra los ingredientes de la receta seleccionada en la tabla.
+        /// </summary>
+        /// <param name="detalles">Ingredientes y cantidades de la receta.</param>
+        public void MostrarDetallesReceta(
+            IReadOnlyList<DetalleRecetaDto> detalles)
+        {
+            _detalles.DataSource = detalles.ToList();
+
+            _ingredienteSeleccionadoId = null;
+            _cantidadIngrediente = 0m;
+            _notasIngrediente = null;
+        }
 
         /// <summary>
         /// Actualiza txtInstruccionesReceta.Text con las instrucciones de la receta.
@@ -392,12 +603,31 @@ namespace Ocean_Desk_dv.View.Catalogs
         public void MostrarInstruccionesReceta(string instrucciones) { txtInstruccionesReceta.Text = instrucciones ?? string.Empty; }
 
         /// <summary>
-        /// Muestra un mensaje de alerta o información en la interfaz.
+        /// Muestra mensajes mediante el cuadro estandarizado de Ocean Desk.
+        /// Los mensajes de validación se presentan como advertencias y las
+        /// excepciones identificadas por su título se presentan como errores.
         /// </summary>
-        /// <param name="mensaje">Texto del mensaje a mostrar.</param>
-        /// <param name="titulo">Título del cuadro de mensaje.</param>
-        /// <param name="esError">Indica si el mensaje es un error.</param>
-        public void MostrarMensaje(string mensaje, string titulo = "Productos", bool esError = false) => System.Windows.Forms.MessageBox.Show(this, mensaje, titulo, System.Windows.Forms.MessageBoxButtons.OK, esError ? System.Windows.Forms.MessageBoxIcon.Warning : System.Windows.Forms.MessageBoxIcon.Information);
+        /// <param name="mensaje">Texto que se mostrará al usuario.</param>
+        /// <param name="titulo">Título de la ventana de mensaje.</param>
+        /// <param name="esError">Indica si el mensaje corresponde a una advertencia o error.</param>
+        public void MostrarMensaje(
+            string mensaje,
+            string titulo = "Productos",
+            bool esError = false)
+        {
+            MessageType tipo = MessageType.Information;
+
+            if (esError)
+            {
+                tipo = titulo.Contains(
+                    "error",
+                    StringComparison.OrdinalIgnoreCase)
+                    ? MessageType.Error
+                    : MessageType.Warning;
+            }
+
+            FrmMessageBox.Show(mensaje, titulo, tipo);
+        }
 
         /// <summary>Traduce los valores booleanos de la tabla a etiquetas legibles.</summary>
         private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
