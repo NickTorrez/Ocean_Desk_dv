@@ -25,6 +25,9 @@ namespace Ocean_Desk_dv.UI
         private FrmLogin login;
         private readonly int _usuarioId;
         private bool _permitirCerrarFormulario;
+       
+        // Formulario actualmente alojado en el panel de contenido.
+        private Form? _formularioActivo;
 
         // Colores para los botones del menú
         private Color colorNormal = Color.Transparent;
@@ -75,33 +78,83 @@ namespace Ocean_Desk_dv.UI
             lblSubtitulo.Text = "Seleccione un módulo para comenzar";
         }
 
+        /// <summary>
+        /// Aloja un formulario hijo en el panel de contenido.
+        /// Antes de abrir otro módulo, libera la vista anterior.
+        /// </summary>
+        /// <param name="formulario">Formulario que se mostrará en el panel.</param>
         private void AbrirFormularioEnPanel(Form formulario)
         {
-            // Limpiar el contenido actual
-            pnlContent.Controls.Clear();
+            if (formulario is null)
+                throw new ArgumentNullException(nameof(formulario));
 
-            // El formulario no se mostrará como ventana independiente
+            // Evita volver a alojar la misma instancia.
+            if (ReferenceEquals(_formularioActivo, formulario))
+                return;
+
+            // Libera la vista anterior antes de abrir la nueva.
+            CerrarFormularioActivo();
+
             formulario.TopLevel = false;
             formulario.FormBorderStyle = FormBorderStyle.None;
             formulario.Dock = DockStyle.Fill;
 
-            // Agregarlo al panel principal
+            _formularioActivo = formulario;
+
+            pnlContent.Controls.Clear();
             pnlContent.Controls.Add(formulario);
 
-            // Llevarlo al frente
             formulario.BringToFront();
-
-            // Mostrarlo
             formulario.Show();
         }
 
+        /// <summary>
+        /// Cierra y libera el formulario actualmente alojado en el panel.
+        /// </summary>
+        private void CerrarFormularioActivo()
+        {
+            Form? anterior = _formularioActivo;
+
+            // Restablece primero la referencia para evitar conservar
+            // una instancia que ya se está cerrando.
+            _formularioActivo = null;
+
+            if (anterior is null)
+            {
+                pnlContent.Controls.Clear();
+                return;
+            }
+
+            pnlContent.Controls.Remove(anterior);
+
+            // Primero cerrar y luego garantizar la liberación de recursos.
+            if (!anterior.IsDisposed)
+            {
+                anterior.Close();
+
+                if (!anterior.IsDisposed)
+                    anterior.Dispose();
+            }
+
+            pnlContent.Controls.Clear();
+        }
+
+        /// <summary>
+        /// Valida si se permite cerrar la aplicación y libera el módulo activo.
+        /// </summary>
         private void FrmMainMenu_FormClosing(object? sender, FormClosingEventArgs e)
         {
-            if (_permitirCerrarFormulario)
-                return;
-
-            if (!ValidarCajaParaSalir())
+            // Conserva la validación de caja, salvo que el cierre
+            // ya haya sido autorizado explícitamente.
+            if (!_permitirCerrarFormulario && !ValidarCajaParaSalir())
+            {
                 e.Cancel = true;
+                return;
+            }
+
+            // El cierre está permitido: libera la vista activa,
+            // su Presenter y sus recursos asociados.
+            CerrarFormularioActivo();
         }
         #endregion
 
@@ -254,6 +307,9 @@ namespace Ocean_Desk_dv.UI
         {
             if (!ValidarCajaParaSalir())
                 return;
+
+            // Libera la vista actual antes de regresar al inicio de sesión.
+            CerrarFormularioActivo();
 
             login.LimpiarCampos(); // Llamar al método LimpiarCampos() del formulario de login para limpiar los campos de usuario y contraseña
 

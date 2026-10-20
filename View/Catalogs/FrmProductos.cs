@@ -52,6 +52,13 @@ namespace Ocean_Desk_dv.View.Catalogs
             foreach (Label lbl in new[] { lblCodigo, lblNombre, lblCategoria, lblDescripcion, lblPrecio, lblUnidad, lblStockMinimo })
                 lbl.ForeColor = ColorTranslator.FromHtml("#6F7780");
 
+            // Libera el Presenter y su repositorio cuando se destruye la vista.
+            Disposed += (_, _) =>
+            {
+                _presenter?.Dispose();
+                _presenter = null;
+            };
+
             ConfigurarMascaraCodigo();
             AplicarEstiloGrid(dgvProductos);
             AplicarEstiloGrid(dgvReceta);
