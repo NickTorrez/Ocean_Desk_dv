@@ -27,6 +27,10 @@ public partial class InventoryMovement
 
     public DateTime MovementDateTime { get; set; }
 
+    public long? InventoryLotId { get; set; }
+
+    public virtual InventoryLot? InventoryLot { get; set; }
+
     public virtual Product Product { get; set; } = null!;
 
     public virtual Sale? Sale { get; set; }

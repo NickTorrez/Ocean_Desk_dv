@@ -30,6 +30,8 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<Inventory> Inventories { get; set; }
 
+    public virtual DbSet<InventoryLot> InventoryLots { get; set; }
+
     public virtual DbSet<InventoryMovement> InventoryMovements { get; set; }
 
     public virtual DbSet<Invoice> Invoices { get; set; }
@@ -232,6 +234,33 @@ public partial class OceanDeskDbContext : DbContext
                 .HasConstraintName("FK_Inventory_Product");
         });
 
+        modelBuilder.Entity<InventoryLot>(entity =>
+        {
+            entity.ToTable("InventoryLot");
+
+            entity.HasIndex(e => e.ExpirationDate, "IX_InventoryLot_ExpirationDate").HasFilter("([ExpirationDate] IS NOT NULL)");
+
+            entity.HasIndex(e => new { e.InventoryLotId, e.ProductId }, "UQ_InventoryLot_Id_ProductId").IsUnique();
+
+            entity.HasIndex(e => new { e.ProductId, e.LotCode }, "UX_InventoryLot_Product_LotCode")
+                .IsUnique()
+                .HasFilter("([LotCode] IS NOT NULL)");
+
+            entity.Property(e => e.InitialQuantity).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.LotCode).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(250);
+            entity.Property(e => e.ReceivedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.RemainingQuantity).HasColumnType("decimal(12, 4)");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InventoryLots)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InventoryLot_Product");
+        });
+
         modelBuilder.Entity<InventoryMovement>(entity =>
         {
             entity.ToTable("InventoryMovement");
@@ -259,6 +288,11 @@ public partial class OceanDeskDbContext : DbContext
             entity.HasOne(d => d.Sale).WithMany(p => p.InventoryMovements)
                 .HasForeignKey(d => d.SaleId)
                 .HasConstraintName("FK_InventoryMovement_Sale");
+
+            entity.HasOne(d => d.InventoryLot).WithMany(p => p.InventoryMovements)
+                .HasPrincipalKey(p => new { p.InventoryLotId, p.ProductId })
+                .HasForeignKey(d => new { d.InventoryLotId, d.ProductId })
+                .HasConstraintName("FK_InventoryMovement_InventoryLot_Product");
         });
 
         modelBuilder.Entity<Invoice>(entity =>

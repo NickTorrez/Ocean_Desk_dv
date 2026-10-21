@@ -31,6 +31,8 @@ public partial class Product
 
     public virtual Inventory? Inventory { get; set; }
 
+    public virtual ICollection<InventoryLot> InventoryLots { get; set; } = new List<InventoryLot>();
+
     public virtual ICollection<InventoryMovement> InventoryMovements { get; set; } = new List<InventoryMovement>();
 
     public virtual ProductCategory ProductCategory { get; set; } = null!;
