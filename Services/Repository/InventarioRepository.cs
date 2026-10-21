@@ -2,6 +2,8 @@
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
 using Ocean_Desk_dv.Services.Interfaces_Services;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,39 +17,46 @@ namespace Ocean_Desk_dv.Services.Repository
     /// </summary>
     public sealed class InventarioRepository : IInventarioRepository
     {
+        private const decimal StockMaximo = 99999999.9999m;
+        private const int DiasAlertaVencimiento = 30;
+
         private readonly OceanDeskDbContext _context;
 
+        /// <summary>
+        /// Inicializa el repositorio con su contexto de base de datos.
+        /// </summary>
+        /// <param name="context">Contexto de Ocean Desk.</param>
         public InventarioRepository(OceanDeskDbContext context)
         {
             _context = context ??
                 throw new ArgumentNullException(nameof(context));
         }
 
+        // ============================================================
+        // 1. CONSULTA DE EXISTENCIAS
+        // ============================================================
+
         /// <summary>
-        /// Obtiene las existencias de ingredientes con sus estados de stock
-        /// y la fecha de vencimiento más próxima entre los lotes con saldo.
+        /// Obtiene las existencias de ingredientes aplicando los filtros
+        /// de búsqueda, categoría, stock y vencimiento.
         /// </summary>
+        /// <param name="filtro">Criterios de búsqueda del inventario.</param>
+        /// <returns>Existencias preparadas para la interfaz.</returns>
         public IReadOnlyList<ExistenciaInventarioDto> ObtenerExistencias(
             FiltroExistenciasInventarioDto filtro)
         {
             filtro ??= new FiltroExistenciasInventarioDto();
 
+            // Consultar únicamente ingredientes activos.
+            // El estado de vencimiento se calcula a partir de sus lotes,
+            // no desde la entidad Product.
             IQueryable<Product> consulta = _context.Products
                 .AsNoTracking()
                 .Where(p =>
-                EsFiltroAplicable(filtro.EstadoVencimiento) ||
-                (
-                    string.Equals(
-                        filtro.EstadoVencimiento?.Trim(),
-                        "Vencidos",
-                        StringComparison.OrdinalIgnoreCase)
-                    && p.ExpirationStatus == "Vencido"
-                ) ||
-                string.Equals(
-                    p.ExpirationStatus,
-                    filtro.EstadoVencimiento?.Trim(),
-                    StringComparison.OrdinalIgnoreCase));
+                    p.ProductType == "Ingredient" &&
+                    p.IsActive);
 
+            // Filtro por código o nombre.
             if (!string.IsNullOrWhiteSpace(filtro.TextoBusqueda))
             {
                 string texto = filtro.TextoBusqueda.Trim();
@@ -57,29 +66,24 @@ namespace Ocean_Desk_dv.Services.Repository
                     p.ProductName.Contains(texto));
             }
 
-            if (!string.IsNullOrWhiteSpace(filtro.Categoria) &&
-                !filtro.Categoria.StartsWith("Seleccione",
-                    StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(filtro.Categoria, "Todas",
-                    StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(filtro.Categoria, "Todos",
-                    StringComparison.OrdinalIgnoreCase))
+            // Filtro por categoría.
+            if (!EsFiltroAplicable(filtro.Categoria))
             {
-                string categoria = filtro.Categoria.Trim();
+                string categoria = filtro.Categoria!.Trim();
 
                 consulta = consulta.Where(p =>
                     p.ProductCategory.CategoryName == categoria);
             }
 
-            // La proyección incluye productos sin fila Inventory:
-            // para ellos el stock presentado será cero.
-            List<ExistenciaInventarioDto> registros = consulta
+            // Obtener los datos base de los productos.
+            // Los ingredientes sin registro Inventory se muestran con stock 0.
+            var productosBase = consulta
                 .OrderBy(p => p.ProductName)
-                .Select(p => new ExistenciaInventarioDto
+                .Select(p => new
                 {
-                    ProductId = p.ProductId,
-                    ProductCode = p.ProductCode,
-                    ProductName = p.ProductName,
+                    p.ProductId,
+                    p.ProductCode,
+                    p.ProductName,
                     CategoryName = p.ProductCategory.CategoryName,
 
                     UnitName = p.UnitOfMeasure != null
@@ -92,71 +96,118 @@ namespace Ocean_Desk_dv.Services.Repository
 
                     MinimumStock = p.Inventory != null
                         ? p.Inventory.MinimumStock
-                        : 0m,
-
-                    ExpirationDate = _context.InventoryLots
-                        .Where(l =>
-                            l.ProductId == p.ProductId &&
-                            l.IsActive &&
-                            l.RemainingQuantity > 0m &&
-                            l.ExpirationDate.HasValue)
-                        .OrderBy(l => l.ExpirationDate)
-                        .ThenBy(l => l.ReceivedAt)
-                        .Select(l => l.ExpirationDate)
-                        .FirstOrDefault()
+                        : 0m
                 })
                 .ToList();
+
+            // Evitar consultar los lotes si no hay productos.
+            if (productosBase.Count == 0)
+                return Array.Empty<ExistenciaInventarioDto>();
+
+            List<int> productoIds = productosBase
+                .Select(p => p.ProductId)
+                .ToList();
+
+            // Buscar lotes con saldo y fecha de vencimiento conocida.
+            // El orden permite obtener el vencimiento más próximo de cada
+            // producto, incluyendo lotes que ya vencieron pero conservan saldo.
+            var lotesConVencimiento = _context.InventoryLots
+                .AsNoTracking()
+                .Where(l =>
+                    productoIds.Contains(l.ProductId) &&
+                    l.IsActive &&
+                    l.RemainingQuantity > 0m &&
+                    l.ExpirationDate.HasValue)
+                .OrderBy(l => l.ExpirationDate)
+                .ThenBy(l => l.ReceivedAt)
+                .ThenBy(l => l.InventoryLotId)
+                .Select(l => new
+                {
+                    l.ProductId,
+                    l.ExpirationDate
+                })
+                .ToList();
+
+            var vencimientosPorProducto = new Dictionary<int, DateOnly>();
+
+            foreach (var lote in lotesConVencimiento)
+            {
+                if (!lote.ExpirationDate.HasValue)
+                    continue;
+
+                if (!vencimientosPorProducto.ContainsKey(lote.ProductId))
+                {
+                    vencimientosPorProducto[lote.ProductId] =
+                        lote.ExpirationDate.Value;
+                }
+            }
 
             DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
-            DateOnly limite = hoy.AddDays(30);
+            DateOnly limiteVencimiento =
+                hoy.AddDays(DiasAlertaVencimiento);
 
-            // Los estados calculados se filtran después de proyectar los datos.
-            List<ExistenciaInventarioDto> resultados = registros
-                .Select(p =>
+            var resultados = new List<ExistenciaInventarioDto>();
+
+            foreach (var producto in productosBase)
+            {
+                DateOnly? vencimiento = vencimientosPorProducto.TryGetValue(
+                    producto.ProductId,
+                    out DateOnly fecha)
+                        ? fecha
+                        : null;
+
+                string estadoStock = ObtenerEstadoStock(
+                    producto.CurrentStock,
+                    producto.MinimumStock);
+
+                string estadoVencimiento = ObtenerEstadoVencimiento(
+                    vencimiento,
+                    hoy,
+                    limiteVencimiento);
+
+                // Filtrar por estado de existencias.
+                if (!EsFiltroAplicable(filtro.EstadoStock) &&
+                    !string.Equals(
+                        estadoStock,
+                        filtro.EstadoStock!.Trim(),
+                        StringComparison.OrdinalIgnoreCase))
                 {
-                    string estadoStock = ObtenerEstadoStock(
-                        p.CurrentStock,
-                        p.MinimumStock);
+                    continue;
+                }
 
-                    string estadoVencimiento =
-                        ObtenerEstadoVencimiento(
-                            p.ExpirationDate,
-                            hoy,
-                            limite);
+                // El diseñador utiliza "Vencidos" en plural,
+                // mientras que el estado individual se llama "Vencido".
+                if (!CoincideFiltroVencimiento(
+                    filtro.EstadoVencimiento,
+                    estadoVencimiento))
+                {
+                    continue;
+                }
 
-                    return new ExistenciaInventarioDto
-                    {
-                        ProductId = p.ProductId,
-                        ProductCode = p.ProductCode,
-                        ProductName = p.ProductName,
-                        CategoryName = p.CategoryName,
-                        UnitName = p.UnitName,
-                        CurrentStock = p.CurrentStock,
-                        MinimumStock = p.MinimumStock,
-                        StockStatus = estadoStock,
-                        ExpirationDate = p.ExpirationDate,
-                        ExpirationStatus = estadoVencimiento
-                    };
-                })
-                .Where(p =>
-                    EsFiltroAplicable(filtro.EstadoStock) ||
-                    string.Equals(
-                        p.StockStatus,
-                        filtro.EstadoStock?.Trim(),
-                        StringComparison.OrdinalIgnoreCase))
-                .Where(p =>
-                    EsFiltroAplicable(filtro.EstadoVencimiento) ||
-                    string.Equals(
-                        p.ExpirationStatus,
-                        filtro.EstadoVencimiento?.Trim(),
-                        StringComparison.OrdinalIgnoreCase))
-                .ToList();
+                resultados.Add(new ExistenciaInventarioDto
+                {
+                    ProductId = producto.ProductId,
+                    ProductCode = producto.ProductCode,
+                    ProductName = producto.ProductName,
+                    CategoryName = producto.CategoryName,
+                    UnitName = producto.UnitName,
+                    CurrentStock = producto.CurrentStock,
+                    MinimumStock = producto.MinimumStock,
+                    StockStatus = estadoStock,
+                    ExpirationDate = vencimiento,
+                    ExpirationStatus = estadoVencimiento
+                });
+            }
 
             return resultados;
         }
 
+        // ============================================================
+        // 2. CONSULTA DE CATEGORÍAS
+        // ============================================================
+
         /// <summary>
-        /// Obtiene las categorías de los ingredientes activos.
+        /// Obtiene las categorías que tienen ingredientes activos.
         /// </summary>
         public IReadOnlyList<string> ObtenerCategoriasInventario()
         {
@@ -171,9 +222,13 @@ namespace Ocean_Desk_dv.Services.Repository
                 .ToList();
         }
 
+        // ============================================================
+        // 3. SELECTOR DE INGREDIENTES
+        // ============================================================
+
         /// <summary>
-        /// Obtiene ingredientes activos con unidades de medida activas
-        /// para utilizarlos en el registro de movimientos.
+        /// Obtiene los ingredientes activos que tienen una unidad
+        /// de medida activa, para registrar movimientos.
         /// </summary>
         public IReadOnlyList<ProductoInventarioSelectorDto>
             ObtenerIngredientesActivosParaMovimiento()
@@ -197,15 +252,22 @@ namespace Ocean_Desk_dv.Services.Repository
                 .ToList();
         }
 
+        // ============================================================
+        // 4. HISTORIAL DE MOVIMIENTOS
+        // ============================================================
+
         /// <summary>
-        /// Consulta los movimientos dentro del intervalo indicado.
-        /// La fecha final es inclusiva para el usuario.
+        /// Obtiene los movimientos del intervalo solicitado,
+        /// aplicando los filtros por tipo y producto.
         /// </summary>
         public IReadOnlyList<MovimientoInventarioDto> ObtenerMovimientos(
             FiltroMovimientosInventarioDto filtro)
         {
-            if (filtro is null || filtro.Hasta.Date < filtro.Desde.Date)
+            if (filtro is null ||
+                filtro.Hasta.Date < filtro.Desde.Date)
+            {
                 return Array.Empty<MovimientoInventarioDto>();
+            }
 
             DateTime desde = filtro.Desde.Date;
             DateTime hastaExclusivo = filtro.Hasta.Date.AddDays(1);
@@ -217,102 +279,125 @@ namespace Ocean_Desk_dv.Services.Repository
                         m.MovementDateTime >= desde &&
                         m.MovementDateTime < hastaExclusivo);
 
+            // El tipo recibido debe coincidir con el valor almacenado.
             if (!string.IsNullOrWhiteSpace(filtro.TipoMovimiento) &&
                 !string.Equals(
-                    filtro.TipoMovimiento,
+                    filtro.TipoMovimiento.Trim(),
                     "Todos",
                     StringComparison.OrdinalIgnoreCase))
             {
                 string tipo = filtro.TipoMovimiento.Trim();
 
-                consulta = consulta.Where(m => m.MovementType == tipo);
+                consulta = consulta.Where(m =>
+                    m.MovementType == tipo);
             }
 
+            // Filtro de texto aplicado al producto del movimiento.
             if (!string.IsNullOrWhiteSpace(filtro.TextoBusqueda))
             {
                 string texto = filtro.TextoBusqueda.Trim();
 
                 consulta = consulta.Where(m =>
-                    m.Product.ProductName.Contains(texto) ||
-                    m.Product.ProductCode.Contains(texto));
+                    m.Product.ProductCode.Contains(texto) ||
+                    m.Product.ProductName.Contains(texto));
             }
 
+            // Proyectar primero los campos que dependen de SQL Server.
             var registros = consulta
                 .OrderByDescending(m => m.MovementDateTime)
+                .ThenByDescending(m => m.InventoryMovementId)
                 .Select(m => new
                 {
                     m.InventoryMovementId,
                     m.MovementDateTime,
                     m.MovementType,
-                    m.Product.ProductName,
+                    ProductName = m.Product.ProductName,
+
                     Quantity = m.Quantity,
+
                     UnitName = m.Product.UnitOfMeasure != null
                         ? m.Product.UnitOfMeasure.UnitName
                         : "Sin unidad",
-                    Source = m.SaleId.HasValue
-                        ? "Venta #" + m.SaleId.Value
-                        : m.ReferenceType == null
-                            ? "Manual"
-                            : m.ReferenceId == null
-                                ? m.ReferenceType
-                                : m.ReferenceType + " " + m.ReferenceId,
+
+                    m.SaleId,
+                    m.ReferenceType,
+                    m.ReferenceId,
+
                     LotCode = m.InventoryLot != null
                         ? m.InventoryLot.LotCode
                         : null,
+
                     m.Notes,
                     m.StockBefore,
                     m.StockAfter
                 })
                 .ToList();
 
-            return registros.Select(m => new MovimientoInventarioDto
-            {
-                InventoryMovementId = m.InventoryMovementId,
-                MovementDateTime = m.MovementDateTime,
-                MovementType = TraducirTipoMovimiento(m.MovementType),
-                ProductName = m.ProductName,
-                Quantity = m.Quantity,
-                UnitName = m.UnitName,
-                Source = m.Source,
-                LotCode = m.LotCode,
-                Notes = m.Notes,
-                StockBefore = m.StockBefore,
-                StockAfter = m.StockAfter
-            }).ToList();
+            // Traducir los valores y preparar los DTO fuera de la consulta SQL.
+            return registros
+                .Select(m => new MovimientoInventarioDto
+                {
+                    InventoryMovementId = m.InventoryMovementId,
+                    MovementDateTime = m.MovementDateTime,
+                    MovementType = TraducirTipoMovimiento(m.MovementType),
+                    ProductName = m.ProductName,
+                    Quantity = m.Quantity,
+                    UnitName = m.UnitName,
+                    Source = ObtenerOrigen(
+                        m.SaleId,
+                        m.ReferenceType,
+                        m.ReferenceId),
+                    LotCode = m.LotCode,
+                    Notes = m.Notes,
+                    StockBefore = m.StockBefore,
+                    StockAfter = m.StockAfter
+                })
+                .ToList();
         }
 
+        // ============================================================
+        // 5. REGISTRO DE MOVIMIENTOS
+        // ============================================================
+
         /// <summary>
-        /// Registra entradas, salidas, ajustes y pérdidas.
-        /// Las existencias, lotes y movimientos se modifican en una transacción.
+        /// Registra una entrada, salida, ajuste o pérdida.
+        /// Actualiza los lotes, el saldo total y el historial dentro
+        /// de una sola transacción.
         /// </summary>
         public ResultadoOperacionDto RegistrarMovimiento(
             SolicitudMovimientoInventarioDto solicitud)
         {
             if (solicitud is null)
+            {
                 return ResultadoOperacionDto.Fallido(
-                    "No se recibieron datos para el movimiento.");
+                    "No se recibieron datos para registrar el movimiento.");
+            }
 
             string tipo = solicitud.MovementType?.Trim() ?? string.Empty;
 
             if (solicitud.ProductId <= 0)
+            {
                 return ResultadoOperacionDto.Fallido(
                     "Seleccione un ingrediente válido.");
+            }
 
-            if (tipo != TiposMovimientoInventario.Entrada &&
-                tipo != TiposMovimientoInventario.Salida &&
-                tipo != TiposMovimientoInventario.Ajuste &&
-                tipo != TiposMovimientoInventario.Perdida)
+            if (!EsTipoMovimientoManualValido(tipo))
             {
                 return ResultadoOperacionDto.Fallido(
                     "El tipo de movimiento no está permitido para el registro manual.");
             }
 
-            // En un ajuste se permite cero porque representa el stock final deseado.
-            if (tipo == TiposMovimientoInventario.Ajuste)
+            bool esAjuste =
+                tipo == TiposMovimientoInventario.Ajuste;
+
+            // Los ajustes representan el stock final deseado.
+            if (esAjuste)
             {
                 if (solicitud.Quantity < 0m)
+                {
                     return ResultadoOperacionDto.Fallido(
                         "El stock final no puede ser negativo.");
+                }
             }
             else if (solicitud.Quantity <= 0m)
             {
@@ -320,24 +405,42 @@ namespace Ocean_Desk_dv.Services.Repository
                     "La cantidad debe ser mayor que cero.");
             }
 
+            if (!TieneMaximoCuatroDecimales(solicitud.Quantity))
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "La cantidad admite como máximo cuatro decimales.");
+            }
+
+            if (solicitud.Quantity > StockMaximo)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "La cantidad supera el máximo permitido por el inventario.");
+            }
+
             if ((solicitud.Notes?.Length ?? 0) > 500)
+            {
                 return ResultadoOperacionDto.Fallido(
                     "Las observaciones no pueden superar los 500 caracteres.");
+            }
 
-            string? codigoLote = string.IsNullOrWhiteSpace(solicitud.LotCode)
-                ? null
-                : solicitud.LotCode.Trim();
+            string? codigoLote =
+                string.IsNullOrWhiteSpace(solicitud.LotCode)
+                    ? null
+                    : solicitud.LotCode.Trim();
 
             if ((codigoLote?.Length ?? 0) > 50)
+            {
                 return ResultadoOperacionDto.Fallido(
-                    "El código del lote no puede superar los 50 caracteres.");
+                    "El código de lote no puede superar los 50 caracteres.");
+            }
 
-            string? notas = string.IsNullOrWhiteSpace(solicitud.Notes)
-                ? null
-                : solicitud.Notes.Trim();
+            string? notas =
+                string.IsNullOrWhiteSpace(solicitud.Notes)
+                    ? null
+                    : solicitud.Notes.Trim();
 
             if ((tipo == TiposMovimientoInventario.Perdida ||
-                 tipo == TiposMovimientoInventario.Ajuste) &&
+                 esAjuste) &&
                 string.IsNullOrWhiteSpace(notas))
             {
                 return ResultadoOperacionDto.Fallido(
@@ -346,17 +449,21 @@ namespace Ocean_Desk_dv.Services.Repository
 
             DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
 
-            if (tipo == TiposMovimientoInventario.Entrada &&
+            // Las entradas y los ajustes que aumentan el stock
+            // no deben incorporar existencias con vencimiento pasado.
+            if ((tipo == TiposMovimientoInventario.Entrada ||
+                 esAjuste) &&
                 solicitud.ExpirationDate.HasValue &&
                 solicitud.ExpirationDate.Value < hoy)
             {
                 return ResultadoOperacionDto.Fallido(
-                    "No se puede registrar una entrada con un lote vencido.");
+                    "No se puede incorporar un lote con fecha de vencimiento pasada.");
             }
 
             try
             {
-                // Evita que dos operaciones concurrentes calculen saldos incompatibles.
+                // La transacción serializable evita que dos operaciones
+                // concurrentes calculen saldos incompatibles.
                 using var transaccion =
                     _context.Database.BeginTransaction(
                         IsolationLevel.Serializable);
@@ -370,8 +477,10 @@ namespace Ocean_Desk_dv.Services.Repository
                         p.IsActive);
 
                 if (producto is null)
+                {
                     return ResultadoOperacionDto.Fallido(
                         "El ingrediente no existe o está inactivo.");
+                }
 
                 if (producto.UnitOfMeasure is null ||
                     !producto.UnitOfMeasure.IsActive)
@@ -382,7 +491,8 @@ namespace Ocean_Desk_dv.Services.Repository
 
                 Inventory? inventario = producto.Inventory;
 
-                decimal stockAntes = inventario?.CurrentStock ?? 0m;
+                decimal stockAntes =
+                    inventario?.CurrentStock ?? 0m;
 
                 List<InventoryLot> lotes = _context.InventoryLots
                     .Where(l => l.ProductId == producto.ProductId)
@@ -392,19 +502,28 @@ namespace Ocean_Desk_dv.Services.Repository
                     .ThenBy(l => l.InventoryLotId)
                     .ToList();
 
-                decimal saldoLotes = lotes.Sum(l => l.RemainingQuantity);
+                // El saldo consolidado debe coincidir con los lotes.
+                decimal saldoLotes =
+                    lotes.Sum(l => l.RemainingQuantity);
 
-                // No se permiten operaciones si el saldo consolidado y los lotes
-                // ya se encuentran desincronizados; requiere conciliación previa.
                 if (saldoLotes != stockAntes)
                 {
                     return ResultadoOperacionDto.Fallido(
-                        "El stock consolidado no coincide con el saldo de los lotes. " +
+                        "El stock consolidado no coincide con los saldos de los lotes. " +
                         "Debe conciliarse el inventario antes de registrar este movimiento.");
                 }
 
-                // Un ajuste que no cambia el saldo no debe generar un movimiento vacío.
-                if (tipo == TiposMovimientoInventario.Ajuste &&
+                if (lotes.Any(l =>
+                    !l.IsActive &&
+                    l.RemainingQuantity > 0m))
+                {
+                    return ResultadoOperacionDto.Fallido(
+                        "Existe un lote inactivo con saldo positivo. " +
+                        "Debe revisarse antes de continuar.");
+                }
+
+                // Un ajuste que no modifica el saldo no debe generar movimientos.
+                if (esAjuste &&
                     solicitud.Quantity == stockAntes)
                 {
                     return ResultadoOperacionDto.Fallido(
@@ -414,128 +533,57 @@ namespace Ocean_Desk_dv.Services.Repository
                 var movimientos = new List<InventoryMovement>();
                 decimal stockDespues = stockAntes;
 
+                // ----------------------------------------------------
+                // ENTRADA
+                // ----------------------------------------------------
                 if (tipo == TiposMovimientoInventario.Entrada)
                 {
-                    InventoryLot? loteExistente = null;
+                    decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                    if (codigoLote is not null)
-                    {
-                        loteExistente = lotes.FirstOrDefault(l =>
-                            string.Equals(
-                                l.LotCode,
-                                codigoLote,
-                                StringComparison.OrdinalIgnoreCase));
-                    }
-
-                    if (loteExistente is not null &&
-                        solicitud.ExpirationDate.HasValue &&
-                        loteExistente.ExpirationDate != solicitud.ExpirationDate)
+                    if (nuevoStock > StockMaximo)
                     {
                         return ResultadoOperacionDto.Fallido(
-                            "El código de lote ya existe con otra fecha de vencimiento.");
+                            "La entrada supera el máximo de stock permitido.");
                     }
 
-                    decimal cantidad = solicitud.Quantity;
+                    InventoryLot lote = ObtenerOCrearLoteEntrada(
+                        producto,
+                        lotes,
+                        codigoLote,
+                        solicitud.ExpirationDate,
+                        solicitud.Quantity,
+                        notas,
+                        hoy);
 
-                    if (loteExistente is null)
-                    {
-                        loteExistente = new InventoryLot
-                        {
-                            ProductId = producto.ProductId,
-                            LotCode = codigoLote,
-                            ReceivedAt = DateTime.Now,
-                            ExpirationDate = solicitud.ExpirationDate,
-                            InitialQuantity = cantidad,
-                            RemainingQuantity = cantidad,
-                            Notes = notas,
-                            IsActive = true,
-                            Product = producto
-                        };
-
-                        _context.InventoryLots.Add(loteExistente);
-                    }
-                    else
-                    {
-                        if (loteExistente.ExpirationDate.HasValue &&
-                            loteExistente.ExpirationDate.Value < hoy)
-                        {
-                            return ResultadoOperacionDto.Fallido(
-                                "El lote existente está vencido y no puede recibir nuevas cantidades.");
-                        }
-
-                        loteExistente.InitialQuantity += cantidad;
-                        loteExistente.RemainingQuantity += cantidad;
-                        loteExistente.IsActive = true;
-
-                        if (!string.IsNullOrWhiteSpace(notas))
-                            loteExistente.Notes = notas;
-                    }
-
-                    stockDespues = stockAntes + cantidad;
+                    stockDespues = nuevoStock;
 
                     movimientos.Add(CrearMovimiento(
                         producto.ProductId,
                         tipo,
-                        cantidad,
+                        solicitud.Quantity,
                         stockAntes,
                         stockDespues,
-                        loteExistente,
+                        lote,
                         notas));
                 }
-                else if (tipo == TiposMovimientoInventario.Ajuste &&
+
+                // ----------------------------------------------------
+                // AJUSTE ASCENDENTE
+                // ----------------------------------------------------
+                else if (esAjuste &&
                          solicitud.Quantity > stockAntes)
                 {
-                    decimal diferencia = solicitud.Quantity - stockAntes;
+                    decimal diferencia =
+                        solicitud.Quantity - stockAntes;
 
-                    InventoryLot? loteExistente = null;
-
-                    if (codigoLote is not null)
-                    {
-                        loteExistente = lotes.FirstOrDefault(l =>
-                            string.Equals(
-                                l.LotCode,
-                                codigoLote,
-                                StringComparison.OrdinalIgnoreCase));
-                    }
-
-                    if (loteExistente is not null &&
-                        solicitud.ExpirationDate.HasValue &&
-                        loteExistente.ExpirationDate != solicitud.ExpirationDate)
-                    {
-                        return ResultadoOperacionDto.Fallido(
-                            "El código de lote ya existe con otra fecha de vencimiento.");
-                    }
-
-                    if (loteExistente is null)
-                    {
-                        loteExistente = new InventoryLot
-                        {
-                            ProductId = producto.ProductId,
-                            LotCode = codigoLote,
-                            ReceivedAt = DateTime.Now,
-                            ExpirationDate = solicitud.ExpirationDate,
-                            InitialQuantity = diferencia,
-                            RemainingQuantity = diferencia,
-                            Notes = notas,
-                            IsActive = true,
-                            Product = producto
-                        };
-
-                        _context.InventoryLots.Add(loteExistente);
-                    }
-                    else
-                    {
-                        if (loteExistente.ExpirationDate.HasValue &&
-                            loteExistente.ExpirationDate.Value < hoy)
-                        {
-                            return ResultadoOperacionDto.Fallido(
-                                "No se puede incrementar un lote vencido.");
-                        }
-
-                        loteExistente.InitialQuantity += diferencia;
-                        loteExistente.RemainingQuantity += diferencia;
-                        loteExistente.IsActive = true;
-                    }
+                    InventoryLot lote = ObtenerOCrearLoteEntrada(
+                        producto,
+                        lotes,
+                        codigoLote,
+                        solicitud.ExpirationDate,
+                        diferencia,
+                        notas,
+                        hoy);
 
                     stockDespues = solicitud.Quantity;
 
@@ -545,32 +593,24 @@ namespace Ocean_Desk_dv.Services.Repository
                         diferencia,
                         stockAntes,
                         stockDespues,
-                        loteExistente,
+                        lote,
                         notas));
                 }
+
+                // ----------------------------------------------------
+                // SALIDA, PÉRDIDA Y AJUSTE DESCENDENTE
+                // ----------------------------------------------------
                 else
                 {
-                    // Las salidas solo consumen lotes no vencidos.
-                    // Las pérdidas pueden consumir también lotes vencidos.
-                    IEnumerable<InventoryLot> lotesConsumibles = lotes
-                        .Where(l => l.IsActive && l.RemainingQuantity > 0m);
+                    bool esSalida =
+                        tipo == TiposMovimientoInventario.Salida;
 
-                    if (tipo == TiposMovimientoInventario.Salida)
-                    {
-                        lotesConsumibles = lotesConsumibles.Where(l =>
-                            !l.ExpirationDate.HasValue ||
-                            l.ExpirationDate.Value >= hoy);
-                    }
+                    bool esPerdida =
+                        tipo == TiposMovimientoInventario.Perdida;
 
-                    List<InventoryLot> disponibles = lotesConsumibles.ToList();
-
-                    decimal cantidadDisponible = disponibles.Sum(
-                        l => l.RemainingQuantity);
-
-                    decimal cantidadAConsumir =
-                        tipo == TiposMovimientoInventario.Ajuste
-                            ? stockAntes - solicitud.Quantity
-                            : solicitud.Quantity;
+                    decimal cantidadAConsumir = esAjuste
+                        ? stockAntes - solicitud.Quantity
+                        : solicitud.Quantity;
 
                     if (cantidadAConsumir > stockAntes)
                     {
@@ -578,14 +618,36 @@ namespace Ocean_Desk_dv.Services.Repository
                             "La operación supera las existencias registradas.");
                     }
 
+                    if (cantidadAConsumir <= 0m)
+                    {
+                        return ResultadoOperacionDto.Fallido(
+                            "La cantidad del movimiento debe ser mayor que cero.");
+                    }
+
+                    // Las salidas ordinarias no pueden consumir lotes vencidos.
+                    // Las pérdidas y los ajustes descendentes sí pueden descontarlos.
+                    List<InventoryLot> disponibles = lotes
+                        .Where(l =>
+                            l.IsActive &&
+                            l.RemainingQuantity > 0m)
+                        .Where(l =>
+                            !esSalida ||
+                            !l.ExpirationDate.HasValue ||
+                            l.ExpirationDate.Value >= hoy)
+                        .ToList();
+
+                    decimal cantidadDisponible = disponibles.Sum(
+                        l => l.RemainingQuantity);
+
                     if (cantidadAConsumir > cantidadDisponible)
                     {
                         return ResultadoOperacionDto.Fallido(
-                            "No hay saldo suficiente en los lotes permitidos para completar la operación.");
+                            esSalida
+                                ? "No hay cantidad suficiente en los lotes no vencidos para completar la salida."
+                                : "No hay saldo suficiente en los lotes para completar la operación.");
                     }
 
                     decimal restante = cantidadAConsumir;
-                    stockDespues = stockAntes;
 
                     foreach (InventoryLot lote in disponibles)
                     {
@@ -603,6 +665,9 @@ namespace Ocean_Desk_dv.Services.Repository
                         restante -= cantidad;
                         stockDespues = saldoPosterior;
 
+                        if (lote.RemainingQuantity == 0m)
+                            lote.IsActive = false;
+
                         movimientos.Add(CrearMovimiento(
                             producto.ProductId,
                             tipo,
@@ -613,16 +678,35 @@ namespace Ocean_Desk_dv.Services.Repository
                             notas));
                     }
 
-                    // En un ajuste descendente, el valor final tiene que coincidir
-                    // exactamente con el stock solicitado.
-                    if (tipo == TiposMovimientoInventario.Ajuste &&
+                    if (restante != 0m)
+                    {
+                        return ResultadoOperacionDto.Fallido(
+                            "No se pudo completar el descuento de los lotes.");
+                    }
+
+                    // Asegura el resultado exacto solicitado para un ajuste.
+                    if (esAjuste &&
                         stockDespues != solicitud.Quantity)
                     {
                         return ResultadoOperacionDto.Fallido(
                             "No fue posible alcanzar el stock final solicitado.");
                     }
+
+                    // Salvaguarda para evitar que una rama produzca negativos.
+                    if (stockDespues < 0m)
+                    {
+                        return ResultadoOperacionDto.Fallido(
+                            "La operación produciría existencias negativas.");
+                    }
+
+                    // Las variables se conservan para distinguir con claridad
+                    // los casos de salida y pérdida en futuras ampliaciones.
+                    _ = esPerdida;
                 }
 
+                // ----------------------------------------------------
+                // ACTUALIZAR STOCK CONSOLIDADO
+                // ----------------------------------------------------
                 if (inventario is null)
                 {
                     inventario = new Inventory
@@ -643,6 +727,7 @@ namespace Ocean_Desk_dv.Services.Repository
                     inventario.UpdatedAt = DateTime.Now;
                 }
 
+                // Registrar el historial dentro de la misma transacción.
                 _context.InventoryMovements.AddRange(movimientos);
 
                 _context.SaveChanges();
@@ -655,11 +740,110 @@ namespace Ocean_Desk_dv.Services.Repository
             }
             catch (Exception ex)
             {
+                // Evita conservar entidades modificadas tras una excepción
+                // que haya provocado la reversión de la transacción.
+                _context.ChangeTracker.Clear();
+
                 return ResultadoOperacionDto.Fallido(
                     $"No se pudo registrar el movimiento. Detalle: {ex.Message}");
             }
         }
 
+        // ============================================================
+        // 6. GESTIÓN DE LOTES
+        // ============================================================
+
+        /// <summary>
+        /// Busca el lote indicado para una entrada o ajuste ascendente,
+        /// o crea uno nuevo si no existe.
+        /// </summary>
+        private InventoryLot ObtenerOCrearLoteEntrada(
+            Product producto,
+            IReadOnlyList<InventoryLot> lotes,
+            string? codigoLote,
+            DateOnly? vencimiento,
+            decimal cantidad,
+            string? notas,
+            DateOnly hoy)
+        {
+            InventoryLot? lote = null;
+
+            if (!string.IsNullOrWhiteSpace(codigoLote))
+            {
+                lote = lotes.FirstOrDefault(l =>
+                    string.Equals(
+                        l.LotCode,
+                        codigoLote,
+                        StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (lote is not null)
+            {
+                // No puede asignarse una fecha incompatible con la del lote.
+                if (lote.ExpirationDate.HasValue &&
+                    vencimiento.HasValue &&
+                    lote.ExpirationDate.Value != vencimiento.Value)
+                {
+                    throw new InvalidOperationException(
+                        "El código del lote ya existe con otra fecha de vencimiento.");
+                }
+
+                if (lote.ExpirationDate.HasValue &&
+                    lote.ExpirationDate.Value < hoy)
+                {
+                    throw new InvalidOperationException(
+                        "El lote existente está vencido y no puede recibir más existencias.");
+                }
+
+                // Si la fecha se desconocía y ahora se aporta, se completa.
+                if (!lote.ExpirationDate.HasValue &&
+                    vencimiento.HasValue)
+                {
+                    lote.ExpirationDate = vencimiento;
+                }
+
+                decimal saldoInicialNuevo = lote.InitialQuantity + cantidad;
+                decimal saldoRestanteNuevo = lote.RemainingQuantity + cantidad;
+
+                if (saldoInicialNuevo > StockMaximo ||
+                    saldoRestanteNuevo > StockMaximo)
+                {
+                    throw new InvalidOperationException(
+                        "La cantidad supera el máximo permitido para el lote.");
+                }
+
+                lote.InitialQuantity = saldoInicialNuevo;
+                lote.RemainingQuantity = saldoRestanteNuevo;
+                lote.IsActive = true;
+
+                if (!string.IsNullOrWhiteSpace(notas))
+                    lote.Notes = notas;
+
+                return lote;
+            }
+
+            // Sin código de lote, cada entrada genera una partida independiente.
+            var nuevoLote = new InventoryLot
+            {
+                ProductId = producto.ProductId,
+                LotCode = codigoLote,
+                ReceivedAt = DateTime.Now,
+                ExpirationDate = vencimiento,
+                InitialQuantity = cantidad,
+                RemainingQuantity = cantidad,
+                Notes = notas,
+                IsActive = true,
+                Product = producto
+            };
+
+            _context.InventoryLots.Add(nuevoLote);
+
+            return nuevoLote;
+        }
+
+        /// <summary>
+        /// Construye un movimiento de inventario para persistirlo.
+        /// </summary>
         private static InventoryMovement CrearMovimiento(
             int productoId,
             string tipo,
@@ -678,11 +862,20 @@ namespace Ocean_Desk_dv.Services.Repository
                 StockAfter = stockDespues,
                 InventoryLot = lote,
                 ReferenceType = "Inventory",
+                ReferenceId = null,
+                SaleId = null,
                 Notes = notas,
                 MovementDateTime = DateTime.Now
             };
         }
 
+        // ============================================================
+        // 7. REGLAS DE PRESENTACIÓN Y VALIDACIÓN
+        // ============================================================
+
+        /// <summary>
+        /// Calcula el estado del stock para la presentación en la interfaz.
+        /// </summary>
         private static string ObtenerEstadoStock(
             decimal stock,
             decimal minimo)
@@ -696,6 +889,9 @@ namespace Ocean_Desk_dv.Services.Repository
             return "Normal";
         }
 
+        /// <summary>
+        /// Calcula el estado de vencimiento a partir de la fecha disponible.
+        /// </summary>
         private static string ObtenerEstadoVencimiento(
             DateOnly? vencimiento,
             DateOnly hoy,
@@ -713,18 +909,78 @@ namespace Ocean_Desk_dv.Services.Repository
             return "Normal";
         }
 
+        /// <summary>
+        /// Comprueba si el filtro representa una opción general sin restricción.
+        /// </summary>
         private static bool EsFiltroAplicable(string? filtro)
         {
             return string.IsNullOrWhiteSpace(filtro) ||
                    filtro.StartsWith(
                        "Seleccione",
                        StringComparison.OrdinalIgnoreCase) ||
-                   string.Equals(filtro, "Todos",
+                   string.Equals(
+                       filtro.Trim(),
+                       "Todos",
                        StringComparison.OrdinalIgnoreCase) ||
-                   string.Equals(filtro, "Todas",
+                   string.Equals(
+                       filtro.Trim(),
+                       "Todas",
                        StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Compara el estado del vencimiento con el valor del ComboBox.
+        /// Admite la opción "Vencidos" aunque el estado calculado sea "Vencido".
+        /// </summary>
+        private static bool CoincideFiltroVencimiento(
+            string? filtro,
+            string estado)
+        {
+            if (EsFiltroAplicable(filtro))
+                return true;
+
+            string valor = filtro!.Trim();
+
+            if (string.Equals(
+                valor,
+                "Vencidos",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Equals(
+                    estado,
+                    "Vencido",
+                    StringComparison.OrdinalIgnoreCase);
+            }
+
+            return string.Equals(
+                estado,
+                valor,
+                StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Valida los tipos que pueden registrarse desde los botones manuales.
+        /// Compra y Venta se reservan para sus respectivos procesos de negocio.
+        /// </summary>
+        private static bool EsTipoMovimientoManualValido(string tipo)
+        {
+            return tipo == TiposMovimientoInventario.Entrada ||
+                   tipo == TiposMovimientoInventario.Salida ||
+                   tipo == TiposMovimientoInventario.Ajuste ||
+                   tipo == TiposMovimientoInventario.Perdida;
+        }
+
+        /// <summary>
+        /// Comprueba que una cantidad pueda almacenarse con cuatro decimales.
+        /// </summary>
+        private static bool TieneMaximoCuatroDecimales(decimal cantidad)
+        {
+            return cantidad == decimal.Round(cantidad, 4);
+        }
+
+        /// <summary>
+        /// Traduce el código almacenado a un texto de presentación en español.
+        /// </summary>
         private static string TraducirTipoMovimiento(string tipo)
         {
             return tipo switch
@@ -739,9 +995,42 @@ namespace Ocean_Desk_dv.Services.Repository
             };
         }
 
+        /// <summary>
+        /// Obtiene el origen legible del movimiento.
+        /// </summary>
+        private static string ObtenerOrigen(
+            int? ventaId,
+            string? tipoReferencia,
+            string? referenciaId)
+        {
+            if (ventaId.HasValue)
+                return $"Venta #{ventaId.Value}";
+
+            if (string.IsNullOrWhiteSpace(tipoReferencia) ||
+                string.Equals(
+                    tipoReferencia,
+                    "Inventory",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return "Manual";
+            }
+
+            return string.IsNullOrWhiteSpace(referenciaId)
+                ? tipoReferencia
+                : $"{tipoReferencia} {referenciaId}";
+        }
+
+        // ============================================================
+        // 8. LIBERACIÓN DE RECURSOS
+        // ============================================================
+
+        /// <summary>
+        /// Libera el contexto de Entity Framework Core.
+        /// </summary>
         public void Dispose()
         {
             _context.Dispose();
         }
     }
 }
+

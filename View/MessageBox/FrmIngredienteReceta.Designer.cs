@@ -49,7 +49,7 @@
             pnlContainerNotas = new Panel();
             pnlLabelNotas = new Panel();
             pnlPie = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            tlpButtons = new TableLayoutPanel();
             pnlCancelar = new Panel();
             btnCancelar = new Button();
             pnlGuardar = new Panel();
@@ -67,7 +67,7 @@
             pnlContainerNotas.SuspendLayout();
             pnlLabelNotas.SuspendLayout();
             pnlPie.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
             SuspendLayout();
@@ -296,7 +296,7 @@
             // pnlPie
             // 
             pnlPie.BackColor = Color.FromArgb(245, 247, 250);
-            pnlPie.Controls.Add(tableLayoutPanel1);
+            pnlPie.Controls.Add(tlpButtons);
             pnlPie.Dock = DockStyle.Bottom;
             pnlPie.Location = new Point(0, 325);
             pnlPie.Name = "pnlPie";
@@ -304,20 +304,20 @@
             pnlPie.Size = new Size(640, 55);
             pnlPie.TabIndex = 7;
             // 
-            // tableLayoutPanel1
+            // tlpButtons
             // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            tableLayoutPanel1.Controls.Add(pnlCancelar, 0, 0);
-            tableLayoutPanel1.Controls.Add(pnlGuardar, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Right;
-            tableLayoutPanel1.Location = new Point(254, 3);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(366, 49);
-            tableLayoutPanel1.TabIndex = 4;
+            tlpButtons.ColumnCount = 2;
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tlpButtons.Controls.Add(pnlCancelar, 0, 0);
+            tlpButtons.Controls.Add(pnlGuardar, 1, 0);
+            tlpButtons.Dock = DockStyle.Right;
+            tlpButtons.Location = new Point(254, 3);
+            tlpButtons.Name = "tlpButtons";
+            tlpButtons.RowCount = 1;
+            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpButtons.Size = new Size(366, 49);
+            tlpButtons.TabIndex = 4;
             // 
             // pnlCancelar
             // 
@@ -383,7 +383,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmIngredienteReceta";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "FrmIngredienteReceta";
             pnlHeader.ResumeLayout(false);
             pnlIngredientes.ResumeLayout(false);
@@ -399,7 +399,7 @@
             pnlContainerNotas.ResumeLayout(false);
             pnlLabelNotas.ResumeLayout(false);
             pnlPie.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
+            tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
             ResumeLayout(false);
@@ -430,7 +430,7 @@
         private Panel pnlPie;
         private Button btnAceptar;
         private Button btnCancelar;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tlpButtons;
         private Panel pnlCancelar;
         private Panel pnlGuardar;
     }
