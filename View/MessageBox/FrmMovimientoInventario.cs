@@ -52,9 +52,11 @@ namespace Ocean_Desk_dv.View.MessageBox
                 "COM", // Combos y promociones.
                 "SAL", // Salsas y aderezos.
                 "INS", // Insumos generales.
-                "CON", // Condimentos y especias.
+                "CON", // Condimentos y especias.6*+/d
+
                 "PAN", // Panadería.
-                "LAC"  // Lácteos.
+                "LAC", // Lácteos.
+                "ING" // Ingredientes identificados para el control de inventario
             };
 
         /// <summary>

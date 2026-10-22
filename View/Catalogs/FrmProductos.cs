@@ -209,7 +209,8 @@ namespace Ocean_Desk_dv.View.Catalogs
             "INS", // Insumos generales de cocina.
             "CON", // Condimentos y especias.
             "PAN", // Panadería.
-            "LAC"  // Lácteos.
+            "LAC", // Lácteos.
+            "ING" // Ingredientes identificados para el control de inventario.
         };
 
 

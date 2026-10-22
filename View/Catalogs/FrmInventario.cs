@@ -3,6 +3,7 @@ using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.Interfaces;
 using Ocean_Desk_dv.View.MessageBox;
+using Ocean_Desk_dv.View.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,9 +60,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                         ? null
                         : txtBuscarInventario.Text.Trim(),
 
-                Categoria = ObtenerFiltroCombo(
-                    cmbCategoriaInventario,
-                    "Todas"),
+                Categoria = ObtenerCategoriaFiltroSeleccionada(),
 
                 EstadoStock = ObtenerFiltroCombo(
                     cmbEstadoStock,
@@ -117,6 +116,10 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvExistencias.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 
+            dgvMovimientos.CellFormatting -= DgvMovimientos_CellFormatting;
+
+            dgvMovimientos.CellFormatting += DgvMovimientos_CellFormatting;
+
             dgvMovimientos.AutoGenerateColumns = false;
             dgvMovimientos.ReadOnly = true;
             dgvMovimientos.AllowUserToAddRows = false;
@@ -140,6 +143,40 @@ namespace Ocean_Desk_dv.View.Catalogs
                 DgvExistencias_CellFormatting;
         }
 
+        private void DgvMovimientos_CellFormatting(
+        object? sender,
+        DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (dgvMovimientos.Rows[e.RowIndex].DataBoundItem
+                is not MovimientoInventarioDto movimiento)
+            {
+                return;
+            }
+
+            string nombreColumna =
+                dgvMovimientos.Columns[e.ColumnIndex].Name;
+
+            if (nombreColumna == colProductoMov.Name)
+            {
+                e.Value = CatalogoTraducciones.TraducirIngrediente(
+                    null,
+                    movimiento.ProductName);
+
+                e.FormattingApplied = true;
+            }
+            else if (nombreColumna == colUnidadMov.Name)
+            {
+                e.Value = CatalogoTraducciones.TraducirUnidad(
+                    null,
+                    movimiento.UnitName);
+
+                e.FormattingApplied = true;
+            }
+        }
+
         /// <summary>
         /// Prepara las opciones iniciales de los filtros.
         /// Se eliminan los elementos vacíos que estaban en el diseñador
@@ -153,7 +190,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             {
                 cmbCategoriaInventario.BeginUpdate();
                 cmbCategoriaInventario.Items.Clear();
-                cmbCategoriaInventario.Items.Add("Todas");
+                cmbCategoriaInventario.Items.Add(new OpcionCategoriaInventario("Todas", null));
                 cmbCategoriaInventario.SelectedIndex = 0;
                 cmbCategoriaInventario.EndUpdate();
 
@@ -361,7 +398,7 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// como opción para consultar sin restricción de categoría.
         /// </summary>
         public void MostrarCategoriasInventario(
-            IReadOnlyList<string> categorias)
+    IReadOnlyList<string> categorias)
         {
             _actualizandoFiltros = true;
             cmbCategoriaInventario.BeginUpdate();
@@ -369,24 +406,37 @@ namespace Ocean_Desk_dv.View.Catalogs
             try
             {
                 string? seleccionAnterior =
-                    cmbCategoriaInventario.SelectedItem?.ToString();
+                    (cmbCategoriaInventario.SelectedItem
+                        as OpcionCategoriaInventario)?.ValorBaseDatos;
 
                 cmbCategoriaInventario.Items.Clear();
-                cmbCategoriaInventario.Items.Add("Todas");
+
+                cmbCategoriaInventario.Items.Add(
+                    new OpcionCategoriaInventario("Todas", null));
 
                 foreach (string categoria in categorias
                     .Where(c => !string.IsNullOrWhiteSpace(c))
                     .Distinct()
                     .OrderBy(c => c))
                 {
-                    cmbCategoriaInventario.Items.Add(categoria);
+                    cmbCategoriaInventario.Items.Add(
+                        new OpcionCategoriaInventario(
+                            CatalogoTraducciones.TraducirCategoria(categoria),
+                            categoria));
                 }
 
-                // Conserva la categoría si aún existe.
-                if (!string.IsNullOrWhiteSpace(seleccionAnterior) &&
-                    cmbCategoriaInventario.Items.Contains(seleccionAnterior))
+                OpcionCategoriaInventario? opcionConservada =
+                    cmbCategoriaInventario.Items
+                        .OfType<OpcionCategoriaInventario>()
+                        .FirstOrDefault(o =>
+                            string.Equals(
+                                o.ValorBaseDatos,
+                                seleccionAnterior,
+                                StringComparison.OrdinalIgnoreCase));
+
+                if (opcionConservada is not null)
                 {
-                    cmbCategoriaInventario.SelectedItem = seleccionAnterior;
+                    cmbCategoriaInventario.SelectedItem = opcionConservada;
                 }
                 else
                 {
@@ -448,6 +498,7 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// <summary>
         /// Aplica colores de lectura rápida al estado de stock y al vencimiento.
         /// </summary>
+
         private void DgvExistencias_CellFormatting(
             object? sender,
             DataGridViewCellFormattingEventArgs e)
@@ -455,22 +506,59 @@ namespace Ocean_Desk_dv.View.Catalogs
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
 
-            string nombreColumna =
-                dgvExistencias.Columns[e.ColumnIndex].Name;
-
-            if (nombreColumna == colVencimiento.Name &&
-                e.Value is DateOnly fecha)
-            {
-                e.Value = fecha.ToString("dd/MM/yyyy");
-                e.FormattingApplied = true;
-            }
-
             if (dgvExistencias.Rows[e.RowIndex].DataBoundItem
                 is not ExistenciaInventarioDto existencia)
             {
                 return;
             }
 
+            string nombreColumna =
+                dgvExistencias.Columns[e.ColumnIndex].Name;
+
+            // Los datos originales permanecen intactos; solo cambia
+            // el valor presentado visualmente en la celda.
+            switch (nombreColumna)
+            {
+                case nameof(colProductoInv):
+                    e.Value = CatalogoTraducciones.TraducirIngrediente(
+                        existencia.ProductCode,
+                        existencia.ProductName);
+
+                    e.FormattingApplied = true;
+                    break;
+
+                case nameof(colCategoriaInv):
+                    e.Value = CatalogoTraducciones.TraducirCategoria(
+                        existencia.CategoryName);
+
+                    e.FormattingApplied = true;
+                    break;
+
+                case nameof(colUnidadInv):
+                    e.Value = CatalogoTraducciones.TraducirUnidad(
+                        null,
+                        existencia.UnitName);
+
+                    e.FormattingApplied = true;
+                    break;
+
+                case nameof(colVencimiento):
+                    if (existencia.ExpirationDate.HasValue)
+                    {
+                        e.Value = existencia.ExpirationDate.Value
+                            .ToString("dd/MM/yyyy");
+
+                        e.FormattingApplied = true;
+                    }
+                    else
+                    {
+                        e.Value = "Sin fecha";
+                        e.FormattingApplied = true;
+                    }
+                    break;
+            }
+
+            // Conserva el formato visual de los estados de existencias.
             if (nombreColumna == colEstadoStock.Name)
             {
                 switch (existencia.StockStatus)
@@ -510,6 +598,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             }
         }
 
+
         /// <summary>
         /// Obtiene el texto seleccionado de un filtro.
         /// Devuelve null cuando representa la opción general.
@@ -531,6 +620,28 @@ namespace Ocean_Desk_dv.View.Catalogs
             }
 
             return valor;
+        }
+
+        private string? ObtenerCategoriaFiltroSeleccionada()
+        {
+            return (cmbCategoriaInventario.SelectedItem
+                as OpcionCategoriaInventario)?.ValorBaseDatos;
+        }
+
+        private sealed class OpcionCategoriaInventario
+        {
+            public string TextoMostrar { get; }
+            public string? ValorBaseDatos { get; }
+
+            public OpcionCategoriaInventario(
+                string textoMostrar,
+                string? valorBaseDatos)
+            {
+                TextoMostrar = textoMostrar;
+                ValorBaseDatos = valorBaseDatos;
+            }
+
+            public override string ToString() => TextoMostrar;
         }
 
         /// <summary>
