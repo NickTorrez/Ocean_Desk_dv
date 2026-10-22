@@ -140,35 +140,50 @@ namespace Ocean_Desk_dv.Presenters
         private void AlSolicitarPerdida(object? sender, EventArgs e) =>
             SolicitarMovimiento(TiposMovimientoInventario.Perdida);
 
+
         /// <summary>
-        /// Solicita los datos del movimiento a la vista y registra la operación.
-        /// Cancelar el diálogo no modifica el inventario.
+        /// Solicita al usuario un movimiento sobre el ingrediente seleccionado,
+        /// comprueba que pueda recibir movimientos y registra la operación.
         /// </summary>
         private void SolicitarMovimiento(string tipoMovimiento)
         {
             EjecutarSeguro(() =>
             {
-                IReadOnlyList<ProductoInventarioSelectorDto> productos =
-                    _repository.ObtenerIngredientesActivosParaMovimiento();
+                // La operación se realiza sobre la fila seleccionada en existencias.
+                ExistenciaInventarioDto? producto =
+                    _view.ExistenciaSeleccionada;
 
-                if (productos.Count == 0)
+                // No se permiten movimientos manuales sobre ingredientes que
+                // carecen de una unidad de medida activa.
+                if (producto is not null)
                 {
-                    _view.MostrarMensaje(
-                        "No hay ingredientes activos con unidad de medida activa.",
-                        "Inventario no disponible",
-                        true);
+                    bool ingredienteHabilitado =
+                        _repository
+                            .ObtenerIngredientesActivosParaMovimiento()
+                            .Any(p => p.ProductId == producto.ProductId);
 
-                    return;
+                    if (!ingredienteHabilitado)
+                    {
+                        _view.MostrarMensaje(
+                            "El ingrediente seleccionado no tiene una unidad " +
+                            "de medida activa. Revise su configuración antes " +
+                            "de registrar movimientos.",
+                            "Ingrediente no disponible",
+                            true);
+
+                        return;
+                    }
                 }
 
+                // La vista advierte al usuario si no seleccionó una fila.
                 SolicitudMovimientoInventarioDto? captura =
-                    _view.SolicitarMovimiento(tipoMovimiento, productos);
+                    _view.SolicitarMovimiento(tipoMovimiento, producto);
 
+                // Cerrar o cancelar el diálogo no modifica las existencias.
                 if (captura is null)
                     return;
 
-                // El tipo lo determina el botón que originó la operación.
-                // No se confía en el tipo enviado por el formulario modal.
+                // El tipo se determina a partir del botón que originó la operación.
                 var solicitud = new SolicitudMovimientoInventarioDto
                 {
                     ProductId = captura.ProductId,
@@ -189,7 +204,7 @@ namespace Ocean_Desk_dv.Presenters
                         : "No se pudo registrar el movimiento",
                     !resultado.Exito);
 
-                // Solo se recarga después de confirmar el registro exitoso.
+                // Las tablas se recargan solamente tras un registro exitoso.
                 if (resultado.Exito)
                     ActualizarDatos();
             });

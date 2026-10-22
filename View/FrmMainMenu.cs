@@ -25,7 +25,8 @@ namespace Ocean_Desk_dv.UI
         private FrmLogin login;
         private readonly int _usuarioId;
         private bool _permitirCerrarFormulario;
-       
+        private bool _cierreEnProceso;
+
         // Formulario actualmente alojado en el panel de contenido.
         private Form? _formularioActivo;
 
@@ -357,9 +358,19 @@ namespace Ocean_Desk_dv.UI
             SeleccionarBoton(btnInventario);
 
             lblSeccion.Text = "Control de Inventario";
-            lblSubtitulo.Text = "Existencia y movimientos de materia prima"; 
+            lblSubtitulo.Text = "Existencia y movimientos de materia prima";
 
+            // Crear la vista y sus dependencias.
             FrmInventario inventario = new FrmInventario();
+
+            InventarioPresenter presenter = new InventarioPresenter(
+                inventario,
+                OceanDeskRepositoryFactory.CrearInventarioRepository());
+
+            // Inicializa las categorías, existencias y movimientos.
+            inventario.VincularPresenter(presenter);
+
+            // Abrir en el panel principal sin modificar el diseño del menú.
             AbrirFormularioEnPanel(inventario);
         }
 
@@ -485,12 +496,32 @@ namespace Ocean_Desk_dv.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            // Evita ejecutar el proceso de cierre más de una vez.
+            if (_cierreEnProceso)
+                return;
+
+            // No cerrar si la caja continúa abierta o no pudo verificarse.
             if (!ValidarCajaParaSalir())
                 return;
 
+            _cierreEnProceso = true;
             _permitirCerrarFormulario = true;
 
-            Application.Exit();
+            // 1. Cierra el menú.
+            // Su evento FormClosing libera el módulo activo y su Presenter.
+            this.Close();
+
+            // 2. Cierra el formulario de carga, que permanece oculto.
+            FrmLoading? formularioCarga = Application.OpenForms
+                .OfType<FrmLoading>()
+                .FirstOrDefault();
+
+            if (formularioCarga != null && !formularioCarga.IsDisposed)
+                formularioCarga.Close();
+
+            // 3. Cierra el formulario principal del ciclo de mensajes.
+            if (login != null && !login.IsDisposed)
+                login.Close();
         }
 
         private void btnReportes_Click_1(object sender, EventArgs e)

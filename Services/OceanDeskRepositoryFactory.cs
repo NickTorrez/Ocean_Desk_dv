@@ -19,4 +19,9 @@ public static class OceanDeskRepositoryFactory
 
     /// <summary>Crea el repositorio del módulo Productos con su propio contexto de base de datos.</summary>
     public static IProductosRepository CrearProductosRepository() => new ProductosRepository(new OceanDeskDbContext());
+    /// <summary>
+    /// Crea el repositorio de inventario con su propio contexto de base de datos.
+    /// </summary>
+    public static IInventarioRepository CrearInventarioRepository() =>
+        new InventarioRepository(new OceanDeskDbContext());
 }

@@ -13,6 +13,11 @@ namespace Ocean_Desk_dv.View.Interfaces
     /// </summary>
     public interface IInventarioView
     {
+        /// <summary>
+        /// Ingrediente seleccionado en la tabla de existencias.
+        /// </summary>
+        ExistenciaInventarioDto? ExistenciaSeleccionada { get; }
+
         /// <summary>Filtros actuales de la tabla de existencias.</summary>
         FiltroExistenciasInventarioDto FiltroExistenciasActual { get; }
 
@@ -35,10 +40,12 @@ namespace Ocean_Desk_dv.View.Interfaces
         void MostrarCategoriasInventario(IReadOnlyList<string> categorias);
 
         /// <summary>
-        /// Abre el diálogo correspondiente para capturar un movimiento.
-        /// Devuelve null si el usuario cancela.
+        /// Abre el diálogo para registrar un movimiento sobre el ingrediente
+        /// seleccionado. Devuelve null cuando no hay selección o se cancela.
         /// </summary>
-        SolicitudMovimientoInventarioDto? SolicitarMovimiento(string tipoMovimiento, IReadOnlyList<ProductoInventarioSelectorDto> productos);
+        SolicitudMovimientoInventarioDto? SolicitarMovimiento(
+            string tipoMovimiento,
+            ExistenciaInventarioDto? producto);
 
         /// <summary>
         /// Muestra mensajes de resultado o validación al usuario.

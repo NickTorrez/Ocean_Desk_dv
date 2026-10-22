@@ -158,7 +158,7 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
 
         /// <summary>
-        /// Configura la interfaz según el tipo de movimiento solicitado.
+        /// Configura los textos y valores iniciales según la operación solicitada.
         /// </summary>
         private void ConfigurarOperacion()
         {
@@ -168,14 +168,12 @@ namespace Ocean_Desk_dv.View.MessageBox
                     lblCantidad.Text = "Cantidad recibida";
                     btnConfirmar.Text = "Registrar entrada";
                     nudCantidad.Value = 1m;
-                    pnlDatosLote.Visible = true;
                     break;
 
                 case TiposMovimientoInventario.Salida:
                     lblCantidad.Text = "Cantidad que se retirará";
                     btnConfirmar.Text = "Registrar salida";
                     nudCantidad.Value = 1m;
-                    pnlDatosLote.Visible = false;
                     break;
 
                 case TiposMovimientoInventario.Ajuste:
@@ -187,17 +185,12 @@ namespace Ocean_Desk_dv.View.MessageBox
                         Math.Min(
                             nudCantidad.Maximum,
                             _producto.CurrentStock));
-
-                    // Un ajuste podría aumentar las existencias y necesitar lote.
-                    pnlDatosLote.Visible = true;
-
                     break;
 
                 case TiposMovimientoInventario.Perdida:
                     lblCantidad.Text = "Cantidad perdida o dañada";
                     btnConfirmar.Text = "Registrar pérdida";
                     nudCantidad.Value = 1m;
-                    pnlDatosLote.Visible = false;
                     break;
 
                 default:
@@ -205,6 +198,10 @@ namespace Ocean_Desk_dv.View.MessageBox
                         "El tipo de movimiento no está permitido.");
             }
 
+            // El encabezado pertenece al formulario y permanece visible.
+            pnlDatosLote.Visible = true;
+
+            // Muestra u oculta las filas de lote según la operación.
             ActualizarDisponibilidadCamposLote();
         }
 
@@ -224,37 +221,40 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
 
         /// <summary>
-        /// Habilita los datos del lote solo en operaciones que incorporan stock.
+        /// Determina cuándo deben mostrarse los campos de lote y vencimiento.
+        /// Ajusta las filas del TableLayoutPanel para no dejar espacios vacíos.
         /// </summary>
         private void ActualizarDisponibilidadCamposLote()
         {
-            bool permiteDatosLote =
-                _tipoMovimiento == TiposMovimientoInventario.Entrada ||
-                (
-                    _tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                    nudCantidad.Value > _producto.CurrentStock
-                );
+            bool esEntrada =
+                _tipoMovimiento == TiposMovimientoInventario.Entrada;
 
-            pnlDatosLote.Visible =
-                _tipoMovimiento == TiposMovimientoInventario.Entrada ||
+            bool esAjuste =
                 _tipoMovimiento == TiposMovimientoInventario.Ajuste;
 
+            // Una entrada siempre incorpora existencias.
+            // Un ajuste solo necesita lote cuando aumenta el stock.
+            bool permiteDatosLote =
+                esEntrada ||
+                (esAjuste && nudCantidad.Value > _producto.CurrentStock);
+
+            ConfigurarVisibilidadDatosLote(permiteDatosLote);
+
+            // Habilita los controles cuando corresponda.
             txtCodigoLote.Enabled = permiteDatosLote;
             lblCodigoLote.Enabled = permiteDatosLote;
 
             dtpVencimiento.Enabled = permiteDatosLote;
             lblVencimiento.Enabled = permiteDatosLote;
 
-            // Si el ajuste reduce existencias, los datos de entrada
-            // no deben enviarse accidentalmente al repositorio.
+            // Evita enviar accidentalmente datos de lote en una reducción de stock.
             if (!permiteDatosLote)
             {
                 txtCodigoLote.Clear();
                 dtpVencimiento.Checked = false;
             }
 
-            if (_tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                nudCantidad.Value <= _producto.CurrentStock)
+            if (esAjuste && !permiteDatosLote)
             {
                 lblCodigoLote.Text = "Código de lote (no aplica)";
                 lblVencimiento.Text = "Vencimiento (no aplica)";
@@ -263,6 +263,68 @@ namespace Ocean_Desk_dv.View.MessageBox
             {
                 lblCodigoLote.Text = "Código de lote (opcional)";
                 lblVencimiento.Text = "Fecha de vencimiento (opcional)";
+            }
+        }
+
+        /// <summary>
+        /// Muestra u oculta los controles de lote y vencimiento.
+        /// Al ocultarlos, colapsa sus filas y asigna el espacio liberado
+        /// al campo de observaciones.
+        /// </summary>
+        /// <param name="mostrar">Indica si deben mostrarse los datos de lote.</param>
+        private void ConfigurarVisibilidadDatosLote(bool mostrar)
+        {
+            tlpInputInfo.SuspendLayout();
+
+            try
+            {
+                // La fila 2 contiene las etiquetas y la fila 3 contiene los campos.
+                pnlLabelCodigo.Visible = mostrar;
+                pnlLabelVenicmiento.Visible = mostrar;
+
+                pnlInputCodigo.Visible = mostrar;
+                pnlInputVencimiento.Visible = mostrar;
+
+                // Las otras cuatro filas conservan su distribución original.
+                tlpInputInfo.RowStyles[0].SizeType = SizeType.Percent;
+                tlpInputInfo.RowStyles[0].Height = 13.333333F;
+
+                tlpInputInfo.RowStyles[1].SizeType = SizeType.Percent;
+                tlpInputInfo.RowStyles[1].Height = 20F;
+
+                tlpInputInfo.RowStyles[4].SizeType = SizeType.Percent;
+                tlpInputInfo.RowStyles[4].Height = 13.333333F;
+
+                if (mostrar)
+                {
+                    // Restaurar las filas originales de código y vencimiento.
+                    tlpInputInfo.RowStyles[2].SizeType = SizeType.Percent;
+                    tlpInputInfo.RowStyles[2].Height = 13.333333F;
+
+                    tlpInputInfo.RowStyles[3].SizeType = SizeType.Percent;
+                    tlpInputInfo.RowStyles[3].Height = 20F;
+
+                    tlpInputInfo.RowStyles[5].SizeType = SizeType.Percent;
+                    tlpInputInfo.RowStyles[5].Height = 20F;
+                }
+                else
+                {
+                    // Colapsar las dos filas que contienen los datos de lote.
+                    tlpInputInfo.RowStyles[2].SizeType = SizeType.Absolute;
+                    tlpInputInfo.RowStyles[2].Height = 0F;
+
+                    tlpInputInfo.RowStyles[3].SizeType = SizeType.Absolute;
+                    tlpInputInfo.RowStyles[3].Height = 0F;
+
+                    // El espacio liberado se utiliza para observaciones.
+                    tlpInputInfo.RowStyles[5].SizeType = SizeType.Percent;
+                    tlpInputInfo.RowStyles[5].Height = 53.333334F;
+                }
+            }
+            finally
+            {
+                tlpInputInfo.ResumeLayout(true);
+                tlpInputInfo.PerformLayout();
             }
         }
 
