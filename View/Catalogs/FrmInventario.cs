@@ -39,6 +39,22 @@ namespace Ocean_Desk_dv.View.Catalogs
             ConectarEventos();
         }
 
+        public SolicitudEntradaIngredienteDto? SolicitarEntradaIngrediente(
+        IReadOnlyList<IngredienteSelectorDto> ingredientes,
+        IReadOnlyList<UnidadMedidaDto> unidades,
+        string? codigoPropuesto)
+        {
+            using var formulario = new FrmEntradaInventario(
+                ingredientes,
+                unidades,
+                codigoPropuesto);
+
+            DialogResult resultado = formulario.ShowDialog(this);
+
+            return resultado == DialogResult.OK
+                ? formulario.Resultado
+                : null;
+        }
         /// <summary>
         /// Ingrediente seleccionado actualmente en la tabla de existencias.
         /// Devuelve null si no existe una selección explícita.

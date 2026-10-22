@@ -1031,6 +1031,350 @@ namespace Ocean_Desk_dv.Services.Repository
         {
             _context.Dispose();
         }
+
+
+        public IReadOnlyList<UnidadMedidaDto> ObtenerUnidadesMedidaActivas()
+        {
+            return _context.UnitOfMeasures
+                .AsNoTracking()
+                .Where(u => u.IsActive)
+                .OrderBy(u => u.UnitName)
+                .Select(u => new UnidadMedidaDto
+                {
+                    UnitOfMeasureId = u.UnitOfMeasureId,
+                    UnitCode = u.UnitCode,
+                    UnitName = u.UnitName,
+                    UnitSymbol = u.UnitSymbol
+                })
+                .ToList();
+        }
+
+        public IReadOnlyList<IngredienteSelectorDto> ObtenerIngredientesParaEntrada()
+        {
+            return _context.Products
+                .AsNoTracking()
+                .Where(p =>
+                    p.ProductType == "Ingredient" &&
+                    p.IsActive &&
+                    p.UnitOfMeasureId.HasValue &&
+                    p.UnitOfMeasure != null &&
+                    p.UnitOfMeasure.IsActive)
+                .OrderBy(p => p.ProductName)
+                .Select(p => new IngredienteSelectorDto
+                {
+                    ProductId = p.ProductId,
+                    ProductCode = p.ProductCode,
+                    ProductName = p.ProductName,
+                    UnitOfMeasureId = p.UnitOfMeasureId,
+                    UnitCode = p.UnitOfMeasure!.UnitCode,
+                    UnitName = p.UnitOfMeasure.UnitName
+                })
+                .ToList();
+        }
+
+        /// <summary>
+        /// Obtiene un código ING libre para mostrar una propuesta en el formulario.
+        /// El repositorio vuelve a comprobar el código al guardar.
+        /// </summary>
+        public string? ObtenerSiguienteCodigoIngrediente()
+        {
+            List<string> codigos = _context.Products
+                .AsNoTracking()
+                .Select(p => p.ProductCode)
+                .ToList();
+
+            return CalcularCodigoDisponibleIngrediente(codigos);
+        }
+
+        private static string? CalcularCodigoDisponibleIngrediente(
+            IEnumerable<string> codigos)
+        {
+            var existentes = new HashSet<string>(
+                codigos,
+                StringComparer.OrdinalIgnoreCase);
+
+            for (int numero = 1; numero <= 999; numero++)
+            {
+                string candidato = $"ING-{numero:000}";
+
+                if (!existentes.Contains(candidato))
+                    return candidato;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Registra una entrada para un ingrediente existente o crea un nuevo
+        /// ingrediente con inventario, lote y movimiento inicial.
+        /// </summary>
+        public ResultadoEntradaIngredienteDto RegistrarEntradaIngrediente(
+            SolicitudEntradaIngredienteDto solicitud)
+        {
+            if (solicitud is null)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "No se recibieron datos para registrar la entrada.");
+            }
+
+            string nombre = solicitud.ProductName?.Trim() ?? string.Empty;
+            string? notas = string.IsNullOrWhiteSpace(solicitud.Notes)
+                ? null
+                : solicitud.Notes.Trim();
+
+            if (string.IsNullOrWhiteSpace(nombre) || nombre.Length > 150)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "El nombre del ingrediente es obligatorio y admite hasta 150 caracteres.");
+            }
+
+            if (solicitud.UnitOfMeasureId <= 0)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "Seleccione una unidad de medida válida.");
+            }
+
+            if (solicitud.Quantity <= 0m ||
+                solicitud.Quantity > StockMaximo ||
+                solicitud.Quantity != decimal.Round(solicitud.Quantity, 4))
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "La cantidad debe ser positiva y admitir como máximo cuatro decimales.");
+            }
+
+            if ((notas?.Length ?? 0) > 250)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "Las observaciones de la entrada no pueden superar 250 caracteres.");
+            }
+
+            DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+            if (solicitud.ExpirationDate.HasValue &&
+                solicitud.ExpirationDate.Value < hoy)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "La fecha de vencimiento no puede estar en el pasado.");
+            }
+
+            // Caso 1: el usuario escribió un ingrediente existente.
+            // Se conserva su código y su unidad; solo se registra el movimiento.
+            if (solicitud.ProductId.HasValue)
+            {
+                Product? existente = _context.Products
+                    .Include(p => p.UnitOfMeasure)
+                    .FirstOrDefault(p =>
+                        p.ProductId == solicitud.ProductId.Value &&
+                        p.ProductType == "Ingredient" &&
+                        p.IsActive);
+
+                if (existente is null)
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        "El ingrediente seleccionado no existe o está inactivo.");
+                }
+
+                if (!existente.UnitOfMeasureId.HasValue ||
+                    existente.UnitOfMeasureId.Value != solicitud.UnitOfMeasureId ||
+                    existente.UnitOfMeasure is null ||
+                    !existente.UnitOfMeasure.IsActive)
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        "La unidad no coincide con la unidad base del ingrediente.");
+                }
+
+                ResultadoOperacionDto movimiento = RegistrarMovimiento(
+                    new SolicitudMovimientoInventarioDto
+                    {
+                        ProductId = existente.ProductId,
+                        MovementType = TiposMovimientoInventario.Entrada,
+                        Quantity = solicitud.Quantity,
+                        LotCode = null,
+                        ExpirationDate = solicitud.ExpirationDate,
+                        Notes = notas
+                    });
+
+                if (!movimiento.Exito)
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        movimiento.Mensaje);
+                }
+
+                return ResultadoEntradaIngredienteDto.Correcto(
+                    $"Entrada registrada para {existente.ProductName} " +
+                    $"({existente.ProductCode}). {movimiento.Mensaje}",
+                    existente.ProductId,
+                    existente.ProductCode);
+            }
+
+            // Caso 2: ingrediente nuevo. Toda la creación se realiza en
+            // una transacción para evitar productos sin stock o movimientos huérfanos.
+            try
+            {
+                using var transaccion =
+                    _context.Database.BeginTransaction(
+                        IsolationLevel.Serializable);
+
+                // Un nombre existente debe seleccionarse desde el autocompletado.
+                // Se comprueban todos los ingredientes, también los inactivos,
+                // para no generar duplicados por nombre.
+                List<string> nombresExistentes = _context.Products
+                    .Where(p => p.ProductType == "Ingredient")
+                    .Select(p => p.ProductName)
+                    .ToList();
+
+                if (nombresExistentes.Any(n =>
+                    string.Equals(
+                        n.Trim(),
+                        nombre,
+                        StringComparison.OrdinalIgnoreCase)))
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        "Ya existe un ingrediente con ese nombre. " +
+                        "Búsquelo en el campo de ingrediente y selecciónelo.");
+                }
+
+                UnitOfMeasure? unidad = _context.UnitOfMeasures
+                    .FirstOrDefault(u =>
+                        u.UnitOfMeasureId == solicitud.UnitOfMeasureId &&
+                        u.IsActive);
+
+                if (unidad is null)
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        "La unidad de medida no existe o está inactiva.");
+                }
+
+                // Se calcula nuevamente dentro de la transacción. No se confía
+                // exclusivamente en el código preliminar mostrado en pantalla.
+                List<string> codigos = _context.Products
+                    .Select(p => p.ProductCode)
+                    .ToList();
+
+                string? codigo = CalcularCodigoDisponibleIngrediente(codigos);
+
+                if (codigo is null)
+                {
+                    return ResultadoEntradaIngredienteDto.Fallido(
+                        "No hay códigos ING disponibles entre ING-001 e ING-999.");
+                }
+
+                // Buscar la categoría de ingredientes que usa el catálogo actual.
+                ProductCategory? categoria = _context.ProductCategories
+                    .FirstOrDefault(c =>
+                        c.CategoryName == "Ingredients" ||
+                        c.CategoryName == "Ingredientes");
+
+                if (categoria is null)
+                {
+                    categoria = new ProductCategory
+                    {
+                        CategoryName = "Ingredients",
+                        Description = "Ingredientes e insumos de cocina",
+                        IsActive = true,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    _context.ProductCategories.Add(categoria);
+                    _context.SaveChanges();
+                }
+                else if (!categoria.IsActive)
+                {
+                    categoria.IsActive = true;
+                }
+
+                DateTime ahora = DateTime.Now;
+
+                var producto = new Product
+                {
+                    ProductCode = codigo,
+                    ProductName = nombre,
+                    Description = null,
+                    ProductCategoryId = categoria.ProductCategoryId,
+                    ProductCategory = categoria,
+                    UnitOfMeasureId = unidad.UnitOfMeasureId,
+                    UnitOfMeasure = unidad,
+                    ProductType = "Ingredient",
+                    UnitPrice = 0m,
+                    IsAvailable = false,
+                    IsActive = true,
+                    CreatedAt = ahora
+                };
+
+                _context.Products.Add(producto);
+
+                // Necesitamos el ProductId antes de crear los registros relacionados.
+                _context.SaveChanges();
+
+                var inventario = new Inventory
+                {
+                    ProductId = producto.ProductId,
+                    Product = producto,
+                    CurrentStock = solicitud.Quantity,
+                    MinimumStock = 0m,
+                    UpdatedAt = ahora
+                };
+
+                // La primera entrada recibe un lote inicial con código generado.
+                var lote = new InventoryLot
+                {
+                    ProductId = producto.ProductId,
+                    Product = producto,
+                    LotCode = $"{codigo}-LOT01",
+                    ReceivedAt = ahora,
+                    ExpirationDate = solicitud.ExpirationDate,
+                    InitialQuantity = solicitud.Quantity,
+                    RemainingQuantity = solicitud.Quantity,
+                    Notes = notas,
+                    IsActive = true
+                };
+
+                var movimientoInicial = new InventoryMovement
+                {
+                    ProductId = producto.ProductId,
+                    Product = producto,
+                    MovementType = TiposMovimientoInventario.Entrada,
+                    Quantity = solicitud.Quantity,
+                    StockBefore = 0m,
+                    StockAfter = solicitud.Quantity,
+                    SaleId = null,
+                    ReferenceType = "Inventory",
+                    ReferenceId = null,
+                    Notes = notas,
+                    MovementDateTime = ahora,
+                    InventoryLot = lote
+                };
+
+                _context.Inventories.Add(inventario);
+                _context.InventoryLots.Add(lote);
+                _context.InventoryMovements.Add(movimientoInicial);
+
+                _context.SaveChanges();
+                transaccion.Commit();
+
+                return ResultadoEntradaIngredienteDto.Correcto(
+                    $"Ingrediente {nombre} registrado correctamente con código {codigo}. " +
+                    $"Stock inicial: {solicitud.Quantity:0.####} {unidad.UnitName}.",
+                    producto.ProductId,
+                    codigo);
+            }
+            catch (DbUpdateException)
+            {
+                _context.ChangeTracker.Clear();
+
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "No se pudo guardar el ingrediente. Verifique el código, " +
+                    "la unidad y las restricciones de la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                _context.ChangeTracker.Clear();
+
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    $"No se pudo registrar la entrada. Detalle: {ex.Message}");
+            }
+        }
+
     }
 }
 

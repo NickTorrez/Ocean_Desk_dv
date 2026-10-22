@@ -129,7 +129,7 @@
             // 
             // pnlInfoContainer
             // 
-            pnlInfoContainer.BackColor = Color.FromArgb(245, 247, 250);
+            pnlInfoContainer.BackColor = Color.White;
             pnlInfoContainer.Controls.Add(tlpProducto);
             pnlInfoContainer.Controls.Add(lblProducto);
             pnlInfoContainer.Controls.Add(lblSeleccion);
@@ -249,7 +249,7 @@
             lblCodigoLote.Name = "lblCodigoLote";
             lblCodigoLote.Size = new Size(323, 28);
             lblCodigoLote.TabIndex = 1;
-            lblCodigoLote.Text = "Código de lote";
+            lblCodigoLote.Text = "Código del Producto";
             lblCodigoLote.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlLableCantidad
@@ -331,6 +331,7 @@
             nudCantidad.Dock = DockStyle.Fill;
             nudCantidad.Location = new Point(5, 8);
             nudCantidad.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudCantidad.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudCantidad.Name = "nudCantidad";
             nudCantidad.Size = new Size(318, 26);
             nudCantidad.TabIndex = 0;
@@ -410,6 +411,7 @@
             // 
             // pnlFooter
             // 
+            pnlFooter.BackColor = Color.FromArgb(245, 247, 250);
             pnlFooter.Controls.Add(tlpButtons);
             pnlFooter.Dock = DockStyle.Bottom;
             pnlFooter.Location = new Point(0, 440);

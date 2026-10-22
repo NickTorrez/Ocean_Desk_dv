@@ -129,7 +129,7 @@ namespace Ocean_Desk_dv.Presenters
         }
 
         private void AlSolicitarEntrada(object? sender, EventArgs e) =>
-            SolicitarMovimiento(TiposMovimientoInventario.Entrada);
+            RegistrarEntradaIngrediente();
 
         private void AlSolicitarSalida(object? sender, EventArgs e) =>
             SolicitarMovimiento(TiposMovimientoInventario.Salida);
@@ -140,6 +140,55 @@ namespace Ocean_Desk_dv.Presenters
         private void AlSolicitarPerdida(object? sender, EventArgs e) =>
             SolicitarMovimiento(TiposMovimientoInventario.Perdida);
 
+        /// <summary>
+        /// Gestiona el flujo independiente de entrada de ingredientes.
+        /// </summary>
+        private void RegistrarEntradaIngrediente()
+        {
+            EjecutarSeguro(() =>
+            {
+                IReadOnlyList<UnidadMedidaDto> unidades =
+                    _repository.ObtenerUnidadesMedidaActivas();
+
+                if (unidades.Count == 0)
+                {
+                    _view.MostrarMensaje(
+                        "No hay unidades de medida activas disponibles.",
+                        "Unidades no disponibles",
+                        true);
+
+                    return;
+                }
+
+                IReadOnlyList<IngredienteSelectorDto> ingredientes =
+                    _repository.ObtenerIngredientesParaEntrada();
+
+                string? codigoPropuesto =
+                    _repository.ObtenerSiguienteCodigoIngrediente();
+
+                SolicitudEntradaIngredienteDto? captura =
+                    _view.SolicitarEntradaIngrediente(
+                        ingredientes,
+                        unidades,
+                        codigoPropuesto);
+
+                if (captura is null)
+                    return;
+
+                ResultadoEntradaIngredienteDto resultado =
+                    _repository.RegistrarEntradaIngrediente(captura);
+
+                _view.MostrarMensaje(
+                    resultado.Mensaje,
+                    resultado.Exito
+                        ? "Entrada de inventario registrada"
+                        : "No se pudo registrar la entrada",
+                    !resultado.Exito);
+
+                if (resultado.Exito)
+                    ActualizarDatos();
+            });
+        }
 
         /// <summary>
         /// Solicita al usuario un movimiento sobre el ingrediente seleccionado,

@@ -166,14 +166,8 @@ namespace Ocean_Desk_dv.View.MessageBox
         {
             switch (_tipoMovimiento)
             {
-                case TiposMovimientoInventario.Entrada:
-                    lblCantidad.Text = "Cantidad recibida";
-                    btnConfirmar.Text = "Registrar entrada";
-                    nudCantidad.Value = 1m;
-                    break;
-
                 case TiposMovimientoInventario.Salida:
-                    lblCantidad.Text = "Cantidad que se retirará";
+                    lblCantidad.Text = "Cantidad a salir";
                     btnConfirmar.Text = "Registrar salida";
                     nudCantidad.Value = 1m;
                     break;
@@ -190,7 +184,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                     break;
 
                 case TiposMovimientoInventario.Perdida:
-                    lblCantidad.Text = "Cantidad perdida o dañada";
+                    lblCantidad.Text = "Cantidad perdida";
                     btnConfirmar.Text = "Registrar pérdida";
                     nudCantidad.Value = 1m;
                     break;
@@ -200,10 +194,9 @@ namespace Ocean_Desk_dv.View.MessageBox
                         "El tipo de movimiento no está permitido.");
             }
 
-            // El encabezado pertenece al formulario y permanece visible.
+            // pnlDatosLote es el encabezado, no el panel de los campos de lote.
             pnlDatosLote.Visible = true;
 
-            // Muestra u oculta las filas de lote según la operación.
             ActualizarDisponibilidadCamposLote();
         }
 
@@ -228,17 +221,15 @@ namespace Ocean_Desk_dv.View.MessageBox
         /// </summary>
         private void ActualizarDisponibilidadCamposLote()
         {
-            bool esEntrada =
-                _tipoMovimiento == TiposMovimientoInventario.Entrada;
+            bool esAjuste = _tipoMovimiento == TiposMovimientoInventario.Ajuste;
 
-            bool esAjuste =
-                _tipoMovimiento == TiposMovimientoInventario.Ajuste;
-
-            // Una entrada siempre incorpora existencias.
-            // Un ajuste solo necesita lote cuando aumenta el stock.
             bool permiteDatosLote =
-                esEntrada ||
-                (esAjuste && nudCantidad.Value > _producto.CurrentStock);
+                esAjuste &&
+                nudCantidad.Value > _producto.CurrentStock;
+
+            // Ajuste conserva todas las filas del formulario.
+            // Salida y pérdida no muestran los campos de lote.
+            ConfigurarVisibilidadDatosLote(esAjuste);
 
             ConfigurarVisibilidadDatosLote(permiteDatosLote);
 
@@ -342,11 +333,8 @@ namespace Ocean_Desk_dv.View.MessageBox
                 return;
 
             bool incrementaStock =
-                _tipoMovimiento == TiposMovimientoInventario.Entrada ||
-                (
-                    _tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                    nudCantidad.Value > _producto.CurrentStock
-                );
+            _tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+            nudCantidad.Value > _producto.CurrentStock;
 
             string? codigoLote = null;
             DateOnly? vencimiento = null;
@@ -675,8 +663,7 @@ namespace Ocean_Desk_dv.View.MessageBox
         {
             string valor = tipo?.Trim() ?? string.Empty;
 
-            if (valor == TiposMovimientoInventario.Entrada ||
-                valor == TiposMovimientoInventario.Salida ||
+            if (valor == TiposMovimientoInventario.Salida ||
                 valor == TiposMovimientoInventario.Ajuste ||
                 valor == TiposMovimientoInventario.Perdida)
             {
@@ -684,7 +671,7 @@ namespace Ocean_Desk_dv.View.MessageBox
             }
 
             throw new ArgumentException(
-                "El tipo de movimiento no está permitido.",
+                "Este formulario solo admite salida, ajuste o pérdida.",
                 nameof(tipo));
         }
 
@@ -695,14 +682,12 @@ namespace Ocean_Desk_dv.View.MessageBox
         {
             return _tipoMovimiento switch
             {
-                TiposMovimientoInventario.Entrada => "Registrar entrada",
                 TiposMovimientoInventario.Salida => "Registrar salida",
                 TiposMovimientoInventario.Ajuste => "Ajustar inventario",
                 TiposMovimientoInventario.Perdida => "Registrar pérdida o daño",
                 _ => "Movimiento de inventario"
             };
         }
-
         /// <summary>
         /// Muestra un mensaje a través del cuadro personalizado de Ocean Desk.
         /// </summary>

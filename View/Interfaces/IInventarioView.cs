@@ -47,6 +47,11 @@ namespace Ocean_Desk_dv.View.Interfaces
             string tipoMovimiento,
             ExistenciaInventarioDto? producto);
 
+        SolicitudEntradaIngredienteDto? SolicitarEntradaIngrediente(
+        IReadOnlyList<IngredienteSelectorDto> ingredientes,
+        IReadOnlyList<UnidadMedidaDto> unidades,
+        string? codigoPropuesto);
+
         /// <summary>
         /// Muestra mensajes de resultado o validación al usuario.
         /// </summary>
