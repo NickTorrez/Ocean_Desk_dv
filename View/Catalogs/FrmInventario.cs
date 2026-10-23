@@ -28,6 +28,36 @@ namespace Ocean_Desk_dv.View.Catalogs
         private bool _actualizandoFiltros;
 
         /// <summary>
+        /// Devuelve los últimos filtros de existencias aplicados,
+        /// no los valores que el usuario todavía está modificando.
+        /// </summary>
+        public FiltroExistenciasInventarioDto FiltroExistenciasActual => _filtroExistenciasAplicado;
+
+        /// <summary>
+        /// Captura los valores actuales de los controles de filtrado.
+        /// Se utiliza únicamente al pulsar Refrescar.
+        /// </summary>
+        private FiltroExistenciasInventarioDto CrearFiltroExistenciasDesdeControles()
+        {
+            return new FiltroExistenciasInventarioDto
+            {
+                TextoBusqueda = string.IsNullOrWhiteSpace(txtBuscarInventario.Text)
+                    ? null
+                    : txtBuscarInventario.Text.Trim(),
+
+                Categoria = ObtenerCategoriaFiltroSeleccionada(),
+
+                EstadoStock = ObtenerFiltroCombo(
+                    cmbEstadoStock,
+                    "Todos"),
+
+                EstadoVencimiento = ObtenerFiltroCombo(
+                    cmbVencimiento,
+                    "Todos")
+            };
+        }
+
+        /// <summary>
         /// Inicializa los controles y configura sus eventos.
         /// </summary>
         public FrmInventario()
@@ -37,6 +67,24 @@ namespace Ocean_Desk_dv.View.Catalogs
             ConfigurarGrillas();
             ConfigurarFiltros();
             ConectarEventos();
+
+            _filtroExistenciasAplicado = CrearFiltroExistenciasDesdeControles();
+            ActualizarEstadoFiltrosExistencias();
+        }
+
+        /// <summary>
+        /// Los filtros de existencias solo están disponibles
+        /// cuando la pestaña activa es Existencias.
+        /// </summary>
+        private void ActualizarEstadoFiltrosExistencias()
+        {
+            bool habilitar = tcInventario.SelectedTab == tcExistencias;
+
+            txtBuscarInventario.Enabled = habilitar;
+            cmbCategoriaInventario.Enabled = habilitar;
+            cmbEstadoStock.Enabled = habilitar;
+            cmbVencimiento.Enabled = habilitar;
+            btnRefrescarInventario.Enabled = habilitar;
         }
 
         public SolicitudEntradaIngredienteDto? SolicitarEntradaIngrediente(
@@ -266,32 +314,19 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// Conecta los filtros y botones con los eventos de la vista.
         /// </summary>
         private void ConectarEventos()
-        {
-            txtBuscarInventario.TextChanged += (_, _) =>
-            {
-                NotificarCambioFiltrosExistencias();
-            };
-
-            cmbCategoriaInventario.SelectedIndexChanged += (_, _) =>
-            {
-                NotificarCambioFiltrosExistencias();
-            };
-
-            cmbEstadoStock.SelectedIndexChanged += (_, _) =>
-            {
-                NotificarCambioFiltrosExistencias();
-            };
-
-            cmbVencimiento.SelectedIndexChanged += (_, _) =>
-            {
-                NotificarCambioFiltrosExistencias();
-            };
+        {   
 
             btnRefrescarInventario.Click += (_, _) =>
             {
+                // Confirmar todos los filtros al mismo tiempo.
+                _filtroExistenciasAplicado =
+                    CrearFiltroExistenciasDesdeControles();
+
                 RefrescarInventarioSolicitado?.Invoke(
                     this,
                     EventArgs.Empty);
+
+                tcInventario.SelectedIndexChanged += (_, _) => ActualizarEstadoFiltrosExistencias();
             };
 
             dtpDesde.ValueChanged += AlCambiarFechaMovimiento;
@@ -386,16 +421,40 @@ namespace Ocean_Desk_dv.View.Catalogs
         }
 
         /// <summary>
-        /// Actualiza la tabla de existencias con los datos recibidos.
+        /// Actualiza las existencias recibidas y aplica la búsqueda
+        /// sobre el nombre original y el nombre traducido.
         /// </summary>
         public void MostrarExistencias(
             IReadOnlyList<ExistenciaInventarioDto> existencias)
         {
-            dgvExistencias.DataSource = null;
-            dgvExistencias.DataSource = existencias.ToList();
+            IEnumerable<ExistenciaInventarioDto> consulta = existencias;
 
-            // Obliga al usuario a seleccionar una fila explícitamente
-            // antes de registrar una operación de inventario.
+            string? texto = _filtroExistenciasAplicado.TextoBusqueda;
+
+            if (!string.IsNullOrWhiteSpace(texto))
+            {
+                texto = texto.Trim();
+
+                consulta = consulta.Where(e =>
+                    e.ProductCode.Contains(
+                        texto,
+                        StringComparison.OrdinalIgnoreCase)
+
+                    || e.ProductName.Contains(
+                        texto,
+                        StringComparison.OrdinalIgnoreCase)
+
+                    || CatalogoTraducciones.TraducirIngrediente(
+                        e.ProductCode,
+                        e.ProductName).Contains(
+                            texto,
+                            StringComparison.OrdinalIgnoreCase));
+            }
+
+            dgvExistencias.DataSource = null;
+            dgvExistencias.DataSource = consulta.ToList();
+
+            // Evita seleccionar accidentalmente una fila tras refrescar.
             dgvExistencias.ClearSelection();
         }
 

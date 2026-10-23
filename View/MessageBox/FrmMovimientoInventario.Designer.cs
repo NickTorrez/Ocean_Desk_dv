@@ -46,7 +46,6 @@
             lblCantidad = new Label();
             pnlLabelVenicmiento = new Panel();
             lblVencimiento = new Label();
-            lblObservaciones = new Label();
             pnlInputCantidad = new Panel();
             nudCantidad = new NumericUpDown();
             pnlInputCodigo = new Panel();
@@ -56,6 +55,7 @@
             dtpVencimiento = new DateTimePicker();
             pnlInputObservaciones = new Panel();
             txtObservaciones = new TextBox();
+            lblObservaciones = new Label();
             pnlFooter = new Panel();
             tlpButtons = new TableLayoutPanel();
             pnlCancelar = new Panel();
@@ -289,17 +289,6 @@
             lblVencimiento.Text = "Vencimiento";
             lblVencimiento.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblObservaciones
-            // 
-            lblObservaciones.Dock = DockStyle.Top;
-            lblObservaciones.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblObservaciones.Location = new Point(5, 5);
-            lblObservaciones.Name = "lblObservaciones";
-            lblObservaciones.Size = new Size(658, 28);
-            lblObservaciones.TabIndex = 3;
-            lblObservaciones.Text = "Observaciones";
-            lblObservaciones.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // pnlInputCantidad
             // 
             pnlInputCantidad.Controls.Add(nudCantidad);
@@ -394,6 +383,17 @@
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
             txtObservaciones.Size = new Size(658, 42);
             txtObservaciones.TabIndex = 0;
+            // 
+            // lblObservaciones
+            // 
+            lblObservaciones.Dock = DockStyle.Top;
+            lblObservaciones.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblObservaciones.Location = new Point(5, 5);
+            lblObservaciones.Name = "lblObservaciones";
+            lblObservaciones.Size = new Size(658, 28);
+            lblObservaciones.TabIndex = 3;
+            lblObservaciones.Text = "Observaciones";
+            lblObservaciones.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlFooter
             // 

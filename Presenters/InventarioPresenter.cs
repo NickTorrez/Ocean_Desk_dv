@@ -76,13 +76,13 @@ namespace Ocean_Desk_dv.Presenters
         }
 
         /// <summary>
-        /// Actualiza las existencias y el historial conforme a los filtros vigentes.
+        /// Consulta las existencias usando los filtros aplicados.
+        /// La búsqueda por nombre se resuelve en la vista para admitir
+        /// los nombres traducidos que ve el usuario.
         /// </summary>
         private void ActualizarDatos()
         {
-            _view.MostrarExistencias(
-                _repository.ObtenerExistencias(
-                    _view.FiltroExistenciasActual));
+            ActualizarExistencias();
 
             _view.MostrarMovimientos(
                 _repository.ObtenerMovimientos(
@@ -90,18 +90,36 @@ namespace Ocean_Desk_dv.Presenters
         }
 
         /// <summary>
-        /// Actualiza la tabla cuando cambian los filtros de existencias.
+        /// Consulta las existencias sin filtrar por texto en el repositorio.
+        /// La vista aplica después la búsqueda sobre el nombre original
+        /// y sobre el nombre traducido que se presenta al usuario.
+        /// </summary>
+        private void ActualizarExistencias()
+        {
+            FiltroExistenciasInventarioDto filtros =
+                _view.FiltroExistenciasActual;
+
+            var filtrosRepositorio = new FiltroExistenciasInventarioDto
+            {
+                TextoBusqueda = null,
+                Categoria = filtros.Categoria,
+                EstadoStock = filtros.EstadoStock,
+                EstadoVencimiento = filtros.EstadoVencimiento
+            };
+
+            _view.MostrarExistencias(
+                _repository.ObtenerExistencias(filtrosRepositorio));
+        }
+
+        /// <summary>
+        /// Actualiza existencias si otro flujo solicita expresamente
+        /// un cambio de filtros.
         /// </summary>
         private void AlCambiarFiltrosExistencias(
             object? sender,
             EventArgs e)
         {
-            EjecutarSeguro(() =>
-            {
-                _view.MostrarExistencias(
-                    _repository.ObtenerExistencias(
-                        _view.FiltroExistenciasActual));
-            });
+            EjecutarSeguro(ActualizarExistencias);
         }
 
         /// <summary>

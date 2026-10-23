@@ -231,8 +231,6 @@ namespace Ocean_Desk_dv.View.MessageBox
             // Salida y pérdida no muestran los campos de lote.
             ConfigurarVisibilidadDatosLote(esAjuste);
 
-            ConfigurarVisibilidadDatosLote(permiteDatosLote);
-
             // Habilita los controles cuando corresponda.
             txtCodigoLote.Enabled = permiteDatosLote;
             lblCodigoLote.Enabled = permiteDatosLote;
@@ -260,58 +258,49 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
 
         /// <summary>
-        /// Muestra u oculta los controles de lote y vencimiento.
-        /// Al ocultarlos, colapsa sus filas y asigna el espacio liberado
-        /// al campo de observaciones.
+        /// Muestra u oculta los campos de lote y vencimiento,
+        /// utilizando únicamente las cuatro filas existentes.
         /// </summary>
-        /// <param name="mostrar">Indica si deben mostrarse los datos de lote.</param>
         private void ConfigurarVisibilidadDatosLote(bool mostrar)
         {
             tlpInputInfo.SuspendLayout();
 
             try
             {
-                // La fila 2 contiene las etiquetas y la fila 3 contiene los campos.
+                // Las filas 2 y 3 contienen los datos del lote.
                 pnlLabelCodigo.Visible = mostrar;
                 pnlLabelVenicmiento.Visible = mostrar;
 
                 pnlInputCodigo.Visible = mostrar;
                 pnlInputVencimiento.Visible = mostrar;
 
-                // Las otras cuatro filas conservan su distribución original.
-                tlpInputInfo.RowStyles[0].SizeType = SizeType.Percent;
-                tlpInputInfo.RowStyles[0].Height = 13.333333F;
-
-                tlpInputInfo.RowStyles[1].SizeType = SizeType.Percent;
-                tlpInputInfo.RowStyles[1].Height = 20F;
-
-                tlpInputInfo.RowStyles[4].SizeType = SizeType.Percent;
-                tlpInputInfo.RowStyles[4].Height = 13.333333F;
-
                 if (mostrar)
                 {
-                    // Restaurar las filas originales de código y vencimiento.
-                    tlpInputInfo.RowStyles[2].SizeType = SizeType.Percent;
-                    tlpInputInfo.RowStyles[2].Height = 13.333333F;
+                    // Restaurar las proporciones definidas en el diseñador.
+                    tlpInputInfo.RowStyles[2].SizeType =
+                        SizeType.Percent;
 
-                    tlpInputInfo.RowStyles[3].SizeType = SizeType.Percent;
-                    tlpInputInfo.RowStyles[3].Height = 20F;
+                    tlpInputInfo.RowStyles[2].Height =
+                        13.333333F;
 
-                    tlpInputInfo.RowStyles[5].SizeType = SizeType.Percent;
-                    tlpInputInfo.RowStyles[5].Height = 20F;
+                    tlpInputInfo.RowStyles[3].SizeType =
+                        SizeType.Percent;
+
+                    tlpInputInfo.RowStyles[3].Height =
+                        20F;
                 }
                 else
                 {
-                    // Colapsar las dos filas que contienen los datos de lote.
-                    tlpInputInfo.RowStyles[2].SizeType = SizeType.Absolute;
+                    // Colapsar las filas 2 y 3 cuando no aplican.
+                    tlpInputInfo.RowStyles[2].SizeType =
+                        SizeType.Absolute;
+
                     tlpInputInfo.RowStyles[2].Height = 0F;
 
-                    tlpInputInfo.RowStyles[3].SizeType = SizeType.Absolute;
-                    tlpInputInfo.RowStyles[3].Height = 0F;
+                    tlpInputInfo.RowStyles[3].SizeType =
+                        SizeType.Absolute;
 
-                    // El espacio liberado se utiliza para observaciones.
-                    tlpInputInfo.RowStyles[5].SizeType = SizeType.Percent;
-                    tlpInputInfo.RowStyles[5].Height = 53.333334F;
+                    tlpInputInfo.RowStyles[3].Height = 0F;
                 }
             }
             finally
@@ -320,7 +309,6 @@ namespace Ocean_Desk_dv.View.MessageBox
                 tlpInputInfo.PerformLayout();
             }
         }
-
         /// <summary>
         /// Valida la captura y devuelve la solicitud confirmada.
         /// </summary>
