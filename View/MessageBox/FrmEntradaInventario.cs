@@ -302,13 +302,33 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             string codigoMostrar = txtCodigoProducto.Text;
 
+            string nombrePresentacion = _ingredienteExistente is null
+                ? nombre
+                : CatalogoTraducciones.TraducirIngrediente(
+                    _ingredienteExistente.ProductCode,
+                    _ingredienteExistente.ProductName);
+
+            string unidadNombre =
+                CatalogoTraducciones.TraducirUnidad(
+                    unidad.UnitCode,
+                    unidad.UnitName);
+
+            string unidadPresentacion =
+                string.IsNullOrWhiteSpace(unidad.UnitSymbol)
+                    ? unidadNombre
+                    : $"{unidadNombre} ({unidad.UnitSymbol})";
+
+            string mensajeConfirmacion =
+             $"¿Desea {tipoAccion}?\n\n" +
+             $"Ingrediente: {nombrePresentacion}\n" +
+             $"Código: {codigoMostrar}\n" +
+             $"Unidad de medida: {unidadPresentacion}\n" +
+             $"Cantidad: {nudCantidad.Value:0.####} {unidadNombre}\n" +
+             $"Vencimiento: " +
+             $"{(vencimiento.HasValue ? vencimiento.Value.ToString("dd/MM/yyyy") : "Sin fecha")}";
+
             DialogResult confirmar = FrmMessageBox.Show(
-                $"¿Desea {tipoAccion}?\n\n" +
-                $"Ingrediente: {nombre}\n" +
-                $"Código: {codigoMostrar}\n" +
-                $"Unidad: {unidad.UnitName}\n" +
-                $"Cantidad: {nudCantidad.Value:0.####}\n" +
-                $"Vencimiento: {(vencimiento.HasValue ? vencimiento.Value.ToString("dd/MM/yyyy") : "Sin fecha")}",
+                mensajeConfirmacion,
                 "Confirmar entrada de inventario",
                 MessageType.Confirmation);
 

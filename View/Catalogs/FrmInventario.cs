@@ -184,6 +184,10 @@ namespace Ocean_Desk_dv.View.Catalogs
 
             colFechaMov.DefaultCellStyle.Format = "g";
 
+            colVencimiento.HeaderText = "Próx. vencimiento";
+
+            colVencimiento.HeaderCell.ToolTipText = "Muestra el vencimiento más próximo entre los lotes activos que tienen saldo.";
+
             // Personaliza visualmente los estados de existencias.
             dgvExistencias.CellFormatting -=
                 DgvExistencias_CellFormatting;

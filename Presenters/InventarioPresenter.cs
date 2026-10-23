@@ -1,11 +1,13 @@
 ﻿using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Services.Interfaces_Services;
-using Ocean_Desk_dv.View.Interfaces;
 using Ocean_Desk_dv.Services.Repository;
+using Ocean_Desk_dv.View.Interfaces;
+using Ocean_Desk_dv.View.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Ocean_Desk_dv.Presenters
@@ -185,20 +187,70 @@ namespace Ocean_Desk_dv.Presenters
                 string? codigoPropuesto =
                     _repository.ObtenerSiguienteCodigoIngrediente();
 
+                // Abrir el formulario y recuperar los datos capturados.
                 SolicitudEntradaIngredienteDto? captura =
                     _view.SolicitarEntradaIngrediente(
                         ingredientes,
                         unidades,
                         codigoPropuesto);
 
+                // Si el usuario cancela, no se registra ninguna operación.
                 if (captura is null)
                     return;
 
                 ResultadoEntradaIngredienteDto resultado =
                     _repository.RegistrarEntradaIngrediente(captura);
 
+                string mensajeResultado = resultado.Mensaje;
+
+                if (resultado.Exito)
+                {
+                    IngredienteSelectorDto? existente =
+                        captura.ProductId.HasValue
+                            ? ingredientes.FirstOrDefault(i =>
+                                i.ProductId == captura.ProductId.Value)
+                            : null;
+
+                    string nombrePresentacion = existente is not null
+                        ? CatalogoTraducciones.TraducirIngrediente(
+                            existente.ProductCode,
+                            existente.ProductName)
+                        : captura.ProductId.HasValue
+                            ? CatalogoTraducciones.TraducirIngrediente(
+                                resultado.ProductCode,
+                                captura.ProductName)
+                            : captura.ProductName;
+
+                    UnidadMedidaDto? unidad =
+                        unidades.FirstOrDefault(u =>
+                            u.UnitOfMeasureId == captura.UnitOfMeasureId);
+
+                    string unidadPresentacion = unidad is null
+                        ? string.Empty
+                        : CatalogoTraducciones.TraducirUnidad(
+                            unidad.UnitCode,
+                            unidad.UnitName);
+
+                    if (captura.ProductId.HasValue)
+                    {
+                        mensajeResultado =
+                            $"Entrada registrada correctamente para " +
+                            $"{nombrePresentacion} ({resultado.ProductCode}).\n" +
+                            $"Cantidad añadida: {captura.Quantity:0.####} " +
+                            $"{unidadPresentacion}.";
+                    }
+                    else
+                    {
+                        mensajeResultado =
+                            $"Ingrediente {nombrePresentacion} registrado " +
+                            $"correctamente con código {resultado.ProductCode}.\n" +
+                            $"Stock inicial: {captura.Quantity:0.####} " +
+                            $"{unidadPresentacion}.";
+                    }
+                }
+
                 _view.MostrarMensaje(
-                    resultado.Mensaje,
+                    mensajeResultado,
                     resultado.Exito
                         ? "Entrada de inventario registrada"
                         : "No se pudo registrar la entrada",
@@ -265,12 +317,68 @@ namespace Ocean_Desk_dv.Presenters
                 ResultadoOperacionDto resultado =
                     _repository.RegistrarMovimiento(solicitud);
 
+                string mensajeResultado = resultado.Mensaje;
+
+                if (resultado.Exito && producto is not null)
+                {
+                    string nombrePresentacion =
+                        CatalogoTraducciones.TraducirIngrediente(
+                            producto.ProductCode,
+                            producto.ProductName);
+
+                    string unidadPresentacion =
+                        CatalogoTraducciones.TraducirUnidad(
+                            null,
+                            producto.UnitName);
+
+                    decimal stockPosterior =
+                        tipoMovimiento == TiposMovimientoInventario.Ajuste
+                            ? solicitud.Quantity
+                            : producto.CurrentStock - solicitud.Quantity;
+
+                    string tituloMovimiento = tipoMovimiento switch
+                    {
+                        TiposMovimientoInventario.Ajuste => "Ajuste",
+                        TiposMovimientoInventario.Salida => "Salida",
+                        TiposMovimientoInventario.Perdida => "Pérdida o daño",
+                        _ => "Movimiento"
+                    };
+
+                    mensajeResultado =
+                        $"{tituloMovimiento} registrado correctamente para " +
+                        $"{nombrePresentacion}.\n" +
+                        $"Stock anterior: {producto.CurrentStock:0.####} " +
+                        $"{unidadPresentacion}.\n" +
+                        $"Stock actual: {stockPosterior:0.####} " +
+                        $"{unidadPresentacion}.";
+
+                    if (tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+                        solicitud.Quantity > producto.CurrentStock &&
+                        solicitud.ExpirationDate.HasValue)
+                    {
+                        mensajeResultado +=
+                            $"\nEl lote incorporado tiene vencimiento " +
+                            $"{solicitud.ExpirationDate.Value:dd/MM/yyyy}.";
+
+                        if (producto.ExpirationDate.HasValue)
+                        {
+                            mensajeResultado +=
+                                $" El lote anterior conserva el vencimiento " +
+                                $"{producto.ExpirationDate.Value:dd/MM/yyyy}.";
+                        }
+
+                        mensajeResultado +=
+                            "\nLa tabla muestra el vencimiento más próximo " +
+                            "entre los lotes que todavía tienen saldo.";
+                    }
+                }
+
                 _view.MostrarMensaje(
-                    resultado.Mensaje,
-                    resultado.Exito
-                        ? "Inventario actualizado"
-                        : "No se pudo registrar el movimiento",
-                    !resultado.Exito);
+                     mensajeResultado,
+                     resultado.Exito
+                         ? "Inventario actualizado"
+                         : "No se pudo registrar el movimiento",
+                     !resultado.Exito);
 
                 // Las tablas se recargan solamente tras un registro exitoso.
                 if (resultado.Exito)

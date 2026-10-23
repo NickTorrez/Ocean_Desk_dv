@@ -458,10 +458,19 @@ namespace Ocean_Desk_dv.View.MessageBox
                 return false;
             }
 
-            if (notas.Length > 500)
+            bool esAjusteAscendente =
+                _tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+                nudCantidad.Value > _producto.CurrentStock;
+
+            int limiteCaracteres = esAjusteAscendente ? 250 : 500;
+
+            if (notas.Length > limiteCaracteres)
             {
                 MostrarMensaje(
-                    "Las observaciones no pueden superar los 500 caracteres.",
+                    esAjusteAscendente
+                        ? "Al aumentar el stock, las observaciones del lote " +
+                          "no pueden superar los 250 caracteres."
+                        : "Las observaciones no pueden superar los 500 caracteres.",
                     "Observaciones inválidas",
                     MessageType.Warning);
 
@@ -470,22 +479,6 @@ namespace Ocean_Desk_dv.View.MessageBox
             }
 
             return true;
-
-            bool esAjusteAscendente =
-            _tipoMovimiento == TiposMovimientoInventario.Ajuste
-            && nudCantidad.Value > _producto.CurrentStock;
-
-            if (esAjusteAscendente && notas.Length > 250)
-            {
-                MostrarMensaje(
-                    "Al aumentar el stock, las observaciones del lote " +
-                    "no pueden superar los 250 caracteres.",
-                    "Observaciones demasiado largas",
-                    MessageType.Warning);
-
-                txtObservaciones.Focus();
-                return false;
-            }
         }
 
         /// <summary>
@@ -629,38 +622,102 @@ namespace Ocean_Desk_dv.View.MessageBox
         /// </summary>
         private bool ConfirmarOperacion(DateOnly? vencimiento)
         {
+            string nombreIngrediente =
+                CatalogoTraducciones.TraducirIngrediente(
+                    _producto.ProductCode,
+                    _producto.ProductName);
+
+            string nombreUnidad =
+                CatalogoTraducciones.TraducirUnidad(
+                    null,
+                    _producto.UnitName);
+
+            bool esAjusteAscendente =
+                _tipoMovimiento == TiposMovimientoInventario.Ajuste
+                && nudCantidad.Value > _producto.CurrentStock;
+
             string detalle;
 
             if (_tipoMovimiento == TiposMovimientoInventario.Ajuste)
             {
                 detalle =
-                    $"Nuevo stock final: {nudCantidad.Value:0.####} " +
-                    $"{_producto.UnitName}.";
+                    $"Stock actual: {_producto.CurrentStock:0.####} " +
+                    $"{nombreUnidad}.\n" +
+                    $"Stock final deseado: {nudCantidad.Value:0.####} " +
+                    $"{nombreUnidad}.";
+
+                if (esAjusteAscendente)
+                {
+                    decimal incremento =
+                        nudCantidad.Value - _producto.CurrentStock;
+
+                    detalle +=
+                        $"\nCantidad que se agregará: {incremento:0.####} " +
+                        $"{nombreUnidad}.";
+                }
             }
             else
             {
                 detalle =
                     $"Cantidad: {nudCantidad.Value:0.####} " +
-                    $"{_producto.UnitName}.";
+                    $"{nombreUnidad}.";
             }
 
             string mensaje =
-                $"¿Desea confirmar la operación '{ObtenerTituloOperacion()}' " +
-                $"para {_producto.ProductName}?\n\n{detalle}";
+                $"¿Desea confirmar la operación " +
+                $"'{ObtenerTituloOperacion()}' para {nombreIngrediente}?\n\n" +
+                detalle;
+
+            if (esAjusteAscendente && vencimiento.HasValue)
+            {
+                mensaje +=
+                    $"\n\nLOTE Y VENCIMIENTO\n" +
+                    $"La fecha {vencimiento.Value:dd/MM/yyyy} se aplicará " +
+                    "al lote que recibe el incremento. Los lotes anteriores " +
+                    "conservan sus fechas de vencimiento.";
+
+                if (string.IsNullOrWhiteSpace(txtCodigoLote.Text))
+                {
+                    mensaje +=
+                        "\nComo no se indicó un código de lote, el incremento " +
+                        "se registrará en un lote independiente.";
+                }
+
+                if (_producto.ExpirationDate.HasValue)
+                {
+                    mensaje +=
+                        $"\nEl vencimiento más próximo que ya tiene el inventario " +
+                        $"es {_producto.ExpirationDate.Value:dd/MM/yyyy}.";
+                }
+
+                mensaje +=
+                    "\nLa tabla de existencias muestra el vencimiento más próximo " +
+                    "entre los lotes que aún tienen saldo.";
+            }
 
             if (vencimiento.HasValue)
             {
-                DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
-                DateOnly limite = hoy.AddDays(
-                    DiasAdvertenciaVencimiento);
+                DateOnly hoy =
+                    DateOnly.FromDateTime(DateTime.Today);
 
-                if (vencimiento.Value <= limite)
+                int diasRestantes =
+                    vencimiento.Value.DayNumber - hoy.DayNumber;
+
+                if (diasRestantes >= 0 &&
+                    diasRestantes <= DiasAdvertenciaVencimiento)
                 {
+                    string plazo = diasRestantes switch
+                    {
+                        0 => "vence hoy",
+                        1 => "vence mañana",
+                        _ => $"vence dentro de {diasRestantes} días"
+                    };
+
                     mensaje +=
-                        $"\n\nADVERTENCIA: el lote vence el " +
-                        $"{vencimiento.Value:dd/MM/yyyy}. " +
-                        "Compruebe que la fecha es correcta y que el lote " +
-                        "puede utilizarse oportunamente.";
+                        $"\n\nADVERTENCIA DE VENCIMIENTO\n" +
+                        $"El lote {plazo} " +
+                        $"({vencimiento.Value:dd/MM/yyyy}). " +
+                        "Verifique que la fecha sea correcta.";
                 }
             }
 
@@ -672,7 +729,6 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             return respuesta == DialogResult.Yes;
         }
-
         /// <summary>
         /// Normaliza y valida el tipo de movimiento recibido.
         /// </summary>

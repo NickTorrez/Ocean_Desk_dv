@@ -37,8 +37,6 @@ namespace Ocean_Desk_dv.UI.MessageBox
             ConfigurarTipo(type);
             ConfigurarBotones(type);
 
-            Shown += FrmMessageBox_Shown;
-
         }
         #endregion  
 
@@ -125,32 +123,87 @@ namespace Ocean_Desk_dv.UI.MessageBox
 
         private void AjustarTamanoAlMensaje()
         {
+            const int anchoFormulario = 460;
             const int anchoTexto = 400;
 
             Size textoMedido = TextRenderer.MeasureText(
                 lblMessage.Text,
                 lblMessage.Font,
                 new Size(anchoTexto, 0),
-                TextFormatFlags.WordBreak);
+                TextFormatFlags.WordBreak |
+                TextFormatFlags.TextBoxControl);
 
-            int alturaMensaje = textoMedido.Height;
+            int altoTexto = Math.Max(
+                textoMedido.Height,
+                lblMessage.Font.Height + 4);
 
-            int alturaFormulario;
+            Rectangle areaTrabajo =
+                Screen.FromControl(this).WorkingArea;
 
-            if (alturaMensaje <= 45)
+            int alturaMaxima = Math.Max(
+                AlturaMinima,
+                areaTrabajo.Height - 80);
+
+            int alturaBase =
+                pnlHeader.Height +
+                pnlFooter.Height +
+                pnlBody.Padding.Vertical;
+
+            int alturaDeseada = alturaBase + altoTexto;
+
+            bool necesitaDesplazamiento =
+                alturaDeseada > alturaMaxima;
+
+            int alturaFinal =
+                Math.Min(alturaDeseada, alturaMaxima);
+
+            pnlBody.AutoSize = false;
+
+            ClientSize = new Size(
+                anchoFormulario,
+                alturaFinal);
+
+            pnlBody.AutoScroll = necesitaDesplazamiento;
+
+            PerformLayout();
+
+            int anchoDisponible =
+                pnlBody.ClientSize.Width -
+                pnlBody.Padding.Horizontal;
+
+            if (necesitaDesplazamiento)
             {
-                alturaFormulario = 230;
-            }
-            else if (alturaMensaje <= 80)
-            {
-                alturaFormulario = 250;
-            }
-            else
-            {
-                alturaFormulario = 290;
+                anchoDisponible -=
+                    SystemInformation.VerticalScrollBarWidth;
             }
 
-            Height = alturaFormulario;
+            anchoDisponible = Math.Max(100, anchoDisponible);
+
+            // Permite que el mensaje use la altura calculada.
+            lblMessage.Dock = DockStyle.None;
+            lblMessage.AutoSize = false;
+            lblMessage.Anchor =
+                AnchorStyles.Top |
+                AnchorStyles.Left |
+                AnchorStyles.Right;
+
+            lblMessage.Location = new Point(
+                pnlBody.Padding.Left,
+                pnlBody.Padding.Top);
+
+            lblMessage.Size = new Size(
+                anchoDisponible,
+                altoTexto);
+
+            lblMessage.TextAlign = ContentAlignment.TopLeft;
+
+            // En mensajes muy largos, el área central se desplaza.
+            // Los botones permanecen visibles en el pie del diálogo.
+            pnlBody.AutoScrollMinSize = necesitaDesplazamiento
+                ? new Size(
+                    0,
+                    altoTexto + pnlBody.Padding.Vertical)
+                : Size.Empty;
         }
         #endregion
 
