@@ -34,7 +34,19 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// Devuelve los últimos filtros de existencias aplicados,
         /// no los valores que el usuario todavía está modificando.
         /// </summary>
-        public FiltroExistenciasInventarioDto FiltroExistenciasActual => _filtroExistenciasAplicado;
+        public FiltroExistenciasInventarioDto FiltroExistenciasActual =>
+        new FiltroExistenciasInventarioDto
+        {
+             // La búsqueda siempre utiliza el texto actual.
+             TextoBusqueda = string.IsNullOrWhiteSpace(txtBuscarInventario.Text)
+                 ? null
+                 : txtBuscarInventario.Text.Trim(),
+
+             // Los ComboBox utilizan únicamente los últimos valores aplicados.
+             Categoria = _filtroExistenciasAplicado.Categoria,
+             EstadoStock = _filtroExistenciasAplicado.EstadoStock,
+             EstadoVencimiento = _filtroExistenciasAplicado.EstadoVencimiento
+        };
 
         /// <summary>
         /// Captura los valores actuales de los controles de filtrado.
@@ -44,19 +56,10 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             return new FiltroExistenciasInventarioDto
             {
-                TextoBusqueda = string.IsNullOrWhiteSpace(txtBuscarInventario.Text)
-                    ? null
-                    : txtBuscarInventario.Text.Trim(),
-
+                TextoBusqueda = null,
                 Categoria = ObtenerCategoriaFiltroSeleccionada(),
-
-                EstadoStock = ObtenerFiltroCombo(
-                    cmbEstadoStock,
-                    "Todos"),
-
-                EstadoVencimiento = ObtenerFiltroCombo(
-                    cmbVencimiento,
-                    "Todos")
+                EstadoStock = ObtenerFiltroCombo(cmbEstadoStock, "Todos"),
+                EstadoVencimiento = ObtenerFiltroCombo(cmbVencimiento, "Todos")
             };
         }
 
@@ -296,6 +299,15 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// </summary>
         private void ConectarEventos()
         {
+            txtBuscarInventario.TextChanged += (_, _) =>
+            {
+                if (_actualizandoFiltros)
+                    return;
+
+                FiltrosExistenciasCambiados?.Invoke(
+                    this,
+                    EventArgs.Empty);
+            };
 
             btnRefrescarInventario.Click += (_, _) =>
             {
@@ -411,7 +423,9 @@ namespace Ocean_Desk_dv.View.Catalogs
         {
             IEnumerable<ExistenciaInventarioDto> consulta = existencias;
 
-            string? texto = _filtroExistenciasAplicado.TextoBusqueda;
+            string? texto = string.IsNullOrWhiteSpace(txtBuscarInventario.Text)
+            ? null
+            : txtBuscarInventario.Text.Trim();
 
             if (!string.IsNullOrWhiteSpace(texto))
             {

@@ -275,7 +275,7 @@
             txtCodigoProducto.Dock = DockStyle.Left;
             txtCodigoProducto.Location = new Point(17, 40);
             txtCodigoProducto.Name = "txtCodigoProducto";
-            txtCodigoProducto.PlaceholderText = "Ingrese Nombre dle Ingrediente...";
+            txtCodigoProducto.PlaceholderText = "Ingrese Codigo del Ingrediente...";
             txtCodigoProducto.Size = new Size(420, 19);
             txtCodigoProducto.TabIndex = 8;
             // 

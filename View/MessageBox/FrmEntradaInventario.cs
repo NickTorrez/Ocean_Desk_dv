@@ -83,7 +83,13 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             sugerencias.AddRange(
                 _ingredientes
-                    .Select(i => i.ProductName)
+                    .SelectMany(i => new[]
+                    {
+            i.ProductName,
+            CatalogoTraducciones.TraducirIngrediente(
+                i.ProductCode,
+                i.ProductName)
+                    })
                     .Where(n => !string.IsNullOrWhiteSpace(n))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToArray());
@@ -146,15 +152,20 @@ namespace Ocean_Desk_dv.View.MessageBox
         {
             string nombre = txtNombreIngrediente.Text.Trim();
 
-            IngredienteSelectorDto? encontrado =
-                _ingredientes.FirstOrDefault(i =>
-                    string.Equals(
-                        i.ProductName.Trim(),
-                        nombre,
-                        StringComparison.OrdinalIgnoreCase));
-
             bool eraExistente = _ingredienteExistente is not null;
-            _ingredienteExistente = encontrado;
+
+            _ingredienteExistente = _ingredientes.FirstOrDefault(i =>
+                string.Equals(
+                    i.ProductName.Trim(),
+                    nombre,
+                    StringComparison.OrdinalIgnoreCase)
+                ||
+                string.Equals(
+                    CatalogoTraducciones.TraducirIngrediente(
+                        i.ProductCode,
+                        i.ProductName).Trim(),
+                    nombre,
+                    StringComparison.OrdinalIgnoreCase));
 
             if (_ingredienteExistente is not null)
             {
@@ -181,18 +192,10 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             cmbUnidadMedida.Enabled = true;
 
-            // Al pasar de un ingrediente existente a uno nuevo,
-            // se exige elegir unidad para el nuevo registro.
-            if (_ingredienteExistente is null &&
-            string.IsNullOrWhiteSpace(_codigoPropuesto))
-            {
-                MostrarAdvertencia(
-                    "No hay códigos ING disponibles. Revise la numeración " +
-                    "del catálogo antes de crear otro ingrediente.",
-                    "Código no disponible");
-
-                return;
-            }
+            // No conservar la unidad del producto anterior cuando
+            // el usuario empieza a escribir un ingrediente nuevo.
+            if (eraExistente)
+                cmbUnidadMedida.SelectedIndex = -1;
         }
 
         private void FormatearUnidad(
@@ -235,9 +238,8 @@ namespace Ocean_Desk_dv.View.MessageBox
                 return;
             }
 
-            if (!_ingredienteExistente?.ProductId.Equals(0) == true
-                && _ingredienteExistente is null
-                && string.IsNullOrWhiteSpace(_codigoPropuesto))
+            if (_ingredienteExistente is null &&
+            string.IsNullOrWhiteSpace(_codigoPropuesto))
             {
                 MostrarAdvertencia(
                     "No hay códigos ING disponibles. Revise la numeración " +

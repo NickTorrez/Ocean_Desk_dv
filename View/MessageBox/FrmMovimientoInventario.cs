@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Ocean_Desk_dv.View.Localization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -144,19 +145,29 @@ namespace Ocean_Desk_dv.View.MessageBox
         /// </summary>
         private void MostrarDatosProducto()
         {
-            lblProducto.Text =
-                $"{_producto.ProductCode} - {_producto.ProductName}";
+            string nombreIngrediente = CatalogoTraducciones.TraducirIngrediente(
+            _producto.ProductCode,
+            _producto.ProductName);
+
+            string nombreUnidad =
+                CatalogoTraducciones.TraducirUnidad(
+                    null,
+                    _producto.UnitName);
+
+            lblProducto.Text = $"{_producto.ProductCode} - {nombreIngrediente}";
+
+            lblUnidad.Text = $"Unidad: {nombreUnidad}";
 
             lblResumenStock.Text =
                 $"Stock actual: {_producto.CurrentStock:0.####} " +
-                $"{_producto.UnitName} | " +
-                $"Stock mínimo: {_producto.MinimumStock:0.####}";
+                $"{nombreUnidad} | " +
+                $"Stock mínimo: {_producto.MinimumStock:0.####} " +
+                $"{nombreUnidad}";
 
             Text = ObtenerTituloOperacion();
             lblTitulo.Text = ObtenerTituloOperacion();
 
-            lblSubtitulo.Text =
-                "Verifique los datos antes de confirmar la operación.";
+            lblSubtitulo.Text = "Verifique los datos antes de confirmar la operación.";
         }
 
         /// <summary>
@@ -457,6 +468,22 @@ namespace Ocean_Desk_dv.View.MessageBox
             }
 
             return true;
+
+            bool esAjusteAscendente =
+            _tipoMovimiento == TiposMovimientoInventario.Ajuste
+            && nudCantidad.Value > _producto.CurrentStock;
+
+            if (esAjusteAscendente && notas.Length > 250)
+            {
+                MostrarMensaje(
+                    "Al aumentar el stock, las observaciones del lote " +
+                    "no pueden superar los 250 caracteres.",
+                    "Observaciones demasiado largas",
+                    MessageType.Warning);
+
+                txtObservaciones.Focus();
+                return false;
+            }
         }
 
         /// <summary>

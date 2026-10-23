@@ -31,6 +31,22 @@ namespace Ocean_Desk_dv.Services.Repository
             _context = context ??
                 throw new ArgumentNullException(nameof(context));
         }
+        private static string ObtenerDetalleExcepcion(Exception ex)
+        {
+            var detalles = new List<string>();
+
+            Exception? actual = ex;
+
+            while (actual is not null)
+            {
+                detalles.Add(
+                    $"{actual.GetType().Name}: {actual.Message}");
+
+                actual = actual.InnerException;
+            }
+
+            return string.Join(" --> ", detalles);
+        }
 
         // ============================================================
         // 1. CONSULTA DE EXISTENCIAS
@@ -740,6 +756,8 @@ namespace Ocean_Desk_dv.Services.Repository
             }
             catch (Exception ex)
             {
+                string detalle = ObtenerDetalleExcepcion(ex);
+
                 // Evita conservar entidades modificadas tras una excepción
                 // que haya provocado la reversión de la transacción.
                 _context.ChangeTracker.Clear();
@@ -1358,8 +1376,10 @@ namespace Ocean_Desk_dv.Services.Repository
                     producto.ProductId,
                     codigo);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                string detalle = ObtenerDetalleExcepcion(ex);
+
                 _context.ChangeTracker.Clear();
 
                 return ResultadoEntradaIngredienteDto.Fallido(
@@ -1368,6 +1388,8 @@ namespace Ocean_Desk_dv.Services.Repository
             }
             catch (Exception ex)
             {
+                string detalle = ObtenerDetalleExcepcion(ex);
+
                 _context.ChangeTracker.Clear();
 
                 return ResultadoEntradaIngredienteDto.Fallido(
