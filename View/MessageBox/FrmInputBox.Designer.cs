@@ -34,8 +34,10 @@
             nudValor = new NumericUpDown();
             btnCancelar = new Button();
             btnAceptar = new Button();
+            panel1 = new Panel();
             pnlHeaderInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudValor).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeaderInput
@@ -86,7 +88,7 @@
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelar.ForeColor = Color.White;
-            btnCancelar.Location = new Point(254, 195);
+            btnCancelar.Location = new Point(249, 7);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(120, 40);
             btnCancelar.TabIndex = 3;
@@ -102,7 +104,7 @@
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAceptar.ForeColor = Color.White;
-            btnAceptar.Location = new Point(388, 195);
+            btnAceptar.Location = new Point(375, 7);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(120, 40);
             btnAceptar.TabIndex = 4;
@@ -110,14 +112,23 @@
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnCancelar);
+            panel1.Controls.Add(btnAceptar);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 205);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(520, 55);
+            panel1.TabIndex = 5;
+            // 
             // FrmInputBox
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(520, 260);
-            Controls.Add(btnAceptar);
-            Controls.Add(btnCancelar);
+            Controls.Add(panel1);
             Controls.Add(nudValor);
             Controls.Add(lblMensaje);
             Controls.Add(pnlHeaderInput);
@@ -134,6 +145,7 @@
             pnlHeaderInput.ResumeLayout(false);
             pnlHeaderInput.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudValor).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -145,5 +157,6 @@
         private NumericUpDown nudValor;
         private Button btnCancelar;
         private Button btnAceptar;
+        private Panel panel1;
     }
 }

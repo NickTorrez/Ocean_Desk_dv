@@ -35,7 +35,9 @@
             pnlLine = new Panel();
             btnCancelar = new Button();
             btnAceptar = new Button();
+            panel1 = new Panel();
             pnlHeaderText.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeaderText
@@ -95,7 +97,7 @@
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelar.ForeColor = Color.White;
-            btnCancelar.Location = new Point(243, 200);
+            btnCancelar.Location = new Point(246, 7);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(120, 40);
             btnCancelar.TabIndex = 6;
@@ -111,7 +113,7 @@
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAceptar.ForeColor = Color.White;
-            btnAceptar.Location = new Point(379, 200);
+            btnAceptar.Location = new Point(375, 7);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(120, 40);
             btnAceptar.TabIndex = 7;
@@ -119,14 +121,24 @@
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(245, 247, 250);
+            panel1.Controls.Add(btnCancelar);
+            panel1.Controls.Add(btnAceptar);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 215);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(520, 55);
+            panel1.TabIndex = 8;
+            // 
             // FrmTextInput
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(520, 270);
-            Controls.Add(btnAceptar);
-            Controls.Add(btnCancelar);
+            Controls.Add(panel1);
             Controls.Add(pnlLine);
             Controls.Add(txtTexto);
             Controls.Add(lblMensajeText);
@@ -143,6 +155,7 @@
             Text = "FrmTextInput";
             pnlHeaderText.ResumeLayout(false);
             pnlHeaderText.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -156,5 +169,6 @@
         private Panel pnlLine;
         private Button btnCancelar;
         private Button btnAceptar;
+        private Panel panel1;
     }
 }
