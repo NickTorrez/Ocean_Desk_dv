@@ -762,8 +762,10 @@ namespace Ocean_Desk_dv.Services.Repository
                 // que haya provocado la reversión de la transacción.
                 _context.ChangeTracker.Clear();
 
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
                 return ResultadoOperacionDto.Fallido(
-                    $"No se pudo registrar el movimiento. Detalle: {ex.Message}");
+                    $"No se pudo registrar el movimiento. Detalle técnico: {detalle}");
             }
         }
 
@@ -1382,9 +1384,10 @@ namespace Ocean_Desk_dv.Services.Repository
 
                 _context.ChangeTracker.Clear();
 
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
                 return ResultadoEntradaIngredienteDto.Fallido(
-                    "No se pudo guardar el ingrediente. Verifique el código, " +
-                    "la unidad y las restricciones de la base de datos.");
+                    $"No se pudo guardar el ingrediente. Detalle técnico: {detalle}");
             }
             catch (Exception ex)
             {
@@ -1392,8 +1395,10 @@ namespace Ocean_Desk_dv.Services.Repository
 
                 _context.ChangeTracker.Clear();
 
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
                 return ResultadoEntradaIngredienteDto.Fallido(
-                    $"No se pudo registrar la entrada. Detalle: {ex.Message}");
+                    $"No se pudo registrar la entrada. Detalle técnico: {detalle}");
             }
         }
 

@@ -156,7 +156,9 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             lblProducto.Text = $"{_producto.ProductCode} - {nombreIngrediente}";
 
-            lblUnidad.Text = $"Unidad: {nombreUnidad}";
+            lblUnidad.Text = $"Unidad: {CatalogoTraducciones.TraducirUnidad(
+                null,
+                _producto.UnitName)}";
 
             lblResumenStock.Text =
                 $"Stock actual: {_producto.CurrentStock:0.####} " +
