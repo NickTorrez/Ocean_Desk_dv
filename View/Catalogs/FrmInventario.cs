@@ -55,6 +55,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                 ? formulario.Resultado
                 : null;
         }
+
         /// <summary>
         /// Ingrediente seleccionado actualmente en la tabla de existencias.
         /// Devuelve null si no existe una selección explícita.

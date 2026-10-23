@@ -33,6 +33,30 @@ namespace Ocean_Desk_dv.Services.Interfaces_Services
         /// </summary>
         IReadOnlyList<ProductoInventarioSelectorDto>ObtenerIngredientesActivosParaMovimiento();
 
+
+        /// <summary>
+        /// Obtiene las unidades de medida activas para el formulario de entrada.
+        /// </summary>
+        IReadOnlyList<UnidadMedidaDto> ObtenerUnidadesMedidaActivas();
+
+        /// <summary>
+        /// Obtiene los ingredientes existentes que pueden seleccionarse
+        /// durante el registro de una entrada.
+        /// </summary>
+        IReadOnlyList<IngredienteSelectorDto> ObtenerIngredientesParaEntrada();
+
+        /// <summary>
+        /// Propone el siguiente código disponible para un ingrediente nuevo.
+        /// </summary>
+        string? ObtenerSiguienteCodigoIngrediente();
+
+        /// <summary>
+        /// Registra una entrada para un ingrediente existente o crea uno nuevo.
+        /// </summary>
+        ResultadoEntradaIngredienteDto RegistrarEntradaIngrediente(
+            SolicitudEntradaIngredienteDto solicitud);
+
+
         /// <summary>
         /// Registra una entrada, salida, ajuste o pérdida de inventario.
         /// Debe actualizar el saldo, gestionar los lotes cuando corresponda

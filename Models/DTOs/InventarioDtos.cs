@@ -134,4 +134,63 @@ namespace Ocean_Desk_dv.Models.DTOs
         public DateOnly? ExpirationDate { get; init; }
         public string? Notes { get; init; }
     }
+
+
+    /// <summary>
+    /// Datos capturados para registrar una entrada de inventario.
+    /// ProductId es null cuando se debe crear un ingrediente nuevo.
+    /// </summary>
+    public sealed class SolicitudEntradaIngredienteDto
+    {
+        public int? ProductId { get; init; }
+
+        public string ProductName { get; init; } = string.Empty;
+
+        public int UnitOfMeasureId { get; init; }
+
+        public decimal Quantity { get; init; }
+
+        public DateOnly? ExpirationDate { get; init; }
+
+        public string? Notes { get; init; }
+    }
+
+    /// <summary>
+    /// Resultado de registrar una entrada para un ingrediente nuevo o existente.
+    /// </summary>
+    public sealed class ResultadoEntradaIngredienteDto
+    {
+        public bool Exito { get; init; }
+
+        public string Mensaje { get; init; } = string.Empty;
+
+        public int? ProductId { get; init; }
+
+        public string? ProductCode { get; init; }
+
+        public static ResultadoEntradaIngredienteDto Correcto(
+            string mensaje,
+            int productoId,
+            string codigo)
+        {
+            return new ResultadoEntradaIngredienteDto
+            {
+                Exito = true,
+                Mensaje = mensaje,
+                ProductId = productoId,
+                ProductCode = codigo
+            };
+        }
+
+        public static ResultadoEntradaIngredienteDto Fallido(
+            string mensaje)
+        {
+            return new ResultadoEntradaIngredienteDto
+            {
+                Exito = false,
+                Mensaje = mensaje
+            };
+        }
+    }
+
 }
