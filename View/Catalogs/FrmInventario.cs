@@ -27,6 +27,9 @@ namespace Ocean_Desk_dv.View.Catalogs
         // Evita disparar consultas durante la configuración de los filtros.
         private bool _actualizandoFiltros;
 
+        // Conserva los últimos filtros aplicados mediante el botón Refrescar.
+        private FiltroExistenciasInventarioDto _filtroExistenciasAplicado = new();
+
         /// <summary>
         /// Devuelve los últimos filtros de existencias aplicados,
         /// no los valores que el usuario todavía está modificando.
@@ -113,28 +116,6 @@ namespace Ocean_Desk_dv.View.Catalogs
                 ? dgvExistencias.SelectedRows[0].DataBoundItem
                     as ExistenciaInventarioDto
                 : null;
-
-        /// <summary>
-        /// Obtiene los filtros actuales de la tabla de existencias.
-        /// </summary>
-        public FiltroExistenciasInventarioDto FiltroExistenciasActual =>
-            new FiltroExistenciasInventarioDto
-            {
-                TextoBusqueda = string.IsNullOrWhiteSpace(
-                    txtBuscarInventario.Text)
-                        ? null
-                        : txtBuscarInventario.Text.Trim(),
-
-                Categoria = ObtenerCategoriaFiltroSeleccionada(),
-
-                EstadoStock = ObtenerFiltroCombo(
-                    cmbEstadoStock,
-                    "Todos"),
-
-                EstadoVencimiento = ObtenerFiltroCombo(
-                    cmbVencimiento,
-                    "Todos")
-            };
 
         /// <summary>
         /// Obtiene los filtros actuales del historial de movimientos.
@@ -314,20 +295,21 @@ namespace Ocean_Desk_dv.View.Catalogs
         /// Conecta los filtros y botones con los eventos de la vista.
         /// </summary>
         private void ConectarEventos()
-        {   
+        {
 
             btnRefrescarInventario.Click += (_, _) =>
             {
-                // Confirmar todos los filtros al mismo tiempo.
                 _filtroExistenciasAplicado =
                     CrearFiltroExistenciasDesdeControles();
 
                 RefrescarInventarioSolicitado?.Invoke(
                     this,
                     EventArgs.Empty);
-
-                tcInventario.SelectedIndexChanged += (_, _) => ActualizarEstadoFiltrosExistencias();
             };
+
+            // Conectar el cambio de pestaña una sola vez.
+            tcInventario.SelectedIndexChanged += (_, _) =>
+                ActualizarEstadoFiltrosExistencias();
 
             dtpDesde.ValueChanged += AlCambiarFechaMovimiento;
             dtpHasta.ValueChanged += AlCambiarFechaMovimiento;
@@ -646,6 +628,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                         break;
 
                     case "Bajo":
+                        
                         e.CellStyle.ForeColor = Color.DarkOrange;
                         e.CellStyle.Font =
                             new Font(dgvExistencias.Font, FontStyle.Bold);
