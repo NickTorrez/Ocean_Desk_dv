@@ -181,13 +181,13 @@ namespace Ocean_Desk_dv.View.MessageBox
             {
                 case TiposMovimientoInventario.Salida:
                     lblCantidad.Text = "Cantidad a salir";
-                    btnConfirmar.Text = "Registrar salida";
+                    btnConfirmar.Text = "REGISTRAR SALIDA";
                     nudCantidad.Value = 1m;
                     break;
 
                 case TiposMovimientoInventario.Ajuste:
                     lblCantidad.Text = "Stock final deseado";
-                    btnConfirmar.Text = "Guardar ajuste";
+                    btnConfirmar.Text = "GUARDAR AJUSTE";
 
                     nudCantidad.Value = Math.Max(
                         nudCantidad.Minimum,
@@ -198,7 +198,7 @@ namespace Ocean_Desk_dv.View.MessageBox
 
                 case TiposMovimientoInventario.Perdida:
                     lblCantidad.Text = "Cantidad perdida";
-                    btnConfirmar.Text = "Registrar pérdida";
+                    btnConfirmar.Text = "REGISTRAR PÉRDIDA";
                     nudCantidad.Value = 1m;
                     break;
 

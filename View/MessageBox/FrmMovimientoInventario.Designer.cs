@@ -468,7 +468,7 @@
             btnConfirmar.Name = "btnConfirmar";
             btnConfirmar.Size = new Size(214, 38);
             btnConfirmar.TabIndex = 0;
-            btnConfirmar.Text = "GUARDAR RECETA";
+            btnConfirmar.Text = "GUARDAR";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
             // FrmMovimientoInventario

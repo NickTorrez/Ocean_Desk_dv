@@ -64,8 +64,7 @@ namespace Ocean_Desk_dv.View.MessageBox
             CancelButton = btnCancelar;
 
             lblTitulo.Text = "Registrar entrada de ingrediente";
-            lblSubtitulo.Text =
-                "Ingrese un ingrediente nuevo o busque uno existente.";
+            lblSubtitulo.Text = "Ingrese un ingrediente nuevo o busque uno existente.";
         }
 
         private void ConfigurarControles()

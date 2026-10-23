@@ -402,7 +402,7 @@
             btnConfirmar.Name = "btnConfirmar";
             btnConfirmar.Size = new Size(214, 48);
             btnConfirmar.TabIndex = 0;
-            btnConfirmar.Text = "GUARDAR RECETA";
+            btnConfirmar.Text = "REGISTRAR ENTRADA";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
             // FrmEntradaInventario
