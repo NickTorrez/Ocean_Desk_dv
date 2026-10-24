@@ -58,6 +58,9 @@
             btnCancelar = new Button();
             pnlGuardar = new Panel();
             btnConfirmar = new Button();
+            panel1 = new Panel();
+            nudStockMinimo = new NumericUpDown();
+            lblStockMinimo = new Label();
             pnlHeader.SuspendLayout();
             pnlContainer.SuspendLayout();
             pnlObservaciones.SuspendLayout();
@@ -71,6 +74,8 @@
             tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             SuspendLayout();
             // 
             // pnlHeader
@@ -111,6 +116,7 @@
             // 
             pnlContainer.Controls.Add(pnlObservaciones);
             pnlContainer.Controls.Add(pnlVencimiento);
+            pnlContainer.Controls.Add(panel1);
             pnlContainer.Controls.Add(pnlCantidad);
             pnlContainer.Controls.Add(pnlUnidadMedida);
             pnlContainer.Controls.Add(pnlCodigo);
@@ -119,7 +125,7 @@
             pnlContainer.Location = new Point(0, 78);
             pnlContainer.Name = "pnlContainer";
             pnlContainer.Padding = new Padding(5);
-            pnlContainer.Size = new Size(690, 462);
+            pnlContainer.Size = new Size(690, 542);
             pnlContainer.TabIndex = 0;
             // 
             // pnlObservaciones
@@ -127,10 +133,10 @@
             pnlObservaciones.Controls.Add(txtObservaciones);
             pnlObservaciones.Controls.Add(lblObservaciones);
             pnlObservaciones.Dock = DockStyle.Fill;
-            pnlObservaciones.Location = new Point(5, 355);
+            pnlObservaciones.Location = new Point(5, 425);
             pnlObservaciones.Name = "pnlObservaciones";
             pnlObservaciones.Padding = new Padding(17, 15, 17, 5);
-            pnlObservaciones.Size = new Size(680, 102);
+            pnlObservaciones.Size = new Size(680, 112);
             pnlObservaciones.TabIndex = 13;
             // 
             // txtObservaciones
@@ -141,7 +147,7 @@
             txtObservaciones.Name = "txtObservaciones";
             txtObservaciones.PlaceholderText = "Ingrese algun dato de relevancia...";
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(646, 57);
+            txtObservaciones.Size = new Size(646, 67);
             txtObservaciones.TabIndex = 8;
             // 
             // lblObservaciones
@@ -159,7 +165,7 @@
             pnlVencimiento.Controls.Add(dtpVencimiento);
             pnlVencimiento.Controls.Add(lblVencimiento);
             pnlVencimiento.Dock = DockStyle.Top;
-            pnlVencimiento.Location = new Point(5, 285);
+            pnlVencimiento.Location = new Point(5, 355);
             pnlVencimiento.Name = "pnlVencimiento";
             pnlVencimiento.Padding = new Padding(17, 15, 17, 15);
             pnlVencimiento.Size = new Size(680, 70);
@@ -334,7 +340,7 @@
             pnlFooter.BackColor = Color.FromArgb(245, 247, 250);
             pnlFooter.Controls.Add(tlpButtons);
             pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 540);
+            pnlFooter.Location = new Point(0, 620);
             pnlFooter.Name = "pnlFooter";
             pnlFooter.Padding = new Padding(0, 3, 15, 3);
             pnlFooter.Size = new Size(690, 60);
@@ -405,12 +411,45 @@
             btnConfirmar.Text = "REGISTRAR ENTRADA";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(nudStockMinimo);
+            panel1.Controls.Add(lblStockMinimo);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(5, 285);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(17, 15, 17, 15);
+            panel1.Size = new Size(680, 70);
+            panel1.TabIndex = 12;
+            // 
+            // nudStockMinimo
+            // 
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Dock = DockStyle.Left;
+            nudStockMinimo.Location = new Point(17, 40);
+            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudStockMinimo.Name = "nudStockMinimo";
+            nudStockMinimo.Size = new Size(420, 26);
+            nudStockMinimo.TabIndex = 1;
+            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblStockMinimo
+            // 
+            lblStockMinimo.Dock = DockStyle.Top;
+            lblStockMinimo.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStockMinimo.Location = new Point(17, 15);
+            lblStockMinimo.Name = "lblStockMinimo";
+            lblStockMinimo.Size = new Size(646, 25);
+            lblStockMinimo.TabIndex = 0;
+            lblStockMinimo.Text = "Stock Minimo para el Ingrediente";
+            // 
             // FrmEntradaInventario
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(690, 600);
+            ClientSize = new Size(690, 680);
             Controls.Add(pnlContainer);
             Controls.Add(pnlFooter);
             Controls.Add(pnlHeader);
@@ -436,6 +475,8 @@
             tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             ResumeLayout(false);
         }
 
@@ -471,5 +512,8 @@
         private Button btnCancelar;
         private Panel pnlGuardar;
         private Button btnConfirmar;
+        private Panel panel1;
+        private NumericUpDown nudStockMinimo;
+        private Label lblStockMinimo;
     }
 }

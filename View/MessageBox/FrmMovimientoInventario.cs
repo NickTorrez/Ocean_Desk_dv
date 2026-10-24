@@ -246,7 +246,7 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             // Habilita los controles cuando corresponda.
             txtCodigoLote.Enabled = permiteDatosLote;
-            lblCodigoLote.Enabled = permiteDatosLote;
+            lblStockMinimo.Enabled = permiteDatosLote;
 
             dtpVencimiento.Enabled = permiteDatosLote;
             lblVencimiento.Enabled = permiteDatosLote;
@@ -260,12 +260,12 @@ namespace Ocean_Desk_dv.View.MessageBox
 
             if (esAjuste && !permiteDatosLote)
             {
-                lblCodigoLote.Text = "Código de lote (no aplica)";
+                lblStockMinimo.Text = "Código de lote (no aplica)";
                 lblVencimiento.Text = "Vencimiento (no aplica)";
             }
             else
             {
-                lblCodigoLote.Text = "Código de lote (opcional)";
+                lblStockMinimo.Text = "Código de lote (opcional)";
                 lblVencimiento.Text = "Fecha de vencimiento (opcional)";
             }
         }

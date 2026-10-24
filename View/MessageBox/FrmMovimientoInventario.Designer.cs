@@ -41,7 +41,7 @@
             pnlInputContainer = new Panel();
             tlpInputInfo = new TableLayoutPanel();
             pnlLabelCodigo = new Panel();
-            lblCodigoLote = new Label();
+            lblStockMinimo = new Label();
             pnlLableCantidad = new Panel();
             lblCantidad = new Label();
             pnlLabelVenicmiento = new Panel();
@@ -49,8 +49,6 @@
             pnlInputCantidad = new Panel();
             nudCantidad = new NumericUpDown();
             pnlInputCodigo = new Panel();
-            pnlLine = new Panel();
-            txtCodigoLote = new TextBox();
             pnlInputVencimiento = new Panel();
             dtpVencimiento = new DateTimePicker();
             pnlInputObservaciones = new Panel();
@@ -62,6 +60,7 @@
             btnCancelar = new Button();
             pnlGuardar = new Panel();
             btnConfirmar = new Button();
+            nudStockMinimo = new NumericUpDown();
             pnlDatosLote.SuspendLayout();
             pnlInfoContainer.SuspendLayout();
             tlpProducto.SuspendLayout();
@@ -80,6 +79,7 @@
             tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             SuspendLayout();
             // 
             // pnlDatosLote
@@ -228,7 +228,7 @@
             // 
             // pnlLabelCodigo
             // 
-            pnlLabelCodigo.Controls.Add(lblCodigoLote);
+            pnlLabelCodigo.Controls.Add(lblStockMinimo);
             pnlLabelCodigo.Dock = DockStyle.Fill;
             pnlLabelCodigo.Location = new Point(3, 83);
             pnlLabelCodigo.Name = "pnlLabelCodigo";
@@ -236,16 +236,16 @@
             pnlLabelCodigo.Size = new Size(328, 26);
             pnlLabelCodigo.TabIndex = 6;
             // 
-            // lblCodigoLote
+            // lblStockMinimo
             // 
-            lblCodigoLote.Dock = DockStyle.Fill;
-            lblCodigoLote.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCodigoLote.Location = new Point(5, 0);
-            lblCodigoLote.Name = "lblCodigoLote";
-            lblCodigoLote.Size = new Size(323, 26);
-            lblCodigoLote.TabIndex = 1;
-            lblCodigoLote.Text = "Código del Producto";
-            lblCodigoLote.TextAlign = ContentAlignment.MiddleLeft;
+            lblStockMinimo.Dock = DockStyle.Fill;
+            lblStockMinimo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStockMinimo.Location = new Point(5, 0);
+            lblStockMinimo.Name = "lblStockMinimo";
+            lblStockMinimo.Size = new Size(323, 26);
+            lblStockMinimo.TabIndex = 1;
+            lblStockMinimo.Text = "Stock Mínimo";
+            lblStockMinimo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlLableCantidad
             // 
@@ -313,33 +313,13 @@
             // 
             // pnlInputCodigo
             // 
-            pnlInputCodigo.Controls.Add(pnlLine);
-            pnlInputCodigo.Controls.Add(txtCodigoLote);
+            pnlInputCodigo.Controls.Add(nudStockMinimo);
             pnlInputCodigo.Dock = DockStyle.Fill;
             pnlInputCodigo.Location = new Point(3, 115);
             pnlInputCodigo.Name = "pnlInputCodigo";
-            pnlInputCodigo.Padding = new Padding(5, 12, 5, 10);
+            pnlInputCodigo.Padding = new Padding(5, 8, 5, 0);
             pnlInputCodigo.Size = new Size(328, 44);
             pnlInputCodigo.TabIndex = 10;
-            // 
-            // pnlLine
-            // 
-            pnlLine.BackColor = Color.MidnightBlue;
-            pnlLine.Dock = DockStyle.Bottom;
-            pnlLine.Location = new Point(5, 32);
-            pnlLine.Name = "pnlLine";
-            pnlLine.Size = new Size(318, 2);
-            pnlLine.TabIndex = 6;
-            // 
-            // txtCodigoLote
-            // 
-            txtCodigoLote.BorderStyle = BorderStyle.None;
-            txtCodigoLote.Dock = DockStyle.Fill;
-            txtCodigoLote.Location = new Point(5, 12);
-            txtCodigoLote.MaxLength = 50;
-            txtCodigoLote.Name = "txtCodigoLote";
-            txtCodigoLote.Size = new Size(318, 19);
-            txtCodigoLote.TabIndex = 0;
             // 
             // pnlInputVencimiento
             // 
@@ -471,6 +451,18 @@
             btnConfirmar.Text = "GUARDAR";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
+            // nudStockMinimo
+            // 
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Dock = DockStyle.Fill;
+            nudStockMinimo.Location = new Point(5, 8);
+            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudStockMinimo.Name = "nudStockMinimo";
+            nudStockMinimo.Size = new Size(318, 26);
+            nudStockMinimo.TabIndex = 1;
+            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
             // FrmMovimientoInventario
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -501,7 +493,6 @@
             pnlInputCantidad.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             pnlInputCodigo.ResumeLayout(false);
-            pnlInputCodigo.PerformLayout();
             pnlInputVencimiento.ResumeLayout(false);
             pnlInputObservaciones.ResumeLayout(false);
             pnlInputObservaciones.PerformLayout();
@@ -509,6 +500,7 @@
             tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             ResumeLayout(false);
         }
 
@@ -527,7 +519,7 @@
         private Panel pnlInputContainer;
         private TableLayoutPanel tlpInputInfo;
         private Panel pnlLabelCodigo;
-        private Label lblCodigoLote;
+        private Label lblStockMinimo;
         private Panel pnlLableCantidad;
         private Label lblCantidad;
         private Panel pnlLabelVenicmiento;
@@ -539,8 +531,6 @@
         private Panel pnlInputObservaciones;
         private TextBox txtObservaciones;
         private NumericUpDown nudCantidad;
-        private TextBox txtCodigoLote;
-        private Panel pnlLine;
         private DateTimePicker dtpVencimiento;
         private Panel pnlFooter;
         private TableLayoutPanel tlpButtons;
@@ -548,5 +538,6 @@
         private Button btnCancelar;
         private Panel pnlGuardar;
         private Button btnConfirmar;
+        private NumericUpDown nudStockMinimo;
     }
 }
