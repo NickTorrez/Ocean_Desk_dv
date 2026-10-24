@@ -218,6 +218,44 @@ namespace Ocean_Desk_dv.Services.Repository
             return resultados;
         }
 
+        /// <summary>
+        /// Obtiene los lotes activos de ingredientes que conservan saldo
+        /// y cuya fecha de vencimiento es mañana, hoy o una fecha anterior.
+        /// </summary>
+        public IReadOnlyList<AlertaVencimientoInventarioDto> ObtenerAlertasVencimiento()
+        {
+            DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+            DateOnly limite = hoy.AddDays(1);
+
+            return _context.InventoryLots
+                .AsNoTracking()
+                .Where(l =>
+                    l.IsActive &&
+                    l.RemainingQuantity > 0m &&
+                    l.ExpirationDate.HasValue &&
+                    l.ExpirationDate.Value <= limite &&
+                    l.Product.ProductType == "Ingredient" &&
+                    l.Product.IsActive)
+                .OrderBy(l => l.ExpirationDate)
+                .ThenBy(l => l.Product.ProductName)
+                .ThenBy(l => l.LotCode)
+                .Select(l => new AlertaVencimientoInventarioDto
+                {
+                    ProductId = l.ProductId,
+                    ProductCode = l.Product.ProductCode,
+                    ProductName = l.Product.ProductName,
+
+                    UnitName = l.Product.UnitOfMeasure != null
+                        ? l.Product.UnitOfMeasure.UnitName
+                        : "Sin unidad",
+
+                    LotCode = l.LotCode,
+                    ExpirationDate = l.ExpirationDate!.Value,
+                    RemainingQuantity = l.RemainingQuantity
+                })
+                .ToList();
+        }
+
         // ============================================================
         // 2. CONSULTA DE CATEGORÍAS
         // ============================================================

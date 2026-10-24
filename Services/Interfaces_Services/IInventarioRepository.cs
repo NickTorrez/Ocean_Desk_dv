@@ -19,6 +19,12 @@ namespace Ocean_Desk_dv.Services.Interfaces_Services
         IReadOnlyList<ExistenciaInventarioDto> ObtenerExistencias(FiltroExistenciasInventarioDto filtro);
 
         /// <summary>
+        /// Obtiene los lotes con saldo que vencen mañana, vencen hoy
+        /// o ya han vencido.
+        /// </summary>
+        IReadOnlyList<AlertaVencimientoInventarioDto> ObtenerAlertasVencimiento();
+
+        /// <summary>
         /// Consulta el historial de movimientos dentro del periodo indicado.
         /// </summary>
         IReadOnlyList<MovimientoInventarioDto> ObtenerMovimientos(FiltroMovimientosInventarioDto filtro);

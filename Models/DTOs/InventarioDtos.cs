@@ -74,6 +74,26 @@ namespace Ocean_Desk_dv.Models.DTOs
     }
 
     /// <summary>
+    /// Representa un lote con existencias que requiere una alerta de vencimiento.
+    /// </summary>
+    public sealed class AlertaVencimientoInventarioDto
+    {
+        public int ProductId { get; init; }
+
+        public string ProductCode { get; init; } = string.Empty;
+
+        public string ProductName { get; init; } = string.Empty;
+
+        public string UnitName { get; init; } = string.Empty;
+
+        public string? LotCode { get; init; }
+
+        public DateOnly ExpirationDate { get; init; }
+
+        public decimal RemainingQuantity { get; init; }
+    }
+
+    /// <summary>
     /// Producto ingrediente que puede seleccionarse para registrar un movimiento.
     /// </summary>
     public sealed class ProductoInventarioSelectorDto

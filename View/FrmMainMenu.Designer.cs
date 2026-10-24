@@ -78,6 +78,7 @@
             pictureBox2 = new PictureBox();
             pnlContent = new Panel();
             tmrReloj = new System.Windows.Forms.Timer(components);
+            TmrAlertasVencimiento = new System.Windows.Forms.Timer(components);
             pnlSidebar.SuspendLayout();
             pnlMenu.SuspendLayout();
             pnlBottom.SuspendLayout();
@@ -986,5 +987,6 @@
         private Panel pnlModuleInfo;
         private TableLayoutPanel tblTop;
         private Label label2;
+        private System.Windows.Forms.Timer TmrAlertasVencimiento;
     }
 }

@@ -6,6 +6,8 @@ using Ocean_Desk_dv.UI.Catalogs;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.Catalogs;
 using Ocean_Desk_dv.View.Services;
+using Ocean_Desk_dv.Models.DTOs;
+using Ocean_Desk_dv.View.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +28,15 @@ namespace Ocean_Desk_dv.UI
         private readonly int _usuarioId;
         private bool _permitirCerrarFormulario;
         private bool _cierreEnProceso;
+
+        // Ejecuta una revisión de vencimientos cada 45 minutos.
+        private readonly System.Windows.Forms.Timer _tmrAlertasVencimiento =
+            new System.Windows.Forms.Timer
+            {
+                Interval = 45 * 60 * 1000
+            };
+
+        private bool _revisandoAlertasVencimiento;
 
         // Formulario actualmente alojado en el panel de contenido.
         private Form? _formularioActivo;
@@ -56,6 +67,16 @@ namespace Ocean_Desk_dv.UI
             _usuarioId = usuarioId;
 
             this.FormClosing += FrmMainMenu_FormClosing;
+
+            _tmrAlertasVencimiento.Tick += TmrAlertasVencimiento_Tick;
+
+            Shown += FrmMainMenu_Shown;
+
+            FormClosed += (_, _) =>
+            {
+                _tmrAlertasVencimiento.Stop();
+                _tmrAlertasVencimiento.Dispose();
+            };
 
             // Inicializar el panel indicador para el botón activo
             indicadorActivo = new Panel();
@@ -309,6 +330,9 @@ namespace Ocean_Desk_dv.UI
             if (!ValidarCajaParaSalir())
                 return;
 
+            // Detener las alertas antes de ocultar este menú.
+            _tmrAlertasVencimiento.Stop();
+
             // Libera la vista actual antes de regresar al inicio de sesión.
             CerrarFormularioActivo();
 
@@ -454,6 +478,163 @@ namespace Ocean_Desk_dv.UI
             lblFecha.Text = DateTime.Now.ToLongDateString(); // Ejemplo: "lunes, 24 de mayo de 2026"
         }
 
+        /// <summary>
+        /// Realiza la primera revisión cuando el menú principal ya se mostró.
+        /// Después inicia las revisiones periódicas.
+        /// </summary>
+        private void FrmMainMenu_Shown(object? sender, EventArgs e)
+        {
+            RevisarAlertasVencimiento();
+
+            if (Visible && !IsDisposed && !_cierreEnProceso)
+                _tmrAlertasVencimiento.Start();
+        }
+
+        /// <summary>
+        /// Ejecuta la revisión periódica y reinicia el intervalo al terminar.
+        /// </summary>
+        private void TmrAlertasVencimiento_Tick(
+            object? sender,
+            EventArgs e)
+        {
+            _tmrAlertasVencimiento.Stop();
+
+            try
+            {
+                RevisarAlertasVencimiento();
+            }
+            finally
+            {
+                if (Visible && !IsDisposed && !_cierreEnProceso)
+                    _tmrAlertasVencimiento.Start();
+            }
+        }
+
+        /// <summary>
+        /// Clasifica los lotes que requieren atención y muestra un único mensaje
+        /// con las secciones correspondientes.
+        /// </summary>
+        private void RevisarAlertasVencimiento()
+        {
+            if (_revisandoAlertasVencimiento ||
+                IsDisposed ||
+                !Visible ||
+                _cierreEnProceso)
+            {
+                return;
+            }
+
+            _revisandoAlertasVencimiento = true;
+
+            try
+            {
+                using var repositorio =
+                    OceanDeskRepositoryFactory.CrearInventarioRepository();
+
+                IReadOnlyList<AlertaVencimientoInventarioDto> alertas =
+                    repositorio.ObtenerAlertasVencimiento();
+
+                if (alertas.Count == 0)
+                    return;
+
+                DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+                DateOnly manana = hoy.AddDays(1);
+
+                var vencenManana = alertas
+                    .Where(a => a.ExpirationDate == manana)
+                    .ToList();
+
+                var vencenHoy = alertas
+                    .Where(a => a.ExpirationDate == hoy)
+                    .ToList();
+
+                var vencidos = alertas
+                    .Where(a => a.ExpirationDate < hoy)
+                    .ToList();
+
+                var mensaje = new StringBuilder();
+
+                void AgregarSeccion(
+                    string titulo,
+                    IEnumerable<AlertaVencimientoInventarioDto> lotes)
+                {
+                    var lista = lotes.ToList();
+
+                    if (lista.Count == 0)
+                        return;
+
+                    mensaje.AppendLine(titulo);
+
+                    foreach (var lote in lista)
+                    {
+                        string codigoLote =
+                            string.IsNullOrWhiteSpace(lote.LotCode)
+                                ? "Sin código"
+                                : lote.LotCode;
+
+                        string unidad =
+                            CatalogoTraducciones.TraducirUnidad(
+                                null,
+                                lote.UnitName);
+
+                        mensaje.AppendLine(
+                            $"{lote.ProductCode} - {lote.ProductName}");
+
+                        mensaje.AppendLine(
+                            $"  Lote: {codigoLote}");
+
+                        mensaje.AppendLine(
+                            $"  Fecha de vencimiento: " +
+                            $"{lote.ExpirationDate:dd/MM/yyyy}");
+
+                        mensaje.AppendLine(
+                            $"  Existencias del lote: " +
+                            $"{lote.RemainingQuantity:0.####} {unidad}");
+
+                        mensaje.AppendLine();
+                    }
+                }
+
+                AgregarSeccion(
+                    "PRÓXIMOS A VENCER (VENCEN MAÑANA)",
+                    vencenManana);
+
+                AgregarSeccion(
+                    "VENCEN HOY",
+                    vencenHoy);
+
+                AgregarSeccion(
+                    "PRODUCTOS VENCIDOS CON EXISTENCIAS",
+                    vencidos);
+
+                if (mensaje.Length == 0)
+                    return;
+
+                mensaje.AppendLine(
+                    "Este aviso se volverá a revisar cada 45 minutos.");
+
+                mensaje.AppendLine(
+                    "Los lotes dejarán de aparecer cuando ya no tengan " +
+                    "existencias registradas.");
+
+                FrmMessageBox.Show(
+                    mensaje.ToString(),
+                    "Alertas de vencimiento de inventario",
+                    MessageType.Warning);
+            }
+            catch (Exception ex)
+            {
+                // Un fallo en la revisión no debe cerrar ni interrumpir
+                // el funcionamiento del menú principal.
+                System.Diagnostics.Debug.WriteLine(
+                    $"No se pudieron revisar los vencimientos: {ex}");
+            }
+            finally
+            {
+                _revisandoAlertasVencimiento = false;
+            }
+        }
+
         private void btnCaja_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnCaja);
@@ -503,6 +684,9 @@ namespace Ocean_Desk_dv.UI
             // No cerrar si la caja continúa abierta o no pudo verificarse.
             if (!ValidarCajaParaSalir())
                 return;
+
+            // Detener las alertas antes de ocultar este menú.
+            _tmrAlertasVencimiento.Stop();
 
             _cierreEnProceso = true;
             _permitirCerrarFormulario = true;
