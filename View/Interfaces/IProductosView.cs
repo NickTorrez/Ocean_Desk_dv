@@ -66,6 +66,11 @@ public interface IProductosView
     /// <summary>Limpia los controles del formulario y lo prepara para registrar un producto nuevo.</summary>
     void LimpiarFormularioProducto();
 
+    /// <summary>
+    /// Bloquea los controles de captura del producto.
+    /// </summary>
+    void BloquearEdicionProducto();
+
     /// <summary>Muestra los detalles de la receta seleccionada en la tabla de ingredientes.</summary>
     void MostrarDetallesReceta(IReadOnlyList<DetalleRecetaDto> detalles);
 

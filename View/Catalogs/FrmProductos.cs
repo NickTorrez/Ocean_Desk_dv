@@ -90,6 +90,27 @@ namespace Ocean_Desk_dv.View.Catalogs
             // Los botones comienzan en el estado que corresponda
             // a la selección actual.
             ActualizarEstadoBotonesReceta();
+
+            ActualizarEstadoBarraSuperior();
+        }
+
+        /// <summary>
+        /// Deshabilita las acciones del catálogo cuando se selecciona Receta,
+        /// manteniendo disponible el botón Nuevo.
+        /// </summary>
+        private void ActualizarEstadoBarraSuperior()
+        {
+            bool esReceta = Tcproductos.SelectedTab == tpReceta;
+
+            // El botón Nuevo debe permanecer disponible en ambas pestañas.
+            pnlHeaderNuevo.Enabled = true;
+            btnNuevoProducto.Enabled = true;
+
+            // Se bloquean las demás acciones de la barra.
+            pnlHeaderEditar.Enabled = !esReceta;
+            pnlHeaderCambiar.Enabled = !esReceta;
+            pnlBuscar.Enabled = !esReceta;
+            pnlLabelBuscar.Enabled = !esReceta;
         }
 
         /// <summary>
@@ -273,6 +294,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             txtNombre.Enabled = habilitar;
             txtDescripcion.Enabled = habilitar;
             cmbCategoria.Enabled = habilitar;
+            cmbUnidad.Enabled = habilitar;
             nudPrecio.Enabled = habilitar;
             chkDisponible.Enabled = habilitar;
             chkActivo.Enabled = habilitar;
@@ -469,6 +491,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             txtBuscarProducto.TextChanged += (_, _) => BusquedaCambiada?.Invoke(this, EventArgs.Empty);
             btnNuevoProducto.Click += (_, _) => NuevoProductoSolicitado?.Invoke(this, EventArgs.Empty);
             btnEditarProducto.Click += (_, _) => EditarProductoSolicitado?.Invoke(this, EventArgs.Empty);
+            Tcproductos.SelectedIndexChanged += (_, _) => ActualizarEstadoBarraSuperior();
             btnCambiarEstado.Click += (_, _) => SolicitarCambioEstadoConConfirmacion();
             btnLimpiarProducto.Click += (_, _) =>
             {
@@ -527,6 +550,7 @@ namespace Ocean_Desk_dv.View.Catalogs
             btnEditarIngrediente.Click += (_, _) => AbrirEditorIngrediente(true);
             btnQuitarIngrediente.Click += (_, _) => QuitarIngredienteSolicitado?.Invoke(this, EventArgs.Empty);
             btnGuardarReceta.Click += (_, _) => GuardarRecetaSolicitado?.Invoke(this, EventArgs.Empty);
+           
         }
 
         /// <summary>
@@ -781,6 +805,14 @@ namespace Ocean_Desk_dv.View.Catalogs
             RestablecerCamposProducto();
             EstablecerEdicionProductoHabilitada(true);
             txtCodigo.Focus();
+        }
+
+        /// <summary>
+        /// Deshabilita los campos de captura después de completar el guardado.
+        /// </summary>
+        public void BloquearEdicionProducto()
+        {
+            EstablecerEdicionProductoHabilitada(false);
         }
 
         /// <summary>

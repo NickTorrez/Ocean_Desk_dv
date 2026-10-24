@@ -129,7 +129,9 @@ public sealed class ProductosPresenter : IDisposable
         if (!resultado.Exito) return;
 
         RecargarProductos();
+
         _view.LimpiarFormularioProducto();
+        _view.BloquearEdicionProducto();
     });
 
     /// <summary>Recarga los datos del producto seleccionado en el catálogo.</summary>
