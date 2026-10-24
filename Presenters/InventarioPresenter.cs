@@ -412,26 +412,19 @@ namespace Ocean_Desk_dv.Presenters
             if (_disposed)
                 return;
 
-            _view.FiltrosExistenciasCambiados -=
-                AlCambiarFiltrosExistencias;
+            _view.FiltrosExistenciasCambiados -= AlCambiarFiltrosExistencias;
 
-            _view.FiltrosMovimientosCambiados -=
-                AlCambiarFiltrosMovimientos;
+            _view.FiltrosMovimientosCambiados -= AlCambiarFiltrosMovimientos;
 
-            _view.RefrescarInventarioSolicitado -=
-                AlSolicitarRefrescar;
+            _view.RefrescarInventarioSolicitado -= AlSolicitarRefrescar;
 
-            _view.EntradaInventarioSolicitada -=
-                AlSolicitarEntrada;
+            _view.EntradaInventarioSolicitada -= AlSolicitarEntrada;
 
-            _view.SalidaInventarioSolicitada -=
-                AlSolicitarSalida;
+            _view.SalidaInventarioSolicitada -= AlSolicitarSalida;
 
-            _view.AjusteInventarioSolicitado -=
-                AlSolicitarAjuste;
+            _view.AjusteInventarioSolicitado -= AlSolicitarAjuste;
 
-            _view.PerdidaInventarioSolicitada -=
-                AlSolicitarPerdida;
+            _view.PerdidaInventarioSolicitada -= AlSolicitarPerdida;
 
             _repository.Dispose();
             _disposed = true;

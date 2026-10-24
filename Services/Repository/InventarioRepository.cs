@@ -94,7 +94,7 @@ namespace Ocean_Desk_dv.Services.Repository
             // Obtener los datos base de los productos.
             // Los ingredientes sin registro Inventory se muestran con stock 0.
             var productosBase = consulta
-                .OrderBy(p => p.ProductName)
+                .OrderBy(p => p.ProductCode)
                 .Select(p => new
                 {
                     p.ProductId,
