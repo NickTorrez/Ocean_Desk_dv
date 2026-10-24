@@ -317,10 +317,18 @@ namespace Ocean_Desk_dv.Presenters
                     Notes = captura.Notes
                 };
 
+                bool ajusteSoloStockMinimo =
+                    tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+                    producto is not null &&
+                    solicitud.Quantity == producto.CurrentStock &&
+                    solicitud.MinimumStock.HasValue &&
+                    solicitud.MinimumStock.Value != producto.MinimumStock;
+
                 ResultadoOperacionDto resultado =
                     _repository.RegistrarMovimiento(solicitud);
 
                 string mensajeResultado = resultado.Mensaje;
+
 
                 if (resultado.Exito && producto is not null)
                 {
@@ -334,62 +342,84 @@ namespace Ocean_Desk_dv.Presenters
                             null,
                             producto.UnitName);
 
-                    decimal stockPosterior =
-                        tipoMovimiento == TiposMovimientoInventario.Ajuste
-                            ? solicitud.Quantity
-                            : producto.CurrentStock - solicitud.Quantity;
-
-                    string tituloMovimiento = tipoMovimiento switch
+                    if (ajusteSoloStockMinimo)
                     {
-                        TiposMovimientoInventario.Ajuste => "Ajuste",
-                        TiposMovimientoInventario.Salida => "Salida",
-                        TiposMovimientoInventario.Perdida => "Pérdida o daño",
-                        _ => "Movimiento"
-                    };
-
-                    mensajeResultado =
-                        $"{tituloMovimiento} registrado correctamente para " +
-                        $"{nombrePresentacion}.\n" +
-                        $"Stock anterior: {producto.CurrentStock:0.####} " +
-                        $"{unidadPresentacion}.\n" +
-                        $"Stock actual: {stockPosterior:0.####} " +
-                        $"{unidadPresentacion}.";
-
-                    if (tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                        solicitud.Quantity > producto.CurrentStock &&
-                        solicitud.ExpirationDate.HasValue)
+                        mensajeResultado =
+                            $"Stock mínimo actualizado correctamente para " +
+                            $"{nombrePresentacion} ({producto.ProductCode}).\n" +
+                            $"Stock actual: {producto.CurrentStock:0.####} " +
+                            $"{unidadPresentacion}.\n" +
+                            $"Stock mínimo anterior: " +
+                            $"{producto.MinimumStock:0.####} " +
+                            $"{unidadPresentacion}.\n" +
+                            $"Nuevo stock mínimo: " +
+                            $"{solicitud.MinimumStock!.Value:0.####} " +
+                            $"{unidadPresentacion}.\n" +
+                            "No se modificaron las existencias ni los lotes.";
+                    }
+                    else
                     {
+                        decimal stockPosterior =
+                            tipoMovimiento == TiposMovimientoInventario.Ajuste
+                                ? solicitud.Quantity
+                                : producto.CurrentStock - solicitud.Quantity;
+
+                        string tituloMovimiento = tipoMovimiento switch
+                        {
+                            TiposMovimientoInventario.Ajuste => "Ajuste",
+                            TiposMovimientoInventario.Salida => "Salida",
+                            TiposMovimientoInventario.Perdida => "Pérdida o daño",
+                            _ => "Movimiento"
+                        };
+
+                        mensajeResultado =
+                            $"{tituloMovimiento} registrado correctamente para " +
+                            $"{nombrePresentacion}.\n" +
+                            $"Stock anterior: {producto.CurrentStock:0.####} " +
+                            $"{unidadPresentacion}.\n" +
+                            $"Stock actual: {stockPosterior:0.####} " +
+                            $"{unidadPresentacion}.";
+
                         if (tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                        solicitud.MinimumStock.HasValue)
+                            solicitud.MinimumStock.HasValue &&
+                            solicitud.MinimumStock.Value != producto.MinimumStock)
                         {
                             mensajeResultado +=
-                                $"\nStock mínimo configurado: " +
+                                $"\nStock mínimo actualizado: " +
                                 $"{solicitud.MinimumStock.Value:0.####} " +
                                 $"{unidadPresentacion}.";
                         }
 
-                        mensajeResultado +=
-                            $"\nEl lote incorporado tiene vencimiento " +
-                            $"{solicitud.ExpirationDate.Value:dd/MM/yyyy}.";
-
-                        if (producto.ExpirationDate.HasValue)
+                        if (tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+                            solicitud.Quantity > producto.CurrentStock &&
+                            solicitud.ExpirationDate.HasValue)
                         {
                             mensajeResultado +=
-                                $" El lote anterior conserva el vencimiento " +
-                                $"{producto.ExpirationDate.Value:dd/MM/yyyy}.";
-                        }
+                                $"\nEl lote incorporado tiene vencimiento " +
+                                $"{solicitud.ExpirationDate.Value:dd/MM/yyyy}.";
 
-                        mensajeResultado +=
-                            "\nLa tabla muestra el vencimiento más próximo " +
-                            "entre los lotes que todavía tienen saldo.";
+                            if (producto.ExpirationDate.HasValue)
+                            {
+                                mensajeResultado +=
+                                    $" El lote anterior conserva el vencimiento " +
+                                    $"{producto.ExpirationDate.Value:dd/MM/yyyy}.";
+                            }
+
+                            mensajeResultado +=
+                                "\nLa tabla muestra el vencimiento más próximo " +
+                                "entre los lotes que todavía tienen saldo.";
+                        }
                     }
                 }
+
 
                 _view.MostrarMensaje(
                      mensajeResultado,
                      resultado.Exito
-                         ? "Inventario actualizado"
-                         : "No se pudo registrar el movimiento",
+                        ? (ajusteSoloStockMinimo
+                            ? "Stock mínimo actualizado"
+                            : "Inventario actualizado")
+                        : "No se registra movimiento",
                      !resultado.Exito);
 
                 // Las tablas se recargan solamente tras un registro exitoso.

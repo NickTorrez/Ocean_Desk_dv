@@ -696,73 +696,51 @@ namespace Ocean_Desk_dv.Services.Repository
                         "un cambio de stock mínimo que guardar.");
                 }
 
+
                 var movimientos = new List<InventoryMovement>();
                 decimal stockDespues = stockAntes;
 
                 // ----------------------------------------------------
+                // AJUSTE QUE SOLO MODIFICA EL STOCK MÍNIMO
+                // ----------------------------------------------------
+                if (ajusteSoloStockMinimo)
+                {
+                    // No se modifican lotes ni stock.
+                    // El nuevo mínimo se guardará más abajo.
+                }
+
+                // ----------------------------------------------------
                 // ENTRADA
                 // ----------------------------------------------------
-                if (tipo == TiposMovimientoInventario.Entrada)
+                else if (tipo == TiposMovimientoInventario.Entrada)
                 {
+                    decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                    if (ajusteSoloStockMinimo)
+                    if (nuevoStock > StockMaximo)
                     {
-                        // No se modifican lotes ni stock.
-                        // MinimumStock se actualizará más abajo.
+                        return ResultadoOperacionDto.Fallido(
+                            "La entrada supera el máximo de stock permitido.");
                     }
-                    else if (tipo == TiposMovimientoInventario.Entrada)
-                    {
-                        decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                        if (nuevoStock > StockMaximo)
-                        {
-                            return ResultadoOperacionDto.Fallido(
-                                "La entrada supera el máximo de stock permitido.");
-                        }
+                    InventoryLot lote = ObtenerOCrearLoteEntrada(
+                        producto,
+                        lotes,
+                        codigoLote,
+                        solicitud.ExpirationDate,
+                        solicitud.Quantity,
+                        notas,
+                        hoy);
 
-                        // ----------------------------------------------------
-                        // AJUSTE QUE SOLO MODIFICA EL STOCK MÍNIMO
-                        // ----------------------------------------------------
-                        if (ajusteSoloStockMinimo)
-                        {
-                            // No se modifican lotes ni stock.
-                            // El nuevo mínimo se guardará más abajo.
-                        }
+                    stockDespues = nuevoStock;
 
-                        // ----------------------------------------------------
-                        // ENTRADA
-                        // ----------------------------------------------------
-                        else if (tipo == TiposMovimientoInventario.Entrada)
-                        {
-                            //decimal nuevoStock = stockAntes + solicitud.Quantity;
-
-                            if (nuevoStock > StockMaximo)
-                            {
-                                return ResultadoOperacionDto.Fallido(
-                                    "La entrada supera el máximo de stock permitido.");
-                            }
-
-                            InventoryLot lote = ObtenerOCrearLoteEntrada(
-                                producto,
-                                lotes,
-                                codigoLote,
-                                solicitud.ExpirationDate,
-                                solicitud.Quantity,
-                                notas,
-                                hoy);
-
-                            stockDespues = nuevoStock;
-
-                            movimientos.Add(CrearMovimiento(
-                                producto.ProductId,
-                                tipo,
-                                solicitud.Quantity,
-                                stockAntes,
-                                stockDespues,
-                                lote,
-                                notas));
-                        }
-                    }
+                    movimientos.Add(CrearMovimiento(
+                        producto.ProductId,
+                        tipo,
+                        solicitud.Quantity,
+                        stockAntes,
+                        stockDespues,
+                        lote,
+                        notas));
                 }
 
                 // ----------------------------------------------------
@@ -816,8 +794,7 @@ namespace Ocean_Desk_dv.Services.Repository
                             "La operación supera las existencias registradas.");
                     }
 
-                    if (cantidadAConsumir <= 0m &&
-                        !ajusteSoloStockMinimo)
+                    if (cantidadAConsumir <= 0m)
                     {
                         return ResultadoOperacionDto.Fallido(
                             "La cantidad del movimiento debe ser mayor que cero.");
@@ -891,15 +868,14 @@ namespace Ocean_Desk_dv.Services.Repository
                             "No fue posible alcanzar el stock final solicitado.");
                     }
 
-                    // Salvaguarda para evitar que una rama produzca negativos.
+                    // Salvaguarda para evitar existencias negativas.
                     if (stockDespues < 0m)
                     {
                         return ResultadoOperacionDto.Fallido(
                             "La operación produciría existencias negativas.");
                     }
 
-                    // Las variables se conservan para distinguir con claridad
-                    // los casos de salida y pérdida en futuras ampliaciones.
+                    // Se conserva la distinción entre salida y pérdida.
                     _ = esPerdida;
                 }
 
@@ -939,10 +915,25 @@ namespace Ocean_Desk_dv.Services.Repository
                 _context.SaveChanges();
                 transaccion.Commit();
 
-                return ResultadoOperacionDto.Correcto(
-                    $"Movimiento registrado correctamente. " +
-                    $"Stock anterior: {stockAntes:0.####}; " +
-                    $"stock actual: {stockDespues:0.####}.");
+                string mensajeExito;
+
+                if (ajusteSoloStockMinimo)
+                {
+                    mensajeExito =
+                        "Stock mínimo actualizado correctamente. " +
+                        $"Stock actual: {stockDespues:0.####}; " +
+                        $"nuevo stock mínimo: " +
+                        $"{solicitud.MinimumStock!.Value:0.####}.";
+                }
+                else
+                {
+                    mensajeExito =
+                        "Movimiento registrado correctamente. " +
+                        $"Stock anterior: {stockAntes:0.####}; " +
+                        $"stock actual: {stockDespues:0.####}.";
+                }
+
+                return ResultadoOperacionDto.Correcto(mensajeExito);
             }
             catch (Exception ex)
             {
