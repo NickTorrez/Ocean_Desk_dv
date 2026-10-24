@@ -75,74 +75,6 @@ namespace Ocean_Desk_dv.Presenters
 
             _view.PerdidaInventarioSolicitada +=
                 AlSolicitarPerdida;
-
-            _view.StockMinimoSolicitado += AlSolicitarStockMinimo;
-        }
-
-        /// <summary>
-        /// Configura el stock mínimo del ingrediente seleccionado.
-        /// </summary>
-        private void AlSolicitarStockMinimo(
-            object? sender,
-            EventArgs e)
-        {
-            EjecutarSeguro(() =>
-            {
-                ExistenciaInventarioDto? existencia =
-                    _view.ExistenciaSeleccionada;
-
-                if (existencia is null)
-                {
-                    _view.MostrarMensaje(
-                        "Seleccione un ingrediente de la tabla de existencias.",
-                        "Ingrediente no seleccionado",
-                        true);
-
-                    return;
-                }
-
-                decimal? nuevoMinimo =
-                    _view.SolicitarStockMinimo(existencia);
-
-                // Si el usuario cancela, no se guarda ningún cambio.
-                if (!nuevoMinimo.HasValue)
-                    return;
-
-                ResultadoOperacionDto resultado =
-                    _repository.ActualizarStockMinimo(
-                        existencia.ProductId,
-                        nuevoMinimo.Value);
-
-                string mensaje = resultado.Mensaje;
-
-                if (resultado.Exito)
-                {
-                    string nombre =
-                        CatalogoTraducciones.TraducirIngrediente(
-                            existencia.ProductCode,
-                            existencia.ProductName);
-
-                    string unidad =
-                        CatalogoTraducciones.TraducirUnidad(
-                            null,
-                            existencia.UnitName);
-
-                    mensaje =
-                        $"Stock mínimo de {nombre} actualizado a " +
-                        $"{nuevoMinimo.Value:0.####} {unidad}.";
-                }
-
-                _view.MostrarMensaje(
-                    mensaje,
-                    resultado.Exito
-                        ? "Stock mínimo actualizado"
-                        : "No se pudo actualizar el stock mínimo",
-                    !resultado.Exito);
-
-                // Recalcula el estado y refresca la tabla de existencias.
-                if (resultado.Exito)
-                    ActualizarExistencias();
-            });
         }
 
         /// <summary>
@@ -305,7 +237,8 @@ namespace Ocean_Desk_dv.Presenters
                             $"Entrada registrada correctamente para " +
                             $"{nombrePresentacion} ({resultado.ProductCode}).\n" +
                             $"Cantidad añadida: {captura.Quantity:0.####} " +
-                            $"{unidadPresentacion}.";
+                            $"\nStock mínimo configurado: " +
+                            $"{captura.MinimumStock:0.####} {unidadPresentacion}.";
                     }
                     else
                     {
@@ -313,7 +246,8 @@ namespace Ocean_Desk_dv.Presenters
                             $"Ingrediente {nombrePresentacion} registrado " +
                             $"correctamente con código {resultado.ProductCode}.\n" +
                             $"Stock inicial: {captura.Quantity:0.####} " +
-                            $"{unidadPresentacion}.";
+                            $"\nStock mínimo configurado: " +
+                            $"{captura.MinimumStock:0.####} {unidadPresentacion}.";
                     }
                 }
 
@@ -377,6 +311,7 @@ namespace Ocean_Desk_dv.Presenters
                     ProductId = captura.ProductId,
                     MovementType = tipoMovimiento,
                     Quantity = captura.Quantity,
+                    MinimumStock = captura.MinimumStock,
                     LotCode = captura.LotCode,
                     ExpirationDate = captura.ExpirationDate,
                     Notes = captura.Notes
@@ -424,6 +359,15 @@ namespace Ocean_Desk_dv.Presenters
                         solicitud.Quantity > producto.CurrentStock &&
                         solicitud.ExpirationDate.HasValue)
                     {
+                        if (tipoMovimiento == TiposMovimientoInventario.Ajuste &&
+                        solicitud.MinimumStock.HasValue)
+                        {
+                            mensajeResultado +=
+                                $"\nStock mínimo configurado: " +
+                                $"{solicitud.MinimumStock.Value:0.####} " +
+                                $"{unidadPresentacion}.";
+                        }
+
                         mensajeResultado +=
                             $"\nEl lote incorporado tiene vencimiento " +
                             $"{solicitud.ExpirationDate.Value:dd/MM/yyyy}.";
@@ -493,8 +437,6 @@ namespace Ocean_Desk_dv.Presenters
             _view.AjusteInventarioSolicitado -= AlSolicitarAjuste;
 
             _view.PerdidaInventarioSolicitada -= AlSolicitarPerdida;
-
-            _view.StockMinimoSolicitado -= AlSolicitarStockMinimo;
 
             _repository.Dispose();
             _disposed = true;

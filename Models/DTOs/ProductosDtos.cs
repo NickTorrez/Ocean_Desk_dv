@@ -163,6 +163,11 @@ public sealed class IngredienteSelectorDto
 
     /// <summary>Texto preparado para mostrarse en un ComboBox.</summary>
     public string TextoMostrar => $"{ProductName} ({UnitCode})";
+
+    /// <summary>
+    /// Umbral de stock mínimo configurado para el ingrediente.
+    /// </summary>
+    public decimal MinimumStock { get; init; }
 }
 
 /// <summary>

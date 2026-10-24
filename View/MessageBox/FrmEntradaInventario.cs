@@ -122,6 +122,16 @@ namespace Ocean_Desk_dv.View.MessageBox
             nudCantidad.ThousandsSeparator = true;
             nudCantidad.Value = 1m;
 
+            // El stock mínimo puede ser cero y admite hasta cuatro decimales.
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Minimum = 0m;
+            nudStockMinimo.Maximum = CantidadMaxima;
+            nudStockMinimo.Increment = 0.1m;
+            nudStockMinimo.ThousandsSeparator = true;
+            nudStockMinimo.Value = 0m;
+
+            lblStockMinimo.Text = "Stock mínimo";
+
             dtpVencimiento.Format = DateTimePickerFormat.Short;
             dtpVencimiento.ShowCheckBox = true;
             dtpVencimiento.MinDate = DateTime.Today;
@@ -173,6 +183,12 @@ namespace Ocean_Desk_dv.View.MessageBox
 
                 cmbUnidadMedida.Enabled = false;
 
+                nudStockMinimo.Value = Math.Max(
+                nudStockMinimo.Minimum,
+                Math.Min(
+                    nudStockMinimo.Maximum,
+                    _ingredienteExistente.MinimumStock));
+
                 if (_ingredienteExistente.UnitOfMeasureId.HasValue)
                 {
                     cmbUnidadMedida.SelectedValue =
@@ -194,7 +210,10 @@ namespace Ocean_Desk_dv.View.MessageBox
             // No conservar la unidad del producto anterior cuando
             // el usuario empieza a escribir un ingrediente nuevo.
             if (eraExistente)
+            {
                 cmbUnidadMedida.SelectedIndex = -1;
+                nudStockMinimo.Value = 0m;
+            }
         }
 
         private void FormatearUnidad(
@@ -271,6 +290,20 @@ namespace Ocean_Desk_dv.View.MessageBox
                 return;
             }
 
+            if (nudStockMinimo.Value < 0m ||
+            nudStockMinimo.Value > CantidadMaxima ||
+            nudStockMinimo.Value != decimal.Round(
+                nudStockMinimo.Value, 4))
+            {
+                MostrarAdvertencia(
+                    "El stock mínimo debe estar entre cero y el máximo permitido, " +
+                    "con un máximo de cuatro decimales.",
+                    "Stock mínimo inválido");
+
+                nudStockMinimo.Focus();
+                return;
+            }
+
             if (dtpVencimiento.Checked &&
                 dtpVencimiento.Value.Date < DateTime.Today)
             {
@@ -324,6 +357,7 @@ namespace Ocean_Desk_dv.View.MessageBox
              $"Código: {codigoMostrar}\n" +
              $"Unidad de medida: {unidadPresentacion}\n" +
              $"Cantidad: {nudCantidad.Value:0.####} {unidadNombre}\n" +
+             $"Stock mínimo: {nudStockMinimo.Value:0.####} {unidadNombre}\n" +
              $"Vencimiento: " +
              $"{(vencimiento.HasValue ? vencimiento.Value.ToString("dd/MM/yyyy") : "Sin fecha")}";
 
@@ -341,6 +375,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                 ProductName = nombre,
                 UnitOfMeasureId = unidad.UnitOfMeasureId,
                 Quantity = nudCantidad.Value,
+                MinimumStock = nudStockMinimo.Value,
                 ExpirationDate = vencimiento,
                 Notes = string.IsNullOrWhiteSpace(txtObservaciones.Text)
                     ? null

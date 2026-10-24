@@ -48,7 +48,8 @@
             lblVencimiento = new Label();
             pnlInputCantidad = new Panel();
             nudCantidad = new NumericUpDown();
-            pnlInputCodigo = new Panel();
+            pnlInputStockMin = new Panel();
+            nudStockMinimo = new NumericUpDown();
             pnlInputVencimiento = new Panel();
             dtpVencimiento = new DateTimePicker();
             pnlInputObservaciones = new Panel();
@@ -60,7 +61,6 @@
             btnCancelar = new Button();
             pnlGuardar = new Panel();
             btnConfirmar = new Button();
-            nudStockMinimo = new NumericUpDown();
             pnlDatosLote.SuspendLayout();
             pnlInfoContainer.SuspendLayout();
             tlpProducto.SuspendLayout();
@@ -72,14 +72,14 @@
             pnlLabelVenicmiento.SuspendLayout();
             pnlInputCantidad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
-            pnlInputCodigo.SuspendLayout();
+            pnlInputStockMin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             pnlInputVencimiento.SuspendLayout();
             pnlInputObservaciones.SuspendLayout();
             pnlFooter.SuspendLayout();
             tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             SuspendLayout();
             // 
             // pnlDatosLote
@@ -213,7 +213,7 @@
             tlpInputInfo.Controls.Add(pnlLableCantidad, 0, 0);
             tlpInputInfo.Controls.Add(pnlLabelVenicmiento, 1, 2);
             tlpInputInfo.Controls.Add(pnlInputCantidad, 0, 1);
-            tlpInputInfo.Controls.Add(pnlInputCodigo, 0, 3);
+            tlpInputInfo.Controls.Add(pnlInputStockMin, 0, 3);
             tlpInputInfo.Controls.Add(pnlInputVencimiento, 1, 3);
             tlpInputInfo.Dock = DockStyle.Fill;
             tlpInputInfo.Location = new Point(15, 5);
@@ -311,15 +311,27 @@
             nudCantidad.TabIndex = 0;
             nudCantidad.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
-            // pnlInputCodigo
+            // pnlInputStockMin
             // 
-            pnlInputCodigo.Controls.Add(nudStockMinimo);
-            pnlInputCodigo.Dock = DockStyle.Fill;
-            pnlInputCodigo.Location = new Point(3, 115);
-            pnlInputCodigo.Name = "pnlInputCodigo";
-            pnlInputCodigo.Padding = new Padding(5, 8, 5, 0);
-            pnlInputCodigo.Size = new Size(328, 44);
-            pnlInputCodigo.TabIndex = 10;
+            pnlInputStockMin.Controls.Add(nudStockMinimo);
+            pnlInputStockMin.Dock = DockStyle.Fill;
+            pnlInputStockMin.Location = new Point(3, 115);
+            pnlInputStockMin.Name = "pnlInputStockMin";
+            pnlInputStockMin.Padding = new Padding(5, 8, 5, 0);
+            pnlInputStockMin.Size = new Size(328, 44);
+            pnlInputStockMin.TabIndex = 10;
+            // 
+            // nudStockMinimo
+            // 
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Dock = DockStyle.Fill;
+            nudStockMinimo.Location = new Point(5, 8);
+            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudStockMinimo.Name = "nudStockMinimo";
+            nudStockMinimo.Size = new Size(318, 26);
+            nudStockMinimo.TabIndex = 1;
+            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // pnlInputVencimiento
             // 
@@ -451,18 +463,6 @@
             btnConfirmar.Text = "GUARDAR";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
-            // nudStockMinimo
-            // 
-            nudStockMinimo.DecimalPlaces = 4;
-            nudStockMinimo.Dock = DockStyle.Fill;
-            nudStockMinimo.Location = new Point(5, 8);
-            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
-            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nudStockMinimo.Name = "nudStockMinimo";
-            nudStockMinimo.Size = new Size(318, 26);
-            nudStockMinimo.TabIndex = 1;
-            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
             // FrmMovimientoInventario
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -492,7 +492,8 @@
             pnlLabelVenicmiento.ResumeLayout(false);
             pnlInputCantidad.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
-            pnlInputCodigo.ResumeLayout(false);
+            pnlInputStockMin.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             pnlInputVencimiento.ResumeLayout(false);
             pnlInputObservaciones.ResumeLayout(false);
             pnlInputObservaciones.PerformLayout();
@@ -500,7 +501,6 @@
             tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             ResumeLayout(false);
         }
 
@@ -526,7 +526,7 @@
         private Label lblVencimiento;
         private Label lblObservaciones;
         private Panel pnlInputCantidad;
-        private Panel pnlInputCodigo;
+        private Panel pnlInputStockMin;
         private Panel pnlInputVencimiento;
         private Panel pnlInputObservaciones;
         private TextBox txtObservaciones;

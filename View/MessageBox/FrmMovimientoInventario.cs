@@ -131,8 +131,17 @@ namespace Ocean_Desk_dv.View.MessageBox
             dtpVencimiento.Value = DateTime.Today;
             dtpVencimiento.Checked = false;
 
-            txtCodigoLote.MaxLength = 50;
-            txtCodigoLote.CharacterCasing = CharacterCasing.Upper;
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Minimum = 0m;
+            nudStockMinimo.Maximum = StockMaximo;
+            nudStockMinimo.Increment = 0.1m;
+            nudStockMinimo.ThousandsSeparator = true;
+
+            nudStockMinimo.Value = Math.Max(
+                nudStockMinimo.Minimum,
+                Math.Min(
+                    nudStockMinimo.Maximum,
+                    _producto.MinimumStock));
 
             txtObservaciones.MaxLength = 500;
             txtObservaciones.Multiline = true;
@@ -229,45 +238,35 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
 
         /// <summary>
-        /// Determina cuándo deben mostrarse los campos de lote y vencimiento.
-        /// Ajusta las filas del TableLayoutPanel para no dejar espacios vacíos.
+        /// El stock mínimo aparece en todas las operaciones.
+        /// Solo se permite editarlo en un ajuste.
+        /// El vencimiento aplica cuando el ajuste incrementa el stock.
         /// </summary>
         private void ActualizarDisponibilidadCamposLote()
         {
-            bool esAjuste = _tipoMovimiento == TiposMovimientoInventario.Ajuste;
+            bool esAjuste =
+                _tipoMovimiento == TiposMovimientoInventario.Ajuste;
 
-            bool permiteDatosLote =
+            bool requiereVencimiento =
                 esAjuste &&
                 nudCantidad.Value > _producto.CurrentStock;
 
-            // Ajuste conserva todas las filas del formulario.
-            // Salida y pérdida no muestran los campos de lote.
-            ConfigurarVisibilidadDatosLote(esAjuste);
+            // Mantener visible el stock mínimo.
+            pnlLabelCodigo.Visible = true;
+            pnlInputStockMin.Visible = true;
 
-            // Habilita los controles cuando corresponda.
-            txtCodigoLote.Enabled = permiteDatosLote;
-            lblStockMinimo.Enabled = permiteDatosLote;
+            lblStockMinimo.Text = "Stock mínimo";
+            nudStockMinimo.Enabled = esAjuste;
 
-            dtpVencimiento.Enabled = permiteDatosLote;
-            lblVencimiento.Enabled = permiteDatosLote;
+            // La fecha solo se utiliza cuando se incorporan existencias.
+            pnlLabelVenicmiento.Visible = requiereVencimiento;
+            pnlInputVencimiento.Visible = requiereVencimiento;
 
-            // Evita enviar accidentalmente datos de lote en una reducción de stock.
-            if (!permiteDatosLote)
-            {
-                txtCodigoLote.Clear();
+            lblVencimiento.Enabled = requiereVencimiento;
+            dtpVencimiento.Enabled = requiereVencimiento;
+
+            if (!requiereVencimiento)
                 dtpVencimiento.Checked = false;
-            }
-
-            if (esAjuste && !permiteDatosLote)
-            {
-                lblStockMinimo.Text = "Código de lote (no aplica)";
-                lblVencimiento.Text = "Vencimiento (no aplica)";
-            }
-            else
-            {
-                lblStockMinimo.Text = "Código de lote (opcional)";
-                lblVencimiento.Text = "Fecha de vencimiento (opcional)";
-            }
         }
 
         /// <summary>
@@ -284,7 +283,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                 pnlLabelCodigo.Visible = mostrar;
                 pnlLabelVenicmiento.Visible = mostrar;
 
-                pnlInputCodigo.Visible = mostrar;
+                pnlInputStockMin.Visible = mostrar;
                 pnlInputVencimiento.Visible = mostrar;
 
                 if (mostrar)
@@ -337,24 +336,26 @@ namespace Ocean_Desk_dv.View.MessageBox
             _tipoMovimiento == TiposMovimientoInventario.Ajuste &&
             nudCantidad.Value > _producto.CurrentStock;
 
-            string? codigoLote = null;
             DateOnly? vencimiento = null;
 
-            if (incrementaStock)
+            if (incrementaStock &&
+                !ValidarVencimiento(out vencimiento))
             {
-                if (!ValidarCodigoLote(out codigoLote))
-                    return;
-
-                if (!ValidarVencimiento(out vencimiento))
-                    return;
+                return;
             }
 
-            // Los ajustes que no cambian el stock no deben generar movimiento.
+            bool mismoStock = nudCantidad.Value == _producto.CurrentStock;
+
+            bool mismoMinimo =
+                nudStockMinimo.Value == _producto.MinimumStock;
+
             if (_tipoMovimiento == TiposMovimientoInventario.Ajuste &&
-                nudCantidad.Value == _producto.CurrentStock)
+                mismoStock &&
+                mismoMinimo)
             {
                 MostrarMensaje(
-                    "El stock indicado coincide con el actual. No se requiere un ajuste.",
+                    "El stock y el stock mínimo coinciden con los valores actuales. " +
+                    "No hay cambios que guardar.",
                     "Ajuste innecesario",
                     MessageType.Warning);
 
@@ -371,7 +372,11 @@ namespace Ocean_Desk_dv.View.MessageBox
                 ProductId = _producto.ProductId,
                 MovementType = _tipoMovimiento,
                 Quantity = nudCantidad.Value,
-                LotCode = codigoLote,
+                LotCode = null,
+                MinimumStock =
+                _tipoMovimiento == TiposMovimientoInventario.Ajuste
+                    ? nudStockMinimo.Value
+                    : null,
                 ExpirationDate = vencimiento,
                 Notes = string.IsNullOrWhiteSpace(txtObservaciones.Text)
                     ? null
@@ -482,110 +487,6 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
 
         /// <summary>
-        /// Valida el código de lote. Si se introduce, debe respetar
-        /// los prefijos de productos autorizados y estar asociado al producto.
-        ///
-        /// Ejemplo para el producto INS-001:
-        /// INS-001-LOT01
-        /// </summary>
-        private bool ValidarCodigoLote(out string? codigoNormalizado)
-        {
-            codigoNormalizado = null;
-
-            string codigo = txtCodigoLote.Text.Trim()
-                .ToUpperInvariant();
-
-            // El código de lote es opcional.
-            if (string.IsNullOrWhiteSpace(codigo))
-                return true;
-
-            if (codigo.Length > 50)
-            {
-                MostrarMensaje(
-                    "El código de lote no puede superar los 50 caracteres.",
-                    "Código de lote inválido",
-                    MessageType.Warning);
-
-                txtCodigoLote.Focus();
-                return false;
-            }
-
-            string codigoProducto =
-                _producto.ProductCode.Trim().ToUpperInvariant();
-
-            string[] partesProducto = codigoProducto.Split('-');
-
-            // Valida que el código del producto respete AAA-000 y
-            // utilice un prefijo definido en FrmProductos.
-            if (partesProducto.Length != 2 ||
-                partesProducto[0].Length != 3 ||
-                !PrefijosProductoPermitidos.Contains(partesProducto[0]) ||
-                !Regex.IsMatch(
-                    codigoProducto,
-                    @"^[A-Z]{3}-\d{3}$"))
-            {
-                MostrarMensaje(
-                    "El código del producto seleccionado no cumple el formato " +
-                    "autorizado AAA-000. Revise el catálogo de productos.",
-                    "Código de producto inválido",
-                    MessageType.Error);
-
-                return false;
-            }
-
-            // Formato del lote: AAA-000-LOTE01.
-            // El sufijo admite letras, números y segmentos separados por guiones.
-            bool formatoValido = Regex.IsMatch(
-                codigo,
-                @"^[A-Z]{3}-\d{3}-[A-Z0-9]{2,20}(-[A-Z0-9]{1,20})*$");
-
-            if (!formatoValido)
-            {
-                MostrarMensaje(
-                    "El código de lote debe respetar el formato " +
-                    "AAA-000-LOTE01. Ejemplo: INS-001-LOT01.",
-                    "Formato de lote inválido",
-                    MessageType.Warning);
-
-                txtCodigoLote.Focus();
-                return false;
-            }
-
-            string prefijo = codigo[..3];
-
-            if (!PrefijosProductoPermitidos.Contains(prefijo))
-            {
-                MostrarMensaje(
-                    $"El prefijo '{prefijo}' no está autorizado en Ocean Desk.",
-                    "Prefijo de lote inválido",
-                    MessageType.Warning);
-
-                txtCodigoLote.Focus();
-                return false;
-            }
-
-            // Obliga a que el lote pertenezca al código del producto seleccionado.
-            string inicioEsperado = codigoProducto + "-";
-
-            if (!codigo.StartsWith(
-                inicioEsperado,
-                StringComparison.OrdinalIgnoreCase))
-            {
-                MostrarMensaje(
-                    $"El código del lote debe comenzar con '{inicioEsperado}'. " +
-                    "Esto permite identificar el producto al que pertenece.",
-                    "Lote asociado a otro producto",
-                    MessageType.Warning);
-
-                txtCodigoLote.Focus();
-                return false;
-            }
-
-            codigoNormalizado = codigo;
-            return true;
-        }
-
-        /// <summary>
         /// Valida la fecha de vencimiento cuando el usuario decide especificarla.
         /// </summary>
         private bool ValidarVencimiento(out DateOnly? vencimiento)
@@ -676,11 +577,11 @@ namespace Ocean_Desk_dv.View.MessageBox
                     "al lote que recibe el incremento. Los lotes anteriores " +
                     "conservan sus fechas de vencimiento.";
 
-                if (string.IsNullOrWhiteSpace(txtCodigoLote.Text))
+                if (esAjusteAscendente)
                 {
                     mensaje +=
-                        "\nComo no se indicó un código de lote, el incremento " +
-                        "se registrará en un lote independiente.";
+                        "\nEl incremento se registrará en un lote independiente " +
+                        "sin necesidad de introducir un código de lote manual.";
                 }
 
                 if (_producto.ExpirationDate.HasValue)
@@ -693,6 +594,12 @@ namespace Ocean_Desk_dv.View.MessageBox
                 mensaje +=
                     "\nLa tabla de existencias muestra el vencimiento más próximo " +
                     "entre los lotes que aún tienen saldo.";
+            }
+            else
+            {
+                detalle +=
+                $"\nStock mínimo configurado: {nudStockMinimo.Value:0.####} " +
+                $"{nombreUnidad}.";
             }
 
             if (vencimiento.HasValue)

@@ -38,6 +38,9 @@
             pnlVencimiento = new Panel();
             dtpVencimiento = new DateTimePicker();
             lblVencimiento = new Label();
+            panel1 = new Panel();
+            nudStockMinimo = new NumericUpDown();
+            lblStockMinimo = new Label();
             pnlCantidad = new Panel();
             nudCantidad = new NumericUpDown();
             lblCantidad = new Label();
@@ -58,13 +61,12 @@
             btnCancelar = new Button();
             pnlGuardar = new Panel();
             btnConfirmar = new Button();
-            panel1 = new Panel();
-            nudStockMinimo = new NumericUpDown();
-            lblStockMinimo = new Label();
             pnlHeader.SuspendLayout();
             pnlContainer.SuspendLayout();
             pnlObservaciones.SuspendLayout();
             pnlVencimiento.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             pnlCantidad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             pnlUnidadMedida.SuspendLayout();
@@ -74,8 +76,6 @@
             tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             SuspendLayout();
             // 
             // pnlHeader
@@ -190,6 +190,39 @@
             lblVencimiento.Size = new Size(646, 25);
             lblVencimiento.TabIndex = 0;
             lblVencimiento.Text = "Fecha de Vencimiento (Opcional)";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(nudStockMinimo);
+            panel1.Controls.Add(lblStockMinimo);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(5, 285);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(17, 15, 17, 15);
+            panel1.Size = new Size(680, 70);
+            panel1.TabIndex = 12;
+            // 
+            // nudStockMinimo
+            // 
+            nudStockMinimo.DecimalPlaces = 4;
+            nudStockMinimo.Dock = DockStyle.Left;
+            nudStockMinimo.Location = new Point(17, 40);
+            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudStockMinimo.Name = "nudStockMinimo";
+            nudStockMinimo.Size = new Size(420, 26);
+            nudStockMinimo.TabIndex = 1;
+            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblStockMinimo
+            // 
+            lblStockMinimo.Dock = DockStyle.Top;
+            lblStockMinimo.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStockMinimo.Location = new Point(17, 15);
+            lblStockMinimo.Name = "lblStockMinimo";
+            lblStockMinimo.Size = new Size(646, 25);
+            lblStockMinimo.TabIndex = 0;
+            lblStockMinimo.Text = "Stock Minimo para el Ingrediente";
             // 
             // pnlCantidad
             // 
@@ -411,39 +444,6 @@
             btnConfirmar.Text = "REGISTRAR ENTRADA";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
-            // panel1
-            // 
-            panel1.Controls.Add(nudStockMinimo);
-            panel1.Controls.Add(lblStockMinimo);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(5, 285);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(17, 15, 17, 15);
-            panel1.Size = new Size(680, 70);
-            panel1.TabIndex = 12;
-            // 
-            // nudStockMinimo
-            // 
-            nudStockMinimo.DecimalPlaces = 4;
-            nudStockMinimo.Dock = DockStyle.Left;
-            nudStockMinimo.Location = new Point(17, 40);
-            nudStockMinimo.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
-            nudStockMinimo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nudStockMinimo.Name = "nudStockMinimo";
-            nudStockMinimo.Size = new Size(420, 26);
-            nudStockMinimo.TabIndex = 1;
-            nudStockMinimo.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // lblStockMinimo
-            // 
-            lblStockMinimo.Dock = DockStyle.Top;
-            lblStockMinimo.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblStockMinimo.Location = new Point(17, 15);
-            lblStockMinimo.Name = "lblStockMinimo";
-            lblStockMinimo.Size = new Size(646, 25);
-            lblStockMinimo.TabIndex = 0;
-            lblStockMinimo.Text = "Stock Minimo para el Ingrediente";
-            // 
             // FrmEntradaInventario
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -464,6 +464,8 @@
             pnlObservaciones.ResumeLayout(false);
             pnlObservaciones.PerformLayout();
             pnlVencimiento.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             pnlCantidad.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             pnlUnidadMedida.ResumeLayout(false);
@@ -475,8 +477,6 @@
             tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             ResumeLayout(false);
         }
 

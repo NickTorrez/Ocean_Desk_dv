@@ -177,6 +177,10 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvMovimientos.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 
+            colStockActual.DefaultCellStyle.Format = "#,##0.####";
+            colStockMinimo.DefaultCellStyle.Format = "#,##0.####";
+            colCantidadMov.DefaultCellStyle.Format = "#,##0.####";
+
             // Corrige el nombre de propiedad que tenía un error tipográfico
             // en el diseñador: MovementDataTime frente a MovementDateTime.
             colFechaMov.DataPropertyName =

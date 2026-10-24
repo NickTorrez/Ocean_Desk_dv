@@ -485,6 +485,28 @@ namespace Ocean_Desk_dv.Services.Repository
                     "El tipo de movimiento no está permitido para el registro manual.");
             }
 
+            if (solicitud.MinimumStock.HasValue)
+            {
+                // Solo Entrada y Ajuste pueden modificar el stock mínimo.
+                if (tipo != TiposMovimientoInventario.Entrada &&
+                    tipo != TiposMovimientoInventario.Ajuste)
+                {
+                    return ResultadoOperacionDto.Fallido(
+                        "Solo una entrada o un ajuste puede modificar el stock mínimo.");
+                }
+
+                decimal minimo = solicitud.MinimumStock.Value;
+
+                if (minimo < 0m ||
+                    minimo > StockMaximo ||
+                    decimal.Round(minimo, 4) != minimo)
+                {
+                    return ResultadoOperacionDto.Fallido(
+                        "El stock mínimo debe estar entre cero y el máximo permitido, " +
+                        "con un máximo de cuatro decimales.");
+                }
+            }
+
             bool esAjuste =
                 tipo == TiposMovimientoInventario.Ajuste;
 
@@ -620,16 +642,43 @@ namespace Ocean_Desk_dv.Services.Repository
                         "Debe revisarse antes de continuar.");
                 }
 
-                // Un ajuste que no modifica el saldo no debe generar movimientos.
+                bool ajusteSoloStockMinimo =
+                esAjuste &&
+                solicitud.Quantity == stockAntes &&
+                solicitud.MinimumStock.HasValue &&
+                solicitud.MinimumStock.Value !=
+                    (inventario?.MinimumStock ?? 0m);
+
                 if (esAjuste &&
-                    solicitud.Quantity == stockAntes)
+                    solicitud.Quantity == stockAntes &&
+                    !ajusteSoloStockMinimo)
                 {
                     return ResultadoOperacionDto.Fallido(
-                        "El stock indicado coincide con el actual. No se requiere un ajuste.");
+                        "El stock indicado coincide con el actual y no hay " +
+                        "un cambio de stock mínimo que guardar.");
                 }
 
                 var movimientos = new List<InventoryMovement>();
                 decimal stockDespues = stockAntes;
+
+                if (ajusteSoloStockMinimo)
+                {
+                    // No se modifican lotes ni stock.
+                    // El nuevo mínimo se guardará más abajo.
+                }
+                else if (tipo == TiposMovimientoInventario.Entrada)
+                {
+                    // Conserva aquí el bloque actual de ENTRADA.
+                }
+                else if (esAjuste && solicitud.Quantity > stockAntes)
+                {
+                    // Conserva aquí el bloque actual de AJUSTE ASCENDENTE.
+                }
+                else
+                {
+                    // Conserva aquí el bloque actual de SALIDA,
+                    // PÉRDIDA Y AJUSTE DESCENDENTE.
+                }
 
                 // ----------------------------------------------------
                 // ENTRADA
@@ -811,7 +860,7 @@ namespace Ocean_Desk_dv.Services.Repository
                     {
                         ProductId = producto.ProductId,
                         CurrentStock = stockDespues,
-                        MinimumStock = 0m,
+                        MinimumStock = solicitud.MinimumStock ?? 0m,
                         UpdatedAt = DateTime.Now,
                         Product = producto
                     };
@@ -822,6 +871,13 @@ namespace Ocean_Desk_dv.Services.Repository
                 else
                 {
                     inventario.CurrentStock = stockDespues;
+
+                    if (solicitud.MinimumStock.HasValue)
+                    {
+                        inventario.MinimumStock =
+                            solicitud.MinimumStock.Value;
+                    }
+
                     inventario.UpdatedAt = DateTime.Now;
                 }
 
@@ -1169,7 +1225,10 @@ namespace Ocean_Desk_dv.Services.Repository
                     ProductName = p.ProductName,
                     UnitOfMeasureId = p.UnitOfMeasureId,
                     UnitCode = p.UnitOfMeasure!.UnitCode,
-                    UnitName = p.UnitOfMeasure.UnitName
+                    UnitName = p.UnitOfMeasure.UnitName,
+                    MinimumStock = p.Inventory != null
+                    ? p.Inventory.MinimumStock
+                    : 0m
                 })
                 .ToList();
         }
@@ -1244,6 +1303,15 @@ namespace Ocean_Desk_dv.Services.Repository
                     "La cantidad debe ser positiva y admitir como máximo cuatro decimales.");
             }
 
+            if (solicitud.MinimumStock < 0m ||
+            solicitud.MinimumStock > StockMaximo ||
+            decimal.Round(solicitud.MinimumStock, 4) != solicitud.MinimumStock)
+            {
+                return ResultadoEntradaIngredienteDto.Fallido(
+                    "El stock mínimo debe ser igual o mayor que cero " +
+                    "y admitir como máximo cuatro decimales.");
+            }
+
             if ((notas?.Length ?? 0) > 250)
             {
                 return ResultadoEntradaIngredienteDto.Fallido(
@@ -1291,6 +1359,7 @@ namespace Ocean_Desk_dv.Services.Repository
                         ProductId = existente.ProductId,
                         MovementType = TiposMovimientoInventario.Entrada,
                         Quantity = solicitud.Quantity,
+                        MinimumStock = solicitud.MinimumStock,
                         LotCode = null,
                         ExpirationDate = solicitud.ExpirationDate,
                         Notes = notas
@@ -1413,7 +1482,7 @@ namespace Ocean_Desk_dv.Services.Repository
                     ProductId = producto.ProductId,
                     Product = producto,
                     CurrentStock = solicitud.Quantity,
-                    MinimumStock = 0m,
+                    MinimumStock = solicitud.MinimumStock,
                     UpdatedAt = ahora
                 };
 

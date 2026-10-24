@@ -130,6 +130,8 @@ namespace Ocean_Desk_dv.Models.DTOs
         /// </summary>
         public decimal Quantity { get; init; }
 
+        public decimal? MinimumStock { get; init; }
+
         public string? LotCode { get; init; }
         public DateOnly? ExpirationDate { get; init; }
         public string? Notes { get; init; }
@@ -149,6 +151,8 @@ namespace Ocean_Desk_dv.Models.DTOs
         public int UnitOfMeasureId { get; init; }
 
         public decimal Quantity { get; init; }
+
+        public decimal MinimumStock { get; init; }
 
         public DateOnly? ExpirationDate { get; init; }
 
