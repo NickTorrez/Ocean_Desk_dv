@@ -211,7 +211,6 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "FrmMessageBox";
             TopMost = true;
-            Shown += FrmMessageBox_Shown;
             pnlHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picIcon).EndInit();
             pnlBody.ResumeLayout(false);

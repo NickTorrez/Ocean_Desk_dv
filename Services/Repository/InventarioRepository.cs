@@ -699,57 +699,47 @@ namespace Ocean_Desk_dv.Services.Repository
                 var movimientos = new List<InventoryMovement>();
                 decimal stockDespues = stockAntes;
 
-                if (ajusteSoloStockMinimo)
-                {
-                    // No se modifican lotes ni stock.
-                    // El nuevo mínimo se guardará más abajo.
-                }
-                else if (tipo == TiposMovimientoInventario.Entrada)
-                {
-                    // Conserva aquí el bloque actual de ENTRADA.
-                }
-                else if (esAjuste && solicitud.Quantity > stockAntes)
-                {
-                    // Conserva aquí el bloque actual de AJUSTE ASCENDENTE.
-                }
-                else
-                {
-                    // Conserva aquí el bloque actual de SALIDA,
-                    // PÉRDIDA Y AJUSTE DESCENDENTE.
-                }
-
                 // ----------------------------------------------------
                 // ENTRADA
                 // ----------------------------------------------------
                 if (tipo == TiposMovimientoInventario.Entrada)
                 {
-                    decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                    if (nuevoStock > StockMaximo)
+                    if (ajusteSoloStockMinimo)
                     {
-                        return ResultadoOperacionDto.Fallido(
-                            "La entrada supera el máximo de stock permitido.");
+                        // No se modifican lotes ni stock.
+                        // MinimumStock se actualizará más abajo.
                     }
+                    else if (tipo == TiposMovimientoInventario.Entrada)
+                    {
+                        decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                    InventoryLot lote = ObtenerOCrearLoteEntrada(
-                        producto,
-                        lotes,
-                        codigoLote,
-                        solicitud.ExpirationDate,
-                        solicitud.Quantity,
-                        notas,
-                        hoy);
+                        if (nuevoStock > StockMaximo)
+                        {
+                            return ResultadoOperacionDto.Fallido(
+                                "La entrada supera el máximo de stock permitido.");
+                        }
 
-                    stockDespues = nuevoStock;
+                        InventoryLot lote = ObtenerOCrearLoteEntrada(
+                            producto,
+                            lotes,
+                            codigoLote,
+                            solicitud.ExpirationDate,
+                            solicitud.Quantity,
+                            notas,
+                            hoy);
 
-                    movimientos.Add(CrearMovimiento(
-                        producto.ProductId,
-                        tipo,
-                        solicitud.Quantity,
-                        stockAntes,
-                        stockDespues,
-                        lote,
-                        notas));
+                        stockDespues = nuevoStock;
+
+                        movimientos.Add(CrearMovimiento(
+                            producto.ProductId,
+                            tipo,
+                            solicitud.Quantity,
+                            stockAntes,
+                            stockDespues,
+                            lote,
+                            notas));
+                    }
                 }
 
                 // ----------------------------------------------------
@@ -1022,7 +1012,7 @@ namespace Ocean_Desk_dv.Services.Repository
             var nuevoLote = new InventoryLot
             {
                 ProductId = producto.ProductId,
-                LotCode = codigoLote,
+                LotCode = codigoLote ?? $"AUTO-{Guid.NewGuid():N}",
                 ReceivedAt = DateTime.Now,
                 ExpirationDate = vencimiento,
                 InitialQuantity = cantidad,

@@ -572,13 +572,18 @@ namespace Ocean_Desk_dv.UI
                                 ? "Sin código"
                                 : lote.LotCode;
 
+                        string nombreIngrediente =
+                            CatalogoTraducciones.TraducirIngrediente(
+                                lote.ProductCode,
+                                lote.ProductName);
+
                         string unidad =
                             CatalogoTraducciones.TraducirUnidad(
                                 null,
                                 lote.UnitName);
 
                         mensaje.AppendLine(
-                            $"{lote.ProductCode} - {lote.ProductName}");
+                            $"{lote.ProductCode} - {nombreIngrediente}");
 
                         mensaje.AppendLine(
                             $"  Lote: {codigoLote}");
@@ -618,9 +623,10 @@ namespace Ocean_Desk_dv.UI
                     "existencias registradas.");
 
                 FrmMessageBox.Show(
-                    mensaje.ToString(),
-                    "Alertas de vencimiento de inventario",
-                    MessageType.Warning);
+                 mensaje.ToString(),
+                 "Alertas de vencimiento de inventario",
+                 MessageType.Warning,
+                 this);
             }
             catch (Exception ex)
             {

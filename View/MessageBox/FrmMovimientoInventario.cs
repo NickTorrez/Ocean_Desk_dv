@@ -556,6 +556,10 @@ namespace Ocean_Desk_dv.View.MessageBox
                         $"\nCantidad que se agregará: {incremento:0.####} " +
                         $"{nombreUnidad}.";
                 }
+
+                detalle +=
+                    $"\nStock mínimo configurado: " +
+                    $"{nudStockMinimo.Value:0.####} {nombreUnidad}.";
             }
             else
             {
@@ -594,12 +598,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                 mensaje +=
                     "\nLa tabla de existencias muestra el vencimiento más próximo " +
                     "entre los lotes que aún tienen saldo.";
-            }
-            else
-            {
-                detalle +=
-                $"\nStock mínimo configurado: {nudStockMinimo.Value:0.####} " +
-                $"{nombreUnidad}.";
+
             }
 
             if (vencimiento.HasValue)

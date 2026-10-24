@@ -113,15 +113,37 @@ namespace Ocean_Desk_dv.UI.MessageBox
                     break;
             }
         }
-        public static DialogResult Show(string message, string title, MessageType type)
+
+        public static DialogResult Show(
+        string message,
+        string title,
+        MessageType type)
         {
-            using (FrmMessageBox form = new FrmMessageBox(title, message, type))
+            return Show(message, title, type, null);
+        }
+
+        public static DialogResult Show(
+            string message,
+            string title,
+            MessageType type,
+            IWin32Window? owner)
+        {
+            using (FrmMessageBox form =
+                new FrmMessageBox(title, message, type))
             {
-                return form.ShowDialog();
+                // La ubicación se calculará después de ajustar el tamaño.
+                form.StartPosition = FormStartPosition.Manual;
+
+                form.AjustarTamanoAlMensaje(owner);
+                form.CentrarRespectoA(owner);
+
+                return owner is null
+                    ? form.ShowDialog()
+                    : form.ShowDialog(owner);
             }
         }
 
-        private void AjustarTamanoAlMensaje()
+        private void AjustarTamanoAlMensaje(IWin32Window? owner)
         {
             const int anchoFormulario = 460;
             const int anchoTexto = 400;
@@ -137,8 +159,7 @@ namespace Ocean_Desk_dv.UI.MessageBox
                 textoMedido.Height,
                 lblMessage.Font.Height + 4);
 
-            Rectangle areaTrabajo =
-                Screen.FromControl(this).WorkingArea;
+            Rectangle areaTrabajo = ObtenerAreaTrabajo(owner);
 
             int alturaMaxima = Math.Max(
                 AlturaMinima,
@@ -204,6 +225,72 @@ namespace Ocean_Desk_dv.UI.MessageBox
                     0,
                     altoTexto + pnlBody.Padding.Vertical)
                 : Size.Empty;
+
+            // Aplica la disposición final antes de mostrar el diálogo.
+            PerformLayout();
+        }
+
+        private static Rectangle ObtenerAreaTrabajo(
+    IWin32Window? owner)
+        {
+            if (owner is Control control &&
+                !control.IsDisposed &&
+                control.IsHandleCreated)
+            {
+                return Screen.FromControl(control).WorkingArea;
+            }
+
+            return Screen.PrimaryScreen?.WorkingArea
+                ?? SystemInformation.WorkingArea;
+        }
+
+        private void CentrarRespectoA(IWin32Window? owner)
+        {
+            Rectangle areaCentrada;
+
+            if (owner is Form formulario &&
+                !formulario.IsDisposed &&
+                formulario.IsHandleCreated)
+            {
+                // Centrar respecto al formulario propietario.
+                areaCentrada = formulario.Bounds;
+            }
+            else if (owner is Control control &&
+                     !control.IsDisposed &&
+                     control.IsHandleCreated)
+            {
+                // Para un control que no sea un formulario,
+                // utilizar su rectángulo de cliente en pantalla.
+                areaCentrada = control.RectangleToScreen(
+                    control.ClientRectangle);
+            }
+            else
+            {
+                // Sin propietario, centrar respecto a la pantalla.
+                areaCentrada = ObtenerAreaTrabajo(owner);
+            }
+
+            Rectangle areaTrabajo = ObtenerAreaTrabajo(owner);
+
+            int x = areaCentrada.Left
+                + (areaCentrada.Width - Width) / 2;
+
+            int y = areaCentrada.Top
+                + (areaCentrada.Height - Height) / 2;
+
+            // Evitar que el diálogo quede fuera del área de trabajo.
+            int maxX = Math.Max(
+                areaTrabajo.Left,
+                areaTrabajo.Right - Width);
+
+            int maxY = Math.Max(
+                areaTrabajo.Top,
+                areaTrabajo.Bottom - Height);
+
+            x = Math.Clamp(x, areaTrabajo.Left, maxX);
+            y = Math.Clamp(y, areaTrabajo.Top, maxY);
+
+            Location = new Point(x, y);
         }
         #endregion
 
@@ -234,15 +321,6 @@ namespace Ocean_Desk_dv.UI.MessageBox
             }
 
             Close();
-        }
-
-        private void FrmMessageBox_Shown(object sender, EventArgs e)
-        {
-            PerformLayout();
-
-            AjustarTamanoAlMensaje();
-
-            PerformLayout();
         }
         #endregion
     }
