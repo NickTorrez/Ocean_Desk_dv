@@ -376,6 +376,88 @@ namespace Ocean_Desk_dv.Services.Repository
         // ============================================================
 
         /// <summary>
+        /// Actualiza el umbral de stock mínimo de un ingrediente.
+        /// No modifica el stock actual, los lotes ni el historial de movimientos.
+        /// </summary>
+        public ResultadoOperacionDto ActualizarStockMinimo(
+            int productId,
+            decimal stockMinimo)
+        {
+            if (productId <= 0)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "Seleccione un ingrediente válido.");
+            }
+
+            if (stockMinimo < 0m || stockMinimo > StockMaximo)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "El stock mínimo debe estar entre cero y el máximo permitido.");
+            }
+
+            if (decimal.Round(stockMinimo, 4) != stockMinimo)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "El stock mínimo admite como máximo cuatro decimales.");
+            }
+
+            Product? producto = _context.Products.FirstOrDefault(p =>
+                p.ProductId == productId &&
+                p.ProductType == "Ingredient" &&
+                p.IsActive);
+
+            if (producto is null)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "El ingrediente no existe o está inactivo.");
+            }
+
+            try
+            {
+                Inventory? inventario = _context.Inventories
+                    .FirstOrDefault(i => i.ProductId == productId);
+
+                if (inventario is null)
+                {
+                    // Si el ingrediente todavía no tiene registro Inventory,
+                    // se crea con el stock que actualmente representa el sistema: cero.
+                    inventario = new Inventory
+                    {
+                        ProductId = producto.ProductId,
+                        Product = producto,
+                        CurrentStock = 0m,
+                        MinimumStock = stockMinimo,
+                        UpdatedAt = DateTime.Now
+                    };
+
+                    _context.Inventories.Add(inventario);
+                }
+                else
+                {
+                    // Solo cambia el umbral; el stock actual permanece intacto.
+                    inventario.MinimumStock = stockMinimo;
+                    inventario.UpdatedAt = DateTime.Now;
+                }
+
+                _context.SaveChanges();
+
+                return ResultadoOperacionDto.Correcto(
+                    "El stock mínimo se guardó correctamente.");
+            }
+            catch (DbUpdateException ex)
+            {
+                string detalle = ObtenerDetalleExcepcion(ex);
+
+                _context.ChangeTracker.Clear();
+
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
+                return ResultadoOperacionDto.Fallido(
+                    $"No se pudo guardar el stock mínimo. Detalle técnico: {detalle}");
+            }
+        }
+
+        /// <summary>
         /// Registra una entrada, salida, ajuste o pérdida.
         /// Actualiza los lotes, el saldo total y el historial dentro
         /// de una sola transacción.

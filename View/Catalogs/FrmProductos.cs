@@ -49,8 +49,20 @@ namespace Ocean_Desk_dv.View.Catalogs
         public FrmProductos()
         {
             InitializeComponent();
-            foreach (Label lbl in new[] { lblCodigo, lblNombre, lblCategoria, lblDescripcion, lblPrecio, lblUnidad, lblStockMinimo })
+            OcultarStockMinimoEnCatalogo();
+
+            foreach (Label lbl in new[]
+            {
+                lblCodigo,
+                lblNombre,
+                lblCategoria,
+                lblDescripcion,
+                lblPrecio,
+                lblUnidad
+            })
+            {
                 lbl.ForeColor = ColorTranslator.FromHtml("#6F7780");
+            }
 
             // Libera el Presenter y su repositorio cuando se destruye la vista.
             Disposed += (_, _) =>
@@ -60,8 +72,13 @@ namespace Ocean_Desk_dv.View.Catalogs
             };
 
             ConfigurarMascaraCodigo();
+
             AplicarEstiloGrid(dgvProductos);
             AplicarEstiloGrid(dgvReceta);
+
+            // Mostrar hasta cuatro decimales, sin rellenar ceros innecesarios.
+            colCantidadReceta.DefaultCellStyle.Format = "#,##0.####";
+
             PrepararEnlaces();
 
             // Configura cómo se seleccionan las líneas de receta.
@@ -73,6 +90,28 @@ namespace Ocean_Desk_dv.View.Catalogs
             // Los botones comienzan en el estado que corresponda
             // a la selección actual.
             ActualizarEstadoBotonesReceta();
+        }
+
+        /// <summary>
+        /// El stock mínimo se configura desde Inventario, no desde Productos.
+        /// Se colapsan sus dos filas para no dejar espacio vacío en el formulario.
+        /// </summary>
+        private void OcultarStockMinimoEnCatalogo()
+        {
+            pnlStockMinimo.Visible = false;
+            pnlInputStock.Visible = false;
+
+            // Son las filas 12 y 13 del TableLayoutPanel actual.
+            if (tlpInputProducto.RowStyles.Count > 13)
+            {
+                tlpInputProducto.RowStyles[12].SizeType =
+                    SizeType.Absolute;
+                tlpInputProducto.RowStyles[12].Height = 0;
+
+                tlpInputProducto.RowStyles[13].SizeType =
+                    SizeType.Absolute;
+                tlpInputProducto.RowStyles[13].Height = 0;
+            }
         }
 
         /// <summary>
@@ -235,8 +274,6 @@ namespace Ocean_Desk_dv.View.Catalogs
             txtDescripcion.Enabled = habilitar;
             cmbCategoria.Enabled = habilitar;
             nudPrecio.Enabled = habilitar;
-            cmbUnidad.Enabled = habilitar;
-            nudStockMinimo.Enabled = habilitar;
             chkDisponible.Enabled = habilitar;
             chkActivo.Enabled = habilitar;
             btnLimpiarProducto.Enabled = habilitar;
@@ -260,7 +297,6 @@ namespace Ocean_Desk_dv.View.Catalogs
                 cmbUnidad.SelectedIndex = 0;
 
             nudPrecio.Value = nudPrecio.Minimum;
-            nudStockMinimo.Value = nudStockMinimo.Minimum;
             chkDisponible.Checked = true;
             chkActivo.Checked = true;
         }

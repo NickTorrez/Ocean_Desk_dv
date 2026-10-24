@@ -40,6 +40,13 @@ namespace Ocean_Desk_dv.View.Interfaces
         void MostrarCategoriasInventario(IReadOnlyList<string> categorias);
 
         /// <summary>
+        /// Solicita un nuevo umbral de stock mínimo para el ingrediente.
+        /// Devuelve null si el usuario cancela.
+        /// </summary>
+        decimal? SolicitarStockMinimo(
+            ExistenciaInventarioDto existencia);
+
+        /// <summary>
         /// Abre el diálogo para registrar un movimiento sobre el ingrediente
         /// seleccionado. Devuelve null cuando no hay selección o se cancela.
         /// </summary>
@@ -77,5 +84,10 @@ namespace Ocean_Desk_dv.View.Interfaces
 
         /// <summary>Se produce cuando el usuario solicita registrar una pérdida.</summary>
         event EventHandler? PerdidaInventarioSolicitada;
+
+        /// <summary>
+        /// Se produce cuando el usuario solicita definir el stock mínimo.
+        /// </summary>
+        event EventHandler? StockMinimoSolicitado;
     }
 }

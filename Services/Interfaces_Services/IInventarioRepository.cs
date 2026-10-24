@@ -63,5 +63,13 @@ namespace Ocean_Desk_dv.Services.Interfaces_Services
         /// y registrar los movimientos dentro de una transacción.
         /// </summary>
         ResultadoOperacionDto RegistrarMovimiento(SolicitudMovimientoInventarioDto solicitud);
+
+        /// <summary>
+        /// Define el umbral de stock mínimo de un ingrediente
+        /// sin modificar su stock actual ni sus lotes.
+        /// </summary>
+        ResultadoOperacionDto ActualizarStockMinimo(
+            int productId,
+            decimal stockMinimo);
     }
 }
