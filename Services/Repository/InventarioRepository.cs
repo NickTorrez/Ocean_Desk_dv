@@ -720,25 +720,48 @@ namespace Ocean_Desk_dv.Services.Repository
                                 "La entrada supera el máximo de stock permitido.");
                         }
 
-                        InventoryLot lote = ObtenerOCrearLoteEntrada(
-                            producto,
-                            lotes,
-                            codigoLote,
-                            solicitud.ExpirationDate,
-                            solicitud.Quantity,
-                            notas,
-                            hoy);
+                        // ----------------------------------------------------
+                        // AJUSTE QUE SOLO MODIFICA EL STOCK MÍNIMO
+                        // ----------------------------------------------------
+                        if (ajusteSoloStockMinimo)
+                        {
+                            // No se modifican lotes ni stock.
+                            // El nuevo mínimo se guardará más abajo.
+                        }
 
-                        stockDespues = nuevoStock;
+                        // ----------------------------------------------------
+                        // ENTRADA
+                        // ----------------------------------------------------
+                        else if (tipo == TiposMovimientoInventario.Entrada)
+                        {
+                            //decimal nuevoStock = stockAntes + solicitud.Quantity;
 
-                        movimientos.Add(CrearMovimiento(
-                            producto.ProductId,
-                            tipo,
-                            solicitud.Quantity,
-                            stockAntes,
-                            stockDespues,
-                            lote,
-                            notas));
+                            if (nuevoStock > StockMaximo)
+                            {
+                                return ResultadoOperacionDto.Fallido(
+                                    "La entrada supera el máximo de stock permitido.");
+                            }
+
+                            InventoryLot lote = ObtenerOCrearLoteEntrada(
+                                producto,
+                                lotes,
+                                codigoLote,
+                                solicitud.ExpirationDate,
+                                solicitud.Quantity,
+                                notas,
+                                hoy);
+
+                            stockDespues = nuevoStock;
+
+                            movimientos.Add(CrearMovimiento(
+                                producto.ProductId,
+                                tipo,
+                                solicitud.Quantity,
+                                stockAntes,
+                                stockDespues,
+                                lote,
+                                notas));
+                        }
                     }
                 }
 
@@ -793,7 +816,8 @@ namespace Ocean_Desk_dv.Services.Repository
                             "La operación supera las existencias registradas.");
                     }
 
-                    if (cantidadAConsumir <= 0m)
+                    if (cantidadAConsumir <= 0m &&
+                        !ajusteSoloStockMinimo)
                     {
                         return ResultadoOperacionDto.Fallido(
                             "La cantidad del movimiento debe ser mayor que cero.");
