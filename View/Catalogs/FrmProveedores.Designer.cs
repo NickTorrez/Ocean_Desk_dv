@@ -28,26 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle49 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle50 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle56 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle57 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle58 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle64 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle59 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle60 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle61 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle62 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle63 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle51 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle52 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle53 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle54 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle55 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
             pnlBarraProveedores = new Panel();
             tlpFiltroButons = new TableLayoutPanel();
             pnlFiltroProveedor = new Panel();
+            panel14 = new Panel();
             txtBuscarProveedor = new TextBox();
+            picSearch = new PictureBox();
             pnlNuevo = new Panel();
             btnNuevoProveedor = new Button();
             pnlEditar = new Panel();
@@ -56,9 +58,42 @@
             btnCambiarEstadoProveedor = new Button();
             pnlContenido = new Panel();
             tlpPrincipalProveedores = new TableLayoutPanel();
+            pnlDatosProveedor = new Panel();
+            tlpInputDatosProveedor = new TableLayoutPanel();
+            pnlNombre = new Panel();
+            lblNombreProveedor = new Label();
+            pnlInputNombre = new Panel();
+            panel1 = new Panel();
+            txtNombreProveedor = new TextBox();
+            pnlTelefono = new Panel();
+            lblTelefonoProveedor = new Label();
+            pnlinputTelefono = new Panel();
+            panel2 = new Panel();
+            txtTelefonoNuevoCliente = new MaskedTextBox();
+            pnlCorreo = new Panel();
+            lblCorreoProveedor = new Label();
+            pnlInputEmail = new Panel();
+            panel15 = new Panel();
+            txtCorreoProveedor = new TextBox();
+            pnlDirección = new Panel();
+            lblDireccionProveedor = new Label();
+            pnlInputDireccion = new Panel();
+            txtDireccionProveedor = new TextBox();
+            pnlActivo = new Panel();
+            chkActivoProveedor = new CheckBox();
+            tlpButtons = new TableLayoutPanel();
+            pnlCancelar = new Panel();
+            btnCancelarProveedor = new Button();
+            pnlGuardar = new Panel();
+            btnGuardarProveedor = new Button();
             tcProveedores = new TabControl();
             tpProveedores = new TabPage();
             dgvProveedores = new DataGridView();
+            colNombreProveedor = new DataGridViewTextBoxColumn();
+            colTelefonoProveedor = new DataGridViewTextBoxColumn();
+            colCorreoProveedor = new DataGridViewTextBoxColumn();
+            colEstadoProveedor = new DataGridViewTextBoxColumn();
+            colDireccionProveedor = new DataGridViewTextBoxColumn();
             tpComprasAsociadas = new TabPage();
             dgvComprasProveedor = new DataGridView();
             colIdCompraProv = new DataGridViewTextBoxColumn();
@@ -66,69 +101,34 @@
             colTotalCompraProv = new DataGridViewTextBoxColumn();
             colEstadoCompraProv = new DataGridViewTextBoxColumn();
             colDocumentoCompraProv = new DataGridViewTextBoxColumn();
-            pnlDatosProveedor = new Panel();
-            this.tlpButtons = new TableLayoutPanel();
-            pnlGuardar = new Panel();
-            btnGuardarProveedor = new Button();
-            pnlCancelar = new Panel();
-            btnCancelarProveedor = new Button();
-            this.tlpInputDatosProveedor = new TableLayoutPanel();
-            pnlNombre = new Panel();
-            lblNombreProveedor = new Label();
-            pnlInputNombre = new Panel();
-            txtNombreProveedor = new TextBox();
-            this.pnlTelefono = new Panel();
-            lblTelefonoProveedor = new Label();
-            this.pnlinputTelefono = new Panel();
-            this.pnlCorreo = new Panel();
-            lblCorreoProveedor = new Label();
-            this.pnlInputEmail = new Panel();
-            txtCorreoProveedor = new TextBox();
-            this.pnlDirección = new Panel();
-            lblDireccionProveedor = new Label();
-            this.pnlInputDireccion = new Panel();
-            txtDireccionProveedor = new TextBox();
-            panel14 = new Panel();
-            picSearch = new PictureBox();
-            panel1 = new Panel();
-            txtTelefonoNuevoCliente = new MaskedTextBox();
-            panel2 = new Panel();
-            panel15 = new Panel();
-            chkActivoProveedor = new CheckBox();
-            pnlActivo = new Panel();
-            colNombreProveedor = new DataGridViewTextBoxColumn();
-            colTelefonoProveedor = new DataGridViewTextBoxColumn();
-            colCorreoProveedor = new DataGridViewTextBoxColumn();
-            colEstadoProveedor = new DataGridViewTextBoxColumn();
-            colDireccionProveedor = new DataGridViewTextBoxColumn();
             pnlBarraProveedores.SuspendLayout();
             tlpFiltroButons.SuspendLayout();
             pnlFiltroProveedor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
             pnlNuevo.SuspendLayout();
             pnlEditar.SuspendLayout();
             pnlCambiar.SuspendLayout();
             pnlContenido.SuspendLayout();
             tlpPrincipalProveedores.SuspendLayout();
+            pnlDatosProveedor.SuspendLayout();
+            tlpInputDatosProveedor.SuspendLayout();
+            pnlNombre.SuspendLayout();
+            pnlInputNombre.SuspendLayout();
+            pnlTelefono.SuspendLayout();
+            pnlinputTelefono.SuspendLayout();
+            pnlCorreo.SuspendLayout();
+            pnlInputEmail.SuspendLayout();
+            pnlDirección.SuspendLayout();
+            pnlInputDireccion.SuspendLayout();
+            pnlActivo.SuspendLayout();
+            tlpButtons.SuspendLayout();
+            pnlCancelar.SuspendLayout();
+            pnlGuardar.SuspendLayout();
             tcProveedores.SuspendLayout();
             tpProveedores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).BeginInit();
             tpComprasAsociadas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).BeginInit();
-            pnlDatosProveedor.SuspendLayout();
-            this.tlpButtons.SuspendLayout();
-            pnlGuardar.SuspendLayout();
-            pnlCancelar.SuspendLayout();
-            this.tlpInputDatosProveedor.SuspendLayout();
-            pnlNombre.SuspendLayout();
-            pnlInputNombre.SuspendLayout();
-            this.pnlTelefono.SuspendLayout();
-            this.pnlinputTelefono.SuspendLayout();
-            this.pnlCorreo.SuspendLayout();
-            this.pnlInputEmail.SuspendLayout();
-            this.pnlDirección.SuspendLayout();
-            this.pnlInputDireccion.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
-            pnlActivo.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBarraProveedores
@@ -173,6 +173,15 @@
             pnlFiltroProveedor.Size = new Size(323, 56);
             pnlFiltroProveedor.TabIndex = 0;
             // 
+            // panel14
+            // 
+            panel14.BackColor = Color.MidnightBlue;
+            panel14.Dock = DockStyle.Bottom;
+            panel14.Location = new Point(40, 37);
+            panel14.Name = "panel14";
+            panel14.Size = new Size(278, 2);
+            panel14.TabIndex = 17;
+            // 
             // txtBuscarProveedor
             // 
             txtBuscarProveedor.BorderStyle = BorderStyle.None;
@@ -184,6 +193,18 @@
             txtBuscarProveedor.PlaceholderText = "Buscar proveedor...";
             txtBuscarProveedor.Size = new Size(278, 21);
             txtBuscarProveedor.TabIndex = 0;
+            // 
+            // picSearch
+            // 
+            picSearch.Dock = DockStyle.Left;
+            picSearch.Image = Properties.Resources.magnifier;
+            picSearch.Location = new Point(5, 15);
+            picSearch.Margin = new Padding(0);
+            picSearch.Name = "picSearch";
+            picSearch.Size = new Size(35, 24);
+            picSearch.SizeMode = PictureBoxSizeMode.Zoom;
+            picSearch.TabIndex = 18;
+            picSearch.TabStop = false;
             // 
             // pnlNuevo
             // 
@@ -209,7 +230,6 @@
             btnNuevoProveedor.TabIndex = 1;
             btnNuevoProveedor.Text = "+ NUEVO PROVEEDOR";
             btnNuevoProveedor.UseVisualStyleBackColor = false;
-            btnNuevoProveedor.Click += btnNuevoProveedor_Click;
             // 
             // pnlEditar
             // 
@@ -285,303 +305,48 @@
             tlpPrincipalProveedores.Size = new Size(930, 742);
             tlpPrincipalProveedores.TabIndex = 0;
             // 
-            // tcProveedores
-            // 
-            tcProveedores.Controls.Add(tpProveedores);
-            tcProveedores.Controls.Add(tpComprasAsociadas);
-            tcProveedores.Dock = DockStyle.Fill;
-            tcProveedores.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            tcProveedores.Location = new Point(337, 3);
-            tcProveedores.Name = "tcProveedores";
-            tcProveedores.SelectedIndex = 0;
-            tcProveedores.Size = new Size(590, 736);
-            tcProveedores.TabIndex = 2;
-            // 
-            // tpProveedores
-            // 
-            tpProveedores.AccessibleDescription = "";
-            tpProveedores.AccessibleName = "";
-            tpProveedores.BackColor = Color.Transparent;
-            tpProveedores.Controls.Add(dgvProveedores);
-            tpProveedores.Location = new Point(4, 27);
-            tpProveedores.Name = "tpProveedores";
-            tpProveedores.Padding = new Padding(3);
-            tpProveedores.Size = new Size(582, 705);
-            tpProveedores.TabIndex = 0;
-            tpProveedores.Text = "Proveedores";
-            // 
-            // dgvProveedores
-            // 
-            dgvProveedores.AllowUserToAddRows = false;
-            dgvProveedores.AllowUserToDeleteRows = false;
-            dgvProveedores.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle49.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle49.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvProveedores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle49;
-            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProveedores.BackgroundColor = Color.White;
-            dgvProveedores.BorderStyle = BorderStyle.None;
-            dgvProveedores.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle50.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle50.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle50.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle50.ForeColor = Color.White;
-            dataGridViewCellStyle50.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle50.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle50.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle50.WrapMode = DataGridViewTriState.True;
-            dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle50;
-            dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProveedores.Columns.AddRange(new DataGridViewColumn[] { colNombreProveedor, colTelefonoProveedor, colCorreoProveedor, colEstadoProveedor, colDireccionProveedor });
-            dataGridViewCellStyle56.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle56.BackColor = Color.White;
-            dataGridViewCellStyle56.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle56.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle56.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle56.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle56.WrapMode = DataGridViewTriState.False;
-            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle56;
-            dgvProveedores.Dock = DockStyle.Fill;
-            dgvProveedores.EnableHeadersVisualStyles = false;
-            dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
-            dgvProveedores.Location = new Point(3, 3);
-            dgvProveedores.MultiSelect = false;
-            dgvProveedores.Name = "dgvProveedores";
-            dgvProveedores.ReadOnly = true;
-            dgvProveedores.RowHeadersVisible = false;
-            dgvProveedores.RowHeadersWidth = 51;
-            dgvProveedores.RowTemplate.Height = 38;
-            dgvProveedores.ScrollBars = ScrollBars.None;
-            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProveedores.Size = new Size(576, 699);
-            dgvProveedores.TabIndex = 0;
-            // 
-            // tpComprasAsociadas
-            // 
-            tpComprasAsociadas.Controls.Add(dgvComprasProveedor);
-            tpComprasAsociadas.Location = new Point(4, 27);
-            tpComprasAsociadas.Name = "tpComprasAsociadas";
-            tpComprasAsociadas.Padding = new Padding(3);
-            tpComprasAsociadas.Size = new Size(582, 705);
-            tpComprasAsociadas.TabIndex = 1;
-            tpComprasAsociadas.Text = "Compras asociadas";
-            tpComprasAsociadas.UseVisualStyleBackColor = true;
-            // 
-            // dgvComprasProveedor
-            // 
-            dgvComprasProveedor.AllowUserToAddRows = false;
-            dgvComprasProveedor.AllowUserToDeleteRows = false;
-            dgvComprasProveedor.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle57.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle57.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle57;
-            dgvComprasProveedor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvComprasProveedor.BackgroundColor = Color.White;
-            dgvComprasProveedor.BorderStyle = BorderStyle.None;
-            dgvComprasProveedor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle58.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle58.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle58.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle58.ForeColor = Color.White;
-            dataGridViewCellStyle58.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle58.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle58.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle58.WrapMode = DataGridViewTriState.True;
-            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
-            dgvComprasProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvComprasProveedor.Columns.AddRange(new DataGridViewColumn[] { colIdCompraProv, colFechaCompraProv, colTotalCompraProv, colEstadoCompraProv, colDocumentoCompraProv });
-            dataGridViewCellStyle64.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle64.BackColor = Color.White;
-            dataGridViewCellStyle64.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle64.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle64.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle64.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle64.WrapMode = DataGridViewTriState.False;
-            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle64;
-            dgvComprasProveedor.Dock = DockStyle.Fill;
-            dgvComprasProveedor.EnableHeadersVisualStyles = false;
-            dgvComprasProveedor.GridColor = Color.FromArgb(230, 234, 238);
-            dgvComprasProveedor.Location = new Point(3, 3);
-            dgvComprasProveedor.MultiSelect = false;
-            dgvComprasProveedor.Name = "dgvComprasProveedor";
-            dgvComprasProveedor.ReadOnly = true;
-            dgvComprasProveedor.RowHeadersVisible = false;
-            dgvComprasProveedor.RowHeadersWidth = 51;
-            dgvComprasProveedor.RowTemplate.Height = 38;
-            dgvComprasProveedor.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvComprasProveedor.Size = new Size(576, 699);
-            dgvComprasProveedor.TabIndex = 0;
-            dgvComprasProveedor.CellContentClick += dgvComprasProveedor_CellContentClick;
-            // 
-            // colIdCompraProv
-            // 
-            colIdCompraProv.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle59.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle59;
-            colIdCompraProv.FillWeight = 70F;
-            colIdCompraProv.HeaderText = "N.º";
-            colIdCompraProv.MinimumWidth = 6;
-            colIdCompraProv.Name = "colIdCompraProv";
-            colIdCompraProv.ReadOnly = true;
-            // 
-            // colFechaCompraProv
-            // 
-            colFechaCompraProv.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle60.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle60.Format = "g";
-            dataGridViewCellStyle60.NullValue = null;
-            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle60;
-            colFechaCompraProv.FillWeight = 110F;
-            colFechaCompraProv.HeaderText = "Fecha";
-            colFechaCompraProv.MinimumWidth = 6;
-            colFechaCompraProv.Name = "colFechaCompraProv";
-            colFechaCompraProv.ReadOnly = true;
-            // 
-            // colTotalCompraProv
-            // 
-            colTotalCompraProv.DataPropertyName = "Total";
-            dataGridViewCellStyle61.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle61.Format = "N1";
-            dataGridViewCellStyle61.NullValue = null;
-            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle61;
-            colTotalCompraProv.FillWeight = 120F;
-            colTotalCompraProv.HeaderText = "Total";
-            colTotalCompraProv.MinimumWidth = 6;
-            colTotalCompraProv.Name = "colTotalCompraProv";
-            colTotalCompraProv.ReadOnly = true;
-            // 
-            // colEstadoCompraProv
-            // 
-            colEstadoCompraProv.DataPropertyName = "Status";
-            dataGridViewCellStyle62.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle62;
-            colEstadoCompraProv.FillWeight = 110F;
-            colEstadoCompraProv.HeaderText = "Estado";
-            colEstadoCompraProv.MinimumWidth = 6;
-            colEstadoCompraProv.Name = "colEstadoCompraProv";
-            colEstadoCompraProv.ReadOnly = true;
-            // 
-            // colDocumentoCompraProv
-            // 
-            colDocumentoCompraProv.DataPropertyName = "DocumentNumber";
-            dataGridViewCellStyle63.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle63;
-            colDocumentoCompraProv.FillWeight = 140F;
-            colDocumentoCompraProv.HeaderText = "Documento";
-            colDocumentoCompraProv.MinimumWidth = 6;
-            colDocumentoCompraProv.Name = "colDocumentoCompraProv";
-            colDocumentoCompraProv.ReadOnly = true;
-            // 
             // pnlDatosProveedor
             // 
             pnlDatosProveedor.BackColor = Color.White;
-            pnlDatosProveedor.Controls.Add(this.tlpInputDatosProveedor);
-            pnlDatosProveedor.Controls.Add(this.tlpButtons);
+            pnlDatosProveedor.Controls.Add(tlpInputDatosProveedor);
+            pnlDatosProveedor.Controls.Add(tlpButtons);
             pnlDatosProveedor.Dock = DockStyle.Fill;
             pnlDatosProveedor.Font = new Font("Century Gothic", 9F);
             pnlDatosProveedor.Location = new Point(3, 3);
             pnlDatosProveedor.Name = "pnlDatosProveedor";
             pnlDatosProveedor.Size = new Size(328, 736);
             pnlDatosProveedor.TabIndex = 0;
-            pnlDatosProveedor.Paint += pnlDatosProveedor_Paint;
-            // 
-            // tlpButtons
-            // 
-            this.tlpButtons.ColumnCount = 2;
-            this.tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            this.tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            this.tlpButtons.Controls.Add(pnlCancelar, 0, 0);
-            this.tlpButtons.Controls.Add(pnlGuardar, 1, 0);
-            this.tlpButtons.Dock = DockStyle.Bottom;
-            this.tlpButtons.Location = new Point(0, 656);
-            this.tlpButtons.Name = "tlpButtons";
-            this.tlpButtons.RowCount = 1;
-            this.tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this.tlpButtons.Size = new Size(328, 80);
-            this.tlpButtons.TabIndex = 13;
-            // 
-            // pnlGuardar
-            // 
-            pnlGuardar.Controls.Add(btnGuardarProveedor);
-            pnlGuardar.Dock = DockStyle.Fill;
-            pnlGuardar.Location = new Point(167, 3);
-            pnlGuardar.Name = "pnlGuardar";
-            pnlGuardar.Padding = new Padding(5);
-            pnlGuardar.Size = new Size(158, 74);
-            pnlGuardar.TabIndex = 0;
-            // 
-            // btnGuardarProveedor
-            // 
-            btnGuardarProveedor.BackColor = Color.FromArgb(8, 126, 164);
-            btnGuardarProveedor.Cursor = Cursors.Hand;
-            btnGuardarProveedor.Dock = DockStyle.Fill;
-            btnGuardarProveedor.FlatAppearance.BorderSize = 0;
-            btnGuardarProveedor.FlatStyle = FlatStyle.Flat;
-            btnGuardarProveedor.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
-            btnGuardarProveedor.ForeColor = Color.White;
-            btnGuardarProveedor.Location = new Point(5, 5);
-            btnGuardarProveedor.Name = "btnGuardarProveedor";
-            btnGuardarProveedor.Size = new Size(148, 64);
-            btnGuardarProveedor.TabIndex = 1;
-            btnGuardarProveedor.Text = "✓ GUARDAR";
-            btnGuardarProveedor.UseVisualStyleBackColor = false;
-            // 
-            // pnlCancelar
-            // 
-            pnlCancelar.Controls.Add(btnCancelarProveedor);
-            pnlCancelar.Dock = DockStyle.Fill;
-            pnlCancelar.Location = new Point(3, 3);
-            pnlCancelar.Name = "pnlCancelar";
-            pnlCancelar.Padding = new Padding(5);
-            pnlCancelar.Size = new Size(158, 74);
-            pnlCancelar.TabIndex = 1;
-            // 
-            // btnCancelarProveedor
-            // 
-            btnCancelarProveedor.BackColor = Color.FromArgb(238, 243, 247);
-            btnCancelarProveedor.Cursor = Cursors.Hand;
-            btnCancelarProveedor.Dock = DockStyle.Fill;
-            btnCancelarProveedor.FlatAppearance.BorderSize = 0;
-            btnCancelarProveedor.FlatStyle = FlatStyle.Flat;
-            btnCancelarProveedor.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
-            btnCancelarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
-            btnCancelarProveedor.Location = new Point(5, 5);
-            btnCancelarProveedor.Name = "btnCancelarProveedor";
-            btnCancelarProveedor.Size = new Size(148, 64);
-            btnCancelarProveedor.TabIndex = 2;
-            btnCancelarProveedor.Text = "✕ CANCELAR";
-            btnCancelarProveedor.UseVisualStyleBackColor = false;
             // 
             // tlpInputDatosProveedor
             // 
-            this.tlpInputDatosProveedor.ColumnCount = 1;
-            this.tlpInputDatosProveedor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this.tlpInputDatosProveedor.Controls.Add(pnlNombre, 0, 0);
-            this.tlpInputDatosProveedor.Controls.Add(pnlInputNombre, 0, 1);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlTelefono, 0, 2);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlinputTelefono, 0, 3);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlCorreo, 0, 4);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlInputEmail, 0, 5);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlDirección, 0, 6);
-            this.tlpInputDatosProveedor.Controls.Add(this.pnlInputDireccion, 0, 7);
-            this.tlpInputDatosProveedor.Controls.Add(pnlActivo, 0, 8);
-            this.tlpInputDatosProveedor.Dock = DockStyle.Fill;
-            this.tlpInputDatosProveedor.Location = new Point(0, 0);
-            this.tlpInputDatosProveedor.Name = "tlpInputDatosProveedor";
-            this.tlpInputDatosProveedor.RowCount = 9;
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 21.5686264F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            this.tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            this.tlpInputDatosProveedor.Size = new Size(328, 656);
-            this.tlpInputDatosProveedor.TabIndex = 12;
+            tlpInputDatosProveedor.ColumnCount = 1;
+            tlpInputDatosProveedor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpInputDatosProveedor.Controls.Add(pnlNombre, 0, 0);
+            tlpInputDatosProveedor.Controls.Add(pnlInputNombre, 0, 1);
+            tlpInputDatosProveedor.Controls.Add(pnlTelefono, 0, 2);
+            tlpInputDatosProveedor.Controls.Add(pnlinputTelefono, 0, 3);
+            tlpInputDatosProveedor.Controls.Add(pnlCorreo, 0, 4);
+            tlpInputDatosProveedor.Controls.Add(pnlInputEmail, 0, 5);
+            tlpInputDatosProveedor.Controls.Add(pnlDirección, 0, 6);
+            tlpInputDatosProveedor.Controls.Add(pnlInputDireccion, 0, 7);
+            tlpInputDatosProveedor.Controls.Add(pnlActivo, 0, 8);
+            tlpInputDatosProveedor.Dock = DockStyle.Fill;
+            tlpInputDatosProveedor.Location = new Point(0, 0);
+            tlpInputDatosProveedor.Name = "tlpInputDatosProveedor";
+            tlpInputDatosProveedor.RowCount = 9;
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 21.5686264F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpInputDatosProveedor.Size = new Size(328, 656);
+            tlpInputDatosProveedor.TabIndex = 12;
             // 
             // pnlNombre
             // 
@@ -617,6 +382,15 @@
             pnlInputNombre.Size = new Size(322, 58);
             pnlInputNombre.TabIndex = 1;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.MidnightBlue;
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(5, 38);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(312, 2);
+            panel1.TabIndex = 14;
+            // 
             // txtNombreProveedor
             // 
             txtNombreProveedor.BorderStyle = BorderStyle.None;
@@ -630,13 +404,13 @@
             // 
             // pnlTelefono
             // 
-            this.pnlTelefono.Controls.Add(lblTelefonoProveedor);
-            this.pnlTelefono.Dock = DockStyle.Fill;
-            this.pnlTelefono.Location = new Point(3, 131);
-            this.pnlTelefono.Name = "pnlTelefono";
-            this.pnlTelefono.Padding = new Padding(10, 20, 0, 0);
-            this.pnlTelefono.Size = new Size(322, 58);
-            this.pnlTelefono.TabIndex = 4;
+            pnlTelefono.Controls.Add(lblTelefonoProveedor);
+            pnlTelefono.Dock = DockStyle.Fill;
+            pnlTelefono.Location = new Point(3, 131);
+            pnlTelefono.Name = "pnlTelefono";
+            pnlTelefono.Padding = new Padding(10, 20, 0, 0);
+            pnlTelefono.Size = new Size(322, 58);
+            pnlTelefono.TabIndex = 4;
             // 
             // lblTelefonoProveedor
             // 
@@ -653,24 +427,46 @@
             // 
             // pnlinputTelefono
             // 
-            this.pnlinputTelefono.Controls.Add(panel2);
-            this.pnlinputTelefono.Controls.Add(txtTelefonoNuevoCliente);
-            this.pnlinputTelefono.Dock = DockStyle.Fill;
-            this.pnlinputTelefono.Location = new Point(3, 195);
-            this.pnlinputTelefono.Name = "pnlinputTelefono";
-            this.pnlinputTelefono.Padding = new Padding(5, 18, 5, 18);
-            this.pnlinputTelefono.Size = new Size(322, 58);
-            this.pnlinputTelefono.TabIndex = 5;
+            pnlinputTelefono.Controls.Add(panel2);
+            pnlinputTelefono.Controls.Add(txtTelefonoNuevoCliente);
+            pnlinputTelefono.Dock = DockStyle.Fill;
+            pnlinputTelefono.Location = new Point(3, 195);
+            pnlinputTelefono.Name = "pnlinputTelefono";
+            pnlinputTelefono.Padding = new Padding(5, 18, 5, 18);
+            pnlinputTelefono.Size = new Size(322, 58);
+            pnlinputTelefono.TabIndex = 5;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.MidnightBlue;
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(5, 38);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(312, 2);
+            panel2.TabIndex = 15;
+            // 
+            // txtTelefonoNuevoCliente
+            // 
+            txtTelefonoNuevoCliente.BackColor = Color.White;
+            txtTelefonoNuevoCliente.BorderStyle = BorderStyle.None;
+            txtTelefonoNuevoCliente.Dock = DockStyle.Fill;
+            txtTelefonoNuevoCliente.Font = new Font("Century Gothic", 9F);
+            txtTelefonoNuevoCliente.Location = new Point(5, 18);
+            txtTelefonoNuevoCliente.Mask = " 0000-0000";
+            txtTelefonoNuevoCliente.Name = "txtTelefonoNuevoCliente";
+            txtTelefonoNuevoCliente.PromptChar = '0';
+            txtTelefonoNuevoCliente.Size = new Size(312, 19);
+            txtTelefonoNuevoCliente.TabIndex = 2;
             // 
             // pnlCorreo
             // 
-            this.pnlCorreo.Controls.Add(lblCorreoProveedor);
-            this.pnlCorreo.Dock = DockStyle.Fill;
-            this.pnlCorreo.Location = new Point(3, 259);
-            this.pnlCorreo.Name = "pnlCorreo";
-            this.pnlCorreo.Padding = new Padding(10, 20, 0, 0);
-            this.pnlCorreo.Size = new Size(322, 58);
-            this.pnlCorreo.TabIndex = 6;
+            pnlCorreo.Controls.Add(lblCorreoProveedor);
+            pnlCorreo.Dock = DockStyle.Fill;
+            pnlCorreo.Location = new Point(3, 259);
+            pnlCorreo.Name = "pnlCorreo";
+            pnlCorreo.Padding = new Padding(10, 20, 0, 0);
+            pnlCorreo.Size = new Size(322, 58);
+            pnlCorreo.TabIndex = 6;
             // 
             // lblCorreoProveedor
             // 
@@ -687,14 +483,23 @@
             // 
             // pnlInputEmail
             // 
-            this.pnlInputEmail.Controls.Add(panel15);
-            this.pnlInputEmail.Controls.Add(txtCorreoProveedor);
-            this.pnlInputEmail.Dock = DockStyle.Fill;
-            this.pnlInputEmail.Location = new Point(3, 323);
-            this.pnlInputEmail.Name = "pnlInputEmail";
-            this.pnlInputEmail.Padding = new Padding(5, 18, 5, 18);
-            this.pnlInputEmail.Size = new Size(322, 58);
-            this.pnlInputEmail.TabIndex = 7;
+            pnlInputEmail.Controls.Add(panel15);
+            pnlInputEmail.Controls.Add(txtCorreoProveedor);
+            pnlInputEmail.Dock = DockStyle.Fill;
+            pnlInputEmail.Location = new Point(3, 323);
+            pnlInputEmail.Name = "pnlInputEmail";
+            pnlInputEmail.Padding = new Padding(5, 18, 5, 18);
+            pnlInputEmail.Size = new Size(322, 58);
+            pnlInputEmail.TabIndex = 7;
+            // 
+            // panel15
+            // 
+            panel15.BackColor = Color.MidnightBlue;
+            panel15.Dock = DockStyle.Bottom;
+            panel15.Location = new Point(5, 38);
+            panel15.Name = "panel15";
+            panel15.Size = new Size(312, 2);
+            panel15.TabIndex = 16;
             // 
             // txtCorreoProveedor
             // 
@@ -709,13 +514,13 @@
             // 
             // pnlDirección
             // 
-            this.pnlDirección.Controls.Add(lblDireccionProveedor);
-            this.pnlDirección.Dock = DockStyle.Fill;
-            this.pnlDirección.Location = new Point(3, 387);
-            this.pnlDirección.Name = "pnlDirección";
-            this.pnlDirección.Padding = new Padding(10, 20, 0, 0);
-            this.pnlDirección.Size = new Size(322, 58);
-            this.pnlDirección.TabIndex = 8;
+            pnlDirección.Controls.Add(lblDireccionProveedor);
+            pnlDirección.Dock = DockStyle.Fill;
+            pnlDirección.Location = new Point(3, 387);
+            pnlDirección.Name = "pnlDirección";
+            pnlDirección.Padding = new Padding(10, 20, 0, 0);
+            pnlDirección.Size = new Size(322, 58);
+            pnlDirección.TabIndex = 8;
             // 
             // lblDireccionProveedor
             // 
@@ -732,13 +537,13 @@
             // 
             // pnlInputDireccion
             // 
-            this.pnlInputDireccion.Controls.Add(txtDireccionProveedor);
-            this.pnlInputDireccion.Dock = DockStyle.Fill;
-            this.pnlInputDireccion.Location = new Point(3, 451);
-            this.pnlInputDireccion.Name = "pnlInputDireccion";
-            this.pnlInputDireccion.Padding = new Padding(5);
-            this.pnlInputDireccion.Size = new Size(322, 135);
-            this.pnlInputDireccion.TabIndex = 9;
+            pnlInputDireccion.Controls.Add(txtDireccionProveedor);
+            pnlInputDireccion.Dock = DockStyle.Fill;
+            pnlInputDireccion.Location = new Point(3, 451);
+            pnlInputDireccion.Name = "pnlInputDireccion";
+            pnlInputDireccion.Padding = new Padding(5);
+            pnlInputDireccion.Size = new Size(322, 135);
+            pnlInputDireccion.TabIndex = 9;
             // 
             // txtDireccionProveedor
             // 
@@ -751,66 +556,15 @@
             txtDireccionProveedor.Size = new Size(312, 125);
             txtDireccionProveedor.TabIndex = 2;
             // 
-            // panel14
+            // pnlActivo
             // 
-            panel14.BackColor = Color.MidnightBlue;
-            panel14.Dock = DockStyle.Bottom;
-            panel14.Location = new Point(40, 37);
-            panel14.Name = "panel14";
-            panel14.Size = new Size(278, 2);
-            panel14.TabIndex = 17;
-            // 
-            // picSearch
-            // 
-            picSearch.Dock = DockStyle.Left;
-            picSearch.Image = Properties.Resources.magnifier;
-            picSearch.Location = new Point(5, 15);
-            picSearch.Margin = new Padding(0);
-            picSearch.Name = "picSearch";
-            picSearch.Size = new Size(35, 24);
-            picSearch.SizeMode = PictureBoxSizeMode.Zoom;
-            picSearch.TabIndex = 18;
-            picSearch.TabStop = false;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.MidnightBlue;
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(5, 38);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(312, 2);
-            panel1.TabIndex = 14;
-            // 
-            // txtTelefonoNuevoCliente
-            // 
-            txtTelefonoNuevoCliente.BackColor = Color.White;
-            txtTelefonoNuevoCliente.BorderStyle = BorderStyle.None;
-            txtTelefonoNuevoCliente.Dock = DockStyle.Fill;
-            txtTelefonoNuevoCliente.Font = new Font("Century Gothic", 9F);
-            txtTelefonoNuevoCliente.Location = new Point(5, 18);
-            txtTelefonoNuevoCliente.Mask = " 0000-0000";
-            txtTelefonoNuevoCliente.Name = "txtTelefonoNuevoCliente";
-            txtTelefonoNuevoCliente.PromptChar = '0';
-            txtTelefonoNuevoCliente.Size = new Size(312, 19);
-            txtTelefonoNuevoCliente.TabIndex = 2;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.MidnightBlue;
-            panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(5, 38);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(312, 2);
-            panel2.TabIndex = 15;
-            // 
-            // panel15
-            // 
-            panel15.BackColor = Color.MidnightBlue;
-            panel15.Dock = DockStyle.Bottom;
-            panel15.Location = new Point(5, 38);
-            panel15.Name = "panel15";
-            panel15.Size = new Size(312, 2);
-            panel15.TabIndex = 16;
+            pnlActivo.Controls.Add(chkActivoProveedor);
+            pnlActivo.Dock = DockStyle.Fill;
+            pnlActivo.Location = new Point(3, 592);
+            pnlActivo.Name = "pnlActivo";
+            pnlActivo.Padding = new Padding(10, 0, 0, 0);
+            pnlActivo.Size = new Size(322, 61);
+            pnlActivo.TabIndex = 10;
             // 
             // chkActivoProveedor
             // 
@@ -826,21 +580,149 @@
             chkActivoProveedor.Text = "Activo";
             chkActivoProveedor.UseVisualStyleBackColor = true;
             // 
-            // pnlActivo
+            // tlpButtons
             // 
-            pnlActivo.Controls.Add(chkActivoProveedor);
-            pnlActivo.Dock = DockStyle.Fill;
-            pnlActivo.Location = new Point(3, 592);
-            pnlActivo.Name = "pnlActivo";
-            pnlActivo.Padding = new Padding(10, 0, 0, 0);
-            pnlActivo.Size = new Size(322, 61);
-            pnlActivo.TabIndex = 10;
+            tlpButtons.ColumnCount = 2;
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpButtons.Controls.Add(pnlCancelar, 0, 0);
+            tlpButtons.Controls.Add(pnlGuardar, 1, 0);
+            tlpButtons.Dock = DockStyle.Bottom;
+            tlpButtons.Location = new Point(0, 656);
+            tlpButtons.Name = "tlpButtons";
+            tlpButtons.RowCount = 1;
+            tlpButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpButtons.Size = new Size(328, 80);
+            tlpButtons.TabIndex = 13;
+            // 
+            // pnlCancelar
+            // 
+            pnlCancelar.Controls.Add(btnCancelarProveedor);
+            pnlCancelar.Dock = DockStyle.Fill;
+            pnlCancelar.Location = new Point(3, 3);
+            pnlCancelar.Name = "pnlCancelar";
+            pnlCancelar.Padding = new Padding(5);
+            pnlCancelar.Size = new Size(158, 74);
+            pnlCancelar.TabIndex = 1;
+            // 
+            // btnCancelarProveedor
+            // 
+            btnCancelarProveedor.BackColor = Color.FromArgb(238, 243, 247);
+            btnCancelarProveedor.Cursor = Cursors.Hand;
+            btnCancelarProveedor.Dock = DockStyle.Fill;
+            btnCancelarProveedor.FlatAppearance.BorderSize = 0;
+            btnCancelarProveedor.FlatStyle = FlatStyle.Flat;
+            btnCancelarProveedor.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            btnCancelarProveedor.ForeColor = Color.FromArgb(8, 31, 63);
+            btnCancelarProveedor.Location = new Point(5, 5);
+            btnCancelarProveedor.Name = "btnCancelarProveedor";
+            btnCancelarProveedor.Size = new Size(148, 64);
+            btnCancelarProveedor.TabIndex = 2;
+            btnCancelarProveedor.Text = "✕ CANCELAR";
+            btnCancelarProveedor.UseVisualStyleBackColor = false;
+            // 
+            // pnlGuardar
+            // 
+            pnlGuardar.Controls.Add(btnGuardarProveedor);
+            pnlGuardar.Dock = DockStyle.Fill;
+            pnlGuardar.Location = new Point(167, 3);
+            pnlGuardar.Name = "pnlGuardar";
+            pnlGuardar.Padding = new Padding(5);
+            pnlGuardar.Size = new Size(158, 74);
+            pnlGuardar.TabIndex = 0;
+            // 
+            // btnGuardarProveedor
+            // 
+            btnGuardarProveedor.BackColor = Color.FromArgb(8, 126, 164);
+            btnGuardarProveedor.Cursor = Cursors.Hand;
+            btnGuardarProveedor.Dock = DockStyle.Fill;
+            btnGuardarProveedor.FlatAppearance.BorderSize = 0;
+            btnGuardarProveedor.FlatStyle = FlatStyle.Flat;
+            btnGuardarProveedor.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            btnGuardarProveedor.ForeColor = Color.White;
+            btnGuardarProveedor.Location = new Point(5, 5);
+            btnGuardarProveedor.Name = "btnGuardarProveedor";
+            btnGuardarProveedor.Size = new Size(148, 64);
+            btnGuardarProveedor.TabIndex = 1;
+            btnGuardarProveedor.Text = "✓ GUARDAR";
+            btnGuardarProveedor.UseVisualStyleBackColor = false;
+            // 
+            // tcProveedores
+            // 
+            tcProveedores.Controls.Add(tpProveedores);
+            tcProveedores.Controls.Add(tpComprasAsociadas);
+            tcProveedores.Dock = DockStyle.Fill;
+            tcProveedores.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            tcProveedores.Location = new Point(337, 3);
+            tcProveedores.Name = "tcProveedores";
+            tcProveedores.SelectedIndex = 0;
+            tcProveedores.Size = new Size(590, 736);
+            tcProveedores.TabIndex = 2;
+            // 
+            // tpProveedores
+            // 
+            tpProveedores.AccessibleDescription = "";
+            tpProveedores.AccessibleName = "";
+            tpProveedores.BackColor = Color.Transparent;
+            tpProveedores.Controls.Add(dgvProveedores);
+            tpProveedores.Location = new Point(4, 27);
+            tpProveedores.Name = "tpProveedores";
+            tpProveedores.Padding = new Padding(3);
+            tpProveedores.Size = new Size(582, 705);
+            tpProveedores.TabIndex = 0;
+            tpProveedores.Text = "Proveedores";
+            // 
+            // dgvProveedores
+            // 
+            dgvProveedores.AllowUserToAddRows = false;
+            dgvProveedores.AllowUserToDeleteRows = false;
+            dgvProveedores.AllowUserToResizeColumns = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvProveedores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProveedores.BackgroundColor = Color.White;
+            dgvProveedores.BorderStyle = BorderStyle.None;
+            dgvProveedores.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProveedores.Columns.AddRange(new DataGridViewColumn[] { colNombreProveedor, colTelefonoProveedor, colCorreoProveedor, colEstadoProveedor, colDireccionProveedor });
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle8.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle8;
+            dgvProveedores.Dock = DockStyle.Fill;
+            dgvProveedores.EnableHeadersVisualStyles = false;
+            dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
+            dgvProveedores.Location = new Point(3, 3);
+            dgvProveedores.MultiSelect = false;
+            dgvProveedores.Name = "dgvProveedores";
+            dgvProveedores.ReadOnly = true;
+            dgvProveedores.RowHeadersVisible = false;
+            dgvProveedores.RowHeadersWidth = 51;
+            dgvProveedores.RowTemplate.Height = 38;
+            dgvProveedores.ScrollBars = ScrollBars.None;
+            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProveedores.Size = new Size(576, 699);
+            dgvProveedores.TabIndex = 0;
             // 
             // colNombreProveedor
             // 
             colNombreProveedor.DataPropertyName = "SupplierName";
-            dataGridViewCellStyle51.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colNombreProveedor.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colNombreProveedor.DefaultCellStyle = dataGridViewCellStyle3;
             colNombreProveedor.FillWeight = 220F;
             colNombreProveedor.HeaderText = "Proveedor";
             colNombreProveedor.MinimumWidth = 6;
@@ -850,8 +732,8 @@
             // colTelefonoProveedor
             // 
             colTelefonoProveedor.DataPropertyName = "Phone";
-            dataGridViewCellStyle52.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle4;
             colTelefonoProveedor.FillWeight = 110F;
             colTelefonoProveedor.HeaderText = "Teléfono";
             colTelefonoProveedor.MinimumWidth = 6;
@@ -861,8 +743,8 @@
             // colCorreoProveedor
             // 
             colCorreoProveedor.DataPropertyName = "Email";
-            dataGridViewCellStyle53.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle5;
             colCorreoProveedor.FillWeight = 190F;
             colCorreoProveedor.HeaderText = "Correo";
             colCorreoProveedor.MinimumWidth = 6;
@@ -872,8 +754,8 @@
             // colEstadoProveedor
             // 
             colEstadoProveedor.DataPropertyName = "IsActive";
-            dataGridViewCellStyle54.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle6;
             colEstadoProveedor.HeaderText = "Estado";
             colEstadoProveedor.MinimumWidth = 6;
             colEstadoProveedor.Name = "colEstadoProveedor";
@@ -882,13 +764,128 @@
             // colDireccionProveedor
             // 
             colDireccionProveedor.DataPropertyName = "ContactName";
-            dataGridViewCellStyle55.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle55;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle7;
             colDireccionProveedor.FillWeight = 130F;
             colDireccionProveedor.HeaderText = "Dirección";
             colDireccionProveedor.MinimumWidth = 6;
             colDireccionProveedor.Name = "colDireccionProveedor";
             colDireccionProveedor.ReadOnly = true;
+            // 
+            // tpComprasAsociadas
+            // 
+            tpComprasAsociadas.Controls.Add(dgvComprasProveedor);
+            tpComprasAsociadas.Location = new Point(4, 27);
+            tpComprasAsociadas.Name = "tpComprasAsociadas";
+            tpComprasAsociadas.Padding = new Padding(3);
+            tpComprasAsociadas.Size = new Size(582, 705);
+            tpComprasAsociadas.TabIndex = 1;
+            tpComprasAsociadas.Text = "Compras asociadas";
+            tpComprasAsociadas.UseVisualStyleBackColor = true;
+            // 
+            // dgvComprasProveedor
+            // 
+            dgvComprasProveedor.AllowUserToAddRows = false;
+            dgvComprasProveedor.AllowUserToDeleteRows = false;
+            dgvComprasProveedor.AllowUserToResizeColumns = false;
+            dataGridViewCellStyle9.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dgvComprasProveedor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvComprasProveedor.BackgroundColor = Color.White;
+            dgvComprasProveedor.BorderStyle = BorderStyle.None;
+            dgvComprasProveedor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle10.ForeColor = Color.White;
+            dataGridViewCellStyle10.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dgvComprasProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvComprasProveedor.Columns.AddRange(new DataGridViewColumn[] { colIdCompraProv, colFechaCompraProv, colTotalCompraProv, colEstadoCompraProv, colDocumentoCompraProv });
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = Color.White;
+            dataGridViewCellStyle16.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle16.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle16.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.False;
+            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle16;
+            dgvComprasProveedor.Dock = DockStyle.Fill;
+            dgvComprasProveedor.EnableHeadersVisualStyles = false;
+            dgvComprasProveedor.GridColor = Color.FromArgb(230, 234, 238);
+            dgvComprasProveedor.Location = new Point(3, 3);
+            dgvComprasProveedor.MultiSelect = false;
+            dgvComprasProveedor.Name = "dgvComprasProveedor";
+            dgvComprasProveedor.ReadOnly = true;
+            dgvComprasProveedor.RowHeadersVisible = false;
+            dgvComprasProveedor.RowHeadersWidth = 51;
+            dgvComprasProveedor.RowTemplate.Height = 38;
+            dgvComprasProveedor.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvComprasProveedor.Size = new Size(576, 699);
+            dgvComprasProveedor.TabIndex = 0;
+            // 
+            // colIdCompraProv
+            // 
+            colIdCompraProv.DataPropertyName = "PurchaseId";
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle11;
+            colIdCompraProv.FillWeight = 70F;
+            colIdCompraProv.HeaderText = "N.º";
+            colIdCompraProv.MinimumWidth = 6;
+            colIdCompraProv.Name = "colIdCompraProv";
+            colIdCompraProv.ReadOnly = true;
+            // 
+            // colFechaCompraProv
+            // 
+            colFechaCompraProv.DataPropertyName = "PurchaseDate";
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.Format = "g";
+            dataGridViewCellStyle12.NullValue = null;
+            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle12;
+            colFechaCompraProv.FillWeight = 110F;
+            colFechaCompraProv.HeaderText = "Fecha";
+            colFechaCompraProv.MinimumWidth = 6;
+            colFechaCompraProv.Name = "colFechaCompraProv";
+            colFechaCompraProv.ReadOnly = true;
+            // 
+            // colTotalCompraProv
+            // 
+            colTotalCompraProv.DataPropertyName = "Total";
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "N1";
+            dataGridViewCellStyle13.NullValue = null;
+            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle13;
+            colTotalCompraProv.FillWeight = 120F;
+            colTotalCompraProv.HeaderText = "Total";
+            colTotalCompraProv.MinimumWidth = 6;
+            colTotalCompraProv.Name = "colTotalCompraProv";
+            colTotalCompraProv.ReadOnly = true;
+            // 
+            // colEstadoCompraProv
+            // 
+            colEstadoCompraProv.DataPropertyName = "Status";
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle14;
+            colEstadoCompraProv.FillWeight = 110F;
+            colEstadoCompraProv.HeaderText = "Estado";
+            colEstadoCompraProv.MinimumWidth = 6;
+            colEstadoCompraProv.Name = "colEstadoCompraProv";
+            colEstadoCompraProv.ReadOnly = true;
+            // 
+            // colDocumentoCompraProv
+            // 
+            colDocumentoCompraProv.DataPropertyName = "DocumentNumber";
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle15;
+            colDocumentoCompraProv.FillWeight = 140F;
+            colDocumentoCompraProv.HeaderText = "Documento";
+            colDocumentoCompraProv.MinimumWidth = 6;
+            colDocumentoCompraProv.Name = "colDocumentoCompraProv";
+            colDocumentoCompraProv.ReadOnly = true;
             // 
             // FrmProveedores
             // 
@@ -906,36 +903,36 @@
             tlpFiltroButons.ResumeLayout(false);
             pnlFiltroProveedor.ResumeLayout(false);
             pnlFiltroProveedor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
             pnlNuevo.ResumeLayout(false);
             pnlEditar.ResumeLayout(false);
             pnlCambiar.ResumeLayout(false);
             pnlContenido.ResumeLayout(false);
             tlpPrincipalProveedores.ResumeLayout(false);
+            pnlDatosProveedor.ResumeLayout(false);
+            tlpInputDatosProveedor.ResumeLayout(false);
+            pnlNombre.ResumeLayout(false);
+            pnlInputNombre.ResumeLayout(false);
+            pnlInputNombre.PerformLayout();
+            pnlTelefono.ResumeLayout(false);
+            pnlinputTelefono.ResumeLayout(false);
+            pnlinputTelefono.PerformLayout();
+            pnlCorreo.ResumeLayout(false);
+            pnlInputEmail.ResumeLayout(false);
+            pnlInputEmail.PerformLayout();
+            pnlDirección.ResumeLayout(false);
+            pnlInputDireccion.ResumeLayout(false);
+            pnlInputDireccion.PerformLayout();
+            pnlActivo.ResumeLayout(false);
+            pnlActivo.PerformLayout();
+            tlpButtons.ResumeLayout(false);
+            pnlCancelar.ResumeLayout(false);
+            pnlGuardar.ResumeLayout(false);
             tcProveedores.ResumeLayout(false);
             tpProveedores.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).EndInit();
             tpComprasAsociadas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).EndInit();
-            pnlDatosProveedor.ResumeLayout(false);
-            this.tlpButtons.ResumeLayout(false);
-            pnlGuardar.ResumeLayout(false);
-            pnlCancelar.ResumeLayout(false);
-            this.tlpInputDatosProveedor.ResumeLayout(false);
-            pnlNombre.ResumeLayout(false);
-            pnlInputNombre.ResumeLayout(false);
-            pnlInputNombre.PerformLayout();
-            this.pnlTelefono.ResumeLayout(false);
-            this.pnlinputTelefono.ResumeLayout(false);
-            this.pnlinputTelefono.PerformLayout();
-            this.pnlCorreo.ResumeLayout(false);
-            this.pnlInputEmail.ResumeLayout(false);
-            this.pnlInputEmail.PerformLayout();
-            this.pnlDirección.ResumeLayout(false);
-            this.pnlInputDireccion.ResumeLayout(false);
-            this.pnlInputDireccion.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
-            pnlActivo.ResumeLayout(false);
-            pnlActivo.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1005,5 +1002,13 @@
         private DataGridViewTextBoxColumn colCorreoProveedor;
         private DataGridViewTextBoxColumn colEstadoProveedor;
         private DataGridViewTextBoxColumn colDireccionProveedor;
+        private Panel pnlCorreo;
+        private Panel pnlDirección;
+        private Panel pnlInputDireccion;
+        private Panel pnlInputEmail;
+        private Panel pnlTelefono;
+        private Panel pnlinputTelefono;
+        private TableLayoutPanel tlpButtons;
+        private TableLayoutPanel tlpInputDatosProveedor;
     }
 }

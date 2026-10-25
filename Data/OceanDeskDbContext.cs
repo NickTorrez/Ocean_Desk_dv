@@ -46,6 +46,10 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+    public virtual DbSet<Purchase> Purchases { get; set; }
+
+    public virtual DbSet<PurchaseDetail> PurchaseDetails { get; set; }
+
     public virtual DbSet<Recipe> Recipes { get; set; }
 
     public virtual DbSet<RecipeDetail> RecipeDetails { get; set; }
@@ -59,6 +63,8 @@ public partial class OceanDeskDbContext : DbContext
     public virtual DbSet<SaleDetail> SaleDetails { get; set; }
 
     public virtual DbSet<SalePayment> SalePayments { get; set; }
+
+    public virtual DbSet<Supplier> Suppliers { get; set; }
 
     public virtual DbSet<TableRestaurant> TableRestaurants { get; set; }
 
@@ -462,6 +468,63 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
         });
 
+        modelBuilder.Entity<Purchase>(entity =>
+        {
+            entity.ToTable("Purchase");
+
+            entity.HasIndex(e => new { e.PurchaseDate, e.Status }, "IX_Purchase_Date_Status").IsDescending(true, false);
+
+            entity.HasIndex(e => e.PurchaseCode, "UQ_Purchase_PurchaseCode").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.DocumentNumber).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(500);
+            entity.Property(e => e.PurchaseCode).HasMaxLength(30);
+            entity.Property(e => e.PurchaseDate)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.ReceivedDate).HasPrecision(0);
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .HasDefaultValue("Pendiente");
+            entity.Property(e => e.Subtotal).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.Total).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.Purchases)
+                .HasForeignKey(d => d.SupplierId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Purchase_Supplier");
+        });
+
+        modelBuilder.Entity<PurchaseDetail>(entity =>
+        {
+            entity.ToTable("PurchaseDetail");
+
+            entity.HasIndex(e => e.ProductId, "IX_PurchaseDetail_ProductId");
+
+            entity.HasIndex(e => e.PurchaseId, "IX_PurchaseDetail_PurchaseId");
+
+            entity.Property(e => e.LotCode).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(250);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.ReceivedQuantity).HasColumnType("decimal(12, 4)");
+            entity.Property(e => e.Subtotal).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.UnitCost).HasColumnType("decimal(12, 4)");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.PurchaseDetails)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseDetail_Product");
+
+            entity.HasOne(d => d.Purchase).WithMany(p => p.PurchaseDetails)
+                .HasForeignKey(d => d.PurchaseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseDetail_Purchase");
+        });
+
         modelBuilder.Entity<Recipe>(entity =>
         {
             entity.ToTable("Recipe");
@@ -644,6 +707,25 @@ public partial class OceanDeskDbContext : DbContext
                 .HasForeignKey(d => d.SaleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SalePayment_Sale");
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.ToTable("Supplier");
+
+            entity.HasIndex(e => e.SupplierCode, "UQ_Supplier_SupplierCode").IsUnique();
+
+            entity.Property(e => e.Address).HasMaxLength(250);
+            entity.Property(e => e.ContactName).HasMaxLength(120);
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Email).HasMaxLength(150);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Phone).HasMaxLength(30);
+            entity.Property(e => e.SupplierCode).HasMaxLength(20);
+            entity.Property(e => e.SupplierName).HasMaxLength(150);
+            entity.Property(e => e.UpdatedAt).HasPrecision(0);
         });
 
         modelBuilder.Entity<TableRestaurant>(entity =>

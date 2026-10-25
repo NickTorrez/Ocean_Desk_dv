@@ -20,34 +20,6 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvComprasProveedor.AutoGenerateColumns = false;
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void djvCompras_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void btnNuevoProveedor_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlDatosProveedor_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgvComprasProveedor_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void lblProveedorSeleccionado_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }
