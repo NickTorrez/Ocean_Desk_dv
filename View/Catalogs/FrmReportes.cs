@@ -405,17 +405,23 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// <summary>
         /// Carga los datos reales de evolución de ventas en el gráfico.
         /// </summary>
+
         public void MostrarEvolucionVentas(
             List<EvolucionVentaReporte> datos)
         {
-            Series? serie = chartVentas.Series.FindByName("Ventas");
+            Series? serie =
+                chartVentas.Series.FindByName("Ventas");
 
             if (serie == null)
                 return;
 
+            // Vaciar la serie antes de cargar los datos nuevos.
             serie.Points.Clear();
 
-            foreach (EvolucionVentaReporte dato in datos)
+            // Conservar únicamente los registros reales que devuelve
+            // el repositorio, sin duplicarlos ni crear días ficticios.
+            foreach (EvolucionVentaReporte dato in
+                datos.OrderBy(x => x.Fecha))
             {
                 serie.Points.AddXY(
                     dato.Fecha.ToString("dd/MM"),
@@ -425,59 +431,23 @@ namespace Ocean_Desk_dv.UI.Catalogs
                     $"{dato.Fecha:dd/MM/yyyy}: C$ {dato.Total:N2}";
             }
 
-            int dias = (FechaHasta.Date - FechaDesde.Date).Days + 1;
-
-            if (dias > 0 && dias <= 366)
-            {
-                var totalesPorFecha = datos
-                    .GroupBy(x => x.Fecha.Date)
-                    .ToDictionary(
-                        grupo => grupo.Key,
-                        grupo => grupo.Sum(x => x.Total));
-
-                for (
-                    DateTime fecha = FechaDesde.Date;
-                    fecha <= FechaHasta.Date;
-                    fecha = fecha.AddDays(1))
-                {
-                    decimal total = totalesPorFecha.TryGetValue(
-                        fecha,
-                        out decimal importe)
-                            ? importe
-                            : 0m;
-
-                    serie.Points.AddXY(
-                        fecha.ToString("dd/MM"),
-                        Convert.ToDouble(total));
-
-                    serie.Points[serie.Points.Count - 1].ToolTip =
-                        $"{fecha:dd/MM/yyyy}: C$ {total:N2}";
-                }
-            }
-            else
-            {
-                foreach (EvolucionVentaReporte dato in datos)
-                {
-                    serie.Points.AddXY(
-                        dato.Fecha.ToString("dd/MM"),
-                        Convert.ToDouble(dato.Total));
-
-                    serie.Points[serie.Points.Count - 1].ToolTip =
-                        $"{dato.Fecha:dd/MM/yyyy}: C$ {dato.Total:N2}";
-                }
-            }
-
             ChartArea area = chartVentas.ChartAreas["Ventas"];
 
-            area.AxisX.Interval = datos.Count > 18
-                ? Math.Ceiling(datos.Count / 12d)
+            // Mostrar aproximadamente 12 etiquetas como máximo.
+            int cantidadPuntos = serie.Points.Count;
+
+            area.AxisX.Interval = cantidadPuntos > 12
+                ? Math.Ceiling(cantidadPuntos / 12d)
                 : 1;
 
             area.AxisX.LabelStyle.Angle =
-                datos.Count > 12 ? -35 : 0;
+                cantidadPuntos > 12 ? -35 : 0;
 
+            // Mantener la escala vertical calculada a partir de
+            // los importes reales del período.
             AjustarEscalaGraficoVentas(datos);
         }
+
 
         /// <summary>
         /// Carga los cinco productos con mayor cantidad vendida.
@@ -745,9 +715,5 @@ namespace Ocean_Desk_dv.UI.Catalogs
         #endregion
 
 
-        private void lblDetalleSalidasHoy_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
