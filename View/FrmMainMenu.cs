@@ -568,9 +568,12 @@ namespace Ocean_Desk_dv.UI
                     foreach (var lote in lista)
                     {
                         string codigoLote =
-                            string.IsNullOrWhiteSpace(lote.LotCode)
-                                ? "Sin código"
-                                : lote.LotCode;
+                             string.IsNullOrWhiteSpace(lote.LotCode) ||
+                             lote.LotCode.StartsWith(
+                                 "AUTO-",
+                                 StringComparison.OrdinalIgnoreCase)
+                                     ? "Sin código"
+                                     : lote.LotCode.Trim();
 
                         string nombreIngrediente =
                             CatalogoTraducciones.TraducirIngrediente(
