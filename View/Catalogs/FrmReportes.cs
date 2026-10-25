@@ -25,18 +25,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
     {
         private ReportesPresenter? _presenter;
 
-        private Label _lblTituloActividad = null!;
-
-        private Label _lblSalidasHoy = null!;
-
-        private Label _lblPerdidasHoy = null!;
-
-        private Label _lblAjustesHoy = null!;
-
-        private FlowLayoutPanel _flpMovimientosRecientes = null!;
-
-        private TableLayoutPanel _tblContenidoReportes = null!;
-
         #region Constructor
         public FrmReportes() : this(OceanDeskRepositoryFactory.CrearReportesRepository())
         {
@@ -65,10 +53,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             cmbPeriodo.SelectedIndexChanged += ComboBoxPeriodo_SelectedIndexChanged;
             FormClosed += FrmReportes_FormClosed;
 
-            ConfigurarGraficos();
+            flpMovimientosRecientes.SizeChanged += FlpMovimientosRecientes_SizeChanged;
 
-            // Construye la zona inferior y reduce la altura
-            // disponible para los gráficos.
+            ConfigurarGraficos();
 
             _presenter = new ReportesPresenter(this, repository);
 
@@ -154,10 +141,272 @@ namespace Ocean_Desk_dv.UI.Catalogs
                     : Color.FromArgb(22, 163, 74);
         }
 
+
+        /// <summary>
+        /// Actualiza los indicadores y la lista de actividad de inventario.
+        /// Los contadores son operaciones registradas durante la jornada.
+        /// </summary>
+        public void MostrarActividadInventario(
+            ReporteActividadInventarioDto actividad)
+        {
+            ArgumentNullException.ThrowIfNull(actividad);
+
+            lblTituloActividad.Text =
+                $"ACTIVIDAD DE INVENTARIO · HOY ({DateTime.Today:dd/MM/yyyy})";
+
+            lblSalidasHoy.Text =
+                actividad.CantidadSalidas.ToString("N0");
+
+            lblPerdidasHoy.Text =
+                actividad.CantidadPerdidas.ToString("N0");
+
+            lblAjustesHoy.Text =
+                actividad.CantidadAjustes.ToString("N0");
+
+            lblDetalleSalidasHoy.Text = "Operaciones registradas";
+            lblDetallePerdidasHoy.Text = "Operaciones registradas";
+            lblDetalleAjustesHoy.Text = "Operaciones registradas";
+
+            flpMovimientosRecientes.SuspendLayout();
+
+            try
+            {
+                // Eliminar y liberar los controles de la actualización anterior.
+                while (flpMovimientosRecientes.Controls.Count > 0)
+                {
+                    Control control = flpMovimientosRecientes.Controls[0];
+
+                    flpMovimientosRecientes.Controls.RemoveAt(0);
+                    control.Dispose();
+                }
+
+                if (actividad.MovimientosRecientes.Count == 0)
+                {
+                    var mensajeVacio = new Label
+                    {
+                        Text = "No hay movimientos registrados hoy.",
+                        AutoSize = false,
+                        Height = 38,
+                        Width = ObtenerAnchoFilaActividad(),
+                        Font = new Font(
+                            "Century Gothic",
+                            8F,
+                            FontStyle.Regular),
+                        ForeColor = Color.FromArgb(138, 154, 165),
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        Margin = new Padding(2)
+                    };
+
+                    flpMovimientosRecientes.Controls.Add(mensajeVacio);
+                }
+                else
+                {
+                    foreach (
+                        MovimientoInventarioResumenDto movimiento
+                        in actividad.MovimientosRecientes)
+                    {
+                        flpMovimientosRecientes.Controls.Add(
+                            CrearFilaMovimientoInventario(movimiento));
+                    }
+                }
+            }
+            finally
+            {
+                flpMovimientosRecientes.ResumeLayout(true);
+            }
+
+            AjustarAnchoFilasActividad();
+        }
+
+        /// <summary>
+        /// Construye una fila visual para un movimiento reciente.
+        /// No utiliza un DataGridView.
+        /// </summary>
+        private Control CrearFilaMovimientoInventario(
+            MovimientoInventarioResumenDto movimiento)
+        {
+            var (textoTipo, colorTipo) =
+                ObtenerPresentacionTipoMovimiento(
+                    movimiento.TipoMovimiento);
+
+            string nombreProducto =
+                CatalogoTraducciones.TraducirIngrediente(
+                    movimiento.CodigoProducto,
+                    movimiento.Producto);
+
+            string unidad =
+                CatalogoTraducciones.TraducirUnidad(
+                    null,
+                    movimiento.Unidad);
+
+            var fila = new TableLayoutPanel
+            {
+                AutoSize = false,
+                Height = 34,
+                Width = ObtenerAnchoFilaActividad(),
+                ColumnCount = 3,
+                RowCount = 1,
+                Margin = new Padding(1, 1, 1, 3),
+                Padding = new Padding(4, 1, 4, 1),
+                BackColor = Color.FromArgb(248, 250, 252)
+            };
+
+            fila.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 70F));
+
+            fila.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100F));
+
+            fila.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 46F));
+
+            fila.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100F));
+
+            var lblTipo = new Label
+            {
+                Text = textoTipo,
+                Dock = DockStyle.Fill,
+                AutoSize = false,
+                Font = new Font(
+                    "Century Gothic",
+                    7F,
+                    FontStyle.Bold),
+                ForeColor = colorTipo,
+                TextAlign = ContentAlignment.MiddleLeft,
+                AutoEllipsis = true,
+                Margin = Padding.Empty
+            };
+
+            string detalleProducto =
+                $"{movimiento.CodigoProducto} · {nombreProducto} · " +
+                $"{movimiento.Cantidad:0.####} {unidad}";
+
+            var lblProducto = new Label
+            {
+                Text = detalleProducto,
+                Dock = DockStyle.Fill,
+                AutoSize = false,
+                Font = new Font(
+                    "Century Gothic",
+                    7.5F,
+                    FontStyle.Regular),
+                ForeColor = Color.FromArgb(18, 48, 71),
+                TextAlign = ContentAlignment.MiddleLeft,
+                AutoEllipsis = true,
+                Margin = Padding.Empty
+            };
+
+            var lblHora = new Label
+            {
+                Text = movimiento.FechaHora.ToString("HH:mm"),
+                Dock = DockStyle.Fill,
+                AutoSize = false,
+                Font = new Font(
+                    "Century Gothic",
+                    7.5F,
+                    FontStyle.Regular),
+                ForeColor = Color.FromArgb(107, 124, 135),
+                TextAlign = ContentAlignment.MiddleRight,
+                Margin = Padding.Empty
+            };
+
+            // Mostrar las observaciones completas al pasar el cursor.
+            var toolTip = new ToolTip();
+
+            string detalleCompleto = string.IsNullOrWhiteSpace(
+                movimiento.Observaciones)
+                ? detalleProducto
+                : $"{detalleProducto}\nObservaciones: " +
+                  movimiento.Observaciones;
+
+            toolTip.SetToolTip(lblProducto, detalleCompleto);
+
+            fila.Disposed += (_, _) => toolTip.Dispose();
+
+            fila.Controls.Add(lblTipo, 0, 0);
+            fila.Controls.Add(lblProducto, 1, 0);
+            fila.Controls.Add(lblHora, 2, 0);
+
+            return fila;
+        }
+
+        /// <summary>
+        /// Devuelve el texto y el color de cada tipo de movimiento.
+        /// Los valores recibidos son los códigos almacenados en la base de datos.
+        /// </summary>
+        private static (string Texto, Color Color)
+            ObtenerPresentacionTipoMovimiento(string tipo)
+        {
+            return tipo switch
+            {
+                TiposMovimientoInventario.Entrada =>
+                    ("ENTRADA", Color.FromArgb(22, 163, 74)),
+
+                TiposMovimientoInventario.Salida =>
+                    ("SALIDA", Color.FromArgb(8, 126, 164)),
+
+                TiposMovimientoInventario.Perdida =>
+                    ("PÉRDIDA", Color.FromArgb(190, 66, 66)),
+
+                TiposMovimientoInventario.Ajuste =>
+                    ("AJUSTE", Color.FromArgb(218, 154, 24)),
+
+                TiposMovimientoInventario.Compra =>
+                    ("COMPRA", Color.FromArgb(22, 163, 74)),
+
+                TiposMovimientoInventario.Venta =>
+                    ("VENTA", Color.FromArgb(59, 130, 246)),
+
+                _ => ("MOVIMIENTO", Color.FromArgb(107, 124, 135))
+            };
+        }
+
+        /// <summary>
+        /// Calcula un ancho de fila que deja espacio para el scroll vertical.
+        /// </summary>
+        private int ObtenerAnchoFilaActividad()
+        {
+            return Math.Max(
+                100,
+                flpMovimientosRecientes.ClientSize.Width
+                - SystemInformation.VerticalScrollBarWidth
+                - 8);
+        }
+
+        private void AjustarAnchoFilasActividad()
+        {
+            if (flpMovimientosRecientes is null ||
+                flpMovimientosRecientes.IsDisposed)
+            {
+                return;
+            }
+
+            int ancho = ObtenerAnchoFilaActividad();
+
+            foreach (Control control in
+                flpMovimientosRecientes.Controls)
+            {
+                if (control.Width != ancho)
+                {
+                    control.Width = ancho;
+                }
+            }
+        }
+
+        private void FlpMovimientosRecientes_SizeChanged(
+            object? sender,
+            EventArgs e)
+        {
+            AjustarAnchoFilasActividad();
+        }
+
+
         /// <summary>
         /// Carga los datos reales de evolución de ventas en el gráfico.
         /// </summary>
-        public void MostrarEvolucionVentas(List<EvolucionVentaReporte> datos)
+        public void MostrarEvolucionVentas(
+            List<EvolucionVentaReporte> datos)
         {
             Series? serie = chartVentas.Series.FindByName("Ventas");
 
@@ -166,11 +415,46 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             serie.Points.Clear();
 
-            foreach (EvolucionVentaReporte dato in datos)
+            int dias = (FechaHasta.Date - FechaDesde.Date).Days + 1;
+
+            if (dias > 0 && dias <= 366)
             {
-                serie.Points.AddXY(
-                    dato.Fecha.ToString("dd/MM"),
-                    Convert.ToDouble(dato.Total));
+                var totalesPorFecha = datos
+                    .GroupBy(x => x.Fecha.Date)
+                    .ToDictionary(
+                        grupo => grupo.Key,
+                        grupo => grupo.Sum(x => x.Total));
+
+                for (
+                    DateTime fecha = FechaDesde.Date;
+                    fecha <= FechaHasta.Date;
+                    fecha = fecha.AddDays(1))
+                {
+                    decimal total = totalesPorFecha.TryGetValue(
+                        fecha,
+                        out decimal importe)
+                            ? importe
+                            : 0m;
+
+                    serie.Points.AddXY(
+                        fecha.ToString("dd/MM"),
+                        Convert.ToDouble(total));
+
+                    serie.Points[serie.Points.Count - 1].ToolTip =
+                        $"{fecha:dd/MM/yyyy}: C$ {total:N2}";
+                }
+            }
+            else
+            {
+                foreach (EvolucionVentaReporte dato in datos)
+                {
+                    serie.Points.AddXY(
+                        dato.Fecha.ToString("dd/MM"),
+                        Convert.ToDouble(dato.Total));
+
+                    serie.Points[serie.Points.Count - 1].ToolTip =
+                        $"{dato.Fecha:dd/MM/yyyy}: C$ {dato.Total:N2}";
+                }
             }
 
             AjustarEscalaGraficoVentas(datos);
@@ -179,20 +463,34 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// <summary>
         /// Carga los cinco productos con mayor cantidad vendida.
         /// </summary>
-        public void MostrarProductosMasVendidos(List<ProductoVendidoReporte> datos)
+
+        public void MostrarProductosMasVendidos(
+            List<ProductoVendidoReporte> datos)
         {
-            Series? serie = chartProductos.Series.FindByName("Productos");
+            Series? serie =
+                chartProductos.Series.FindByName("Productos");
 
             if (serie == null)
                 return;
 
             serie.Points.Clear();
 
+            // Mostrar la cantidad sobre cada barra.
+            serie.IsValueShownAsLabel = true;
+            serie.LabelFormat = "#,##0.##";
+            serie.Font = new Font(
+                "Segoe UI",
+                8F,
+                FontStyle.Bold);
+
             foreach (ProductoVendidoReporte dato in datos)
             {
                 serie.Points.AddXY(
                     dato.Producto,
                     Convert.ToDouble(dato.Cantidad));
+
+                serie.Points[serie.Points.Count - 1].ToolTip =
+                    $"{dato.Producto}: {dato.Cantidad:0.####}";
             }
 
             AjustarEscalaGraficoProductos(datos);
