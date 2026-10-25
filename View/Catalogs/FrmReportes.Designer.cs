@@ -77,11 +77,13 @@
             flpMovimientosRecientes = new FlowLayoutPanel();
             pnlCardAjustes = new Panel();
             tblCardAjustes = new TableLayoutPanel();
+            lblIconoAjustes = new Label();
             lblDetalleAjustesHoy = new Label();
             lblTituloAjustesHoy = new Label();
             lblAjustesHoy = new Label();
             pnlCardPerdidas = new Panel();
             tblCardPerdidas = new TableLayoutPanel();
+            lblIconoPerdidas = new Label();
             lblDetallePerdidasHoy = new Label();
             lblTituloPerdidasHoy = new Label();
             lblPerdidasHoy = new Label();
@@ -90,6 +92,7 @@
             lblDetalleSalidasHoy = new Label();
             lblTituloSalidasHoy = new Label();
             lblSalidasHoy = new Label();
+            lblIconoSalidas = new Label();
             pnlHeaderMovimientos = new Panel();
             lblTituloActividad = new Label();
             pnlFiltros = new Panel();
@@ -431,7 +434,7 @@
             pnlGraficas.Dock = DockStyle.Fill;
             pnlGraficas.Location = new Point(8, 258);
             pnlGraficas.Name = "pnlGraficas";
-            pnlGraficas.Padding = new Padding(0, 5, 0, 5);
+            pnlGraficas.Padding = new Padding(0, 4, 0, 4);
             pnlGraficas.Size = new Size(924, 564);
             pnlGraficas.TabIndex = 2;
             // 
@@ -443,12 +446,12 @@
             tblContenidoReportes.Controls.Add(pnlActividadInventario, 0, 1);
             tblContenidoReportes.Dock = DockStyle.Fill;
             tblContenidoReportes.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tblContenidoReportes.Location = new Point(0, 5);
+            tblContenidoReportes.Location = new Point(0, 4);
             tblContenidoReportes.Name = "tblContenidoReportes";
             tblContenidoReportes.RowCount = 2;
-            tblContenidoReportes.RowStyles.Add(new RowStyle(SizeType.Percent, 64F));
-            tblContenidoReportes.RowStyles.Add(new RowStyle(SizeType.Percent, 36F));
-            tblContenidoReportes.Size = new Size(924, 554);
+            tblContenidoReportes.RowStyles.Add(new RowStyle(SizeType.Percent, 68F));
+            tblContenidoReportes.RowStyles.Add(new RowStyle(SizeType.Percent, 32F));
+            tblContenidoReportes.Size = new Size(924, 556);
             tblContenidoReportes.TabIndex = 1;
             // 
             // tblGraficas
@@ -463,7 +466,7 @@
             tblGraficas.Name = "tblGraficas";
             tblGraficas.RowCount = 1;
             tblGraficas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblGraficas.Size = new Size(918, 348);
+            tblGraficas.Size = new Size(918, 372);
             tblGraficas.TabIndex = 0;
             // 
             // pnlVentasGrafica
@@ -473,11 +476,11 @@
             pnlVentasGrafica.Controls.Add(lblSubtituloVentasGrafica);
             pnlVentasGrafica.Controls.Add(lblTituloVentasGrafica);
             pnlVentasGrafica.Dock = DockStyle.Fill;
-            pnlVentasGrafica.Location = new Point(6, 5);
-            pnlVentasGrafica.Margin = new Padding(6, 5, 6, 5);
+            pnlVentasGrafica.Location = new Point(5, 4);
+            pnlVentasGrafica.Margin = new Padding(5, 4, 5, 4);
             pnlVentasGrafica.Name = "pnlVentasGrafica";
-            pnlVentasGrafica.Padding = new Padding(15);
-            pnlVentasGrafica.Size = new Size(447, 338);
+            pnlVentasGrafica.Padding = new Padding(8);
+            pnlVentasGrafica.Size = new Size(449, 364);
             pnlVentasGrafica.TabIndex = 0;
             // 
             // chartVentas
@@ -488,13 +491,14 @@
             chartVentas.Dock = DockStyle.Fill;
             legend1.Name = "Legend1";
             chartVentas.Legends.Add(legend1);
-            chartVentas.Location = new Point(15, 51);
+            chartVentas.Location = new Point(8, 44);
+            chartVentas.Margin = new Padding(0);
             chartVentas.Name = "chartVentas";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chartVentas.Series.Add(series1);
-            chartVentas.Size = new Size(417, 272);
+            chartVentas.Size = new Size(433, 312);
             chartVentas.TabIndex = 2;
             chartVentas.Text = "chart1";
             // 
@@ -504,7 +508,7 @@
             lblSubtituloVentasGrafica.Dock = DockStyle.Top;
             lblSubtituloVentasGrafica.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblSubtituloVentasGrafica.ForeColor = Color.FromArgb(138, 154, 165);
-            lblSubtituloVentasGrafica.Location = new Point(15, 34);
+            lblSubtituloVentasGrafica.Location = new Point(8, 27);
             lblSubtituloVentasGrafica.Name = "lblSubtituloVentasGrafica";
             lblSubtituloVentasGrafica.Size = new Size(293, 17);
             lblSubtituloVentasGrafica.TabIndex = 1;
@@ -516,7 +520,7 @@
             lblTituloVentasGrafica.Dock = DockStyle.Top;
             lblTituloVentasGrafica.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTituloVentasGrafica.ForeColor = Color.FromArgb(18, 48, 71);
-            lblTituloVentasGrafica.Location = new Point(15, 15);
+            lblTituloVentasGrafica.Location = new Point(8, 8);
             lblTituloVentasGrafica.Name = "lblTituloVentasGrafica";
             lblTituloVentasGrafica.Size = new Size(175, 19);
             lblTituloVentasGrafica.TabIndex = 0;
@@ -529,11 +533,11 @@
             pnlProductosGrafica.Controls.Add(lblSubtituloProductosGrafica);
             pnlProductosGrafica.Controls.Add(lblTituloProductosGrafica);
             pnlProductosGrafica.Dock = DockStyle.Fill;
-            pnlProductosGrafica.Location = new Point(465, 5);
-            pnlProductosGrafica.Margin = new Padding(6, 5, 6, 5);
+            pnlProductosGrafica.Location = new Point(464, 4);
+            pnlProductosGrafica.Margin = new Padding(5, 4, 5, 4);
             pnlProductosGrafica.Name = "pnlProductosGrafica";
-            pnlProductosGrafica.Padding = new Padding(15);
-            pnlProductosGrafica.Size = new Size(447, 338);
+            pnlProductosGrafica.Padding = new Padding(8);
+            pnlProductosGrafica.Size = new Size(449, 364);
             pnlProductosGrafica.TabIndex = 1;
             // 
             // chartProductos
@@ -544,13 +548,14 @@
             chartProductos.Dock = DockStyle.Fill;
             legend2.Name = "Legend1";
             chartProductos.Legends.Add(legend2);
-            chartProductos.Location = new Point(15, 51);
+            chartProductos.Location = new Point(8, 44);
+            chartProductos.Margin = new Padding(0);
             chartProductos.Name = "chartProductos";
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             chartProductos.Series.Add(series2);
-            chartProductos.Size = new Size(417, 272);
+            chartProductos.Size = new Size(433, 312);
             chartProductos.TabIndex = 3;
             chartProductos.Text = "chart1";
             // 
@@ -560,7 +565,7 @@
             lblSubtituloProductosGrafica.Dock = DockStyle.Top;
             lblSubtituloProductosGrafica.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblSubtituloProductosGrafica.ForeColor = Color.FromArgb(138, 154, 165);
-            lblSubtituloProductosGrafica.Location = new Point(15, 34);
+            lblSubtituloProductosGrafica.Location = new Point(8, 27);
             lblSubtituloProductosGrafica.Name = "lblSubtituloProductosGrafica";
             lblSubtituloProductosGrafica.Size = new Size(206, 17);
             lblSubtituloProductosGrafica.TabIndex = 2;
@@ -572,7 +577,7 @@
             lblTituloProductosGrafica.Dock = DockStyle.Top;
             lblTituloProductosGrafica.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTituloProductosGrafica.ForeColor = Color.FromArgb(18, 48, 71);
-            lblTituloProductosGrafica.Location = new Point(15, 15);
+            lblTituloProductosGrafica.Location = new Point(8, 8);
             lblTituloProductosGrafica.Name = "lblTituloProductosGrafica";
             lblTituloProductosGrafica.Size = new Size(211, 19);
             lblTituloProductosGrafica.TabIndex = 1;
@@ -582,10 +587,10 @@
             // 
             pnlActividadInventario.Controls.Add(tblActividadInventario);
             pnlActividadInventario.Dock = DockStyle.Fill;
-            pnlActividadInventario.Location = new Point(3, 357);
+            pnlActividadInventario.Location = new Point(3, 381);
             pnlActividadInventario.Name = "pnlActividadInventario";
             pnlActividadInventario.Padding = new Padding(4);
-            pnlActividadInventario.Size = new Size(918, 194);
+            pnlActividadInventario.Size = new Size(918, 172);
             pnlActividadInventario.TabIndex = 1;
             // 
             // tblActividadInventario
@@ -601,7 +606,7 @@
             tblActividadInventario.RowCount = 2;
             tblActividadInventario.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
             tblActividadInventario.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblActividadInventario.Size = new Size(910, 186);
+            tblActividadInventario.Size = new Size(910, 164);
             tblActividadInventario.TabIndex = 0;
             // 
             // tblTarjetasActividad
@@ -620,7 +625,7 @@
             tblTarjetasActividad.Name = "tblTarjetasActividad";
             tblTarjetasActividad.RowCount = 1;
             tblTarjetasActividad.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblTarjetasActividad.Size = new Size(904, 154);
+            tblTarjetasActividad.Size = new Size(904, 132);
             tblTarjetasActividad.TabIndex = 1;
             // 
             // pnlUltimosMovimientos
@@ -633,7 +638,7 @@
             pnlUltimosMovimientos.Margin = new Padding(4);
             pnlUltimosMovimientos.Name = "pnlUltimosMovimientos";
             pnlUltimosMovimientos.Padding = new Padding(8);
-            pnlUltimosMovimientos.Size = new Size(410, 146);
+            pnlUltimosMovimientos.Size = new Size(410, 124);
             pnlUltimosMovimientos.TabIndex = 3;
             // 
             // tblUltimosMovimientos
@@ -649,7 +654,7 @@
             tblUltimosMovimientos.RowCount = 2;
             tblUltimosMovimientos.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
             tblUltimosMovimientos.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblUltimosMovimientos.Size = new Size(394, 130);
+            tblUltimosMovimientos.Size = new Size(394, 108);
             tblUltimosMovimientos.TabIndex = 0;
             // 
             // lblTituloMovimientosRecientes
@@ -672,7 +677,7 @@
             flpMovimientosRecientes.Location = new Point(3, 25);
             flpMovimientosRecientes.Name = "flpMovimientosRecientes";
             flpMovimientosRecientes.Padding = new Padding(2);
-            flpMovimientosRecientes.Size = new Size(388, 102);
+            flpMovimientosRecientes.Size = new Size(388, 80);
             flpMovimientosRecientes.TabIndex = 1;
             flpMovimientosRecientes.WrapContents = false;
             // 
@@ -686,14 +691,16 @@
             pnlCardAjustes.Margin = new Padding(4);
             pnlCardAjustes.Name = "pnlCardAjustes";
             pnlCardAjustes.Padding = new Padding(8);
-            pnlCardAjustes.Size = new Size(154, 146);
+            pnlCardAjustes.Size = new Size(154, 124);
             pnlCardAjustes.TabIndex = 2;
             // 
             // tblCardAjustes
             // 
-            tblCardAjustes.ColumnCount = 1;
-            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tblCardAjustes.BackColor = Color.FloralWhite;
+            tblCardAjustes.ColumnCount = 2;
+            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78F));
+            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
+            tblCardAjustes.Controls.Add(lblIconoAjustes, 1, 0);
             tblCardAjustes.Controls.Add(lblDetalleAjustesHoy, 0, 2);
             tblCardAjustes.Controls.Add(lblTituloAjustesHoy, 0, 0);
             tblCardAjustes.Controls.Add(lblAjustesHoy, 0, 1);
@@ -701,22 +708,36 @@
             tblCardAjustes.Location = new Point(8, 8);
             tblCardAjustes.Name = "tblCardAjustes";
             tblCardAjustes.RowCount = 3;
-            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
-            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
-            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
-            tblCardAjustes.Size = new Size(138, 130);
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            tblCardAjustes.Size = new Size(138, 108);
             tblCardAjustes.TabIndex = 2;
+            // 
+            // lblIconoAjustes
+            // 
+            lblIconoAjustes.Dock = DockStyle.Fill;
+            lblIconoAjustes.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblIconoAjustes.ForeColor = Color.FromArgb(218, 154, 24);
+            lblIconoAjustes.Location = new Point(110, 0);
+            lblIconoAjustes.Name = "lblIconoAjustes";
+            lblIconoAjustes.Size = new Size(25, 26);
+            lblIconoAjustes.TabIndex = 5;
+            lblIconoAjustes.Text = "⇄";
+            lblIconoAjustes.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblDetalleAjustesHoy
             // 
+            lblDetalleAjustesHoy.AutoEllipsis = true;
             lblDetalleAjustesHoy.Dock = DockStyle.Fill;
-            lblDetalleAjustesHoy.Font = new Font("Century Gothic", 7.20000029F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDetalleAjustesHoy.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleAjustesHoy.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleAjustesHoy.Location = new Point(3, 84);
+            lblDetalleAjustesHoy.Location = new Point(3, 65);
             lblDetalleAjustesHoy.Name = "lblDetalleAjustesHoy";
-            lblDetalleAjustesHoy.Size = new Size(132, 46);
+            lblDetalleAjustesHoy.Size = new Size(101, 43);
             lblDetalleAjustesHoy.TabIndex = 2;
             lblDetalleAjustesHoy.Text = "Operaciones registradas";
+            lblDetalleAjustesHoy.TextAlign = ContentAlignment.BottomLeft;
             // 
             // lblTituloAjustesHoy
             // 
@@ -725,7 +746,7 @@
             lblTituloAjustesHoy.ForeColor = Color.FromArgb(107, 124, 135);
             lblTituloAjustesHoy.Location = new Point(3, 0);
             lblTituloAjustesHoy.Name = "lblTituloAjustesHoy";
-            lblTituloAjustesHoy.Size = new Size(132, 22);
+            lblTituloAjustesHoy.Size = new Size(101, 26);
             lblTituloAjustesHoy.TabIndex = 0;
             lblTituloAjustesHoy.Text = "Ajustes de hoy";
             lblTituloAjustesHoy.TextAlign = ContentAlignment.BottomLeft;
@@ -733,11 +754,11 @@
             // lblAjustesHoy
             // 
             lblAjustesHoy.Dock = DockStyle.Fill;
-            lblAjustesHoy.Font = new Font("Century Gothic", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAjustesHoy.Font = new Font("Century Gothic", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblAjustesHoy.ForeColor = Color.FromArgb(218, 154, 24);
-            lblAjustesHoy.Location = new Point(3, 22);
+            lblAjustesHoy.Location = new Point(3, 26);
             lblAjustesHoy.Name = "lblAjustesHoy";
-            lblAjustesHoy.Size = new Size(132, 62);
+            lblAjustesHoy.Size = new Size(101, 39);
             lblAjustesHoy.TabIndex = 1;
             lblAjustesHoy.Text = "0";
             lblAjustesHoy.TextAlign = ContentAlignment.MiddleLeft;
@@ -752,14 +773,16 @@
             pnlCardPerdidas.Margin = new Padding(4);
             pnlCardPerdidas.Name = "pnlCardPerdidas";
             pnlCardPerdidas.Padding = new Padding(8);
-            pnlCardPerdidas.Size = new Size(154, 146);
+            pnlCardPerdidas.Size = new Size(154, 124);
             pnlCardPerdidas.TabIndex = 1;
             // 
             // tblCardPerdidas
             // 
-            tblCardPerdidas.ColumnCount = 1;
-            tblCardPerdidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblCardPerdidas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tblCardPerdidas.BackColor = Color.FromArgb(255, 247, 247);
+            tblCardPerdidas.ColumnCount = 2;
+            tblCardPerdidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78F));
+            tblCardPerdidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
+            tblCardPerdidas.Controls.Add(lblIconoPerdidas, 1, 0);
             tblCardPerdidas.Controls.Add(lblDetallePerdidasHoy, 0, 2);
             tblCardPerdidas.Controls.Add(lblTituloPerdidasHoy, 0, 0);
             tblCardPerdidas.Controls.Add(lblPerdidasHoy, 0, 1);
@@ -767,22 +790,36 @@
             tblCardPerdidas.Location = new Point(8, 8);
             tblCardPerdidas.Name = "tblCardPerdidas";
             tblCardPerdidas.RowCount = 3;
-            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
-            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
-            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
-            tblCardPerdidas.Size = new Size(138, 130);
+            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+            tblCardPerdidas.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            tblCardPerdidas.Size = new Size(138, 108);
             tblCardPerdidas.TabIndex = 1;
+            // 
+            // lblIconoPerdidas
+            // 
+            lblIconoPerdidas.Dock = DockStyle.Fill;
+            lblIconoPerdidas.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblIconoPerdidas.ForeColor = Color.FromArgb(190, 66, 66);
+            lblIconoPerdidas.Location = new Point(110, 0);
+            lblIconoPerdidas.Name = "lblIconoPerdidas";
+            lblIconoPerdidas.Size = new Size(25, 26);
+            lblIconoPerdidas.TabIndex = 4;
+            lblIconoPerdidas.Text = "!";
+            lblIconoPerdidas.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblDetallePerdidasHoy
             // 
+            lblDetallePerdidasHoy.AutoEllipsis = true;
             lblDetallePerdidasHoy.Dock = DockStyle.Fill;
-            lblDetallePerdidasHoy.Font = new Font("Century Gothic", 7.20000029F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDetallePerdidasHoy.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetallePerdidasHoy.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetallePerdidasHoy.Location = new Point(3, 84);
+            lblDetallePerdidasHoy.Location = new Point(3, 65);
             lblDetallePerdidasHoy.Name = "lblDetallePerdidasHoy";
-            lblDetallePerdidasHoy.Size = new Size(132, 46);
+            lblDetallePerdidasHoy.Size = new Size(101, 43);
             lblDetallePerdidasHoy.TabIndex = 2;
             lblDetallePerdidasHoy.Text = "Operaciones registradas";
+            lblDetallePerdidasHoy.TextAlign = ContentAlignment.BottomLeft;
             // 
             // lblTituloPerdidasHoy
             // 
@@ -791,7 +828,7 @@
             lblTituloPerdidasHoy.ForeColor = Color.FromArgb(107, 124, 135);
             lblTituloPerdidasHoy.Location = new Point(3, 0);
             lblTituloPerdidasHoy.Name = "lblTituloPerdidasHoy";
-            lblTituloPerdidasHoy.Size = new Size(132, 22);
+            lblTituloPerdidasHoy.Size = new Size(101, 26);
             lblTituloPerdidasHoy.TabIndex = 0;
             lblTituloPerdidasHoy.Text = "Pérdidas / daños";
             lblTituloPerdidasHoy.TextAlign = ContentAlignment.BottomLeft;
@@ -799,11 +836,11 @@
             // lblPerdidasHoy
             // 
             lblPerdidasHoy.Dock = DockStyle.Fill;
-            lblPerdidasHoy.Font = new Font("Century Gothic", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPerdidasHoy.Font = new Font("Century Gothic", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblPerdidasHoy.ForeColor = Color.FromArgb(190, 66, 66);
-            lblPerdidasHoy.Location = new Point(3, 22);
+            lblPerdidasHoy.Location = new Point(3, 26);
             lblPerdidasHoy.Name = "lblPerdidasHoy";
-            lblPerdidasHoy.Size = new Size(132, 62);
+            lblPerdidasHoy.Size = new Size(101, 39);
             lblPerdidasHoy.TabIndex = 1;
             lblPerdidasHoy.Text = "0";
             lblPerdidasHoy.TextAlign = ContentAlignment.MiddleLeft;
@@ -818,37 +855,42 @@
             pnlCardSalidas.Margin = new Padding(4);
             pnlCardSalidas.Name = "pnlCardSalidas";
             pnlCardSalidas.Padding = new Padding(8);
-            pnlCardSalidas.Size = new Size(154, 146);
+            pnlCardSalidas.Size = new Size(154, 124);
             pnlCardSalidas.TabIndex = 0;
             // 
             // tblCardSalidas
             // 
-            tblCardSalidas.ColumnCount = 1;
-            tblCardSalidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblCardSalidas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tblCardSalidas.BackColor = Color.FromArgb(245, 250, 253);
+            tblCardSalidas.ColumnCount = 2;
+            tblCardSalidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78F));
+            tblCardSalidas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
             tblCardSalidas.Controls.Add(lblDetalleSalidasHoy, 0, 2);
             tblCardSalidas.Controls.Add(lblTituloSalidasHoy, 0, 0);
             tblCardSalidas.Controls.Add(lblSalidasHoy, 0, 1);
+            tblCardSalidas.Controls.Add(lblIconoSalidas, 1, 0);
             tblCardSalidas.Dock = DockStyle.Fill;
             tblCardSalidas.Location = new Point(8, 8);
             tblCardSalidas.Name = "tblCardSalidas";
             tblCardSalidas.RowCount = 3;
-            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
-            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
-            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
-            tblCardSalidas.Size = new Size(138, 130);
+            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+            tblCardSalidas.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            tblCardSalidas.Size = new Size(138, 108);
             tblCardSalidas.TabIndex = 0;
             // 
             // lblDetalleSalidasHoy
             // 
+            lblDetalleSalidasHoy.AutoEllipsis = true;
             lblDetalleSalidasHoy.Dock = DockStyle.Fill;
-            lblDetalleSalidasHoy.Font = new Font("Century Gothic", 7.20000029F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDetalleSalidasHoy.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleSalidasHoy.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleSalidasHoy.Location = new Point(3, 84);
+            lblDetalleSalidasHoy.Location = new Point(3, 65);
             lblDetalleSalidasHoy.Name = "lblDetalleSalidasHoy";
-            lblDetalleSalidasHoy.Size = new Size(132, 46);
+            lblDetalleSalidasHoy.Size = new Size(101, 43);
             lblDetalleSalidasHoy.TabIndex = 2;
             lblDetalleSalidasHoy.Text = "Operaciones registradas";
+            lblDetalleSalidasHoy.TextAlign = ContentAlignment.BottomLeft;
+            lblDetalleSalidasHoy.Click += lblDetalleSalidasHoy_Click;
             // 
             // lblTituloSalidasHoy
             // 
@@ -857,7 +899,7 @@
             lblTituloSalidasHoy.ForeColor = Color.FromArgb(107, 124, 135);
             lblTituloSalidasHoy.Location = new Point(3, 0);
             lblTituloSalidasHoy.Name = "lblTituloSalidasHoy";
-            lblTituloSalidasHoy.Size = new Size(132, 22);
+            lblTituloSalidasHoy.Size = new Size(101, 26);
             lblTituloSalidasHoy.TabIndex = 0;
             lblTituloSalidasHoy.Text = "Salidas de hoy";
             lblTituloSalidasHoy.TextAlign = ContentAlignment.BottomLeft;
@@ -865,14 +907,26 @@
             // lblSalidasHoy
             // 
             lblSalidasHoy.Dock = DockStyle.Fill;
-            lblSalidasHoy.Font = new Font("Century Gothic", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSalidasHoy.Font = new Font("Century Gothic", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSalidasHoy.ForeColor = Color.FromArgb(8, 126, 164);
-            lblSalidasHoy.Location = new Point(3, 22);
+            lblSalidasHoy.Location = new Point(3, 26);
             lblSalidasHoy.Name = "lblSalidasHoy";
-            lblSalidasHoy.Size = new Size(132, 62);
+            lblSalidasHoy.Size = new Size(101, 39);
             lblSalidasHoy.TabIndex = 1;
             lblSalidasHoy.Text = "0";
-            lblSalidasHoy.TextAlign = ContentAlignment.MiddleLeft;
+            lblSalidasHoy.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // lblIconoSalidas
+            // 
+            lblIconoSalidas.Dock = DockStyle.Fill;
+            lblIconoSalidas.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblIconoSalidas.ForeColor = Color.FromArgb(8, 126, 164);
+            lblIconoSalidas.Location = new Point(110, 0);
+            lblIconoSalidas.Name = "lblIconoSalidas";
+            lblIconoSalidas.Size = new Size(25, 26);
+            lblIconoSalidas.TabIndex = 3;
+            lblIconoSalidas.Text = "↗";
+            lblIconoSalidas.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlHeaderMovimientos
             // 
@@ -1185,5 +1239,8 @@
         private Label lblTituloMovimientosRecientes;
         private FlowLayoutPanel flpMovimientosRecientes;
         private Panel pnlHeaderMovimientos;
+        private Label lblIconoSalidas;
+        private Label lblIconoPerdidas;
+        private Label lblIconoAjustes;
     }
 }

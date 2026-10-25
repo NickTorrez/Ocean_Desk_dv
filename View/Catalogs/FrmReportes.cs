@@ -415,6 +415,16 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             serie.Points.Clear();
 
+            foreach (EvolucionVentaReporte dato in datos)
+            {
+                serie.Points.AddXY(
+                    dato.Fecha.ToString("dd/MM"),
+                    Convert.ToDouble(dato.Total));
+
+                serie.Points[serie.Points.Count - 1].ToolTip =
+                    $"{dato.Fecha:dd/MM/yyyy}: C$ {dato.Total:N2}";
+            }
+
             int dias = (FechaHasta.Date - FechaDesde.Date).Days + 1;
 
             if (dias > 0 && dias <= 366)
@@ -456,6 +466,15 @@ namespace Ocean_Desk_dv.UI.Catalogs
                         $"{dato.Fecha:dd/MM/yyyy}: C$ {dato.Total:N2}";
                 }
             }
+
+            ChartArea area = chartVentas.ChartAreas["Ventas"];
+
+            area.AxisX.Interval = datos.Count > 18
+                ? Math.Ceiling(datos.Count / 12d)
+                : 1;
+
+            area.AxisX.LabelStyle.Angle =
+                datos.Count > 12 ? -35 : 0;
 
             AjustarEscalaGraficoVentas(datos);
         }
@@ -571,10 +590,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
             area.AxisY.LabelStyle.Format = "C$ #,##0";
 
             area.Position.Auto = false;
-            area.Position.X = 6;
-            area.Position.Y = 5;
-            area.Position.Width = 90;
-            area.Position.Height = 82;
+            area.Position.X = 3;
+            area.Position.Y = 3;
+            area.Position.Width = 94;
+            area.Position.Height = 88;
 
             Series ventas = new Series("Ventas")
             {
@@ -625,10 +644,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
             area.AxisY.LabelStyle.ForeColor = Color.FromArgb(100, 115, 125);
 
             area.Position.Auto = false;
-            area.Position.X = 6;
-            area.Position.Y = 5;
-            area.Position.Width = 90;
-            area.Position.Height = 82;
+            area.Position.X = 3;
+            area.Position.Y = 3;
+            area.Position.Width = 94;
+            area.Position.Height = 88;
 
             Series productos = new Series("Productos")
             {
@@ -647,7 +666,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
 
-        
+
         #endregion
 
         #region Ajuste de Escalas de Gráficos
@@ -726,7 +745,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
         #endregion
 
 
+        private void lblDetalleSalidasHoy_Click(object sender, EventArgs e)
+        {
 
-        
+        }
     }
 }
