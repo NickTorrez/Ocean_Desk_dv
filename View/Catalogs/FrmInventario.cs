@@ -24,6 +24,9 @@ namespace Ocean_Desk_dv.View.Catalogs
     {
         private InventarioPresenter? _presenter;
 
+        // Fuente reutilizable para destacar el tipo de movimiento.
+        private Font? _fuenteTipoMovimiento;
+
         // Evita disparar consultas durante la configuración de los filtros.
         private bool _actualizandoFiltros;
 
@@ -177,6 +180,8 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvMovimientos.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 
+            _fuenteTipoMovimiento ??= new Font(dgvMovimientos.Font, FontStyle.Bold);
+
             colStockActual.DefaultCellStyle.Format = "#,##0.####";
             colStockMinimo.DefaultCellStyle.Format = "#,##0.####";
             colCantidadMov.DefaultCellStyle.Format = "#,##0.####";
@@ -200,9 +205,10 @@ namespace Ocean_Desk_dv.View.Catalogs
                 DgvExistencias_CellFormatting;
         }
 
+
         private void DgvMovimientos_CellFormatting(
-        object? sender,
-        DataGridViewCellFormattingEventArgs e)
+            object? sender,
+            DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
@@ -216,7 +222,45 @@ namespace Ocean_Desk_dv.View.Catalogs
             string nombreColumna =
                 dgvMovimientos.Columns[e.ColumnIndex].Name;
 
-            if (nombreColumna == colProductoMov.Name)
+            // Destacar el tipo de movimiento con el color
+            // correspondiente al botón de la pestaña Existencias.
+            if (nombreColumna == colTipoMov.Name)
+            {
+                string tipo =
+                    movimiento.MovementType?.Trim().ToUpperInvariant()
+                    ?? string.Empty;
+
+                Color colorTipo = tipo switch
+                {
+                    "ENTRADA" =>
+                        Color.FromArgb(8, 126, 164),
+
+                    "AJUSTE" =>
+                        Color.CadetBlue,
+
+                    "SALIDA" =>
+                        Color.FromArgb(217, 119, 6),
+
+                    "PÉRDIDA/DAÑADO" or "PERDIDA/DAÑADO" =>
+                        Color.FromArgb(163, 61, 61),
+
+                    "COMPRA" =>
+                        Color.FromArgb(22, 163, 74),
+
+                    "VENTA" =>
+                        Color.FromArgb(8, 126, 164),
+
+                    _ =>
+                        Color.FromArgb(8, 31, 63)
+                };
+
+                e.CellStyle.Font =
+                    _fuenteTipoMovimiento ?? dgvMovimientos.Font;
+
+                e.CellStyle.ForeColor = colorTipo;
+                e.CellStyle.SelectionForeColor = colorTipo;
+            }
+            else if (nombreColumna == colProductoMov.Name)
             {
                 e.Value = CatalogoTraducciones.TraducirIngrediente(
                     null,
@@ -233,6 +277,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                 e.FormattingApplied = true;
             }
         }
+
 
         /// <summary>
         /// Prepara las opciones iniciales de los filtros.
@@ -369,6 +414,9 @@ namespace Ocean_Desk_dv.View.Catalogs
             {
                 _presenter?.Dispose();
                 _presenter = null;
+
+                _fuenteTipoMovimiento?.Dispose();
+                _fuenteTipoMovimiento = null;
             };
         }
 

@@ -757,7 +757,7 @@
             // colOrigenMov
             // 
             colOrigenMov.DataPropertyName = "Source";
-            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colOrigenMov.DefaultCellStyle = dataGridViewCellStyle19;
             colOrigenMov.FillWeight = 120F;
             colOrigenMov.HeaderText = "Origen";
@@ -978,13 +978,6 @@
         private DateTimePicker dtpDesde;
         private ComboBox cmbTipoMovimiento;
         private DataGridView dgvMovimientos;
-        private DataGridViewTextBoxColumn colFechaMov;
-        private DataGridViewTextBoxColumn colTipoMov;
-        private DataGridViewTextBoxColumn colProductoMov;
-        private DataGridViewTextBoxColumn colCantidadMov;
-        private DataGridViewTextBoxColumn colUnidadMov;
-        private DataGridViewTextBoxColumn colOrigenMov;
-        private DataGridViewTextBoxColumn colObservacionesMov;
         private Panel pnlContainerTab;
         private TableLayoutPanel tlpButonsdgv;
         private Panel pnlMerma;
@@ -1017,5 +1010,12 @@
         private Label lblDesde;
         private Label lblHasta;
         private Label lblTipo;
+        private DataGridViewTextBoxColumn colFechaMov;
+        private DataGridViewTextBoxColumn colTipoMov;
+        private DataGridViewTextBoxColumn colProductoMov;
+        private DataGridViewTextBoxColumn colCantidadMov;
+        private DataGridViewTextBoxColumn colUnidadMov;
+        private DataGridViewTextBoxColumn colOrigenMov;
+        private DataGridViewTextBoxColumn colObservacionesMov;
     }
 }
