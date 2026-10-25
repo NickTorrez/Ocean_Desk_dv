@@ -45,18 +45,22 @@
             lblDetalleStock = new Label();
             lblStockBajo = new Label();
             lblTituloStock = new Label();
+            pictureBox4 = new PictureBox();
             pnlProductos = new Panel();
             lblDetalleProductos = new Label();
             lblProductos = new Label();
             lblTituloProductos = new Label();
+            pictureBox3 = new PictureBox();
             pnlIngresos = new Panel();
             lblDetalleIngresos = new Label();
             lblIngresos = new Label();
             lblTituloIngresos = new Label();
+            pictureBox2 = new PictureBox();
             pnlVentasHoy = new Panel();
             lblDetalleVentas = new Label();
             lblVentasHoy = new Label();
             lblTituloVentas = new Label();
+            pictureBox1 = new PictureBox();
             pnlGraficas = new Panel();
             tblContenidoReportes = new TableLayoutPanel();
             tblGraficas = new TableLayoutPanel();
@@ -115,9 +119,13 @@
             pnlIndicadores.SuspendLayout();
             tblIndicadores.SuspendLayout();
             pnlStockBajo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             pnlProductos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             pnlIngresos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             pnlVentasHoy.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlGraficas.SuspendLayout();
             tblContenidoReportes.SuspendLayout();
             tblGraficas.SuspendLayout();
@@ -239,6 +247,7 @@
             pnlStockBajo.Controls.Add(lblDetalleStock);
             pnlStockBajo.Controls.Add(lblStockBajo);
             pnlStockBajo.Controls.Add(lblTituloStock);
+            pnlStockBajo.Controls.Add(pictureBox4);
             pnlStockBajo.Dock = DockStyle.Fill;
             pnlStockBajo.Location = new Point(699, 10);
             pnlStockBajo.Margin = new Padding(6, 5, 6, 5);
@@ -253,7 +262,7 @@
             lblDetalleStock.Dock = DockStyle.Top;
             lblDetalleStock.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleStock.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleStock.Location = new Point(15, 74);
+            lblDetalleStock.Location = new Point(81, 74);
             lblDetalleStock.Name = "lblDetalleStock";
             lblDetalleStock.Size = new Size(140, 17);
             lblDetalleStock.TabIndex = 2;
@@ -264,9 +273,9 @@
             lblStockBajo.Dock = DockStyle.Top;
             lblStockBajo.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblStockBajo.ForeColor = Color.Red;
-            lblStockBajo.Location = new Point(15, 36);
+            lblStockBajo.Location = new Point(81, 36);
             lblStockBajo.Name = "lblStockBajo";
-            lblStockBajo.Size = new Size(189, 38);
+            lblStockBajo.Size = new Size(123, 38);
             lblStockBajo.TabIndex = 1;
             lblStockBajo.Text = "0";
             lblStockBajo.TextAlign = ContentAlignment.MiddleLeft;
@@ -277,11 +286,22 @@
             lblTituloStock.Dock = DockStyle.Top;
             lblTituloStock.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTituloStock.ForeColor = Color.FromArgb(107, 124, 135);
-            lblTituloStock.Location = new Point(15, 15);
+            lblTituloStock.Location = new Point(81, 15);
             lblTituloStock.Name = "lblTituloStock";
             lblTituloStock.Size = new Size(99, 21);
             lblTituloStock.TabIndex = 0;
             lblTituloStock.Text = "Stock bajo";
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Dock = DockStyle.Left;
+            pictureBox4.Image = Properties.Resources.senal_de_advertencia;
+            pictureBox4.Location = new Point(15, 15);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(66, 75);
+            pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox4.TabIndex = 3;
+            pictureBox4.TabStop = false;
             // 
             // pnlProductos
             // 
@@ -289,6 +309,7 @@
             pnlProductos.Controls.Add(lblDetalleProductos);
             pnlProductos.Controls.Add(lblProductos);
             pnlProductos.Controls.Add(lblTituloProductos);
+            pnlProductos.Controls.Add(pictureBox3);
             pnlProductos.Dock = DockStyle.Fill;
             pnlProductos.Location = new Point(468, 10);
             pnlProductos.Margin = new Padding(6, 5, 6, 5);
@@ -303,7 +324,7 @@
             lblDetalleProductos.Dock = DockStyle.Top;
             lblDetalleProductos.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleProductos.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleProductos.Location = new Point(15, 74);
+            lblDetalleProductos.Location = new Point(81, 74);
             lblDetalleProductos.Name = "lblDetalleProductos";
             lblDetalleProductos.Size = new Size(190, 17);
             lblDetalleProductos.TabIndex = 2;
@@ -314,9 +335,9 @@
             lblProductos.Dock = DockStyle.Top;
             lblProductos.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblProductos.ForeColor = Color.FromArgb(18, 48, 71);
-            lblProductos.Location = new Point(15, 36);
+            lblProductos.Location = new Point(81, 36);
             lblProductos.Name = "lblProductos";
-            lblProductos.Size = new Size(189, 38);
+            lblProductos.Size = new Size(123, 38);
             lblProductos.TabIndex = 1;
             lblProductos.Text = "0";
             lblProductos.TextAlign = ContentAlignment.MiddleLeft;
@@ -327,11 +348,22 @@
             lblTituloProductos.Dock = DockStyle.Top;
             lblTituloProductos.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTituloProductos.ForeColor = Color.FromArgb(107, 124, 135);
-            lblTituloProductos.Location = new Point(15, 15);
+            lblTituloProductos.Location = new Point(81, 15);
             lblTituloProductos.Name = "lblTituloProductos";
             lblTituloProductos.Size = new Size(190, 21);
             lblTituloProductos.TabIndex = 0;
             lblTituloProductos.Text = "Productos registrados";
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Dock = DockStyle.Left;
+            pictureBox3.Image = Properties.Resources.inventario;
+            pictureBox3.Location = new Point(15, 15);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(66, 75);
+            pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox3.TabIndex = 3;
+            pictureBox3.TabStop = false;
             // 
             // pnlIngresos
             // 
@@ -339,6 +371,7 @@
             pnlIngresos.Controls.Add(lblDetalleIngresos);
             pnlIngresos.Controls.Add(lblIngresos);
             pnlIngresos.Controls.Add(lblTituloIngresos);
+            pnlIngresos.Controls.Add(pictureBox2);
             pnlIngresos.Dock = DockStyle.Fill;
             pnlIngresos.Location = new Point(237, 10);
             pnlIngresos.Margin = new Padding(6, 5, 6, 5);
@@ -353,7 +386,7 @@
             lblDetalleIngresos.Dock = DockStyle.Top;
             lblDetalleIngresos.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleIngresos.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleIngresos.Location = new Point(15, 74);
+            lblDetalleIngresos.Location = new Point(81, 74);
             lblDetalleIngresos.Name = "lblDetalleIngresos";
             lblDetalleIngresos.Size = new Size(163, 17);
             lblDetalleIngresos.TabIndex = 2;
@@ -364,9 +397,9 @@
             lblIngresos.Dock = DockStyle.Top;
             lblIngresos.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblIngresos.ForeColor = Color.YellowGreen;
-            lblIngresos.Location = new Point(15, 36);
+            lblIngresos.Location = new Point(81, 36);
             lblIngresos.Name = "lblIngresos";
-            lblIngresos.Size = new Size(189, 38);
+            lblIngresos.Size = new Size(123, 38);
             lblIngresos.TabIndex = 1;
             lblIngresos.Text = "C$ 0.00";
             lblIngresos.TextAlign = ContentAlignment.MiddleLeft;
@@ -377,11 +410,22 @@
             lblTituloIngresos.Dock = DockStyle.Top;
             lblTituloIngresos.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTituloIngresos.ForeColor = Color.FromArgb(107, 124, 135);
-            lblTituloIngresos.Location = new Point(15, 15);
+            lblTituloIngresos.Location = new Point(81, 15);
             lblTituloIngresos.Name = "lblTituloIngresos";
             lblTituloIngresos.Size = new Size(77, 21);
             lblTituloIngresos.TabIndex = 0;
             lblTituloIngresos.Text = "Ingresos";
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Dock = DockStyle.Left;
+            pictureBox2.Image = Properties.Resources.money_management;
+            pictureBox2.Location = new Point(15, 15);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(66, 75);
+            pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox2.TabIndex = 3;
+            pictureBox2.TabStop = false;
             // 
             // pnlVentasHoy
             // 
@@ -389,6 +433,7 @@
             pnlVentasHoy.Controls.Add(lblDetalleVentas);
             pnlVentasHoy.Controls.Add(lblVentasHoy);
             pnlVentasHoy.Controls.Add(lblTituloVentas);
+            pnlVentasHoy.Controls.Add(pictureBox1);
             pnlVentasHoy.Dock = DockStyle.Fill;
             pnlVentasHoy.Location = new Point(6, 10);
             pnlVentasHoy.Margin = new Padding(6, 5, 6, 5);
@@ -403,7 +448,7 @@
             lblDetalleVentas.Dock = DockStyle.Top;
             lblDetalleVentas.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDetalleVentas.ForeColor = Color.FromArgb(138, 154, 165);
-            lblDetalleVentas.Location = new Point(15, 74);
+            lblDetalleVentas.Location = new Point(81, 74);
             lblDetalleVentas.Name = "lblDetalleVentas";
             lblDetalleVentas.Size = new Size(135, 17);
             lblDetalleVentas.TabIndex = 2;
@@ -414,9 +459,9 @@
             lblVentasHoy.Dock = DockStyle.Top;
             lblVentasHoy.Font = new Font("Century Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblVentasHoy.ForeColor = Color.FromArgb(8, 126, 164);
-            lblVentasHoy.Location = new Point(15, 36);
+            lblVentasHoy.Location = new Point(81, 36);
             lblVentasHoy.Name = "lblVentasHoy";
-            lblVentasHoy.Size = new Size(189, 38);
+            lblVentasHoy.Size = new Size(123, 38);
             lblVentasHoy.TabIndex = 1;
             lblVentasHoy.Text = "C$ 0.00";
             lblVentasHoy.TextAlign = ContentAlignment.MiddleLeft;
@@ -427,11 +472,22 @@
             lblTituloVentas.Dock = DockStyle.Top;
             lblTituloVentas.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTituloVentas.ForeColor = Color.FromArgb(107, 124, 135);
-            lblTituloVentas.Location = new Point(15, 15);
+            lblTituloVentas.Location = new Point(81, 15);
             lblTituloVentas.Name = "lblTituloVentas";
             lblTituloVentas.Size = new Size(133, 21);
             lblTituloVentas.TabIndex = 0;
             lblTituloVentas.Text = "Ventas del día";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Left;
+            pictureBox1.Image = Properties.Resources.carro;
+            pictureBox1.Location = new Point(15, 15);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(66, 75);
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
             // 
             // pnlGraficas
             // 
@@ -1050,7 +1106,7 @@
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(225, 39);
             btnActualizar.TabIndex = 9;
-            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.Text = "↻ ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
             // 
             // pnlDesde
@@ -1141,12 +1197,16 @@
             tblIndicadores.ResumeLayout(false);
             pnlStockBajo.ResumeLayout(false);
             pnlStockBajo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             pnlProductos.ResumeLayout(false);
             pnlProductos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             pnlIngresos.ResumeLayout(false);
             pnlIngresos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             pnlVentasHoy.ResumeLayout(false);
             pnlVentasHoy.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlGraficas.ResumeLayout(false);
             tblContenidoReportes.ResumeLayout(false);
             tblGraficas.ResumeLayout(false);
@@ -1258,5 +1318,9 @@
         private Panel pnlDatoPerdida;
         private Panel pnlLabelAjuste;
         private Panel pnlDatoAjuste;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
     }
 }

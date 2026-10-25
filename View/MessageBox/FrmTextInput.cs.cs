@@ -41,7 +41,7 @@ namespace Ocean_Desk_dv.View.MessageBox
         }
         #endregion
 
-        #region
+        #region cONSTRUCTOR
         public FrmTextInput()
         {
             InitializeComponent();

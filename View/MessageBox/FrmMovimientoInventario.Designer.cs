@@ -435,7 +435,7 @@
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(140, 38);
             btnCancelar.TabIndex = 1;
-            btnCancelar.Text = "CANCELAR";
+            btnCancelar.Text = "✕ CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
             // 
             // pnlGuardar

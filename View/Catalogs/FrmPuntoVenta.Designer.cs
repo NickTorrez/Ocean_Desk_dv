@@ -621,7 +621,7 @@
             btnCancelarVenta.Name = "btnCancelarVenta";
             btnCancelarVenta.Size = new Size(130, 50);
             btnCancelarVenta.TabIndex = 9;
-            btnCancelarVenta.Text = "CANCELAR";
+            btnCancelarVenta.Text = "✕ CANCELAR";
             btnCancelarVenta.UseVisualStyleBackColor = false;
             btnCancelarVenta.Click += btnCancelarVenta_Click;
             btnCancelarVenta.MouseEnter += btnCancelarVenta_MouseEnter;
@@ -862,7 +862,7 @@
             btnCancelarNuevoCliente.Name = "btnCancelarNuevoCliente";
             btnCancelarNuevoCliente.Size = new Size(129, 41);
             btnCancelarNuevoCliente.TabIndex = 6;
-            btnCancelarNuevoCliente.Text = "CANCELAR";
+            btnCancelarNuevoCliente.Text = "✕ CANCELAR";
             btnCancelarNuevoCliente.UseVisualStyleBackColor = false;
             btnCancelarNuevoCliente.Click += btnCancelarNuevoCliente_Click;
             // 
@@ -894,7 +894,7 @@
             btnGuardarNuevoCliente.Name = "btnGuardarNuevoCliente";
             btnGuardarNuevoCliente.Size = new Size(153, 41);
             btnGuardarNuevoCliente.TabIndex = 5;
-            btnGuardarNuevoCliente.Text = "GUARDAR";
+            btnGuardarNuevoCliente.Text = "✓ GUARDAR";
             btnGuardarNuevoCliente.UseVisualStyleBackColor = false;
             btnGuardarNuevoCliente.Click += btnGuardarNuevoCliente_Click;
             // 
@@ -1041,7 +1041,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmPuntoVenta";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmPuntoVenta";
+            Text = " ";
             FormClosed += FrmPuntoVenta_FormClosed;
             pnlTop.ResumeLayout(false);
             tlpTop.ResumeLayout(false);

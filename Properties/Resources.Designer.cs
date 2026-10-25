@@ -103,6 +103,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap carro {
+            get {
+                object obj = ResourceManager.GetObject("carro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ceviche_CamaronPescado {
             get {
                 object obj = ResourceManager.GetObject("Ceviche_CamaronPescado", resourceCulture);
@@ -243,6 +253,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap inventario {
+            get {
+                object obj = ResourceManager.GetObject("inventario", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap inventory {
             get {
                 object obj = ResourceManager.GetObject("inventory", resourceCulture);
@@ -363,6 +383,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap money_management {
+            get {
+                object obj = ResourceManager.GetObject("money-management", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Naranja {
             get {
                 object obj = ResourceManager.GetObject("Naranja", resourceCulture);
@@ -456,6 +486,16 @@ namespace Ocean_Desk_dv.Properties {
         internal static System.Drawing.Bitmap search_32 {
             get {
                 object obj = ResourceManager.GetObject("search_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap senal_de_advertencia {
+            get {
+                object obj = ResourceManager.GetObject("senal-de-advertencia", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

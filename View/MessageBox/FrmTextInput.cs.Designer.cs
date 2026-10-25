@@ -97,11 +97,11 @@
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelar.ForeColor = Color.White;
-            btnCancelar.Location = new Point(246, 7);
+            btnCancelar.Location = new Point(233, 7);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(120, 40);
+            btnCancelar.Size = new Size(125, 40);
             btnCancelar.TabIndex = 6;
-            btnCancelar.Text = "CANCELAR";
+            btnCancelar.Text = "✕ CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 
@@ -117,7 +117,7 @@
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(120, 40);
             btnAceptar.TabIndex = 7;
-            btnAceptar.Text = "ACEPTAR";
+            btnAceptar.Text = "✓ ACEPTAR";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
             // 

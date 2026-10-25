@@ -656,7 +656,7 @@
             btnEntregarPedido.Name = "btnEntregarPedido";
             btnEntregarPedido.Size = new Size(134, 48);
             btnEntregarPedido.TabIndex = 0;
-            btnEntregarPedido.Text = "ENTREGAR";
+            btnEntregarPedido.Text = "➜ ENTREGAR";
             btnEntregarPedido.UseVisualStyleBackColor = false;
             // 
             // pnlActualizar
@@ -682,7 +682,7 @@
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(134, 48);
             btnActualizar.TabIndex = 0;
-            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.Text = "↻ ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
             // 
             // pnMarcarListo
@@ -708,7 +708,7 @@
             btnMarcarListo.Name = "btnMarcarListo";
             btnMarcarListo.Size = new Size(134, 48);
             btnMarcarListo.TabIndex = 0;
-            btnMarcarListo.Text = "LISTO";
+            btnMarcarListo.Text = "✓ LISTO";
             btnMarcarListo.UseVisualStyleBackColor = false;
             // 
             // pnlIniciar
@@ -734,7 +734,7 @@
             btnIniciarPreparacion.Name = "btnIniciarPreparacion";
             btnIniciarPreparacion.Size = new Size(134, 48);
             btnIniciarPreparacion.TabIndex = 0;
-            btnIniciarPreparacion.Text = "INICIAR";
+            btnIniciarPreparacion.Text = "▶ INICIAR";
             btnIniciarPreparacion.UseVisualStyleBackColor = false;
             // 
             // pnlLimpiar
@@ -760,7 +760,7 @@
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(138, 48);
             btnLimpiar.TabIndex = 0;
-            btnLimpiar.Text = "LIMPIAR";
+            btnLimpiar.Text = "↺ LIMPIAR";
             btnLimpiar.UseVisualStyleBackColor = false;
             // 
             // pnlCancelar
@@ -786,7 +786,7 @@
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(134, 48);
             btnCancelar.TabIndex = 0;
-            btnCancelar.Text = "CANCELAR";
+            btnCancelar.Text = "✕ CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
             // 
             // TimerActualizacion

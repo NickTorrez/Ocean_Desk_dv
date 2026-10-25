@@ -510,7 +510,7 @@
             btnCerrarCaja.Name = "btnCerrarCaja";
             btnCerrarCaja.Size = new Size(194, 45);
             btnCerrarCaja.TabIndex = 3;
-            btnCerrarCaja.Text = "CERRAR CAJA";
+            btnCerrarCaja.Text = "▣ CERRAR CAJA";
             btnCerrarCaja.UseVisualStyleBackColor = false;
             btnCerrarCaja.Click += btnCerrarCaja_Click;
             // 
@@ -546,7 +546,7 @@
             btnAbrirCaja.Name = "btnAbrirCaja";
             btnAbrirCaja.Size = new Size(143, 45);
             btnAbrirCaja.TabIndex = 0;
-            btnAbrirCaja.Text = "ABRIR CAJA";
+            btnAbrirCaja.Text = "▣ ABRIR CAJA";
             btnAbrirCaja.UseVisualStyleBackColor = false;
             btnAbrirCaja.Click += btnAbrirCaja_Click;
             // 
@@ -563,7 +563,7 @@
             btnRegistrarEgreso.Name = "btnRegistrarEgreso";
             btnRegistrarEgreso.Size = new Size(146, 45);
             btnRegistrarEgreso.TabIndex = 2;
-            btnRegistrarEgreso.Text = "EGRESO";
+            btnRegistrarEgreso.Text = "− EGRESO";
             btnRegistrarEgreso.UseVisualStyleBackColor = false;
             btnRegistrarEgreso.Click += btnRegistrarEgreso_Click;
             // 
@@ -580,7 +580,7 @@
             btnRegistrarIngreso.Name = "btnRegistrarIngreso";
             btnRegistrarIngreso.Size = new Size(143, 45);
             btnRegistrarIngreso.TabIndex = 1;
-            btnRegistrarIngreso.Text = "INGRESO";
+            btnRegistrarIngreso.Text = "+ INGRESO";
             btnRegistrarIngreso.UseVisualStyleBackColor = false;
             btnRegistrarIngreso.Click += btnRegistrarIngreso_Click;
             // 

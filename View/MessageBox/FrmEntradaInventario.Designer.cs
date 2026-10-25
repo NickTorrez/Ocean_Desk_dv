@@ -416,7 +416,7 @@
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(140, 48);
             btnCancelar.TabIndex = 1;
-            btnCancelar.Text = "CANCELAR";
+            btnCancelar.Text = "✕ CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
             // 
             // pnlGuardar
@@ -441,7 +441,7 @@
             btnConfirmar.Name = "btnConfirmar";
             btnConfirmar.Size = new Size(214, 48);
             btnConfirmar.TabIndex = 0;
-            btnConfirmar.Text = "REGISTRAR ENTRADA";
+            btnConfirmar.Text = "✓ REGISTRAR ENTRADA";
             btnConfirmar.UseVisualStyleBackColor = false;
             // 
             // FrmEntradaInventario

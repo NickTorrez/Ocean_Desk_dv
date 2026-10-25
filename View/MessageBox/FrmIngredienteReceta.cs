@@ -117,7 +117,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                         _detalleActual.Quantity));
 
                 txtNotas.Text = _detalleActual.Notes ?? string.Empty;
-                btnAceptar.Text = "GUARDAR CAMBIOS";
+                btnAceptar.Text = "✓ GUARDAR CAMBIOS";
             }
             else
             {
@@ -133,7 +133,7 @@ namespace Ocean_Desk_dv.View.MessageBox
                 }
 
                 nudCantidad.Value = 1M;
-                btnAceptar.Text = "AGREGAR INGREDIENTE";
+                btnAceptar.Text = "+ AGREGAR INGREDIENTE";
             }
 
             cmbIngrediente.SelectedValueChanged +=

@@ -552,7 +552,7 @@
             btnCerrarDetalle.Name = "btnCerrarDetalle";
             btnCerrarDetalle.Size = new Size(174, 42);
             btnCerrarDetalle.TabIndex = 13;
-            btnCerrarDetalle.Text = "CERRAR";
+            btnCerrarDetalle.Text = "✕ CERRAR";
             btnCerrarDetalle.UseVisualStyleBackColor = false;
             btnCerrarDetalle.Click += btnCerrarDetalle_Click;
             // 
@@ -1073,7 +1073,7 @@
             btnAnular.Name = "btnAnular";
             btnAnular.Size = new Size(190, 43);
             btnAnular.TabIndex = 2;
-            btnAnular.Text = "ANULAR";
+            btnAnular.Text = "⚠ ANULAR";
             btnAnular.UseVisualStyleBackColor = false;
             btnAnular.Click += btnAnular_Click;
             // 
@@ -1107,7 +1107,7 @@
             btnVerDetalle.Name = "btnVerDetalle";
             btnVerDetalle.Size = new Size(183, 47);
             btnVerDetalle.TabIndex = 0;
-            btnVerDetalle.Text = "VER DETALLE";
+            btnVerDetalle.Text = "◉ VER DETALLE";
             btnVerDetalle.UseVisualStyleBackColor = false;
             btnVerDetalle.Click += btnVerDetalle_Click;
             // 
@@ -1124,7 +1124,7 @@
             btnImprimir.Name = "btnImprimir";
             btnImprimir.Size = new Size(185, 47);
             btnImprimir.TabIndex = 1;
-            btnImprimir.Text = "IMPRIMIR";
+            btnImprimir.Text = "⎙ IMPRIMIR";
             btnImprimir.UseVisualStyleBackColor = false;
             btnImprimir.Click += btnImprimir_Click;
             // 
