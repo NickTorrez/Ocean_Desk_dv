@@ -721,7 +721,7 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Reportes";
             lblSubtitulo.Text = "Indicadores y comportamiento general";
 
-            FrmReportes reportes = new FrmReportes();
+            FrmReportes reportes = new FrmReportes(OceanDeskRepositoryFactory.CrearReportesRepository());
 
             AbrirFormularioEnPanel(reportes);
         }

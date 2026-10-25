@@ -1,6 +1,10 @@
 ﻿using Ocean_Desk_dv.Presenters;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.Interfaces;
+using Ocean_Desk_dv.Models.DTOs;
+using Ocean_Desk_dv.Services;
+using Ocean_Desk_dv.Services.Interfaces_Services;
+using Ocean_Desk_dv.View.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,11 +25,27 @@ namespace Ocean_Desk_dv.UI.Catalogs
     {
         private ReportesPresenter? _presenter;
 
+        private Label _lblTituloActividad = null!;
+
+        private Label _lblSalidasHoy = null!;
+
+        private Label _lblPerdidasHoy = null!;
+
+        private Label _lblAjustesHoy = null!;
+
+        private FlowLayoutPanel _flpMovimientosRecientes = null!;
+
+        private TableLayoutPanel _tblContenidoReportes = null!;
+
         #region Constructor
+        public FrmReportes() : this(OceanDeskRepositoryFactory.CrearReportesRepository())
+        {
+        }
+
         /// <summary>
         /// Inicializa una nueva instancia del formulario FrmReportes.
         /// </summary>
-        public FrmReportes()
+        public FrmReportes(IReportesRepository repository)
         {
             InitializeComponent();
 
@@ -47,7 +67,11 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             ConfigurarGraficos();
 
-            _presenter = new ReportesPresenter(this);
+            // Construye la zona inferior y reduce la altura
+            // disponible para los gráficos.
+
+            _presenter = new ReportesPresenter(this, repository);
+
             _presenter.Inicializar();
         }
         #endregion
@@ -113,10 +137,21 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// Indica que el indicador de stock todavía no puede calcularse
         /// con el modelo actual de la base de datos.
         /// </summary>
-        public void MostrarStockBajoNoDisponible()
+        public void MostrarStockBajo(
+            int ingredientesBajoMinimo,
+             int ingredientesAgotados)
         {
-            lblStockBajo.Text = "N/D";
-            lblDetalleStock.Text = "Inventario pendiente de implementar";
+            lblStockBajo.Text =
+                ingredientesBajoMinimo.ToString("N0");
+
+            lblDetalleStock.Text =
+                $"{ingredientesAgotados:N0} agotados · " +
+                "stock positivo ≤ mínimo";
+
+            lblStockBajo.ForeColor =
+                ingredientesBajoMinimo > 0
+                    ? Color.FromArgb(190, 66, 66)
+                    : Color.FromArgb(22, 163, 74);
         }
 
         /// <summary>
@@ -171,7 +206,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
             MessageType tipo = esError ? MessageType.Error : MessageType.Information;
             FrmMessageBox.Show(mensaje, titulo, tipo);
         }
-
         #endregion
 
         #region Eventos del Formulario
@@ -313,6 +347,9 @@ namespace Ocean_Desk_dv.UI.Catalogs
             chartProductos.BackColor = Color.White;
             chartProductos.BorderlineWidth = 0;
         }
+
+
+        
         #endregion
 
         #region Ajuste de Escalas de Gráficos

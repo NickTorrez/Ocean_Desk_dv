@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ocean_Desk_dv.Models.DTOs;
 
 namespace Ocean_Desk_dv.View.Interfaces
 {
@@ -51,12 +52,13 @@ namespace Ocean_Desk_dv.View.Interfaces
         /// </summary>
         void MostrarProductosRegistrados(int cantidadProductos);
 
-        /// <summary>
-        /// Muestra el estado del indicador de stock bajo.
-        /// Actualmente se muestra como no disponible porque el modelo
-        /// de productos todavía no contiene información de existencias.
-        /// </summary>
-        void MostrarStockBajoNoDisponible();
+        void MostrarStockBajo(
+            int ingredientesBajoMinimo,
+            int ingredientesAgotados);
+
+        void MostrarActividadInventario(
+            ReporteActividadInventarioDto actividad);
+
         #endregion
 
         #region Gráficos

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.View.Interfaces;
+using Ocean_Desk_dv.Models.DTOs;
+using Ocean_Desk_dv.Services.Interfaces_Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace Ocean_Desk_dv.Presenters
     public class ReportesPresenter : IDisposable
     {
         private readonly IReportesView _view;
-        private readonly OceanDeskDbContext _context;
+        private readonly IReportesRepository _repository;
         private bool _disposed;
 
         #region Constructor
@@ -28,10 +30,13 @@ namespace Ocean_Desk_dv.Presenters
         /// Inicializa una nueva instancia del Presenter de Reportes.
         /// </summary>
         /// <param name="view">Vista que implementa IReportesView.</param>
-        public ReportesPresenter(IReportesView view)
+        public ReportesPresenter(IReportesView view, IReportesRepository repository)
         {
-            _view = view ?? throw new ArgumentNullException(nameof(view));
-            _context = new OceanDeskDbContext();
+            _view = view ??
+            throw new ArgumentNullException(nameof(view));
+
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
 
             _view.PeriodoChanged += OnPeriodoChanged;
             _view.ActualizarClicked += OnActualizarClicked;
@@ -172,31 +177,47 @@ namespace Ocean_Desk_dv.Presenters
         private void MostrarIndicadores()
         {
             DateTime desde = _view.FechaDesde.Date;
-            DateTime hastaExclusivo = _view.FechaHasta.Date.AddDays(1);
+            DateTime hastaExclusivo =
+                _view.FechaHasta.Date.AddDays(1);
 
-            var ventasPeriodo = _context.Sales
-                .AsNoTracking()
-                .Where(s =>
-                    s.Status == "Completed" &&
-                    s.SaleDateTime >= desde &&
-                    s.SaleDateTime < hastaExclusivo);
+            ReporteIndicadoresDto indicadores =
+                _repository.ObtenerIndicadores(
+                    desde,
+                    hastaExclusivo);
 
-            int cantidadVentas = ventasPeriodo.Count();
-            decimal ingresos = ventasPeriodo.Sum(s => (decimal?)s.Total) ?? 0m;
+            bool esHoy =
+                desde == DateTime.Today &&
+                hastaExclusivo == DateTime.Today.AddDays(1);
 
-            int productosRegistrados = _context.Products
-                .AsNoTracking()
-                .Count(p => p.IsActive);
+            _view.MostrarVentas(
+                indicadores.CantidadVentas,
+                esHoy);
 
-            bool esHoy = desde.Date == DateTime.Today && hastaExclusivo.Date == DateTime.Today.AddDays(1);
+            _view.MostrarIngresos(indicadores.Ingresos);
 
-            _view.MostrarVentas(cantidadVentas, esHoy);
-            _view.MostrarIngresos(ingresos);
-            _view.MostrarProductosRegistrados(productosRegistrados);
+            _view.MostrarProductosRegistrados(
+                indicadores.ProductosRegistrados);
 
-            // El modelo actual de Product no contiene una cantidad de existencias,
-            // por lo que todavía no es posible calcular Stock bajo sin inventar datos.
-            _view.MostrarStockBajoNoDisponible();
+            // El inventario representa el estado actual, no un
+            // valor histórico condicionado por el período de ventas.
+            ReporteStockInventarioDto stock =
+                _repository.ObtenerResumenStockInventario();
+
+            _view.MostrarStockBajo(
+                stock.IngredientesBajoMinimo,
+                stock.IngredientesAgotados);
+
+            // La actividad operativa siempre corresponde a hoy,
+            // aunque el usuario seleccione otro período de ventas.
+            DateTime hoy = DateTime.Today;
+
+            ReporteActividadInventarioDto actividad =
+                _repository.ObtenerActividadInventario(
+                    hoy,
+                    hoy.AddDays(1),
+                    5);
+
+            _view.MostrarActividadInventario(actividad);
         }
         #endregion
 
@@ -207,48 +228,37 @@ namespace Ocean_Desk_dv.Presenters
         private void MostrarGraficos()
         {
             DateTime desde = _view.FechaDesde.Date;
-            DateTime hastaExclusivo = _view.FechaHasta.Date.AddDays(1);
 
-            var ventas = _context.Sales
-                .AsNoTracking()
-                .Where(s =>
-                    s.Status == "Completed" &&
-                    s.SaleDateTime >= desde &&
-                    s.SaleDateTime < hastaExclusivo);
+            DateTime hastaExclusivo =
+                _view.FechaHasta.Date.AddDays(1);
 
-            var evolucionVentas = ventas
-                .GroupBy(s => s.SaleDateTime.Date)
-                .Select(g => new EvolucionVentaReporte
-                {
-                    Fecha = g.Key,
-                    Total = g.Sum(s => s.Total)
-                })
-                .OrderBy(x => x.Fecha)
-                .ToList();
+            List<EvolucionVentaReporte> evolucionVentas =
+                _repository
+                    .ObtenerEvolucionVentas(desde, hastaExclusivo)
+                    .Select(x => new EvolucionVentaReporte
+                    {
+                        Fecha = x.Fecha,
+                        Total = x.Total
+                    })
+                    .ToList();
 
-            var productosMasVendidos = _context.SaleDetails
-                .AsNoTracking()
-                .Where(d =>
-                    d.Sale.Status == "Completed" &&
-                    d.Sale.SaleDateTime >= desde &&
-                    d.Sale.SaleDateTime < hastaExclusivo)
-                .GroupBy(d => new
-                {
-                    d.ProductId,
-                    d.Product.ProductName
-                })
-                .Select(g => new ProductoVendidoReporte
-                {
-                    Producto = g.Key.ProductName,
-                    Cantidad = g.Sum(d => d.Quantity)
-                })
-                .OrderByDescending(x => x.Cantidad)
-                .ThenBy(x => x.Producto)
-                .Take(5)
-                .ToList();
+            List<ProductoVendidoReporte> productosMasVendidos =
+                _repository
+                    .ObtenerProductosMasVendidos(
+                        desde,
+                        hastaExclusivo,
+                        5)
+                    .Select(x => new ProductoVendidoReporte
+                    {
+                        Producto = x.Producto,
+                        Cantidad = x.Cantidad
+                    })
+                    .ToList();
 
             _view.MostrarEvolucionVentas(evolucionVentas);
-            _view.MostrarProductosMasVendidos(productosMasVendidos);
+
+            _view.MostrarProductosMasVendidos(
+                productosMasVendidos);
         }
         #endregion
 
@@ -276,7 +286,7 @@ namespace Ocean_Desk_dv.Presenters
 
             _view.PeriodoChanged -= OnPeriodoChanged;
             _view.ActualizarClicked -= OnActualizarClicked;
-            _context.Dispose();
+            _repository.Dispose();
 
             _disposed = true;
             GC.SuppressFinalize(this);
