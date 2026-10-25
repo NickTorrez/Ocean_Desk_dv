@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             pnlHeaderReportes = new Panel();
             lblSubtituloReportes = new Label();
             lblTituloReportes = new Label();
@@ -97,13 +97,13 @@
             lblDetallePerdidasHoy = new Label();
             lblTituloPerdidasHoy = new Label();
             lblPerdidasHoy = new Label();
-            tblCardAjuste = new TableLayoutPanel();
+            tblCardAjustes = new TableLayoutPanel();
             lblDetalleAjustesHoy = new Label();
             lblTituloAjustesHoy = new Label();
             lblAjustesHoy = new Label();
             tblUltimosMovimientos = new TableLayoutPanel();
             lblTituloMovimientosRecientes = new Label();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpMovimientosRecientes = new FlowLayoutPanel();
             pnlHeaderReportes.SuspendLayout();
             pnlIndicadores.SuspendLayout();
             tblIndicadores.SuspendLayout();
@@ -132,7 +132,7 @@
             pnlUltimosMovimientos.SuspendLayout();
             tblCardSalidas.SuspendLayout();
             tblCardPerdidas.SuspendLayout();
-            tblCardAjuste.SuspendLayout();
+            tblCardAjustes.SuspendLayout();
             tblUltimosMovimientos.SuspendLayout();
             SuspendLayout();
             // 
@@ -465,17 +465,17 @@
             // chartVentas
             // 
             chartVentas.BorderlineWidth = 0;
-            chartArea5.Name = "ChartArea1";
-            chartVentas.ChartAreas.Add(chartArea5);
+            chartArea3.Name = "ChartArea1";
+            chartVentas.ChartAreas.Add(chartArea3);
             chartVentas.Dock = DockStyle.Fill;
-            legend5.Name = "Legend1";
-            chartVentas.Legends.Add(legend5);
+            legend3.Name = "Legend1";
+            chartVentas.Legends.Add(legend3);
             chartVentas.Location = new Point(15, 51);
             chartVentas.Name = "chartVentas";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            chartVentas.Series.Add(series5);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            chartVentas.Series.Add(series3);
             chartVentas.Size = new Size(417, 266);
             chartVentas.TabIndex = 2;
             chartVentas.Text = "chart1";
@@ -521,17 +521,17 @@
             // chartProductos
             // 
             chartProductos.BorderlineWidth = 0;
-            chartArea6.Name = "ChartArea1";
-            chartProductos.ChartAreas.Add(chartArea6);
+            chartArea4.Name = "ChartArea1";
+            chartProductos.ChartAreas.Add(chartArea4);
             chartProductos.Dock = DockStyle.Fill;
-            legend6.Name = "Legend1";
-            chartProductos.Legends.Add(legend6);
+            legend4.Name = "Legend1";
+            chartProductos.Legends.Add(legend4);
             chartProductos.Location = new Point(15, 51);
             chartProductos.Name = "chartProductos";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            chartProductos.Series.Add(series6);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            chartProductos.Series.Add(series4);
             chartProductos.Size = new Size(417, 266);
             chartProductos.TabIndex = 3;
             chartProductos.Text = "chart1";
@@ -822,7 +822,7 @@
             // 
             pnlCardAjustes.BackColor = Color.White;
             pnlCardAjustes.BorderStyle = BorderStyle.FixedSingle;
-            pnlCardAjustes.Controls.Add(tblCardAjuste);
+            pnlCardAjustes.Controls.Add(tblCardAjustes);
             pnlCardAjustes.Dock = DockStyle.Fill;
             pnlCardAjustes.Font = new Font("Century Gothic", 9F);
             pnlCardAjustes.Location = new Point(328, 4);
@@ -952,23 +952,23 @@
             lblPerdidasHoy.Text = "0";
             lblPerdidasHoy.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // tblCardAjuste
+            // tblCardAjustes
             // 
-            tblCardAjuste.ColumnCount = 1;
-            tblCardAjuste.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblCardAjuste.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tblCardAjuste.Controls.Add(lblDetalleAjustesHoy, 0, 2);
-            tblCardAjuste.Controls.Add(lblTituloAjustesHoy, 0, 0);
-            tblCardAjuste.Controls.Add(lblAjustesHoy, 0, 1);
-            tblCardAjuste.Dock = DockStyle.Fill;
-            tblCardAjuste.Location = new Point(8, 8);
-            tblCardAjuste.Name = "tblCardAjuste";
-            tblCardAjuste.RowCount = 3;
-            tblCardAjuste.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
-            tblCardAjuste.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
-            tblCardAjuste.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
-            tblCardAjuste.Size = new Size(136, 124);
-            tblCardAjuste.TabIndex = 2;
+            tblCardAjustes.ColumnCount = 1;
+            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tblCardAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tblCardAjustes.Controls.Add(lblDetalleAjustesHoy, 0, 2);
+            tblCardAjustes.Controls.Add(lblTituloAjustesHoy, 0, 0);
+            tblCardAjustes.Controls.Add(lblAjustesHoy, 0, 1);
+            tblCardAjustes.Dock = DockStyle.Fill;
+            tblCardAjustes.Location = new Point(8, 8);
+            tblCardAjustes.Name = "tblCardAjustes";
+            tblCardAjustes.RowCount = 3;
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
+            tblCardAjustes.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
+            tblCardAjustes.Size = new Size(136, 124);
+            tblCardAjustes.TabIndex = 2;
             // 
             // lblDetalleAjustesHoy
             // 
@@ -1011,7 +1011,7 @@
             tblUltimosMovimientos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tblUltimosMovimientos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tblUltimosMovimientos.Controls.Add(lblTituloMovimientosRecientes, 0, 0);
-            tblUltimosMovimientos.Controls.Add(flowLayoutPanel1, 0, 1);
+            tblUltimosMovimientos.Controls.Add(flpMovimientosRecientes, 0, 1);
             tblUltimosMovimientos.Dock = DockStyle.Fill;
             tblUltimosMovimientos.Location = new Point(8, 8);
             tblUltimosMovimientos.Name = "tblUltimosMovimientos";
@@ -1033,17 +1033,17 @@
             lblTituloMovimientosRecientes.Text = "Últimos movimientos";
             lblTituloMovimientosRecientes.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // flowLayoutPanel1
+            // flpMovimientosRecientes
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(3, 25);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(2);
-            flowLayoutPanel1.Size = new Size(386, 96);
-            flowLayoutPanel1.TabIndex = 1;
-            flowLayoutPanel1.WrapContents = false;
+            flpMovimientosRecientes.AutoScroll = true;
+            flpMovimientosRecientes.Dock = DockStyle.Fill;
+            flpMovimientosRecientes.FlowDirection = FlowDirection.TopDown;
+            flpMovimientosRecientes.Location = new Point(3, 25);
+            flpMovimientosRecientes.Name = "flpMovimientosRecientes";
+            flpMovimientosRecientes.Padding = new Padding(2);
+            flpMovimientosRecientes.Size = new Size(386, 96);
+            flpMovimientosRecientes.TabIndex = 1;
+            flpMovimientosRecientes.WrapContents = false;
             // 
             // FrmReportes
             // 
@@ -1098,7 +1098,7 @@
             pnlUltimosMovimientos.ResumeLayout(false);
             tblCardSalidas.ResumeLayout(false);
             tblCardPerdidas.ResumeLayout(false);
-            tblCardAjuste.ResumeLayout(false);
+            tblCardAjustes.ResumeLayout(false);
             tblUltimosMovimientos.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -1168,12 +1168,12 @@
         private Label lblDetallePerdidasHoy;
         private Label lblTituloPerdidasHoy;
         private Label lblPerdidasHoy;
-        private TableLayoutPanel tblCardAjuste;
+        private TableLayoutPanel tblCardAjustes;
         private Label lblDetalleAjustesHoy;
         private Label lblTituloAjustesHoy;
         private Label lblAjustesHoy;
         private TableLayoutPanel tblUltimosMovimientos;
         private Label lblTituloMovimientosRecientes;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpMovimientosRecientes;
     }
 }
