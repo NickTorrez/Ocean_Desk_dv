@@ -34,6 +34,8 @@ namespace Ocean_Desk_dv.View.Catalogs
             ConfigurarControles();
             ConectarEventos();
 
+            Shown += FrmProveedores_Shown;
+
             LimpiarFormularioProveedor();
             HabilitarEdicion(false);
             ActualizarEstadoAcciones(false, false);
@@ -45,6 +47,23 @@ namespace Ocean_Desk_dv.View.Catalogs
                 _presenter?.Dispose();
                 _presenter = null;
             };
+        }
+
+        private void FrmProveedores_Shown(object? sender, EventArgs e)
+        {
+            // Esperar a que finalice la presentación inicial del formulario.
+            BeginInvoke((Action)(() =>
+            {
+                if (IsDisposed)
+                    return;
+
+                // Mantener la cuadrícula cargada, pero sin fila seleccionada.
+                LimpiarFormularioProveedor();
+
+                // La captura debe comenzar deshabilitada.
+                HabilitarEdicion(false);
+                ActualizarEstadoAcciones(false, false);
+            }));
         }
 
         public void VincularPresenter(ProveedoresPresenter presenter)
@@ -239,12 +258,37 @@ namespace Ocean_Desk_dv.View.Catalogs
                 }
             };
 
-            dgvProveedores.SelectionChanged += (_, _) =>
+            // Cargar un proveedor cuando el usuario haga clic en una fila.
+            dgvProveedores.CellClick += (_, e) =>
             {
-                if (_cargandoDatos)
+                if (_cargandoDatos || e.RowIndex < 0)
                     return;
 
-                ProveedorSeleccionadoCambiado?.Invoke(this, EventArgs.Empty);
+                ProveedorSeleccionadoCambiado?.Invoke(
+                    this,
+                    EventArgs.Empty);
+            };
+
+            // Permitir recorrer los proveedores mediante el teclado.
+            dgvProveedores.KeyUp += (_, e) =>
+            {
+                if (_cargandoDatos || dgvProveedores.SelectedRows.Count == 0)
+                    return;
+
+                bool teclaNavegacion =
+                    e.KeyCode == Keys.Up ||
+                    e.KeyCode == Keys.Down ||
+                    e.KeyCode == Keys.Home ||
+                    e.KeyCode == Keys.End ||
+                    e.KeyCode == Keys.PageUp ||
+                    e.KeyCode == Keys.PageDown;
+
+                if (!teclaNavegacion)
+                    return;
+
+                ProveedorSeleccionadoCambiado?.Invoke(
+                    this,
+                    EventArgs.Empty);
             };
 
             btnNuevoProveedor.Click += (_, _) =>

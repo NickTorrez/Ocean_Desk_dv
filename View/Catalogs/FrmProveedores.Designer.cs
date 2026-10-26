@@ -30,20 +30,21 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
             pnlBarraProveedores = new Panel();
             tlpFiltroButons = new TableLayoutPanel();
             pnlFiltroProveedor = new Panel();
@@ -95,6 +96,7 @@
             tpProveedores = new TabPage();
             dgvProveedores = new DataGridView();
             colNombreProveedor = new DataGridViewTextBoxColumn();
+            colContactoProveedor = new DataGridViewTextBoxColumn();
             colTelefonoProveedor = new DataGridViewTextBoxColumn();
             colCorreoProveedor = new DataGridViewTextBoxColumn();
             colEstadoProveedor = new DataGridViewTextBoxColumn();
@@ -143,7 +145,7 @@
             // 
             // pnlBarraProveedores
             // 
-            pnlBarraProveedores.BackColor = Color.FromArgb(245, 247, 250);
+            pnlBarraProveedores.BackColor = Color.White;
             pnlBarraProveedores.Controls.Add(tlpFiltroButons);
             pnlBarraProveedores.Dock = DockStyle.Top;
             pnlBarraProveedores.Location = new Point(0, 0);
@@ -154,6 +156,7 @@
             // 
             // tlpFiltroButons
             // 
+            tlpFiltroButons.BackColor = Color.FromArgb(245, 247, 250);
             tlpFiltroButons.ColumnCount = 4;
             tlpFiltroButons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.9206543F));
             tlpFiltroButons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.3604946F));
@@ -495,6 +498,7 @@
             // pnlInputDireccion
             // 
             pnlInputDireccion.Controls.Add(txtDireccionProveedor);
+            pnlInputDireccion.Dock = DockStyle.Fill;
             pnlInputDireccion.Location = new Point(3, 475);
             pnlInputDireccion.Name = "pnlInputDireccion";
             pnlInputDireccion.Padding = new Padding(5);
@@ -758,15 +762,15 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProveedores.Columns.AddRange(new DataGridViewColumn[] { colNombreProveedor, colTelefonoProveedor, colCorreoProveedor, colEstadoProveedor, colDireccionProveedor });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle8;
+            dgvProveedores.Columns.AddRange(new DataGridViewColumn[] { colNombreProveedor, colContactoProveedor, colTelefonoProveedor, colCorreoProveedor, colEstadoProveedor, colDireccionProveedor });
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle9;
             dgvProveedores.Dock = DockStyle.Fill;
             dgvProveedores.EnableHeadersVisualStyles = false;
             dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
@@ -793,11 +797,22 @@
             colNombreProveedor.Name = "colNombreProveedor";
             colNombreProveedor.ReadOnly = true;
             // 
+            // colContactoProveedor
+            // 
+            colContactoProveedor.DataPropertyName = "ContactName";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colContactoProveedor.DefaultCellStyle = dataGridViewCellStyle4;
+            colContactoProveedor.FillWeight = 125F;
+            colContactoProveedor.HeaderText = "Contacto";
+            colContactoProveedor.MinimumWidth = 6;
+            colContactoProveedor.Name = "colContactoProveedor";
+            colContactoProveedor.ReadOnly = true;
+            // 
             // colTelefonoProveedor
             // 
             colTelefonoProveedor.DataPropertyName = "Phone";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle5;
             colTelefonoProveedor.FillWeight = 110F;
             colTelefonoProveedor.HeaderText = "Teléfono";
             colTelefonoProveedor.MinimumWidth = 6;
@@ -807,8 +822,8 @@
             // colCorreoProveedor
             // 
             colCorreoProveedor.DataPropertyName = "Email";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle6;
             colCorreoProveedor.FillWeight = 190F;
             colCorreoProveedor.HeaderText = "Correo";
             colCorreoProveedor.MinimumWidth = 6;
@@ -818,8 +833,8 @@
             // colEstadoProveedor
             // 
             colEstadoProveedor.DataPropertyName = "IsActive";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle7;
             colEstadoProveedor.HeaderText = "Estado";
             colEstadoProveedor.MinimumWidth = 6;
             colEstadoProveedor.Name = "colEstadoProveedor";
@@ -827,9 +842,9 @@
             // 
             // colDireccionProveedor
             // 
-            colDireccionProveedor.DataPropertyName = "ContactName";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle7;
+            colDireccionProveedor.DataPropertyName = "Address";
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle8;
             colDireccionProveedor.FillWeight = 130F;
             colDireccionProveedor.HeaderText = "Dirección";
             colDireccionProveedor.MinimumWidth = 6;
@@ -853,32 +868,32 @@
             dgvComprasProveedor.AllowUserToAddRows = false;
             dgvComprasProveedor.AllowUserToDeleteRows = false;
             dgvComprasProveedor.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             dgvComprasProveedor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvComprasProveedor.BackgroundColor = Color.White;
             dgvComprasProveedor.BorderStyle = BorderStyle.None;
             dgvComprasProveedor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle10.ForeColor = Color.White;
-            dataGridViewCellStyle10.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle11.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle11.ForeColor = Color.White;
+            dataGridViewCellStyle11.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvComprasProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvComprasProveedor.Columns.AddRange(new DataGridViewColumn[] { colIdCompraProv, colFechaCompraProv, colTotalCompraProv, colEstadoCompraProv, colDocumentoCompraProv });
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle16.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle16.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.False;
-            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = Color.White;
+            dataGridViewCellStyle17.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle17.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle17.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.False;
+            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle17;
             dgvComprasProveedor.Dock = DockStyle.Fill;
             dgvComprasProveedor.EnableHeadersVisualStyles = false;
             dgvComprasProveedor.GridColor = Color.FromArgb(230, 234, 238);
@@ -896,8 +911,8 @@
             // colIdCompraProv
             // 
             colIdCompraProv.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle12;
             colIdCompraProv.FillWeight = 70F;
             colIdCompraProv.HeaderText = "N.º";
             colIdCompraProv.MinimumWidth = 6;
@@ -907,10 +922,10 @@
             // colFechaCompraProv
             // 
             colFechaCompraProv.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "g";
-            dataGridViewCellStyle12.NullValue = null;
-            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "g";
+            dataGridViewCellStyle13.NullValue = null;
+            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle13;
             colFechaCompraProv.FillWeight = 110F;
             colFechaCompraProv.HeaderText = "Fecha";
             colFechaCompraProv.MinimumWidth = 6;
@@ -920,10 +935,10 @@
             // colTotalCompraProv
             // 
             colTotalCompraProv.DataPropertyName = "Total";
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N1";
-            dataGridViewCellStyle13.NullValue = null;
-            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "N1";
+            dataGridViewCellStyle14.NullValue = null;
+            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle14;
             colTotalCompraProv.FillWeight = 120F;
             colTotalCompraProv.HeaderText = "Total";
             colTotalCompraProv.MinimumWidth = 6;
@@ -933,8 +948,8 @@
             // colEstadoCompraProv
             // 
             colEstadoCompraProv.DataPropertyName = "Status";
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle15;
             colEstadoCompraProv.FillWeight = 110F;
             colEstadoCompraProv.HeaderText = "Estado";
             colEstadoCompraProv.MinimumWidth = 6;
@@ -944,8 +959,8 @@
             // colDocumentoCompraProv
             // 
             colDocumentoCompraProv.DataPropertyName = "DocumentNumber";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle16;
             colDocumentoCompraProv.FillWeight = 140F;
             colDocumentoCompraProv.HeaderText = "Documento";
             colDocumentoCompraProv.MinimumWidth = 6;
@@ -1088,11 +1103,6 @@
         private Panel panel15;
         private Panel pnlActivo;
         private CheckBox chkActivoProveedor;
-        private DataGridViewTextBoxColumn colNombreProveedor;
-        private DataGridViewTextBoxColumn colTelefonoProveedor;
-        private DataGridViewTextBoxColumn colCorreoProveedor;
-        private DataGridViewTextBoxColumn colEstadoProveedor;
-        private DataGridViewTextBoxColumn colDireccionProveedor;
         private Panel pnlCorreo;
         private Panel pnlDirección;
         private Panel pnlInputDireccion;
@@ -1107,5 +1117,11 @@
         private Label lblContacto;
         private Panel panel2;
         private TextBox textBox1;
+        private DataGridViewTextBoxColumn colNombreProveedor;
+        private DataGridViewTextBoxColumn colContactoProveedor;
+        private DataGridViewTextBoxColumn colTelefonoProveedor;
+        private DataGridViewTextBoxColumn colCorreoProveedor;
+        private DataGridViewTextBoxColumn colEstadoProveedor;
+        private DataGridViewTextBoxColumn colDireccionProveedor;
     }
 }
