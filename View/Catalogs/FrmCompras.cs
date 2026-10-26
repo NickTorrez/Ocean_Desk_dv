@@ -21,25 +21,51 @@ namespace Ocean_Desk_dv.View.Catalogs
 {
     public partial class FrmCompras : Form, IComprasView
     {
-        private readonly ComprasPresenter _presenter;
+        private ComprasPresenter? _presenter;
         private bool _cargandoDatos;
         private bool _capturandoCompraNueva;
         private List<DetalleCompraCapturaDto> _detallesCapturados = new();
 
-        public FrmCompras() : this(OceanDeskRepositoryFactory.CrearComprasRepository()) { }
-
-        public FrmCompras(IComprasRepository repository)
+        public FrmCompras()
         {
             InitializeComponent();
 
             ConfigurarGrillas();
             ConfigurarFiltros();
             ConectarEventos();
-            _presenter = new ComprasPresenter(this, repository);
-            Load += (_, _) => CargaSolicitada?.Invoke(this, EventArgs.Empty);
-            FormClosed += (_, _) => _presenter.Dispose();
+
+            FormClosed += (_, _) =>
+            {
+                _presenter?.Dispose();
+                _presenter = null;
+            };
         }
 
+        /// <summary>
+        /// Formatea un importe en córdobas sin depender
+        /// del símbolo monetario de la configuración regional.
+        /// </summary>
+        private static string FormatearCordobas(decimal importe)
+        {
+            return $"C$ {importe:N2}";
+        }
+
+        /// <summary>
+        /// Recibe el Presenter desde el punto de composición
+        /// e inicia la carga de los datos del módulo.
+        /// </summary>
+        public void VincularPresenter(ComprasPresenter presenter)
+        {
+            if (presenter is null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter is not null)
+                throw new InvalidOperationException(
+                    "El Presenter de compras ya fue asignado.");
+
+            _presenter = presenter;
+            _presenter.Inicializar();
+        }
         public FiltroComprasDto FiltroActual => new()
         {
             Texto = string.IsNullOrWhiteSpace(txtBuscarCompra.Text) ? null : txtBuscarCompra.Text.Trim(),
@@ -64,7 +90,6 @@ namespace Ocean_Desk_dv.View.Catalogs
             Details = _detallesCapturados.ToList()
         };
 
-        public event EventHandler? CargaSolicitada;
         public event EventHandler? FiltrosCambiados;
         public event EventHandler? CompraSeleccionadaCambiada;
         public event EventHandler? NuevaCompraSolicitada;
@@ -98,6 +123,50 @@ namespace Ocean_Desk_dv.View.Catalogs
 
             dgvDetalleCompra.CellFormatting -= DgvDetalleCompra_CellFormatting;
             dgvDetalleCompra.CellFormatting += DgvDetalleCompra_CellFormatting;
+
+            // Configurar el formato de la cantidad recibida.
+            colRecepcionCompra.DefaultCellStyle.Format = "#,##0.####";
+
+            // Aplicar el estilo visual de la tabla principal.
+            ConfigurarEstiloDgvCompras();
+        }
+
+        /// <summary>
+        /// Elimina los tonos azules heredados del diseñador
+        /// y establece un encabezado negro con filas claras.
+        /// </summary>
+        private void ConfigurarEstiloDgvCompras()
+        {
+            dgvCompras.EnableHeadersVisualStyles = false;
+
+            // Encabezado negro y texto blanco.
+            //dgvCompras.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            //dgvCompras.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            //dgvCompras.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Black;
+            //dgvCompras.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
+
+            // Filas normales.
+            dgvCompras.DefaultCellStyle.BackColor = Color.White;
+            dgvCompras.DefaultCellStyle.ForeColor = Color.Black;
+
+            // Selección de fila en gris claro, sin azul.
+            dgvCompras.DefaultCellStyle.SelectionBackColor = Color.Gainsboro;
+            dgvCompras.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            // Estilo de filas alternas.
+            dgvCompras.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
+            dgvCompras.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.Gainsboro;
+            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.Black;
+
+            // Eliminar los colores azules heredados de las filas nuevas.
+            dgvCompras.RowTemplate.DefaultCellStyle.BackColor = Color.White;
+            dgvCompras.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dgvCompras.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Gainsboro;
+            dgvCompras.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            // Separadores discretos.
+            dgvCompras.GridColor = Color.LightGray;
         }
 
         private void DgvDetalleCompra_CellFormatting(
@@ -255,15 +324,15 @@ namespace Ocean_Desk_dv.View.Catalogs
                 txtNotasCompra.Text = compra.Notes ?? string.Empty;
                 dgvDetalleCompra.DataSource = null;
                 dgvDetalleCompra.DataSource = detalles.ToList();
-                lblSubtotalCompra.Text = $"Subtotal: {compra.Subtotal:C2}";
-                lblTotalCompra.Text = $"Total: {compra.Total:C2}";
+                lblSubtotalCompra.Text = $"Subtotal: {FormatearCordobas(compra.Subtotal)}";
+                lblTotalCompra.Text = $"Total: {FormatearCordobas(compra.Total)}";
                 HabilitarCaptura(false);
                 bool pendiente = compra.Status == EstadosCompra.Pendiente;
                 btnRegistrarRecepcion.Enabled = pendiente && detalles.Count > 0;
                 btnCancelarCompra.Enabled = pendiente;
             }
             finally { _cargandoDatos = false; }
-        }
+        } 
 
         public void MostrarDetalleCapturado(IReadOnlyList<DetalleCompraCapturaDto> detalles)
         {
@@ -271,8 +340,8 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvDetalleCompra.DataSource = null;
             dgvDetalleCompra.DataSource = _detallesCapturados.ToList();
             decimal subtotal = Math.Round(_detallesCapturados.Sum(d => d.Subtotal), 2, MidpointRounding.AwayFromZero);
-            lblSubtotalCompra.Text = $"Subtotal: {subtotal:C2}";
-            lblTotalCompra.Text = $"Total: {subtotal:C2}";
+            lblSubtotalCompra.Text = $"Subtotal: {FormatearCordobas(subtotal)}";
+            lblTotalCompra.Text = $"Total: {FormatearCordobas(subtotal)}";
         }
 
         public void PrepararNuevaCompra()
@@ -287,8 +356,8 @@ namespace Ocean_Desk_dv.View.Catalogs
                 txtDocumentoCompra.Clear();
                 txtNotasCompra.Clear();
                 dgvDetalleCompra.DataSource = null;
-                lblSubtotalCompra.Text = "Subtotal: C$ 0.00";
-                lblTotalCompra.Text = "Total: C$ 0.00";
+                lblSubtotalCompra.Text = $"Subtotal: {FormatearCordobas(0m)}";
+                lblTotalCompra.Text = $"Total: {FormatearCordobas(0m)}";
             }
             finally { _cargandoDatos = false; }
             HabilitarCaptura(true);

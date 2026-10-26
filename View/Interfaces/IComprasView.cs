@@ -9,7 +9,6 @@ public interface IComprasView
     bool CapturandoCompraNueva { get; }
     SolicitudCompraDto SolicitudActual { get; }
 
-    event EventHandler? CargaSolicitada;
     event EventHandler? FiltrosCambiados;
     event EventHandler? CompraSeleccionadaCambiada;
     event EventHandler? NuevaCompraSolicitada;

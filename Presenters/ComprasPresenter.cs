@@ -16,7 +16,6 @@ public sealed class ComprasPresenter : IDisposable
         _view = view ?? throw new ArgumentNullException(nameof(view));
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
-        _view.CargaSolicitada += OnCargaSolicitada;
         _view.FiltrosCambiados += OnFiltrosCambiados;
         _view.CompraSeleccionadaCambiada += OnCompraSeleccionadaCambiada;
         _view.NuevaCompraSolicitada += OnNuevaCompraSolicitada;
@@ -32,8 +31,6 @@ public sealed class ComprasPresenter : IDisposable
         _view.HabilitarCaptura(false);
         ActualizarListado();
     }
-
-    private void OnCargaSolicitada(object? sender, EventArgs e) => Inicializar();
 
     private void OnFiltrosCambiados(object? sender, EventArgs e) => ActualizarListado();
 
@@ -170,7 +167,6 @@ public sealed class ComprasPresenter : IDisposable
     public void Dispose()
     {
         if (_disposed) return;
-        _view.CargaSolicitada -= OnCargaSolicitada;
         _view.FiltrosCambiados -= OnFiltrosCambiados;
         _view.CompraSeleccionadaCambiada -= OnCompraSeleccionadaCambiada;
         _view.NuevaCompraSolicitada -= OnNuevaCompraSolicitada;

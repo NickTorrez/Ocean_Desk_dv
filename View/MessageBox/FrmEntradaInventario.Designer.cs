@@ -346,7 +346,7 @@
             txtNombreIngrediente.Dock = DockStyle.Left;
             txtNombreIngrediente.Location = new Point(17, 40);
             txtNombreIngrediente.Name = "txtNombreIngrediente";
-            txtNombreIngrediente.PlaceholderText = "Ingrese Nombre dle Ingrediente...";
+            txtNombreIngrediente.PlaceholderText = "Ingrese Nombre del Ingrediente...";
             txtNombreIngrediente.Size = new Size(420, 19);
             txtNombreIngrediente.TabIndex = 1;
             // 

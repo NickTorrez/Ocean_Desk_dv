@@ -404,8 +404,16 @@ namespace Ocean_Desk_dv.UI
 
             lblSeccion.Text = "Gestión de Compras";
             lblSubtitulo.Text = "Control y seguimiento de compras a proveedores";
-
+            // Crear la vista, el repositorio y el Presenter
+            // desde el punto de composición.
             FrmCompras compras = new FrmCompras();
+
+            ComprasPresenter presenter = new ComprasPresenter(
+                compras,
+                OceanDeskRepositoryFactory.CrearComprasRepository());
+
+            // Asociar el Presenter e inicializar los datos.
+            compras.VincularPresenter(presenter);
             AbrirFormularioEnPanel(compras);
         }
 

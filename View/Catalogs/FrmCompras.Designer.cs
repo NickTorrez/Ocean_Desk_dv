@@ -39,7 +39,14 @@
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
             pnlBarraCompras = new Panel();
             tlpBarraCompras = new TableLayoutPanel();
             pnlSeacrh = new Panel();
@@ -344,10 +351,10 @@
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { colIdCompra, colFechaCompra, colProveedorCompra, colTotalCompra, colEstadoCompra, colRecibidaCompra });
             dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.Gainsboro;
+            dataGridViewCellStyle9.SelectionForeColor = Color.Black;
             dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
             dgvCompras.DefaultCellStyle = dataGridViewCellStyle9;
             dgvCompras.Dock = DockStyle.Fill;
@@ -462,14 +469,14 @@
             dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { colProductoCompra, colUnidadCompra, colCantidadCompra, colCostoCompra, colSubtotalCompra, colRecepcionCompra, colObservacionCompra });
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Century Gothic", 8.25F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle12.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
-            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = Color.White;
+            dataGridViewCellStyle19.Font = new Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle19.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle19.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle19.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.False;
+            dgvDetalleCompra.DefaultCellStyle = dataGridViewCellStyle19;
             dgvDetalleCompra.Dock = DockStyle.Fill;
             dgvDetalleCompra.EnableHeadersVisualStyles = false;
             dgvDetalleCompra.GridColor = SystemColors.ControlDark;
@@ -488,7 +495,9 @@
             // colProductoCompra
             // 
             colProductoCompra.DataPropertyName = "ProductName";
-            colProductoCompra.FillWeight = 200F;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProductoCompra.DefaultCellStyle = dataGridViewCellStyle12;
+            colProductoCompra.FillWeight = 351.198975F;
             colProductoCompra.HeaderText = "Producto";
             colProductoCompra.MinimumWidth = 6;
             colProductoCompra.Name = "colProductoCompra";
@@ -497,7 +506,9 @@
             // colUnidadCompra
             // 
             colUnidadCompra.DataPropertyName = "UnitName";
-            colUnidadCompra.FillWeight = 80F;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUnidadCompra.DefaultCellStyle = dataGridViewCellStyle13;
+            colUnidadCompra.FillWeight = 91.44385F;
             colUnidadCompra.HeaderText = "Unidad";
             colUnidadCompra.MinimumWidth = 6;
             colUnidadCompra.Name = "colUnidadCompra";
@@ -506,7 +517,9 @@
             // colCantidadCompra
             // 
             colCantidadCompra.DataPropertyName = "Quantity";
-            colCantidadCompra.FillWeight = 95F;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCantidadCompra.DefaultCellStyle = dataGridViewCellStyle14;
+            colCantidadCompra.FillWeight = 68.12858F;
             colCantidadCompra.HeaderText = "Cantidad";
             colCantidadCompra.MinimumWidth = 6;
             colCantidadCompra.Name = "colCantidadCompra";
@@ -515,7 +528,9 @@
             // colCostoCompra
             // 
             colCostoCompra.DataPropertyName = "UnitCost";
-            colCostoCompra.FillWeight = 105F;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCostoCompra.DefaultCellStyle = dataGridViewCellStyle15;
+            colCostoCompra.FillWeight = 75.30001F;
             colCostoCompra.HeaderText = "Costo unit.";
             colCostoCompra.MinimumWidth = 6;
             colCostoCompra.Name = "colCostoCompra";
@@ -524,7 +539,9 @@
             // colSubtotalCompra
             // 
             colSubtotalCompra.DataPropertyName = "Subtotal";
-            colSubtotalCompra.FillWeight = 110F;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colSubtotalCompra.DefaultCellStyle = dataGridViewCellStyle16;
+            colSubtotalCompra.FillWeight = 78.88572F;
             colSubtotalCompra.HeaderText = "Subtotal";
             colSubtotalCompra.MinimumWidth = 6;
             colSubtotalCompra.Name = "colSubtotalCompra";
@@ -533,7 +550,9 @@
             // colRecepcionCompra
             // 
             colRecepcionCompra.DataPropertyName = "ReceivedQuantity";
-            colRecepcionCompra.FillWeight = 95F;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colRecepcionCompra.DefaultCellStyle = dataGridViewCellStyle17;
+            colRecepcionCompra.FillWeight = 68.12858F;
             colRecepcionCompra.HeaderText = "ReceivedQuantity";
             colRecepcionCompra.MinimumWidth = 6;
             colRecepcionCompra.Name = "colRecepcionCompra";
@@ -542,7 +561,9 @@
             // colObservacionCompra
             // 
             colObservacionCompra.DataPropertyName = "Notes";
-            colObservacionCompra.FillWeight = 170F;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colObservacionCompra.DefaultCellStyle = dataGridViewCellStyle18;
+            colObservacionCompra.FillWeight = 121.914307F;
             colObservacionCompra.HeaderText = "Observación";
             colObservacionCompra.MinimumWidth = 6;
             colObservacionCompra.Name = "colObservacionCompra";
@@ -1069,13 +1090,6 @@
         private Button btnNuevaCompra;
         private Panel pnlResumenCompra;
         private DataGridView dgvDetalleCompra;
-        private DataGridViewTextBoxColumn colProductoCompra;
-        private DataGridViewTextBoxColumn colUnidadCompra;
-        private DataGridViewTextBoxColumn colCantidadCompra;
-        private DataGridViewTextBoxColumn colCostoCompra;
-        private DataGridViewTextBoxColumn colSubtotalCompra;
-        private DataGridViewTextBoxColumn colRecepcionCompra;
-        private DataGridViewTextBoxColumn colObservacionCompra;
         private Label lblTotalCompra;
         private Label lblSubtotalCompra;
         private Button btnCancelarCompra;
@@ -1119,5 +1133,12 @@
         private Label lblEstado;
         private Panel panel2;
         private Panel panel3;
+        private DataGridViewTextBoxColumn colProductoCompra;
+        private DataGridViewTextBoxColumn colUnidadCompra;
+        private DataGridViewTextBoxColumn colCantidadCompra;
+        private DataGridViewTextBoxColumn colCostoCompra;
+        private DataGridViewTextBoxColumn colSubtotalCompra;
+        private DataGridViewTextBoxColumn colRecepcionCompra;
+        private DataGridViewTextBoxColumn colObservacionCompra;
     }
 }

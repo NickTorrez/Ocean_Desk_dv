@@ -101,6 +101,8 @@
             colTotalCompraProv = new DataGridViewTextBoxColumn();
             colEstadoCompraProv = new DataGridViewTextBoxColumn();
             colDocumentoCompraProv = new DataGridViewTextBoxColumn();
+            pnlSeleccionReceta = new Panel();
+            cmbProveedorCompra = new ComboBox();
             pnlBarraProveedores.SuspendLayout();
             tlpFiltroButons.SuspendLayout();
             pnlFiltroProveedor.SuspendLayout();
@@ -129,6 +131,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).BeginInit();
             tpComprasAsociadas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).BeginInit();
+            pnlSeleccionReceta.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBarraProveedores
@@ -775,6 +778,7 @@
             // tpComprasAsociadas
             // 
             tpComprasAsociadas.Controls.Add(dgvComprasProveedor);
+            tpComprasAsociadas.Controls.Add(pnlSeleccionReceta);
             tpComprasAsociadas.Location = new Point(4, 27);
             tpComprasAsociadas.Name = "tpComprasAsociadas";
             tpComprasAsociadas.Padding = new Padding(3);
@@ -817,7 +821,7 @@
             dgvComprasProveedor.Dock = DockStyle.Fill;
             dgvComprasProveedor.EnableHeadersVisualStyles = false;
             dgvComprasProveedor.GridColor = Color.FromArgb(230, 234, 238);
-            dgvComprasProveedor.Location = new Point(3, 3);
+            dgvComprasProveedor.Location = new Point(3, 48);
             dgvComprasProveedor.MultiSelect = false;
             dgvComprasProveedor.Name = "dgvComprasProveedor";
             dgvComprasProveedor.ReadOnly = true;
@@ -825,7 +829,7 @@
             dgvComprasProveedor.RowHeadersWidth = 51;
             dgvComprasProveedor.RowTemplate.Height = 38;
             dgvComprasProveedor.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvComprasProveedor.Size = new Size(576, 699);
+            dgvComprasProveedor.Size = new Size(576, 654);
             dgvComprasProveedor.TabIndex = 0;
             // 
             // colIdCompraProv
@@ -887,6 +891,28 @@
             colDocumentoCompraProv.Name = "colDocumentoCompraProv";
             colDocumentoCompraProv.ReadOnly = true;
             // 
+            // pnlSeleccionReceta
+            // 
+            pnlSeleccionReceta.BackColor = Color.White;
+            pnlSeleccionReceta.Controls.Add(cmbProveedorCompra);
+            pnlSeleccionReceta.Dock = DockStyle.Top;
+            pnlSeleccionReceta.Location = new Point(3, 3);
+            pnlSeleccionReceta.Name = "pnlSeleccionReceta";
+            pnlSeleccionReceta.Padding = new Padding(30, 8, 30, 8);
+            pnlSeleccionReceta.Size = new Size(576, 45);
+            pnlSeleccionReceta.TabIndex = 1;
+            // 
+            // cmbProveedorCompra
+            // 
+            cmbProveedorCompra.Dock = DockStyle.Top;
+            cmbProveedorCompra.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProveedorCompra.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbProveedorCompra.FormattingEnabled = true;
+            cmbProveedorCompra.Location = new Point(30, 8);
+            cmbProveedorCompra.Name = "cmbProveedorCompra";
+            cmbProveedorCompra.Size = new Size(516, 29);
+            cmbProveedorCompra.TabIndex = 0;
+            // 
             // FrmProveedores
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
@@ -933,6 +959,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvProveedores).EndInit();
             tpComprasAsociadas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).EndInit();
+            pnlSeleccionReceta.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1010,5 +1037,7 @@
         private Panel pnlinputTelefono;
         private TableLayoutPanel tlpButtons;
         private TableLayoutPanel tlpInputDatosProveedor;
+        private Panel pnlSeleccionReceta;
+        private ComboBox cmbProveedorCompra;
     }
 }
