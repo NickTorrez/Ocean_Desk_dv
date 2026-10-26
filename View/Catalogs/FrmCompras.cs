@@ -105,86 +105,153 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         private void ConfigurarGrillas()
         {
+            // =========================================================
+            // TABLA PRINCIPAL: COMPRAS
+            // Apariencia replicada de dgvExistencias.
+            // =========================================================
+
             Color azulOcean = Color.FromArgb(8, 31, 63);
             Color fondoAlterno = Color.FromArgb(248, 250, 252);
             Color fondoSeleccion = Color.FromArgb(224, 234, 240);
-            Color colorBorde = Color.FromArgb(220, 225, 230);
 
-            Font fuenteFilas = new Font("Century Gothic", 10F, FontStyle.Regular);
+            Font fuenteFilas = new Font(
+                "Century Gothic",
+                10.2F,
+                FontStyle.Regular,
+                GraphicsUnit.Point,
+                0);
 
-            Font fuenteEncabezados = new Font("Century Gothic", 10F, FontStyle.Bold);
-
-            // =========================================================
-            // TABLA PRINCIPAL: COMPRAS
-            // =========================================================
+            Font fuenteEncabezados = new Font(
+                "Century Gothic",
+                9F,
+                FontStyle.Bold,
+                GraphicsUnit.Point,
+                0);
 
             dgvCompras.AutoGenerateColumns = false;
             dgvCompras.ReadOnly = true;
             dgvCompras.AllowUserToAddRows = false;
             dgvCompras.AllowUserToDeleteRows = false;
+            dgvCompras.AllowUserToOrderColumns = true;
             dgvCompras.AllowUserToResizeColumns = false;
             dgvCompras.AllowUserToResizeRows = false;
             dgvCompras.MultiSelect = false;
+
             dgvCompras.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 
-            dgvCompras.RowHeadersVisible = false;
-            dgvCompras.EnableHeadersVisualStyles = false;
+            dgvCompras.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
             dgvCompras.BackgroundColor = Color.White;
             dgvCompras.BorderStyle = BorderStyle.None;
-            dgvCompras.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;dgvCompras.GridColor = colorBorde;
+            dgvCompras.CellBorderStyle =
+                DataGridViewCellBorderStyle.SingleHorizontal;
 
-            // Encabezado.
+            dgvCompras.EnableHeadersVisualStyles = false;
+            dgvCompras.RowHeadersVisible = false;
+            dgvCompras.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            dgvCompras.GridColor = SystemColors.ControlDark;
+            dgvCompras.RowTemplate.Height = 38;
+
+            // Encabezados: azul oscuro y texto blanco.
+            dgvCompras.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleLeft;
+
             dgvCompras.ColumnHeadersDefaultCellStyle.BackColor =
                 azulOcean;
+
             dgvCompras.ColumnHeadersDefaultCellStyle.ForeColor =
                 Color.White;
+
             dgvCompras.ColumnHeadersDefaultCellStyle.Font =
                 fuenteEncabezados;
+
+            dgvCompras.ColumnHeadersDefaultCellStyle.Padding =
+                new Padding(6, 0, 0, 0);
+
             dgvCompras.ColumnHeadersDefaultCellStyle.SelectionBackColor =
-                azulOcean;
+                Color.MidnightBlue;
+
             dgvCompras.ColumnHeadersDefaultCellStyle.SelectionForeColor =
                 Color.White;
+
             dgvCompras.ColumnHeadersDefaultCellStyle.WrapMode =
                 DataGridViewTriState.True;
 
             // Filas normales.
-            dgvCompras.DefaultCellStyle.BackColor = Color.White;
-            dgvCompras.DefaultCellStyle.ForeColor = azulOcean;
-            dgvCompras.DefaultCellStyle.Font = fuenteFilas;
+            dgvCompras.DefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleLeft;
+
+            dgvCompras.DefaultCellStyle.BackColor =
+                Color.White;
+
+            dgvCompras.DefaultCellStyle.ForeColor =
+                azulOcean;
+
+            dgvCompras.DefaultCellStyle.Font =
+                fuenteFilas;
+
             dgvCompras.DefaultCellStyle.SelectionBackColor =
                 fondoSeleccion;
+
             dgvCompras.DefaultCellStyle.SelectionForeColor =
                 azulOcean;
+
             dgvCompras.DefaultCellStyle.WrapMode =
                 DataGridViewTriState.False;
 
-            // Filas alternas: sombreado muy suave.
+            // Filas alternas: sombreado suave.
             dgvCompras.AlternatingRowsDefaultCellStyle.BackColor =
                 fondoAlterno;
+
             dgvCompras.AlternatingRowsDefaultCellStyle.ForeColor =
                 azulOcean;
+
             dgvCompras.AlternatingRowsDefaultCellStyle.Font =
                 fuenteFilas;
+
             dgvCompras.AlternatingRowsDefaultCellStyle.SelectionBackColor =
                 fondoSeleccion;
+
             dgvCompras.AlternatingRowsDefaultCellStyle.SelectionForeColor =
                 azulOcean;
 
-            // Evitar colores y fuentes heredados del diseñador
-            // en las celdas de las columnas.
+            // Limpiar los estilos antiguos que vienen del diseñador.
+            // Color.Empty permite heredar el fondo de la fila normal
+            // o alterna, en lugar de imponer un color a todas las filas.
+            dgvCompras.RowTemplate.DefaultCellStyle.BackColor =
+                Color.Empty;
+
+            dgvCompras.RowTemplate.DefaultCellStyle.ForeColor =
+                Color.Empty;
+
+            dgvCompras.RowTemplate.DefaultCellStyle.Font =
+                fuenteFilas;
+
+            dgvCompras.RowTemplate.DefaultCellStyle.SelectionBackColor =
+                Color.Empty;
+
+            dgvCompras.RowTemplate.DefaultCellStyle.SelectionForeColor =
+                Color.Empty;
+
+            // Normalizar las columnas sin perder alineaciones ni formatos.
             foreach (DataGridViewColumn columna in dgvCompras.Columns)
             {
                 columna.DefaultCellStyle.BackColor = Color.Empty;
                 columna.DefaultCellStyle.ForeColor = azulOcean;
                 columna.DefaultCellStyle.Font = fuenteFilas;
+
                 columna.DefaultCellStyle.SelectionBackColor =
                     fondoSeleccion;
+
                 columna.DefaultCellStyle.SelectionForeColor =
                     azulOcean;
             }
 
-            // Conservar los formatos de los datos.
+            // Mantener formatos originales.
             colTotalCompra.DefaultCellStyle.Format = "C$ #,##0.00";
             colFechaCompra.DefaultCellStyle.Format = "dd/MM/yyyy";
             colRecibidaCompra.DefaultCellStyle.Format = "dd/MM/yyyy";
@@ -213,7 +280,6 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvDetalleCompra.BackgroundColor = Color.White;
             dgvDetalleCompra.BorderStyle = BorderStyle.None;
             dgvDetalleCompra.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvDetalleCompra.GridColor = colorBorde;
 
             // Mantener los formatos numéricos.
             colCantidadCompra.DefaultCellStyle.Format = "#,##0.####";
