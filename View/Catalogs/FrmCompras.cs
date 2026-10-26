@@ -491,7 +491,12 @@ namespace Ocean_Desk_dv.View.Catalogs
             cmbEstadoCompra.SelectedIndex = 0;
             dtpFechaCompraFiltro.ShowCheckBox = true;
             dtpFechaCompraFiltro.Checked = false;
-            dtpFechaCompra.Value = DateTime.Today;
+            // La fecha de la compra permanece visualmente vacía al abrir
+            // el módulo hasta que el usuario seleccione o cree una compra.
+            dtpFechaCompra.ShowCheckBox = true;
+            dtpFechaCompra.Format = DateTimePickerFormat.Custom;
+            dtpFechaCompra.CustomFormat = " ";
+            dtpFechaCompra.Checked = false;
         }
 
         private void ConectarEventos()
@@ -541,10 +546,41 @@ namespace Ocean_Desk_dv.View.Catalogs
             {
                 if (!_cargandoDatos) FiltrosCambiados?.Invoke(this, EventArgs.Empty);
             };
-            dgvCompras.SelectionChanged += (_, _) =>
+            // Cargar una compra únicamente cuando el usuario
+            // haga clic explícitamente sobre una fila.
+            dgvCompras.CellClick += (_, e) =>
             {
-                if (!_cargandoDatos && !_capturandoCompraNueva && CompraSeleccionadaId.HasValue)
-                    CompraSeleccionadaCambiada?.Invoke(this, EventArgs.Empty);
+                if (e.RowIndex < 0 ||
+                    _cargandoDatos ||
+                    _capturandoCompraNueva ||
+                    !CompraSeleccionadaId.HasValue)
+                {
+                    return;
+                }
+
+                CompraSeleccionadaCambiada?.Invoke(this, EventArgs.Empty);
+            };
+
+            // Permitir también la selección mediante el teclado.
+            dgvCompras.KeyUp += (_, e) =>
+            {
+                bool teclaNavegacion = e.KeyCode is
+                    Keys.Up or
+                    Keys.Down or
+                    Keys.Home or
+                    Keys.End or
+                    Keys.PageUp or
+                    Keys.PageDown;
+
+                if (!teclaNavegacion ||
+                    _cargandoDatos ||
+                    _capturandoCompraNueva ||
+                    !CompraSeleccionadaId.HasValue)
+                {
+                    return;
+                }
+
+                CompraSeleccionadaCambiada?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -587,6 +623,15 @@ namespace Ocean_Desk_dv.View.Catalogs
                 // si todavía no se ha seleccionado ninguna.
                 btnRegistrarRecepcion.Enabled = false;
                 btnCancelarCompra.Enabled = false;
+
+                cmbProveedorCompra.Enabled = false;
+                dtpFechaCompra.Enabled = false;
+                txtDocumentoCompra.Enabled = false;
+                txtNotasCompra.Enabled = false;
+
+                btnAgregarProducto.Enabled = false;
+                btnGuardarCompra.Enabled = false;
+                btnNuevaCompra.Enabled = true;
             }
             finally
             {
@@ -645,9 +690,12 @@ namespace Ocean_Desk_dv.View.Catalogs
                 if (index >= 0) cmbProveedorCompra.SelectedIndex = index;
                 else cmbProveedorCompra.SelectedValue = compra.SupplierId;
 
+                dtpFechaCompra.Format = DateTimePickerFormat.Custom;
+                dtpFechaCompra.CustomFormat = "dd/MM/yyyy";
                 dtpFechaCompra.Value = compra.PurchaseDate < dtpFechaCompra.MinDate
                     ? dtpFechaCompra.MinDate
                     : compra.PurchaseDate > dtpFechaCompra.MaxDate ? dtpFechaCompra.MaxDate : compra.PurchaseDate;
+                dtpFechaCompra.Checked = true;
                 txtDocumentoCompra.Text = compra.DocumentNumber ?? string.Empty;
                 txtNotasCompra.Text = compra.Notes ?? string.Empty;
                 dgvDetalleCompra.DataSource = null;
@@ -680,7 +728,10 @@ namespace Ocean_Desk_dv.View.Catalogs
             try
             {
                 dgvCompras.ClearSelection();
+                dtpFechaCompra.Format = DateTimePickerFormat.Custom;
+                dtpFechaCompra.CustomFormat = "dd/MM/yyyy";
                 dtpFechaCompra.Value = DateTime.Today;
+                dtpFechaCompra.Checked = true;
                 txtDocumentoCompra.Clear();
                 txtNotasCompra.Clear();
                 dgvDetalleCompra.DataSource = null;
