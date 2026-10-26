@@ -121,6 +121,25 @@ namespace Ocean_Desk_dv.View.Catalogs
             colSubtotalCompra.DefaultCellStyle.Format = "C$ #,##0.00";
             colRecepcionCompra.HeaderText = "Recibido";
 
+            dgvDetalleCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // Permitir arrastrar los bordes de las filas para cambiar su altura.
+            // El encabezado de fila proporciona el área de agarre.
+            dgvDetalleCompra.RowHeadersVisible = true;
+            dgvDetalleCompra.RowHeadersWidth = 16;
+            dgvDetalleCompra.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+            // Permitir que el texto de las observaciones se ajuste
+            // cuando el usuario amplíe la altura de una fila.
+            colObservacionCompra.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            dgvDetalleCompra.AllowUserToResizeColumns = false;
+            dgvDetalleCompra.AllowUserToResizeRows = true;
+
+            dgvDetalleCompra.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+            dgvDetalleCompra.RowTemplate.Resizable = DataGridViewTriState.True;
+
             dgvDetalleCompra.CellFormatting -= DgvDetalleCompra_CellFormatting;
             dgvDetalleCompra.CellFormatting += DgvDetalleCompra_CellFormatting;
 
@@ -281,6 +300,52 @@ namespace Ocean_Desk_dv.View.Catalogs
             };
         }
 
+        /// <summary>
+        /// Limpia los datos de la compra mostrada en el panel derecho
+        /// cuando no hay ninguna compra seleccionada.
+        /// </summary>
+        private void LimpiarPanelCompra()
+        {
+            bool cargandoAnterior = _cargandoDatos;
+            _cargandoDatos = true;
+
+            try
+            {
+                // Ningún proveedor queda seleccionado.
+                cmbProveedorCompra.SelectedIndex = -1;
+
+                // Dejar la fecha sin seleccionar.
+                // Se activará de nuevo cuando se cree una compra.
+                dtpFechaCompra.ShowCheckBox = true;
+                dtpFechaCompra.Checked = false;
+
+                txtDocumentoCompra.Clear();
+                txtNotasCompra.Clear();
+
+                // Quitar los detalles de la compra anterior.
+                dgvDetalleCompra.DataSource = null;
+                dgvDetalleCompra.ClearSelection();
+
+                // Eliminar también cualquier detalle temporal.
+                _detallesCapturados.Clear();
+
+                lblSubtotalCompra.Text =
+                    $"Subtotal: {FormatearCordobas(0m)}";
+
+                lblTotalCompra.Text =
+                    $"Total: {FormatearCordobas(0m)}";
+
+                // No se puede recibir ni cancelar una compra
+                // si todavía no se ha seleccionado ninguna.
+                btnRegistrarRecepcion.Enabled = false;
+                btnCancelarCompra.Enabled = false;
+            }
+            finally
+            {
+                _cargandoDatos = cargandoAnterior;
+            }
+        }
+
         public void MostrarProveedores(IReadOnlyList<ProveedorCompraDto> proveedores)
         {
             _cargandoDatos = true;
@@ -290,7 +355,9 @@ namespace Ocean_Desk_dv.View.Catalogs
                 cmbProveedorCompra.DisplayMember = nameof(ProveedorCompraDto.SupplierName);
                 cmbProveedorCompra.ValueMember = nameof(ProveedorCompraDto.SupplierId);
                 cmbProveedorCompra.DataSource = proveedores.ToList();
-                cmbProveedorCompra.SelectedIndex = proveedores.Count > 0 ? 0 : -1;
+                // La lista está disponible, pero no seleccionar un proveedor
+                // automáticamente al abrir el módulo.
+                cmbProveedorCompra.SelectedIndex = -1;
             }
             finally { _cargandoDatos = false; }
         }
@@ -332,7 +399,7 @@ namespace Ocean_Desk_dv.View.Catalogs
                 btnCancelarCompra.Enabled = pendiente;
             }
             finally { _cargandoDatos = false; }
-        } 
+        }
 
         public void MostrarDetalleCapturado(IReadOnlyList<DetalleCompraCapturaDto> detalles)
         {
@@ -419,6 +486,11 @@ namespace Ocean_Desk_dv.View.Catalogs
                 "Compras",
                 esError ? MessageType.Error : MessageType.Information,
                 this);
+        }
+
+        private void tlpValores_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
