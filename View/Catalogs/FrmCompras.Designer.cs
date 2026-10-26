@@ -336,9 +336,9 @@
             dgvCompras.AllowUserToDeleteRows = false;
             dgvCompras.AllowUserToResizeColumns = false;
             dgvCompras.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(14, 203, 255, 140);
+            dataGridViewCellStyle1.BackColor = Color.White;
             dataGridViewCellStyle1.Font = new Font("Century Gothic", 9.8F);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(8, 31, 63);
             dgvCompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvCompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCompras.BackgroundColor = Color.White;
@@ -454,7 +454,7 @@
             // 
             dgvDetalleCompra.AllowUserToAddRows = false;
             dgvDetalleCompra.AllowUserToDeleteRows = false;
-            dgvDetalleCompra.AllowUserToResizeColumns = false;
+            dgvDetalleCompra.AllowUserToResizeRows = false;
             dataGridViewCellStyle10.BackColor = Color.FromArgb(248, 250, 252);
             dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle10.ForeColor = Color.FromArgb(8, 31, 63);

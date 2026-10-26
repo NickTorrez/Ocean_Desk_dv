@@ -26,6 +26,11 @@ namespace Ocean_Desk_dv.View.Catalogs
         private bool _capturandoCompraNueva;
         private List<DetalleCompraCapturaDto> _detallesCapturados = new();
 
+        private int _filaRedimensionandoDetalle = -1;
+        private int _yInicioRedimensionDetalle;
+        private int _alturaInicioRedimensionDetalle;
+        private bool _redimensionandoDetalle;
+
         public FrmCompras()
         {
             InitializeComponent();
@@ -100,92 +105,269 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         private void ConfigurarGrillas()
         {
+            Color azulOcean = Color.FromArgb(8, 31, 63);
+            Color fondoAlterno = Color.FromArgb(248, 250, 252);
+            Color fondoSeleccion = Color.FromArgb(224, 234, 240);
+            Color colorBorde = Color.FromArgb(220, 225, 230);
+
+            Font fuenteFilas = new Font("Century Gothic", 10F, FontStyle.Regular);
+
+            Font fuenteEncabezados = new Font("Century Gothic", 10F, FontStyle.Bold);
+
+            // =========================================================
+            // TABLA PRINCIPAL: COMPRAS
+            // =========================================================
+
             dgvCompras.AutoGenerateColumns = false;
             dgvCompras.ReadOnly = true;
             dgvCompras.AllowUserToAddRows = false;
             dgvCompras.AllowUserToDeleteRows = false;
+            dgvCompras.AllowUserToResizeColumns = false;
+            dgvCompras.AllowUserToResizeRows = false;
             dgvCompras.MultiSelect = false;
-            dgvCompras.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvCompras.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dgvCompras.RowHeadersVisible = false;
+            dgvCompras.EnableHeadersVisualStyles = false;
+            dgvCompras.BackgroundColor = Color.White;
+            dgvCompras.BorderStyle = BorderStyle.None;
+            dgvCompras.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;dgvCompras.GridColor = colorBorde;
+
+            // Encabezado.
+            dgvCompras.ColumnHeadersDefaultCellStyle.BackColor =
+                azulOcean;
+            dgvCompras.ColumnHeadersDefaultCellStyle.ForeColor =
+                Color.White;
+            dgvCompras.ColumnHeadersDefaultCellStyle.Font =
+                fuenteEncabezados;
+            dgvCompras.ColumnHeadersDefaultCellStyle.SelectionBackColor =
+                azulOcean;
+            dgvCompras.ColumnHeadersDefaultCellStyle.SelectionForeColor =
+                Color.White;
+            dgvCompras.ColumnHeadersDefaultCellStyle.WrapMode =
+                DataGridViewTriState.True;
+
+            // Filas normales.
+            dgvCompras.DefaultCellStyle.BackColor = Color.White;
+            dgvCompras.DefaultCellStyle.ForeColor = azulOcean;
+            dgvCompras.DefaultCellStyle.Font = fuenteFilas;
+            dgvCompras.DefaultCellStyle.SelectionBackColor =
+                fondoSeleccion;
+            dgvCompras.DefaultCellStyle.SelectionForeColor =
+                azulOcean;
+            dgvCompras.DefaultCellStyle.WrapMode =
+                DataGridViewTriState.False;
+
+            // Filas alternas: sombreado muy suave.
+            dgvCompras.AlternatingRowsDefaultCellStyle.BackColor =
+                fondoAlterno;
+            dgvCompras.AlternatingRowsDefaultCellStyle.ForeColor =
+                azulOcean;
+            dgvCompras.AlternatingRowsDefaultCellStyle.Font =
+                fuenteFilas;
+            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionBackColor =
+                fondoSeleccion;
+            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionForeColor =
+                azulOcean;
+
+            // Evitar colores y fuentes heredados del diseñador
+            // en las celdas de las columnas.
+            foreach (DataGridViewColumn columna in dgvCompras.Columns)
+            {
+                columna.DefaultCellStyle.BackColor = Color.Empty;
+                columna.DefaultCellStyle.ForeColor = azulOcean;
+                columna.DefaultCellStyle.Font = fuenteFilas;
+                columna.DefaultCellStyle.SelectionBackColor =
+                    fondoSeleccion;
+                columna.DefaultCellStyle.SelectionForeColor =
+                    azulOcean;
+            }
+
+            // Conservar los formatos de los datos.
             colTotalCompra.DefaultCellStyle.Format = "C$ #,##0.00";
             colFechaCompra.DefaultCellStyle.Format = "dd/MM/yyyy";
             colRecibidaCompra.DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            // =========================================================
+            // TABLA SECUNDARIA: DETALLE DE COMPRA
+            // =========================================================
 
             dgvDetalleCompra.AutoGenerateColumns = false;
             dgvDetalleCompra.ReadOnly = true;
             dgvDetalleCompra.AllowUserToAddRows = false;
             dgvDetalleCompra.AllowUserToDeleteRows = false;
+            dgvDetalleCompra.AllowUserToResizeColumns = true;
+
+            // Ocultar por completo la franja que mostraba la flecha
+            // y el indicador de selección de fila.
+            dgvDetalleCompra.RowHeadersVisible = false;
+
+            // El redimensionamiento de filas se controlará mediante
+            // el borde inferior de las celdas, sin mostrar encabezados.
+            dgvDetalleCompra.AllowUserToResizeRows = false;
+            dgvDetalleCompra.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
             dgvDetalleCompra.MultiSelect = false;
             dgvDetalleCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetalleCompra.BackgroundColor = Color.White;
+            dgvDetalleCompra.BorderStyle = BorderStyle.None;
+            dgvDetalleCompra.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvDetalleCompra.GridColor = colorBorde;
+
+            // Mantener los formatos numéricos.
             colCantidadCompra.DefaultCellStyle.Format = "#,##0.####";
             colCostoCompra.DefaultCellStyle.Format = "C$ #,##0.0000";
             colSubtotalCompra.DefaultCellStyle.Format = "C$ #,##0.00";
             colRecepcionCompra.HeaderText = "Recibido";
-
-            dgvDetalleCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            // Permitir arrastrar los bordes de las filas para cambiar su altura.
-            // El encabezado de fila proporciona el área de agarre.
-            dgvDetalleCompra.RowHeadersVisible = true;
-            dgvDetalleCompra.RowHeadersWidth = 16;
-            dgvDetalleCompra.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-
-            // Permitir que el texto de las observaciones se ajuste
-            // cuando el usuario amplíe la altura de una fila.
-            colObservacionCompra.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            dgvDetalleCompra.AllowUserToResizeColumns = false;
-            dgvDetalleCompra.AllowUserToResizeRows = true;
-
-            dgvDetalleCompra.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
-            dgvDetalleCompra.RowTemplate.Resizable = DataGridViewTriState.True;
-
-            dgvDetalleCompra.CellFormatting -= DgvDetalleCompra_CellFormatting;
-            dgvDetalleCompra.CellFormatting += DgvDetalleCompra_CellFormatting;
-
-            // Configurar el formato de la cantidad recibida.
             colRecepcionCompra.DefaultCellStyle.Format = "#,##0.####";
 
-            // Aplicar el estilo visual de la tabla principal.
-            ConfigurarEstiloDgvCompras();
+            // Permitir que las observaciones ocupen varias líneas
+            // cuando el usuario aumente la altura de la fila.
+            colObservacionCompra.DefaultCellStyle.WrapMode =
+                DataGridViewTriState.True;
+
+            // Conservar la traducción de los productos y las unidades.
+            dgvDetalleCompra.CellFormatting -=
+                DgvDetalleCompra_CellFormatting;
+            dgvDetalleCompra.CellFormatting +=
+                DgvDetalleCompra_CellFormatting;
+
+            // Eventos para redimensionar filas sin encabezados visibles.
+            dgvDetalleCompra.MouseDown -= DgvDetalleCompra_MouseDown;
+            dgvDetalleCompra.MouseDown += DgvDetalleCompra_MouseDown;
+
+            dgvDetalleCompra.MouseMove -= DgvDetalleCompra_MouseMove;
+            dgvDetalleCompra.MouseMove += DgvDetalleCompra_MouseMove;
+
+            dgvDetalleCompra.MouseUp -= DgvDetalleCompra_MouseUp;
+            dgvDetalleCompra.MouseUp += DgvDetalleCompra_MouseUp;
+
+            dgvDetalleCompra.MouseLeave -= DgvDetalleCompra_MouseLeave;
+            dgvDetalleCompra.MouseLeave += DgvDetalleCompra_MouseLeave;
+        }
+
+        private void DgvDetalleCompra_DataBindingComplete(
+            object? sender,
+            DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow fila in dgvDetalleCompra.Rows)
+            {
+                fila.Resizable = DataGridViewTriState.True;
+            }
         }
 
         /// <summary>
-        /// Elimina los tonos azules heredados del diseñador
-        /// y establece un encabezado negro con filas claras.
+        /// Identifica si el cursor está cerca del borde inferior
+        /// de alguna fila visible de la tabla de detalles.
         /// </summary>
-        private void ConfigurarEstiloDgvCompras()
+        private int ObtenerFilaEnBordeInferior(int y)
         {
-            dgvCompras.EnableHeadersVisualStyles = false;
+            const int tolerancia = 4;
 
-            // Encabezado negro y texto blanco.
-            //dgvCompras.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-            //dgvCompras.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            //dgvCompras.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Black;
-            //dgvCompras.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
+            for (int i = 0; i < dgvDetalleCompra.Rows.Count; i++)
+            {
+                DataGridViewRow fila = dgvDetalleCompra.Rows[i];
 
-            // Filas normales.
-            dgvCompras.DefaultCellStyle.BackColor = Color.White;
-            dgvCompras.DefaultCellStyle.ForeColor = Color.Black;
+                if (!fila.Visible)
+                    continue;
 
-            // Selección de fila en gris claro, sin azul.
-            dgvCompras.DefaultCellStyle.SelectionBackColor = Color.Gainsboro;
-            dgvCompras.DefaultCellStyle.SelectionForeColor = Color.Black;
+                Rectangle limites =
+                    dgvDetalleCompra.GetRowDisplayRectangle(i, false);
 
-            // Estilo de filas alternas.
-            dgvCompras.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-            dgvCompras.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
-            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.Gainsboro;
-            dgvCompras.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.Black;
+                if (limites.Height <= 0)
+                    continue;
 
-            // Eliminar los colores azules heredados de las filas nuevas.
-            dgvCompras.RowTemplate.DefaultCellStyle.BackColor = Color.White;
-            dgvCompras.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
-            dgvCompras.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Gainsboro;
-            dgvCompras.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+                if (Math.Abs(y - (limites.Bottom - 1)) <= tolerancia)
+                    return i;
+            }
 
-            // Separadores discretos.
-            dgvCompras.GridColor = Color.LightGray;
+            return -1;
+        }
+
+        /// <summary>
+        /// Inicia el redimensionamiento al pulsar el borde inferior
+        /// de una fila.
+        /// </summary>
+        private void DgvDetalleCompra_MouseDown(
+            object? sender,
+            MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            int fila = ObtenerFilaEnBordeInferior(e.Y);
+
+            if (fila < 0)
+                return;
+
+            _filaRedimensionandoDetalle = fila;
+            _yInicioRedimensionDetalle = e.Y;
+            _alturaInicioRedimensionDetalle =
+                dgvDetalleCompra.Rows[fila].Height;
+
+            _redimensionandoDetalle = true;
+            dgvDetalleCompra.Cursor = Cursors.HSplit;
+            dgvDetalleCompra.Capture = true;
+        }
+
+        /// <summary>
+        /// Cambia la altura de la fila mientras el usuario arrastra
+        /// su borde inferior.
+        /// </summary>
+        private void DgvDetalleCompra_MouseMove(
+            object? sender,
+            MouseEventArgs e)
+        {
+            if (_redimensionandoDetalle &&
+                _filaRedimensionandoDetalle >= 0 &&
+                _filaRedimensionandoDetalle <
+                    dgvDetalleCompra.Rows.Count)
+            {
+                int diferencia = e.Y - _yInicioRedimensionDetalle;
+
+                int nuevaAltura = Math.Clamp(
+                    _alturaInicioRedimensionDetalle + diferencia,
+                    28,
+                    240);
+
+                dgvDetalleCompra
+                    .Rows[_filaRedimensionandoDetalle]
+                    .Height = nuevaAltura;
+
+                return;
+            }
+
+            // Mostrar el cursor apropiado al acercarse al borde.
+            dgvDetalleCompra.Cursor =
+                ObtenerFilaEnBordeInferior(e.Y) >= 0
+                    ? Cursors.HSplit
+                    : Cursors.Default;
+        }
+
+        /// <summary>
+        /// Termina el arrastre y devuelve el control del cursor.
+        /// </summary>
+        private void DgvDetalleCompra_MouseUp(
+            object? sender,
+            MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            _redimensionandoDetalle = false;
+            _filaRedimensionandoDetalle = -1;
+
+            dgvDetalleCompra.Capture = false;
+            dgvDetalleCompra.Cursor = Cursors.Default;
+        }
+
+        private void DgvDetalleCompra_MouseLeave(
+            object? sender,
+            EventArgs e)
+        {
+            if (!_redimensionandoDetalle)
+                dgvDetalleCompra.Cursor = Cursors.Default;
         }
 
         private void DgvDetalleCompra_CellFormatting(
@@ -365,13 +547,26 @@ namespace Ocean_Desk_dv.View.Catalogs
         public void MostrarCompras(IReadOnlyList<CompraResumenDto> compras)
         {
             _cargandoDatos = true;
+
             try
             {
                 dgvCompras.DataSource = null;
                 dgvCompras.DataSource = compras.ToList();
+
+                // Evitar que la primera compra se seleccione por defecto.
+                dgvCompras.CurrentCell = null;
                 dgvCompras.ClearSelection();
             }
-            finally { _cargandoDatos = false; }
+            finally
+            {
+                _cargandoDatos = false;
+            }
+
+            // No borrar el borrador mientras se captura una compra nueva.
+            if (!_capturandoCompraNueva)
+            {
+                LimpiarPanelCompra();
+            }
         }
 
         public void MostrarCompraSeleccionada(CompraResumenDto compra, IReadOnlyList<CompraDetalleDto> detalles)
