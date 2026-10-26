@@ -1,5 +1,4 @@
 ﻿using Ocean_Desk_dv.UI.MessageBox;
-using Ocean_Desk_dv.View.MessageBox;
 using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Presenters;
@@ -166,17 +165,27 @@ namespace Ocean_Desk_dv.View.Catalogs
             btnGuardarCompra.Click += (_, _) => GuardarCompraSolicitado?.Invoke(this, EventArgs.Empty);
             btnCancelarCompra.Click += (_, _) =>
             {
-                if (_capturandoCompraNueva || MessageBox.Show(
-                    this, "¿Desea cancelar la compra pendiente seleccionada?",
-                    "Cancelar compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (_capturandoCompraNueva ||
+                    FrmMessageBox.Show(
+                        "¿Desea cancelar la compra pendiente seleccionada?",
+                        "Cancelar compra",
+                        MessageType.Confirmation,
+                        this) == DialogResult.Yes)
+                {
                     CancelarCompraSolicitado?.Invoke(this, EventArgs.Empty);
+                }
             };
+
             btnRegistrarRecepcion.Click += (_, _) =>
             {
-                if (MessageBox.Show(this,
+                if (FrmMessageBox.Show(
                     "La recepción aumentará el stock, creará lotes y registrará movimientos de inventario. ¿Desea continuar?",
-                    "Confirmar recepción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    "Confirmar recepción",
+                    MessageType.Confirmation,
+                    this) == DialogResult.Yes)
+                {
                     RegistrarRecepcionSolicitado?.Invoke(this, EventArgs.Empty);
+                }
             };
 
             txtBuscarCompra.TextChanged += (_, _) =>
@@ -421,8 +430,11 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         public void MostrarMensaje(string mensaje, bool esError = false)
         {
-            MessageBox.Show(this, mensaje, "Compras",
-                MessageBoxButtons.OK, esError ? MessageBoxIcon.Error : MessageBoxIcon.Information);
+            FrmMessageBox.Show(
+                mensaje,
+                "Compras",
+                esError ? MessageType.Error : MessageType.Information,
+                this);
         }
     }
 }
