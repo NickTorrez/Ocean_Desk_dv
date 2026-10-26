@@ -445,6 +445,17 @@ namespace Ocean_Desk_dv.UI
         private void btnProveedores_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnProveedores);
+
+            lblSeccion.Text = "Gestión de Proveedores";
+            lblSubtitulo.Text = "Administración y seguimiento de proveedores";
+
+            FrmProveedores proveedores = new FrmProveedores();
+            ProveedoresPresenter presenter = new ProveedoresPresenter(
+                proveedores,
+                OceanDeskRepositoryFactory.CrearProveedoresRepository());
+
+            proveedores.VincularPresenter(presenter);
+            AbrirFormularioEnPanel(proveedores);
         }
 
         private void btnEmpleados_Click(object sender, EventArgs e)

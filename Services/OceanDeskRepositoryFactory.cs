@@ -27,4 +27,7 @@ public static class OceanDeskRepositoryFactory
 
     public static IComprasRepository CrearComprasRepository() =>
     new ComprasRepository(new OceanDeskDbContext());
+
+    public static IProveedoresRepository CrearProveedoresRepository() =>
+    new ProveedoresRepository(new OceanDeskDbContext());
 }

@@ -1130,6 +1130,7 @@
             txtInstruccionesReceta.MaxLength = 1000;
             txtInstruccionesReceta.Multiline = true;
             txtInstruccionesReceta.Name = "txtInstruccionesReceta";
+            txtInstruccionesReceta.ScrollBars = ScrollBars.Vertical;
             txtInstruccionesReceta.Size = new Size(547, 72);
             txtInstruccionesReceta.TabIndex = 2;
             // 
