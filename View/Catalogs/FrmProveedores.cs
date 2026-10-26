@@ -20,6 +20,5 @@ namespace Ocean_Desk_dv.View.Catalogs
             dgvComprasProveedor.AutoGenerateColumns = false;
         }
 
-        
     }
 }

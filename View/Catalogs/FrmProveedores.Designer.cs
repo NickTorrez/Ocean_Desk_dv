@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle40 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle41 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle48 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle43 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle44 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle45 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle46 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle47 = new DataGridViewCellStyle();
             pnlBarraProveedores = new Panel();
             tlpFiltroButons = new TableLayoutPanel();
             pnlFiltroProveedor = new Panel();
@@ -68,7 +68,7 @@
             pnlTelefono = new Panel();
             lblTelefonoProveedor = new Label();
             pnlinputTelefono = new Panel();
-            panel2 = new Panel();
+            pnlNombreContacto = new Panel();
             txtTelefonoNuevoCliente = new MaskedTextBox();
             pnlCorreo = new Panel();
             lblCorreoProveedor = new Label();
@@ -77,10 +77,10 @@
             txtCorreoProveedor = new TextBox();
             pnlDirección = new Panel();
             lblDireccionProveedor = new Label();
-            pnlInputDireccion = new Panel();
-            txtDireccionProveedor = new TextBox();
             pnlActivo = new Panel();
             chkActivoProveedor = new CheckBox();
+            pnlInputDireccion = new Panel();
+            txtDireccionProveedor = new TextBox();
             tlpButtons = new TableLayoutPanel();
             pnlCancelar = new Panel();
             btnCancelarProveedor = new Button();
@@ -103,6 +103,11 @@
             colDocumentoCompraProv = new DataGridViewTextBoxColumn();
             pnlSeleccionReceta = new Panel();
             cmbProveedorCompra = new ComboBox();
+            pnlContact = new Panel();
+            lblContacto = new Label();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            textBox1 = new TextBox();
             pnlBarraProveedores.SuspendLayout();
             tlpFiltroButons.SuspendLayout();
             pnlFiltroProveedor.SuspendLayout();
@@ -121,8 +126,8 @@
             pnlCorreo.SuspendLayout();
             pnlInputEmail.SuspendLayout();
             pnlDirección.SuspendLayout();
-            pnlInputDireccion.SuspendLayout();
             pnlActivo.SuspendLayout();
+            pnlInputDireccion.SuspendLayout();
             tlpButtons.SuspendLayout();
             pnlCancelar.SuspendLayout();
             pnlGuardar.SuspendLayout();
@@ -132,6 +137,8 @@
             tpComprasAsociadas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).BeginInit();
             pnlSeleccionReceta.SuspendLayout();
+            pnlContact.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBarraProveedores
@@ -324,30 +331,32 @@
             // 
             tlpInputDatosProveedor.ColumnCount = 1;
             tlpInputDatosProveedor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpInputDatosProveedor.Controls.Add(panel2, 0, 3);
+            tlpInputDatosProveedor.Controls.Add(pnlContact, 0, 2);
             tlpInputDatosProveedor.Controls.Add(pnlNombre, 0, 0);
             tlpInputDatosProveedor.Controls.Add(pnlInputNombre, 0, 1);
-            tlpInputDatosProveedor.Controls.Add(pnlTelefono, 0, 2);
-            tlpInputDatosProveedor.Controls.Add(pnlinputTelefono, 0, 3);
-            tlpInputDatosProveedor.Controls.Add(pnlCorreo, 0, 4);
-            tlpInputDatosProveedor.Controls.Add(pnlInputEmail, 0, 5);
-            tlpInputDatosProveedor.Controls.Add(pnlDirección, 0, 6);
-            tlpInputDatosProveedor.Controls.Add(pnlInputDireccion, 0, 7);
-            tlpInputDatosProveedor.Controls.Add(pnlActivo, 0, 8);
+            tlpInputDatosProveedor.Controls.Add(pnlActivo, 0, 10);
+            tlpInputDatosProveedor.Controls.Add(pnlInputDireccion, 0, 9);
+            tlpInputDatosProveedor.Controls.Add(pnlDirección, 0, 8);
+            tlpInputDatosProveedor.Controls.Add(pnlInputEmail, 0, 7);
+            tlpInputDatosProveedor.Controls.Add(pnlCorreo, 0, 6);
+            tlpInputDatosProveedor.Controls.Add(pnlinputTelefono, 0, 5);
+            tlpInputDatosProveedor.Controls.Add(pnlTelefono, 0, 4);
             tlpInputDatosProveedor.Dock = DockStyle.Fill;
             tlpInputDatosProveedor.Location = new Point(0, 0);
             tlpInputDatosProveedor.Name = "tlpInputDatosProveedor";
-            tlpInputDatosProveedor.RowCount = 9;
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 21.5686264F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 9.803922F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpInputDatosProveedor.RowCount = 11;
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.197433F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.194154F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 7.31707335F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 18.75F));
+            tlpInputDatosProveedor.RowStyles.Add(new RowStyle(SizeType.Percent, 8.194154F));
             tlpInputDatosProveedor.Size = new Size(328, 656);
             tlpInputDatosProveedor.TabIndex = 12;
             // 
@@ -358,7 +367,7 @@
             pnlNombre.Location = new Point(3, 3);
             pnlNombre.Name = "pnlNombre";
             pnlNombre.Padding = new Padding(10, 20, 0, 0);
-            pnlNombre.Size = new Size(322, 58);
+            pnlNombre.Size = new Size(322, 47);
             pnlNombre.TabIndex = 0;
             // 
             // lblNombreProveedor
@@ -369,9 +378,9 @@
             lblNombreProveedor.ForeColor = SystemColors.ControlText;
             lblNombreProveedor.Location = new Point(10, 20);
             lblNombreProveedor.Name = "lblNombreProveedor";
-            lblNombreProveedor.Size = new Size(312, 38);
+            lblNombreProveedor.Size = new Size(312, 27);
             lblNombreProveedor.TabIndex = 11;
-            lblNombreProveedor.Text = "Nombre";
+            lblNombreProveedor.Text = "Nombre Empresa/Proveedor";
             lblNombreProveedor.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlInputNombre
@@ -379,17 +388,17 @@
             pnlInputNombre.Controls.Add(panel1);
             pnlInputNombre.Controls.Add(txtNombreProveedor);
             pnlInputNombre.Dock = DockStyle.Fill;
-            pnlInputNombre.Location = new Point(3, 67);
+            pnlInputNombre.Location = new Point(3, 56);
             pnlInputNombre.Name = "pnlInputNombre";
-            pnlInputNombre.Padding = new Padding(5, 18, 5, 18);
-            pnlInputNombre.Size = new Size(322, 58);
+            pnlInputNombre.Padding = new Padding(5, 12, 5, 12);
+            pnlInputNombre.Size = new Size(322, 47);
             pnlInputNombre.TabIndex = 1;
             // 
             // panel1
             // 
             panel1.BackColor = Color.MidnightBlue;
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(5, 38);
+            panel1.Location = new Point(5, 33);
             panel1.Name = "panel1";
             panel1.Size = new Size(312, 2);
             panel1.TabIndex = 14;
@@ -398,7 +407,7 @@
             // 
             txtNombreProveedor.BorderStyle = BorderStyle.None;
             txtNombreProveedor.Dock = DockStyle.Fill;
-            txtNombreProveedor.Location = new Point(5, 18);
+            txtNombreProveedor.Location = new Point(5, 12);
             txtNombreProveedor.MaxLength = 150;
             txtNombreProveedor.Name = "txtNombreProveedor";
             txtNombreProveedor.PlaceholderText = "Ingrese Nombre del Proveedor...";
@@ -409,10 +418,10 @@
             // 
             pnlTelefono.Controls.Add(lblTelefonoProveedor);
             pnlTelefono.Dock = DockStyle.Fill;
-            pnlTelefono.Location = new Point(3, 131);
+            pnlTelefono.Location = new Point(3, 215);
             pnlTelefono.Name = "pnlTelefono";
             pnlTelefono.Padding = new Padding(10, 20, 0, 0);
-            pnlTelefono.Size = new Size(322, 58);
+            pnlTelefono.Size = new Size(322, 47);
             pnlTelefono.TabIndex = 4;
             // 
             // lblTelefonoProveedor
@@ -423,30 +432,30 @@
             lblTelefonoProveedor.ForeColor = SystemColors.ControlText;
             lblTelefonoProveedor.Location = new Point(10, 20);
             lblTelefonoProveedor.Name = "lblTelefonoProveedor";
-            lblTelefonoProveedor.Size = new Size(312, 38);
+            lblTelefonoProveedor.Size = new Size(312, 27);
             lblTelefonoProveedor.TabIndex = 7;
             lblTelefonoProveedor.Text = "Teléfono";
             lblTelefonoProveedor.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pnlinputTelefono
             // 
-            pnlinputTelefono.Controls.Add(panel2);
+            pnlinputTelefono.Controls.Add(pnlNombreContacto);
             pnlinputTelefono.Controls.Add(txtTelefonoNuevoCliente);
             pnlinputTelefono.Dock = DockStyle.Fill;
-            pnlinputTelefono.Location = new Point(3, 195);
+            pnlinputTelefono.Location = new Point(3, 268);
             pnlinputTelefono.Name = "pnlinputTelefono";
-            pnlinputTelefono.Padding = new Padding(5, 18, 5, 18);
-            pnlinputTelefono.Size = new Size(322, 58);
+            pnlinputTelefono.Padding = new Padding(5, 12, 5, 12);
+            pnlinputTelefono.Size = new Size(322, 47);
             pnlinputTelefono.TabIndex = 5;
             // 
-            // panel2
+            // pnlNombreContacto
             // 
-            panel2.BackColor = Color.MidnightBlue;
-            panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(5, 38);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(312, 2);
-            panel2.TabIndex = 15;
+            pnlNombreContacto.BackColor = Color.MidnightBlue;
+            pnlNombreContacto.Dock = DockStyle.Bottom;
+            pnlNombreContacto.Location = new Point(5, 33);
+            pnlNombreContacto.Name = "pnlNombreContacto";
+            pnlNombreContacto.Size = new Size(312, 2);
+            pnlNombreContacto.TabIndex = 15;
             // 
             // txtTelefonoNuevoCliente
             // 
@@ -454,7 +463,7 @@
             txtTelefonoNuevoCliente.BorderStyle = BorderStyle.None;
             txtTelefonoNuevoCliente.Dock = DockStyle.Fill;
             txtTelefonoNuevoCliente.Font = new Font("Century Gothic", 9F);
-            txtTelefonoNuevoCliente.Location = new Point(5, 18);
+            txtTelefonoNuevoCliente.Location = new Point(5, 12);
             txtTelefonoNuevoCliente.Mask = " 0000-0000";
             txtTelefonoNuevoCliente.Name = "txtTelefonoNuevoCliente";
             txtTelefonoNuevoCliente.PromptChar = '0';
@@ -465,10 +474,10 @@
             // 
             pnlCorreo.Controls.Add(lblCorreoProveedor);
             pnlCorreo.Dock = DockStyle.Fill;
-            pnlCorreo.Location = new Point(3, 259);
+            pnlCorreo.Location = new Point(3, 321);
             pnlCorreo.Name = "pnlCorreo";
             pnlCorreo.Padding = new Padding(10, 20, 0, 0);
-            pnlCorreo.Size = new Size(322, 58);
+            pnlCorreo.Size = new Size(322, 47);
             pnlCorreo.TabIndex = 6;
             // 
             // lblCorreoProveedor
@@ -479,7 +488,7 @@
             lblCorreoProveedor.ForeColor = SystemColors.ControlText;
             lblCorreoProveedor.Location = new Point(10, 20);
             lblCorreoProveedor.Name = "lblCorreoProveedor";
-            lblCorreoProveedor.Size = new Size(312, 38);
+            lblCorreoProveedor.Size = new Size(312, 27);
             lblCorreoProveedor.TabIndex = 5;
             lblCorreoProveedor.Text = "Correo";
             lblCorreoProveedor.TextAlign = ContentAlignment.MiddleLeft;
@@ -489,17 +498,17 @@
             pnlInputEmail.Controls.Add(panel15);
             pnlInputEmail.Controls.Add(txtCorreoProveedor);
             pnlInputEmail.Dock = DockStyle.Fill;
-            pnlInputEmail.Location = new Point(3, 323);
+            pnlInputEmail.Location = new Point(3, 374);
             pnlInputEmail.Name = "pnlInputEmail";
-            pnlInputEmail.Padding = new Padding(5, 18, 5, 18);
-            pnlInputEmail.Size = new Size(322, 58);
+            pnlInputEmail.Padding = new Padding(5, 12, 5, 12);
+            pnlInputEmail.Size = new Size(322, 47);
             pnlInputEmail.TabIndex = 7;
             // 
             // panel15
             // 
             panel15.BackColor = Color.MidnightBlue;
             panel15.Dock = DockStyle.Bottom;
-            panel15.Location = new Point(5, 38);
+            panel15.Location = new Point(5, 33);
             panel15.Name = "panel15";
             panel15.Size = new Size(312, 2);
             panel15.TabIndex = 16;
@@ -508,7 +517,7 @@
             // 
             txtCorreoProveedor.BorderStyle = BorderStyle.None;
             txtCorreoProveedor.Dock = DockStyle.Fill;
-            txtCorreoProveedor.Location = new Point(5, 18);
+            txtCorreoProveedor.Location = new Point(5, 12);
             txtCorreoProveedor.MaxLength = 150;
             txtCorreoProveedor.Name = "txtCorreoProveedor";
             txtCorreoProveedor.PlaceholderText = "Ingrese Correo Eléctronico...";
@@ -519,10 +528,10 @@
             // 
             pnlDirección.Controls.Add(lblDireccionProveedor);
             pnlDirección.Dock = DockStyle.Fill;
-            pnlDirección.Location = new Point(3, 387);
+            pnlDirección.Location = new Point(3, 427);
             pnlDirección.Name = "pnlDirección";
-            pnlDirección.Padding = new Padding(10, 20, 0, 0);
-            pnlDirección.Size = new Size(322, 58);
+            pnlDirección.Padding = new Padding(10, 10, 0, 0);
+            pnlDirección.Size = new Size(322, 42);
             pnlDirección.TabIndex = 8;
             // 
             // lblDireccionProveedor
@@ -531,42 +540,20 @@
             lblDireccionProveedor.Dock = DockStyle.Fill;
             lblDireccionProveedor.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
             lblDireccionProveedor.ForeColor = SystemColors.ControlText;
-            lblDireccionProveedor.Location = new Point(10, 20);
+            lblDireccionProveedor.Location = new Point(10, 10);
             lblDireccionProveedor.Name = "lblDireccionProveedor";
-            lblDireccionProveedor.Size = new Size(312, 38);
+            lblDireccionProveedor.Size = new Size(312, 32);
             lblDireccionProveedor.TabIndex = 3;
             lblDireccionProveedor.Text = "Dirección";
-            lblDireccionProveedor.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // pnlInputDireccion
-            // 
-            pnlInputDireccion.Controls.Add(txtDireccionProveedor);
-            pnlInputDireccion.Dock = DockStyle.Fill;
-            pnlInputDireccion.Location = new Point(3, 451);
-            pnlInputDireccion.Name = "pnlInputDireccion";
-            pnlInputDireccion.Padding = new Padding(5);
-            pnlInputDireccion.Size = new Size(322, 135);
-            pnlInputDireccion.TabIndex = 9;
-            // 
-            // txtDireccionProveedor
-            // 
-            txtDireccionProveedor.Dock = DockStyle.Fill;
-            txtDireccionProveedor.Location = new Point(5, 5);
-            txtDireccionProveedor.MaxLength = 250;
-            txtDireccionProveedor.Multiline = true;
-            txtDireccionProveedor.Name = "txtDireccionProveedor";
-            txtDireccionProveedor.ScrollBars = ScrollBars.Vertical;
-            txtDireccionProveedor.Size = new Size(312, 125);
-            txtDireccionProveedor.TabIndex = 2;
             // 
             // pnlActivo
             // 
             pnlActivo.Controls.Add(chkActivoProveedor);
             pnlActivo.Dock = DockStyle.Fill;
-            pnlActivo.Location = new Point(3, 592);
+            pnlActivo.Location = new Point(3, 598);
             pnlActivo.Name = "pnlActivo";
             pnlActivo.Padding = new Padding(10, 0, 0, 0);
-            pnlActivo.Size = new Size(322, 61);
+            pnlActivo.Size = new Size(322, 55);
             pnlActivo.TabIndex = 10;
             // 
             // chkActivoProveedor
@@ -578,10 +565,30 @@
             chkActivoProveedor.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
             chkActivoProveedor.Location = new Point(10, 0);
             chkActivoProveedor.Name = "chkActivoProveedor";
-            chkActivoProveedor.Size = new Size(312, 61);
+            chkActivoProveedor.Size = new Size(312, 55);
             chkActivoProveedor.TabIndex = 1;
             chkActivoProveedor.Text = "Activo";
             chkActivoProveedor.UseVisualStyleBackColor = true;
+            // 
+            // pnlInputDireccion
+            // 
+            pnlInputDireccion.Controls.Add(txtDireccionProveedor);
+            pnlInputDireccion.Location = new Point(3, 475);
+            pnlInputDireccion.Name = "pnlInputDireccion";
+            pnlInputDireccion.Padding = new Padding(5);
+            pnlInputDireccion.Size = new Size(322, 117);
+            pnlInputDireccion.TabIndex = 9;
+            // 
+            // txtDireccionProveedor
+            // 
+            txtDireccionProveedor.Dock = DockStyle.Fill;
+            txtDireccionProveedor.Location = new Point(5, 5);
+            txtDireccionProveedor.MaxLength = 250;
+            txtDireccionProveedor.Multiline = true;
+            txtDireccionProveedor.Name = "txtDireccionProveedor";
+            txtDireccionProveedor.ScrollBars = ScrollBars.Vertical;
+            txtDireccionProveedor.Size = new Size(312, 107);
+            txtDireccionProveedor.TabIndex = 2;
             // 
             // tlpButtons
             // 
@@ -680,32 +687,32 @@
             dgvProveedores.AllowUserToAddRows = false;
             dgvProveedores.AllowUserToDeleteRows = false;
             dgvProveedores.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle1.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvProveedores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle33.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle33.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvProveedores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
             dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProveedores.BackgroundColor = Color.White;
             dgvProveedores.BorderStyle = BorderStyle.None;
             dgvProveedores.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle2.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle34.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle34.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle34.ForeColor = Color.White;
+            dataGridViewCellStyle34.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle34.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle34.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
+            dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
             dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProveedores.Columns.AddRange(new DataGridViewColumn[] { colNombreProveedor, colTelefonoProveedor, colCorreoProveedor, colEstadoProveedor, colDireccionProveedor });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle40.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle40.BackColor = Color.White;
+            dataGridViewCellStyle40.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle40.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle40.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle40.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle40.WrapMode = DataGridViewTriState.False;
+            dgvProveedores.DefaultCellStyle = dataGridViewCellStyle40;
             dgvProveedores.Dock = DockStyle.Fill;
             dgvProveedores.EnableHeadersVisualStyles = false;
             dgvProveedores.GridColor = Color.FromArgb(230, 234, 238);
@@ -724,8 +731,8 @@
             // colNombreProveedor
             // 
             colNombreProveedor.DataPropertyName = "SupplierName";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colNombreProveedor.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colNombreProveedor.DefaultCellStyle = dataGridViewCellStyle35;
             colNombreProveedor.FillWeight = 220F;
             colNombreProveedor.HeaderText = "Proveedor";
             colNombreProveedor.MinimumWidth = 6;
@@ -735,8 +742,8 @@
             // colTelefonoProveedor
             // 
             colTelefonoProveedor.DataPropertyName = "Phone";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTelefonoProveedor.DefaultCellStyle = dataGridViewCellStyle36;
             colTelefonoProveedor.FillWeight = 110F;
             colTelefonoProveedor.HeaderText = "Teléfono";
             colTelefonoProveedor.MinimumWidth = 6;
@@ -746,8 +753,8 @@
             // colCorreoProveedor
             // 
             colCorreoProveedor.DataPropertyName = "Email";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle37.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colCorreoProveedor.DefaultCellStyle = dataGridViewCellStyle37;
             colCorreoProveedor.FillWeight = 190F;
             colCorreoProveedor.HeaderText = "Correo";
             colCorreoProveedor.MinimumWidth = 6;
@@ -757,8 +764,8 @@
             // colEstadoProveedor
             // 
             colEstadoProveedor.DataPropertyName = "IsActive";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoProveedor.DefaultCellStyle = dataGridViewCellStyle38;
             colEstadoProveedor.HeaderText = "Estado";
             colEstadoProveedor.MinimumWidth = 6;
             colEstadoProveedor.Name = "colEstadoProveedor";
@@ -767,8 +774,8 @@
             // colDireccionProveedor
             // 
             colDireccionProveedor.DataPropertyName = "ContactName";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDireccionProveedor.DefaultCellStyle = dataGridViewCellStyle39;
             colDireccionProveedor.FillWeight = 130F;
             colDireccionProveedor.HeaderText = "Dirección";
             colDireccionProveedor.MinimumWidth = 6;
@@ -792,32 +799,32 @@
             dgvComprasProveedor.AllowUserToAddRows = false;
             dgvComprasProveedor.AllowUserToDeleteRows = false;
             dgvComprasProveedor.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(248, 250, 252);
-            dataGridViewCellStyle9.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle41.BackColor = Color.FromArgb(248, 250, 252);
+            dataGridViewCellStyle41.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvComprasProveedor.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle41;
             dgvComprasProveedor.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvComprasProveedor.BackgroundColor = Color.White;
             dgvComprasProveedor.BorderStyle = BorderStyle.None;
             dgvComprasProveedor.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle10.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle10.ForeColor = Color.White;
-            dataGridViewCellStyle10.Padding = new Padding(6, 0, 0, 0);
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle42.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle42.BackColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle42.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle42.ForeColor = Color.White;
+            dataGridViewCellStyle42.Padding = new Padding(6, 0, 0, 0);
+            dataGridViewCellStyle42.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle42.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle42.WrapMode = DataGridViewTriState.True;
+            dgvComprasProveedor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle42;
             dgvComprasProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvComprasProveedor.Columns.AddRange(new DataGridViewColumn[] { colIdCompraProv, colFechaCompraProv, colTotalCompraProv, colEstadoCompraProv, colDocumentoCompraProv });
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
-            dataGridViewCellStyle16.ForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(224, 234, 240);
-            dataGridViewCellStyle16.SelectionForeColor = Color.FromArgb(8, 31, 63);
-            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.False;
-            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle48.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle48.BackColor = Color.White;
+            dataGridViewCellStyle48.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            dataGridViewCellStyle48.ForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle48.SelectionBackColor = Color.FromArgb(224, 234, 240);
+            dataGridViewCellStyle48.SelectionForeColor = Color.FromArgb(8, 31, 63);
+            dataGridViewCellStyle48.WrapMode = DataGridViewTriState.False;
+            dgvComprasProveedor.DefaultCellStyle = dataGridViewCellStyle48;
             dgvComprasProveedor.Dock = DockStyle.Fill;
             dgvComprasProveedor.EnableHeadersVisualStyles = false;
             dgvComprasProveedor.GridColor = Color.FromArgb(230, 234, 238);
@@ -835,8 +842,8 @@
             // colIdCompraProv
             // 
             colIdCompraProv.DataPropertyName = "PurchaseId";
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colIdCompraProv.DefaultCellStyle = dataGridViewCellStyle43;
             colIdCompraProv.FillWeight = 70F;
             colIdCompraProv.HeaderText = "N.º";
             colIdCompraProv.MinimumWidth = 6;
@@ -846,10 +853,10 @@
             // colFechaCompraProv
             // 
             colFechaCompraProv.DataPropertyName = "PurchaseDate";
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "g";
-            dataGridViewCellStyle12.NullValue = null;
-            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle44.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle44.Format = "g";
+            dataGridViewCellStyle44.NullValue = null;
+            colFechaCompraProv.DefaultCellStyle = dataGridViewCellStyle44;
             colFechaCompraProv.FillWeight = 110F;
             colFechaCompraProv.HeaderText = "Fecha";
             colFechaCompraProv.MinimumWidth = 6;
@@ -859,10 +866,10 @@
             // colTotalCompraProv
             // 
             colTotalCompraProv.DataPropertyName = "Total";
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N1";
-            dataGridViewCellStyle13.NullValue = null;
-            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle45.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle45.Format = "N1";
+            dataGridViewCellStyle45.NullValue = null;
+            colTotalCompraProv.DefaultCellStyle = dataGridViewCellStyle45;
             colTotalCompraProv.FillWeight = 120F;
             colTotalCompraProv.HeaderText = "Total";
             colTotalCompraProv.MinimumWidth = 6;
@@ -872,8 +879,8 @@
             // colEstadoCompraProv
             // 
             colEstadoCompraProv.DataPropertyName = "Status";
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colEstadoCompraProv.DefaultCellStyle = dataGridViewCellStyle46;
             colEstadoCompraProv.FillWeight = 110F;
             colEstadoCompraProv.HeaderText = "Estado";
             colEstadoCompraProv.MinimumWidth = 6;
@@ -883,8 +890,8 @@
             // colDocumentoCompraProv
             // 
             colDocumentoCompraProv.DataPropertyName = "DocumentNumber";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colDocumentoCompraProv.DefaultCellStyle = dataGridViewCellStyle47;
             colDocumentoCompraProv.FillWeight = 140F;
             colDocumentoCompraProv.HeaderText = "Documento";
             colDocumentoCompraProv.MinimumWidth = 6;
@@ -912,6 +919,60 @@
             cmbProveedorCompra.Name = "cmbProveedorCompra";
             cmbProveedorCompra.Size = new Size(516, 29);
             cmbProveedorCompra.TabIndex = 0;
+            // 
+            // pnlContact
+            // 
+            pnlContact.Controls.Add(lblContacto);
+            pnlContact.Dock = DockStyle.Fill;
+            pnlContact.Location = new Point(3, 109);
+            pnlContact.Name = "pnlContact";
+            pnlContact.Padding = new Padding(10, 20, 0, 0);
+            pnlContact.Size = new Size(322, 47);
+            pnlContact.TabIndex = 11;
+            // 
+            // lblContacto
+            // 
+            lblContacto.BackColor = Color.White;
+            lblContacto.Dock = DockStyle.Fill;
+            lblContacto.Font = new Font("Century Gothic", 9F, FontStyle.Bold);
+            lblContacto.ForeColor = SystemColors.ControlText;
+            lblContacto.Location = new Point(10, 20);
+            lblContacto.Name = "lblContacto";
+            lblContacto.Size = new Size(312, 27);
+            lblContacto.TabIndex = 11;
+            lblContacto.Text = "Nombre del Contacto";
+            lblContacto.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(panel3);
+            panel2.Controls.Add(textBox1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(3, 162);
+            panel2.Name = "panel2";
+            panel2.Padding = new Padding(5, 12, 5, 12);
+            panel2.Size = new Size(322, 47);
+            panel2.TabIndex = 12;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.MidnightBlue;
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(5, 33);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(312, 2);
+            panel3.TabIndex = 14;
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Dock = DockStyle.Fill;
+            textBox1.Location = new Point(5, 12);
+            textBox1.MaxLength = 150;
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "¿Quién lo atendio?...";
+            textBox1.Size = new Size(312, 19);
+            textBox1.TabIndex = 10;
             // 
             // FrmProveedores
             // 
@@ -947,10 +1008,10 @@
             pnlInputEmail.ResumeLayout(false);
             pnlInputEmail.PerformLayout();
             pnlDirección.ResumeLayout(false);
-            pnlInputDireccion.ResumeLayout(false);
-            pnlInputDireccion.PerformLayout();
             pnlActivo.ResumeLayout(false);
             pnlActivo.PerformLayout();
+            pnlInputDireccion.ResumeLayout(false);
+            pnlInputDireccion.PerformLayout();
             tlpButtons.ResumeLayout(false);
             pnlCancelar.ResumeLayout(false);
             pnlGuardar.ResumeLayout(false);
@@ -960,6 +1021,9 @@
             tpComprasAsociadas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvComprasProveedor).EndInit();
             pnlSeleccionReceta.ResumeLayout(false);
+            pnlContact.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1019,7 +1083,7 @@
         private PictureBox picSearch;
         private Panel panel1;
         private Panel panel3;
-        private Panel panel2;
+        private Panel pnlNombreContacto;
         private MaskedTextBox txtTelefonoNuevoCliente;
         private Panel panel15;
         private Panel pnlActivo;
@@ -1039,5 +1103,9 @@
         private TableLayoutPanel tlpInputDatosProveedor;
         private Panel pnlSeleccionReceta;
         private ComboBox cmbProveedorCompra;
+        private Panel pnlContact;
+        private Label lblContacto;
+        private Panel panel2;
+        private TextBox textBox1;
     }
 }
