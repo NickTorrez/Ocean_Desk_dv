@@ -70,13 +70,6 @@
             colEstadoCompra = new DataGridViewTextBoxColumn();
             colRecibidaCompra = new DataGridViewTextBoxColumn();
             dgvDetalleCompra = new DataGridView();
-            colProductoCompra = new DataGridViewTextBoxColumn();
-            colUnidadCompra = new DataGridViewTextBoxColumn();
-            colCantidadCompra = new DataGridViewTextBoxColumn();
-            colCostoCompra = new DataGridViewTextBoxColumn();
-            colSubtotalCompra = new DataGridViewTextBoxColumn();
-            colRecepcionCompra = new DataGridViewTextBoxColumn();
-            colObservacionCompra = new DataGridViewTextBoxColumn();
             btnRegistrarRecepcion = new Button();
             btnAgregarProducto = new Button();
             pnlDatosCompra = new Panel();
@@ -115,6 +108,13 @@
             pnlDgv = new Panel();
             pnlProveedorProducto = new Panel();
             panel2 = new Panel();
+            colProductoCompra = new DataGridViewTextBoxColumn();
+            colUnidadCompra = new DataGridViewTextBoxColumn();
+            colCantidadCompra = new DataGridViewTextBoxColumn();
+            colCostoCompra = new DataGridViewTextBoxColumn();
+            colSubtotalCompra = new DataGridViewTextBoxColumn();
+            colRecepcionCompra = new DataGridViewTextBoxColumn();
+            colObservacionCompra = new DataGridViewTextBoxColumn();
             pnlBarraCompras.SuspendLayout();
             tlpBarraCompras.SuspendLayout();
             pnlSeacrh.SuspendLayout();
@@ -330,6 +330,8 @@
             // 
             dgvCompras.AllowUserToAddRows = false;
             dgvCompras.AllowUserToDeleteRows = false;
+            dgvCompras.AllowUserToResizeColumns = false;
+            dgvCompras.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(14, 203, 255, 140);
             dataGridViewCellStyle1.Font = new Font("Century Gothic", 9.8F);
             dataGridViewCellStyle1.ForeColor = Color.FromArgb(0, 1, 68, 219);
@@ -492,83 +494,6 @@
             dgvDetalleCompra.Size = new Size(454, 222);
             dgvDetalleCompra.TabIndex = 94;
             // 
-            // colProductoCompra
-            // 
-            colProductoCompra.DataPropertyName = "ProductName";
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colProductoCompra.DefaultCellStyle = dataGridViewCellStyle12;
-            colProductoCompra.FillWeight = 351.198975F;
-            colProductoCompra.HeaderText = "Producto";
-            colProductoCompra.MinimumWidth = 6;
-            colProductoCompra.Name = "colProductoCompra";
-            colProductoCompra.ReadOnly = true;
-            // 
-            // colUnidadCompra
-            // 
-            colUnidadCompra.DataPropertyName = "UnitName";
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colUnidadCompra.DefaultCellStyle = dataGridViewCellStyle13;
-            colUnidadCompra.FillWeight = 91.44385F;
-            colUnidadCompra.HeaderText = "Unidad";
-            colUnidadCompra.MinimumWidth = 6;
-            colUnidadCompra.Name = "colUnidadCompra";
-            colUnidadCompra.ReadOnly = true;
-            // 
-            // colCantidadCompra
-            // 
-            colCantidadCompra.DataPropertyName = "Quantity";
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colCantidadCompra.DefaultCellStyle = dataGridViewCellStyle14;
-            colCantidadCompra.FillWeight = 68.12858F;
-            colCantidadCompra.HeaderText = "Cantidad";
-            colCantidadCompra.MinimumWidth = 6;
-            colCantidadCompra.Name = "colCantidadCompra";
-            colCantidadCompra.ReadOnly = true;
-            // 
-            // colCostoCompra
-            // 
-            colCostoCompra.DataPropertyName = "UnitCost";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colCostoCompra.DefaultCellStyle = dataGridViewCellStyle15;
-            colCostoCompra.FillWeight = 75.30001F;
-            colCostoCompra.HeaderText = "Costo unit.";
-            colCostoCompra.MinimumWidth = 6;
-            colCostoCompra.Name = "colCostoCompra";
-            colCostoCompra.ReadOnly = true;
-            // 
-            // colSubtotalCompra
-            // 
-            colSubtotalCompra.DataPropertyName = "Subtotal";
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colSubtotalCompra.DefaultCellStyle = dataGridViewCellStyle16;
-            colSubtotalCompra.FillWeight = 78.88572F;
-            colSubtotalCompra.HeaderText = "Subtotal";
-            colSubtotalCompra.MinimumWidth = 6;
-            colSubtotalCompra.Name = "colSubtotalCompra";
-            colSubtotalCompra.ReadOnly = true;
-            // 
-            // colRecepcionCompra
-            // 
-            colRecepcionCompra.DataPropertyName = "ReceivedQuantity";
-            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colRecepcionCompra.DefaultCellStyle = dataGridViewCellStyle17;
-            colRecepcionCompra.FillWeight = 68.12858F;
-            colRecepcionCompra.HeaderText = "ReceivedQuantity";
-            colRecepcionCompra.MinimumWidth = 6;
-            colRecepcionCompra.Name = "colRecepcionCompra";
-            colRecepcionCompra.ReadOnly = true;
-            // 
-            // colObservacionCompra
-            // 
-            colObservacionCompra.DataPropertyName = "Notes";
-            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            colObservacionCompra.DefaultCellStyle = dataGridViewCellStyle18;
-            colObservacionCompra.FillWeight = 121.914307F;
-            colObservacionCompra.HeaderText = "Observación";
-            colObservacionCompra.MinimumWidth = 6;
-            colObservacionCompra.Name = "colObservacionCompra";
-            colObservacionCompra.ReadOnly = true;
-            // 
             // btnRegistrarRecepcion
             // 
             btnRegistrarRecepcion.BackColor = Color.FromArgb(238, 243, 247);
@@ -673,10 +598,11 @@
             // 
             cmbProveedorCompra.Dock = DockStyle.Fill;
             cmbProveedorCompra.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProveedorCompra.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbProveedorCompra.FormattingEnabled = true;
             cmbProveedorCompra.Location = new Point(5, 10);
             cmbProveedorCompra.Name = "cmbProveedorCompra";
-            cmbProveedorCompra.Size = new Size(424, 27);
+            cmbProveedorCompra.Size = new Size(424, 28);
             cmbProveedorCompra.TabIndex = 1;
             // 
             // pnlFechaCompra
@@ -806,6 +732,7 @@
             // txtNotasCompra
             // 
             txtNotasCompra.Dock = DockStyle.Fill;
+            txtNotasCompra.Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtNotasCompra.Location = new Point(5, 5);
             txtNotasCompra.MaxLength = 250;
             txtNotasCompra.Multiline = true;
@@ -1019,6 +946,82 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(454, 10);
             panel2.TabIndex = 10;
+            // 
+            // colProductoCompra
+            // 
+            colProductoCompra.DataPropertyName = "ProductName";
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colProductoCompra.DefaultCellStyle = dataGridViewCellStyle12;
+            colProductoCompra.FillWeight = 150F;
+            colProductoCompra.HeaderText = "Producto";
+            colProductoCompra.MinimumWidth = 6;
+            colProductoCompra.Name = "colProductoCompra";
+            colProductoCompra.ReadOnly = true;
+            // 
+            // colUnidadCompra
+            // 
+            colUnidadCompra.DataPropertyName = "UnitName";
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colUnidadCompra.DefaultCellStyle = dataGridViewCellStyle13;
+            colUnidadCompra.HeaderText = "Unidad";
+            colUnidadCompra.MinimumWidth = 6;
+            colUnidadCompra.Name = "colUnidadCompra";
+            colUnidadCompra.ReadOnly = true;
+            // 
+            // colCantidadCompra
+            // 
+            colCantidadCompra.DataPropertyName = "Quantity";
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCantidadCompra.DefaultCellStyle = dataGridViewCellStyle14;
+            colCantidadCompra.FillWeight = 70F;
+            colCantidadCompra.HeaderText = "Cantidad";
+            colCantidadCompra.MinimumWidth = 6;
+            colCantidadCompra.Name = "colCantidadCompra";
+            colCantidadCompra.ReadOnly = true;
+            // 
+            // colCostoCompra
+            // 
+            colCostoCompra.DataPropertyName = "UnitCost";
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCostoCompra.DefaultCellStyle = dataGridViewCellStyle15;
+            colCostoCompra.FillWeight = 150F;
+            colCostoCompra.HeaderText = "Costo unit.";
+            colCostoCompra.MinimumWidth = 6;
+            colCostoCompra.Name = "colCostoCompra";
+            colCostoCompra.ReadOnly = true;
+            // 
+            // colSubtotalCompra
+            // 
+            colSubtotalCompra.DataPropertyName = "Subtotal";
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colSubtotalCompra.DefaultCellStyle = dataGridViewCellStyle16;
+            colSubtotalCompra.FillWeight = 150F;
+            colSubtotalCompra.HeaderText = "Subtotal";
+            colSubtotalCompra.MinimumWidth = 6;
+            colSubtotalCompra.Name = "colSubtotalCompra";
+            colSubtotalCompra.ReadOnly = true;
+            // 
+            // colRecepcionCompra
+            // 
+            colRecepcionCompra.DataPropertyName = "ReceivedQuantity";
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colRecepcionCompra.DefaultCellStyle = dataGridViewCellStyle17;
+            colRecepcionCompra.FillWeight = 70F;
+            colRecepcionCompra.HeaderText = "ReceivedQuantity";
+            colRecepcionCompra.MinimumWidth = 6;
+            colRecepcionCompra.Name = "colRecepcionCompra";
+            colRecepcionCompra.ReadOnly = true;
+            // 
+            // colObservacionCompra
+            // 
+            colObservacionCompra.DataPropertyName = "Notes";
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colObservacionCompra.DefaultCellStyle = dataGridViewCellStyle18;
+            colObservacionCompra.FillWeight = 200F;
+            colObservacionCompra.HeaderText = "Observación";
+            colObservacionCompra.MinimumWidth = 6;
+            colObservacionCompra.Name = "colObservacionCompra";
+            colObservacionCompra.ReadOnly = true;
             // 
             // FrmCompras
             // 

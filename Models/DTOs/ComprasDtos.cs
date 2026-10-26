@@ -29,6 +29,7 @@ public sealed class ProductoCompraDto
     public int ProductId { get; init; }
     public string ProductCode { get; init; } = string.Empty;
     public string ProductName { get; init; } = string.Empty;
+    public int? UnitOfMeasureId { get; init; }
     public string UnitName { get; init; } = string.Empty;
     public decimal CurrentStock { get; init; }
     public override string ToString() => $"{ProductCode} - {ProductName} ({UnitName})";
@@ -67,16 +68,31 @@ public sealed class CompraDetalleDto
 
 public sealed class DetalleCompraCapturaDto
 {
-    public int ProductId { get; init; }
+    // Null cuando se está capturando una mercancía nueva.
+    public int? ProductId { get; init; }
+
+    // Se asignará un código ING al guardar la compra,
+    // salvo que corresponda a un ingrediente ya registrado.
     public string ProductCode { get; init; } = string.Empty;
+
     public string ProductName { get; init; } = string.Empty;
+
+    public int UnitOfMeasureId { get; init; }
+
     public string UnitName { get; init; } = string.Empty;
+
     public decimal Quantity { get; init; }
+
     public decimal UnitCost { get; init; }
+
     public decimal Subtotal { get; init; }
+
     public decimal ReceivedQuantity { get; init; }
+
     public string? LotCode { get; init; }
+
     public DateOnly? ExpirationDate { get; init; }
+
     public string? Notes { get; init; }
 }
 

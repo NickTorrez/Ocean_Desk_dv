@@ -40,21 +40,25 @@
             pnlLabelVenicmiento = new Panel();
             lblCostoUnitario = new Label();
             pnlInputIngrediente = new Panel();
+            txtNombreIngrediente = new TextBox();
+            pnlLine = new Panel();
             pnlInputStockMin = new Panel();
             nudStockMinimo = new NumericUpDown();
             pnlInputVencimiento = new Panel();
-            txtNombreIngrediente = new TextBox();
-            pnlLine = new Panel();
-            numericUpDown1 = new NumericUpDown();
+            nudCosto = new NumericUpDown();
             panel1 = new Panel();
             lblLote = new Label();
             panel2 = new Panel();
-            textBox1 = new TextBox();
+            txtLote = new TextBox();
             panel3 = new Panel();
             pnlLabelVencimiento = new Panel();
             lblVencimiento = new Label();
             pnlInputVencer = new Panel();
             dtpVencimiento = new DateTimePicker();
+            pnlLabelUnidad = new Panel();
+            lblUnidadMedida = new Label();
+            pnlInputUnidad = new Panel();
+            cmbUnidadMedida = new ComboBox();
             pnlInputObservaciones = new Panel();
             txtObservaciones = new TextBox();
             lblObservaciones = new Label();
@@ -74,11 +78,13 @@
             pnlInputStockMin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudStockMinimo).BeginInit();
             pnlInputVencimiento.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudCosto).BeginInit();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             pnlLabelVencimiento.SuspendLayout();
             pnlInputVencer.SuspendLayout();
+            pnlLabelUnidad.SuspendLayout();
+            pnlInputUnidad.SuspendLayout();
             pnlInputObservaciones.SuspendLayout();
             pnlFooter.SuspendLayout();
             tlpButtons.SuspendLayout();
@@ -146,6 +152,8 @@
             tlpInputInfo.Controls.Add(panel2, 0, 5);
             tlpInputInfo.Controls.Add(pnlLabelVencimiento, 0, 6);
             tlpInputInfo.Controls.Add(pnlInputVencer, 0, 7);
+            tlpInputInfo.Controls.Add(pnlLabelUnidad, 1, 0);
+            tlpInputInfo.Controls.Add(pnlInputUnidad, 1, 1);
             tlpInputInfo.Dock = DockStyle.Fill;
             tlpInputInfo.Location = new Point(5, 5);
             tlpInputInfo.Name = "tlpInputInfo";
@@ -223,7 +231,6 @@
             lblCostoUnitario.TabIndex = 2;
             lblCostoUnitario.Text = "Costo Unitario (C$)";
             lblCostoUnitario.TextAlign = ContentAlignment.MiddleLeft;
-            lblCostoUnitario.Click += lblVencimiento_Click;
             // 
             // pnlInputIngrediente
             // 
@@ -235,6 +242,25 @@
             pnlInputIngrediente.Padding = new Padding(5, 8, 5, 12);
             pnlInputIngrediente.Size = new Size(263, 43);
             pnlInputIngrediente.TabIndex = 9;
+            // 
+            // txtNombreIngrediente
+            // 
+            txtNombreIngrediente.BorderStyle = BorderStyle.None;
+            txtNombreIngrediente.Dock = DockStyle.Top;
+            txtNombreIngrediente.Location = new Point(5, 8);
+            txtNombreIngrediente.Name = "txtNombreIngrediente";
+            txtNombreIngrediente.PlaceholderText = "Ingrese Ingrediente...";
+            txtNombreIngrediente.Size = new Size(253, 19);
+            txtNombreIngrediente.TabIndex = 8;
+            // 
+            // pnlLine
+            // 
+            pnlLine.BackColor = Color.MidnightBlue;
+            pnlLine.Dock = DockStyle.Bottom;
+            pnlLine.Location = new Point(5, 29);
+            pnlLine.Name = "pnlLine";
+            pnlLine.Size = new Size(253, 2);
+            pnlLine.TabIndex = 9;
             // 
             // pnlInputStockMin
             // 
@@ -260,7 +286,7 @@
             // 
             // pnlInputVencimiento
             // 
-            pnlInputVencimiento.Controls.Add(numericUpDown1);
+            pnlInputVencimiento.Controls.Add(nudCosto);
             pnlInputVencimiento.Dock = DockStyle.Fill;
             pnlInputVencimiento.Location = new Point(272, 116);
             pnlInputVencimiento.Name = "pnlInputVencimiento";
@@ -268,36 +294,17 @@
             pnlInputVencimiento.Size = new Size(233, 47);
             pnlInputVencimiento.TabIndex = 11;
             // 
-            // txtNombreIngrediente
+            // nudCosto
             // 
-            txtNombreIngrediente.BorderStyle = BorderStyle.None;
-            txtNombreIngrediente.Dock = DockStyle.Top;
-            txtNombreIngrediente.Location = new Point(5, 8);
-            txtNombreIngrediente.Name = "txtNombreIngrediente";
-            txtNombreIngrediente.PlaceholderText = "Ingrese Ingrediente...";
-            txtNombreIngrediente.Size = new Size(253, 19);
-            txtNombreIngrediente.TabIndex = 8;
-            // 
-            // pnlLine
-            // 
-            pnlLine.BackColor = Color.MidnightBlue;
-            pnlLine.Dock = DockStyle.Bottom;
-            pnlLine.Location = new Point(5, 29);
-            pnlLine.Name = "pnlLine";
-            pnlLine.Size = new Size(253, 2);
-            pnlLine.TabIndex = 9;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.DecimalPlaces = 4;
-            numericUpDown1.Dock = DockStyle.Fill;
-            numericUpDown1.Location = new Point(5, 8);
-            numericUpDown1.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(223, 26);
-            numericUpDown1.TabIndex = 2;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudCosto.DecimalPlaces = 4;
+            nudCosto.Dock = DockStyle.Fill;
+            nudCosto.Location = new Point(5, 8);
+            nudCosto.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudCosto.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudCosto.Name = "nudCosto";
+            nudCosto.Size = new Size(223, 26);
+            nudCosto.TabIndex = 2;
+            nudCosto.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // panel1
             // 
@@ -322,7 +329,7 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtLote);
             panel2.Controls.Add(panel3);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 208);
@@ -331,15 +338,15 @@
             panel2.Size = new Size(263, 37);
             panel2.TabIndex = 13;
             // 
-            // textBox1
+            // txtLote
             // 
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Dock = DockStyle.Top;
-            textBox1.Location = new Point(5, 5);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Ingrese Ingrediente...";
-            textBox1.Size = new Size(253, 19);
-            textBox1.TabIndex = 8;
+            txtLote.BorderStyle = BorderStyle.None;
+            txtLote.Dock = DockStyle.Top;
+            txtLote.Location = new Point(5, 5);
+            txtLote.Name = "txtLote";
+            txtLote.PlaceholderText = "Ingrese Ingrediente...";
+            txtLote.Size = new Size(253, 19);
+            txtLote.TabIndex = 8;
             // 
             // panel3
             // 
@@ -391,6 +398,45 @@
             dtpVencimiento.ShowCheckBox = true;
             dtpVencimiento.Size = new Size(253, 26);
             dtpVencimiento.TabIndex = 0;
+            // 
+            // pnlLabelUnidad
+            // 
+            pnlLabelUnidad.Controls.Add(lblUnidadMedida);
+            pnlLabelUnidad.Location = new Point(272, 3);
+            pnlLabelUnidad.Name = "pnlLabelUnidad";
+            pnlLabelUnidad.Padding = new Padding(5, 0, 0, 0);
+            pnlLabelUnidad.Size = new Size(233, 25);
+            pnlLabelUnidad.TabIndex = 16;
+            // 
+            // lblUnidadMedida
+            // 
+            lblUnidadMedida.Dock = DockStyle.Top;
+            lblUnidadMedida.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUnidadMedida.Location = new Point(5, 0);
+            lblUnidadMedida.Name = "lblUnidadMedida";
+            lblUnidadMedida.Size = new Size(228, 25);
+            lblUnidadMedida.TabIndex = 1;
+            lblUnidadMedida.Text = "Unidad de Medida";
+            lblUnidadMedida.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // pnlInputUnidad
+            // 
+            pnlInputUnidad.Controls.Add(cmbUnidadMedida);
+            pnlInputUnidad.Location = new Point(272, 34);
+            pnlInputUnidad.Name = "pnlInputUnidad";
+            pnlInputUnidad.Padding = new Padding(5, 8, 5, 0);
+            pnlInputUnidad.Size = new Size(233, 43);
+            pnlInputUnidad.TabIndex = 17;
+            // 
+            // cmbUnidadMedida
+            // 
+            cmbUnidadMedida.Dock = DockStyle.Fill;
+            cmbUnidadMedida.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbUnidadMedida.FormattingEnabled = true;
+            cmbUnidadMedida.Location = new Point(5, 8);
+            cmbUnidadMedida.Name = "cmbUnidadMedida";
+            cmbUnidadMedida.Size = new Size(223, 28);
+            cmbUnidadMedida.TabIndex = 2;
             // 
             // pnlInputObservaciones
             // 
@@ -528,12 +574,14 @@
             pnlInputStockMin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudStockMinimo).EndInit();
             pnlInputVencimiento.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudCosto).EndInit();
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             pnlLabelVencimiento.ResumeLayout(false);
             pnlInputVencer.ResumeLayout(false);
+            pnlLabelUnidad.ResumeLayout(false);
+            pnlInputUnidad.ResumeLayout(false);
             pnlInputObservaciones.ResumeLayout(false);
             pnlInputObservaciones.PerformLayout();
             pnlFooter.ResumeLayout(false);
@@ -562,11 +610,11 @@
         private Panel pnlInputVencimiento;
         private TextBox txtNombreIngrediente;
         private Panel pnlLine;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown nudCosto;
         private Panel panel1;
         private Label lblLote;
         private Panel panel2;
-        private TextBox textBox1;
+        private TextBox txtLote;
         private Panel panel3;
         private Panel pnlLabelVencimiento;
         private Label lblVencimiento;
@@ -581,5 +629,9 @@
         private Button btnCancelar;
         private Panel pnlGuardar;
         private Button btnConfirmar;
+        private Panel pnlLabelUnidad;
+        private Panel pnlInputUnidad;
+        private Label lblUnidadMedida;
+        private ComboBox cmbUnidadMedida;
     }
 }

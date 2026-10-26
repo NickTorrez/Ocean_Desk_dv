@@ -3,6 +3,7 @@ using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
 using Ocean_Desk_dv.Services.Interfaces_Services;
+using System.Data;
 
 namespace Ocean_Desk_dv.Services.Repository;
 
@@ -38,12 +39,27 @@ public sealed class ComprasRepository : IComprasRepository
             .OrderBy(p => p.ProductName)
             .Select(p => new ProductoCompraDto
             {
+                UnitOfMeasureId = p.UnitOfMeasureId,
                 ProductId = p.ProductId,
                 ProductCode = p.ProductCode,
                 ProductName = p.ProductName,
                 UnitName = p.UnitOfMeasure != null ? p.UnitOfMeasure.UnitName : "Sin unidad",
                 CurrentStock = p.Inventory != null ? p.Inventory.CurrentStock : 0m
             }).ToList();
+
+    public IReadOnlyList<UnidadMedidaDto> ObtenerUnidadesMedidaActivas() =>
+    _context.UnitOfMeasures
+        .AsNoTracking()
+        .Where(u => u.IsActive)
+        .OrderBy(u => u.UnitName)
+        .Select(u => new UnidadMedidaDto
+        {
+            UnitOfMeasureId = u.UnitOfMeasureId,
+            UnitCode = u.UnitCode,
+            UnitName = u.UnitName,
+            UnitSymbol = u.UnitSymbol
+        })
+        .ToList();
 
     public IReadOnlyList<CompraResumenDto> ObtenerCompras(FiltroComprasDto filtro)
     {
@@ -130,32 +146,174 @@ public sealed class ComprasRepository : IComprasRepository
 
     public ResultadoCompraDto RegistrarCompra(SolicitudCompraDto solicitud)
     {
-        if (solicitud.SupplierId <= 0)
-            return ResultadoCompraDto.Fallido("Seleccione un proveedor válido.");
-        if (solicitud.Details is null || solicitud.Details.Count == 0)
-            return ResultadoCompraDto.Fallido("Agregue al menos un ingrediente a la compra.");
-        if (solicitud.Details.Any(d => d.ProductId <= 0 || d.Quantity <= 0m || d.UnitCost < 0m))
-            return ResultadoCompraDto.Fallido("Revise los ingredientes: la cantidad debe ser mayor que cero y el costo no puede ser negativo.");
+        if (solicitud is null)
+            return ResultadoCompraDto.Fallido(
+                "No se recibieron los datos de la compra.");
 
-        using var tx = _context.Database.BeginTransaction();
+        if (solicitud.SupplierId <= 0)
+            return ResultadoCompraDto.Fallido(
+                "Seleccione un proveedor válido.");
+
+        if (solicitud.Details is null || solicitud.Details.Count == 0)
+            return ResultadoCompraDto.Fallido(
+                "Agregue al menos un producto a la compra.");
+
+        if (solicitud.Details.Any(d =>
+            string.IsNullOrWhiteSpace(d.ProductName) ||
+            d.ProductName.Trim().Length > 150 ||
+            d.UnitOfMeasureId <= 0 ||
+            d.Quantity <= 0m ||
+            d.Quantity > 99999999.9999m ||
+            d.Quantity != decimal.Round(d.Quantity, 4) ||
+            d.UnitCost < 0m ||
+            d.UnitCost > 999999m ||
+            d.UnitCost != decimal.Round(d.UnitCost, 4)))
+        {
+            return ResultadoCompraDto.Fallido(
+                "Revise los productos: el nombre y la unidad son obligatorios, " +
+                "la cantidad debe ser mayor que cero y el costo no puede ser negativo.");
+        }
+
+        if (solicitud.Details.Any(d =>
+            (d.LotCode?.Length ?? 0) > 50 ||
+            (d.Notes?.Length ?? 0) > 250))
+        {
+            return ResultadoCompraDto.Fallido(
+                "El código del lote admite hasta 50 caracteres " +
+                "y las observaciones hasta 250.");
+        }
+
+        DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+        if (solicitud.Details.Any(d =>
+            d.ExpirationDate.HasValue &&
+            d.ExpirationDate.Value < hoy))
+        {
+            return ResultadoCompraDto.Fallido(
+                "Una fecha de vencimiento no puede estar en el pasado.");
+        }
+
+        using var tx = _context.Database.BeginTransaction(
+            IsolationLevel.Serializable);
+
         try
         {
-            bool proveedorActivo = _context.Suppliers.Any(s => s.SupplierId == solicitud.SupplierId && s.IsActive);
-            if (!proveedorActivo)
-                return ResultadoCompraDto.Fallido("El proveedor seleccionado no existe o está inactivo.");
+            bool proveedorActivo = _context.Suppliers.Any(s =>
+                s.SupplierId == solicitud.SupplierId &&
+                s.IsActive);
 
-            var ids = solicitud.Details.Select(d => d.ProductId).Distinct().ToList();
-            var productos = _context.Products.AsNoTracking()
-                .Where(p => ids.Contains(p.ProductId) && p.IsActive &&
-                            p.ProductType == "Ingredient" && p.UnitOfMeasureId != null)
-                .Select(p => p.ProductId).ToList();
-            if (productos.Count != ids.Count)
+            if (!proveedorActivo)
                 return ResultadoCompraDto.Fallido(
-                    "Una o más líneas no corresponden a ingredientes activos con unidad de medida asignada.");
+                    "El proveedor seleccionado no existe o está inactivo.");
+
+            // Comprobar que todas las unidades solicitadas existan y estén activas.
+            List<int> unidadIds = solicitud.Details
+                .Select(d => d.UnitOfMeasureId)
+                .Distinct()
+                .ToList();
+
+            var unidadesActivas = _context.UnitOfMeasures
+                .Where(u =>
+                    unidadIds.Contains(u.UnitOfMeasureId) &&
+                    u.IsActive)
+                .ToDictionary(u => u.UnitOfMeasureId);
+
+            if (unidadesActivas.Count != unidadIds.Count)
+                return ResultadoCompraDto.Fallido(
+                    "Una o más unidades de medida no existen o están inactivas.");
+
+            // Incluye los ingredientes inactivos para evitar crear otro producto
+            // con el mismo nombre cuando ya hay uno que debe revisarse.
+            List<Product> ingredientes = _context.Products
+                .Where(p => p.ProductType == "Ingredient")
+                .ToList();
+
+            var productosPorNombre =
+                new Dictionary<string, Product>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            var productosNuevosPendientes =
+                new Dictionary<string, (string Nombre, int UnidadId)>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            var lineasResueltas =
+                new List<(DetalleCompraCapturaDto Detalle,
+                          Product? Producto,
+                          string Nombre)>();
+
+            // Primero validar todas las líneas. Aún no se crea la compra
+            // ni se escribe producto alguno.
+            foreach (DetalleCompraCapturaDto detalle in solicitud.Details)
+            {
+                string nombre = detalle.ProductName.Trim();
+                Product? producto = null;
+
+                if (detalle.ProductId.HasValue)
+                {
+                    producto = ingredientes.FirstOrDefault(p =>
+                        p.ProductId == detalle.ProductId.Value);
+
+                    if (producto is null)
+                        return ResultadoCompraDto.Fallido(
+                            $"El producto '{nombre}' no corresponde a un ingrediente registrado.");
+                }
+                else if (productosPorNombre.TryGetValue(
+                    nombre, out Product? productoEnCache))
+                {
+                    producto = productoEnCache;
+                }
+                else
+                {
+                    producto = ingredientes.FirstOrDefault(p =>
+                        string.Equals(
+                            p.ProductName.Trim(),
+                            nombre,
+                            StringComparison.OrdinalIgnoreCase));
+
+                    if (producto is not null)
+                    {
+                        productosPorNombre[nombre] = producto;
+                    }
+                    else if (productosNuevosPendientes.TryGetValue(
+                        nombre, out var pendiente))
+                    {
+                        if (pendiente.UnidadId != detalle.UnitOfMeasureId)
+                            return ResultadoCompraDto.Fallido(
+                                $"El producto '{nombre}' aparece con dos unidades de medida distintas.");
+                    }
+                    else
+                    {
+                        productosNuevosPendientes[nombre] =
+                            (nombre, detalle.UnitOfMeasureId);
+                    }
+                }
+
+                if (producto is not null)
+                {
+                    if (!producto.IsActive)
+                        return ResultadoCompraDto.Fallido(
+                            $"El ingrediente '{producto.ProductName}' está inactivo. " +
+                            "Revíselo desde el catálogo antes de comprarlo.");
+
+                    if (!producto.UnitOfMeasureId.HasValue ||
+                        producto.UnitOfMeasureId.Value != detalle.UnitOfMeasureId)
+                    {
+                        return ResultadoCompraDto.Fallido(
+                            $"La unidad de medida de '{producto.ProductName}' " +
+                            "no coincide con su unidad registrada.");
+                    }
+
+                    productosPorNombre[nombre] = producto;
+                }
+
+                lineasResueltas.Add((detalle, producto, nombre));
+            }
 
             decimal subtotal = Math.Round(
-                solicitud.Details.Sum(d => d.Quantity * d.UnitCost), 2,
+                solicitud.Details.Sum(d => d.Quantity * d.UnitCost),
+                2,
                 MidpointRounding.AwayFromZero);
+
             var compra = new Purchase
             {
                 PurchaseCode = "TMP" + Guid.NewGuid().ToString("N")[..20],
@@ -168,39 +326,112 @@ public sealed class ComprasRepository : IComprasRepository
                 Notes = NormalizarTexto(solicitud.Notes),
                 CreatedAt = DateTime.Now
             };
+
             _context.Purchases.Add(compra);
             _context.SaveChanges();
 
-            compra.PurchaseCode = $"COMP-{compra.PurchaseDate:yyyy}-{compra.PurchaseId:000000}";
-            foreach (DetalleCompraCapturaDto d in solicitud.Details)
+            compra.PurchaseCode =
+                $"COMP-{compra.PurchaseDate:yyyy}-{compra.PurchaseId:000000}";
+
+            var productosNuevos =
+                new Dictionary<string, Product>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            ProductCategory? categoriaIngredientes = null;
+
+            // Crear una única entidad Product por cada nombre nuevo.
+            // Varias líneas con diferentes lotes podrán referenciar
+            // ese mismo ProductId.
+            foreach (var pendiente in productosNuevosPendientes)
             {
-                decimal linea = Math.Round(d.Quantity * d.UnitCost, 2, MidpointRounding.AwayFromZero);
+                string? codigo = ObtenerSiguienteCodigoIngredienteDisponible();
+
+                if (codigo is null)
+                    throw new InvalidOperationException(
+                        "No hay códigos ING disponibles entre ING-001 e ING-999.");
+
+                categoriaIngredientes ??= ObtenerOCrearCategoriaIngredientes();
+
+                UnitOfMeasure unidad =
+                    unidadesActivas[pendiente.Value.UnidadId];
+
+                var productoNuevo = new Product
+                {
+                    ProductCode = codigo,
+                    ProductName = pendiente.Value.Nombre,
+                    Description = null,
+                    ProductCategoryId =
+                        categoriaIngredientes.ProductCategoryId,
+                    UnitOfMeasureId = unidad.UnitOfMeasureId,
+                    ProductType = "Ingredient",
+                    UnitPrice = 0m,
+                    IsAvailable = false,
+                    IsActive = true,
+                    CreatedAt = DateTime.Now
+                };
+
+                _context.Products.Add(productoNuevo);
+                _context.SaveChanges();
+
+                productosNuevos[pendiente.Key] = productoNuevo;
+            }
+
+            // Crear los detalles de la compra usando el ID del producto
+            // existente o el ID del producto que acaba de crearse.
+            foreach (var linea in lineasResueltas)
+            {
+                Product producto = linea.Producto
+                    ?? productosNuevos[linea.Nombre];
+
+                decimal subtotalLinea = Math.Round(
+                    linea.Detalle.Quantity * linea.Detalle.UnitCost,
+                    2,
+                    MidpointRounding.AwayFromZero);
+
                 _context.PurchaseDetails.Add(new PurchaseDetail
                 {
                     PurchaseId = compra.PurchaseId,
-                    ProductId = d.ProductId,
-                    Quantity = d.Quantity,
-                    UnitCost = d.UnitCost,
-                    Subtotal = linea,
+                    ProductId = producto.ProductId,
+                    Quantity = linea.Detalle.Quantity,
+                    UnitCost = linea.Detalle.UnitCost,
+                    Subtotal = subtotalLinea,
                     ReceivedQuantity = 0m,
-                    LotCode = NormalizarTexto(d.LotCode),
-                    ExpirationDate = d.ExpirationDate,
-                    Notes = NormalizarTexto(d.Notes)
+                    LotCode = NormalizarTexto(linea.Detalle.LotCode),
+                    ExpirationDate = linea.Detalle.ExpirationDate,
+                    Notes = NormalizarTexto(linea.Detalle.Notes)
                 });
             }
 
-            // El total se deriva de las líneas validadas; la navegación puede no estar cargada.
             compra.Subtotal = subtotal;
             compra.Total = subtotal;
             compra.UpdatedAt = DateTime.Now;
+
             _context.SaveChanges();
             tx.Commit();
-            return ResultadoCompraDto.Correcto($"Compra {compra.PurchaseCode} guardada como pendiente de recepción.", compra.PurchaseId);
+
+            // Evitar que las siguientes operaciones del formulario reutilicen
+            // entidades que pertenecieron a esta transacción.
+            _context.ChangeTracker.Clear();
+
+            return ResultadoCompraDto.Correcto(
+                $"Compra {compra.PurchaseCode} guardada como pendiente de recepción.",
+                compra.PurchaseId);
         }
         catch (Exception ex)
         {
-            tx.Rollback();
-            return ResultadoCompraDto.Fallido($"No se pudo guardar la compra: {ex.GetBaseException().Message}");
+            try
+            {
+                tx.Rollback();
+            }
+            catch
+            {
+                // La transacción podría haberse revertido ya.
+            }
+
+            _context.ChangeTracker.Clear();
+
+            return ResultadoCompraDto.Fallido(
+                $"No se pudo guardar la compra: {ex.GetBaseException().Message}");
         }
     }
 
@@ -359,6 +590,52 @@ public sealed class ComprasRepository : IComprasRepository
         compra.UpdatedAt = DateTime.Now;
         _context.SaveChanges();
         return ResultadoCompraDto.Correcto($"Compra {compra.PurchaseCode} cancelada.", compra.PurchaseId);
+    }
+
+    private string? ObtenerSiguienteCodigoIngredienteDisponible()
+    {
+        var codigosExistentes = _context.Products
+            .AsNoTracking()
+            .Select(p => p.ProductCode)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        for (int numero = 1; numero <= 999; numero++)
+        {
+            string codigo = $"ING-{numero:000}";
+
+            if (!codigosExistentes.Contains(codigo))
+                return codigo;
+        }
+
+        return null;
+    }
+
+    private ProductCategory ObtenerOCrearCategoriaIngredientes()
+    {
+        ProductCategory? categoria = _context.ProductCategories
+            .FirstOrDefault(c =>
+                c.CategoryName == "Ingredients" ||
+                c.CategoryName == "Ingredientes");
+
+        if (categoria is null)
+        {
+            categoria = new ProductCategory
+            {
+                CategoryName = "Ingredients",
+                Description = "Ingredientes e insumos de cocina",
+                IsActive = true,
+                CreatedAt = DateTime.Now
+            };
+
+            _context.ProductCategories.Add(categoria);
+            _context.SaveChanges();
+        }
+        else if (!categoria.IsActive)
+        {
+            categoria.IsActive = true;
+        }
+
+        return categoria;
     }
 
     private static string? NormalizarTexto(string? texto) =>

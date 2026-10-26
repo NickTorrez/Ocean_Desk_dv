@@ -6,6 +6,7 @@ public interface IComprasRepository : IDisposable
 {
     IReadOnlyList<ProveedorCompraDto> ObtenerProveedoresActivos();
     IReadOnlyList<ProductoCompraDto> ObtenerIngredientesActivos();
+    IReadOnlyList<UnidadMedidaDto> ObtenerUnidadesMedidaActivas();
     IReadOnlyList<CompraResumenDto> ObtenerCompras(FiltroComprasDto filtro);
     CompraResumenDto? ObtenerCompra(int purchaseId);
     IReadOnlyList<CompraDetalleDto> ObtenerDetalles(int purchaseId);

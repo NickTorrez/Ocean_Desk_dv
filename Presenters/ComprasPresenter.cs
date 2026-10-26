@@ -59,15 +59,27 @@ public sealed class ComprasPresenter : IDisposable
             return;
         }
 
-        IReadOnlyList<ProductoCompraDto> productos = _repository.ObtenerIngredientesActivos();
-        if (productos.Count == 0)
+        IReadOnlyList<ProductoCompraDto> productos =
+    _repository.ObtenerIngredientesActivos();
+
+        IReadOnlyList<UnidadMedidaDto> unidades =
+            _repository.ObtenerUnidadesMedidaActivas();
+
+        if (unidades.Count == 0)
         {
-            _view.MostrarMensaje("No hay ingredientes activos con unidad de medida. Revise el catálogo de Productos.", true);
+            _view.MostrarMensaje(
+                "No hay unidades de medida activas. " +
+                "Registre una unidad antes de capturar la compra.",
+                true);
+
             return;
         }
 
-        DetalleCompraCapturaDto? detalle = _view.SolicitarDetalleCompra(productos);
-        if (detalle is null) return;
+        DetalleCompraCapturaDto? detalle =
+            _view.SolicitarDetalleCompra(productos, unidades);
+
+        if (detalle is null)
+            return;
 
         if (detalle.Quantity <= 0m || detalle.UnitCost < 0m)
         {

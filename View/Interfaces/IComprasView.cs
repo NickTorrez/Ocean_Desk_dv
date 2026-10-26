@@ -23,6 +23,9 @@ public interface IComprasView
     void MostrarDetalleCapturado(IReadOnlyList<DetalleCompraCapturaDto> detalles);
     void PrepararNuevaCompra();
     void HabilitarCaptura(bool habilitar);
-    DetalleCompraCapturaDto? SolicitarDetalleCompra(IReadOnlyList<ProductoCompraDto> productos);
+    DetalleCompraCapturaDto? SolicitarDetalleCompra(
+    IReadOnlyList<ProductoCompraDto> productos,
+    IReadOnlyList<UnidadMedidaDto> unidades);
+
     void MostrarMensaje(string mensaje, bool esError = false);
 }

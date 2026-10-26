@@ -399,102 +399,17 @@ namespace Ocean_Desk_dv.View.Catalogs
             btnCancelarCompra.Enabled = habilitar;
         }
 
-        public DetalleCompraCapturaDto? SolicitarDetalleCompra(IReadOnlyList<ProductoCompraDto> productos)
+        public DetalleCompraCapturaDto? SolicitarDetalleCompra(
+            IReadOnlyList<ProductoCompraDto> productos,
+            IReadOnlyList<UnidadMedidaDto> unidades)
         {
-            using var dialog = new Form
-            {
-                Text = "Agregar ingrediente a la compra",
-                StartPosition = FormStartPosition.CenterParent,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                MinimizeBox = false,
-                MaximizeBox = false,
-                ShowInTaskbar = false,
-                ClientSize = new Size(460, 430),
-                Font = new Font("Century Gothic", 9F),
-                BackColor = Color.White
-            };
+            using var dialog =
+                new global::Ocean_Desk_dv.View.MessageBox
+                    .FrmAgregarIngredienteCompra(productos, unidades);
 
-            var layout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(16),
-                ColumnCount = 2,
-                RowCount = 7,
-                BackColor = Color.White
-            };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 135F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            for (int r = 0; r < 6; r++) layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-
-            var cmbProducto = new ComboBox
-            {
-                Dock = DockStyle.Fill,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                FormattingEnabled = true
-            };
-            cmbProducto.DisplayMember = nameof(ProductoCompraDto.ProductName);
-            cmbProducto.Format += (_, e) =>
-            {
-                if (e.ListItem is ProductoCompraDto producto)
-                {
-                    string nombre = CatalogoTraducciones.TraducirIngrediente(
-                        producto.ProductCode,
-                        producto.ProductName);
-                    string unidad = CatalogoTraducciones.TraducirUnidad(
-                        null,
-                        producto.UnitName);
-                    e.Value = $"{producto.ProductCode} - {nombre} ({unidad})";
-                }
-            };
-            cmbProducto.DataSource = productos.ToList();
-            var nudCantidad = new NumericUpDown { Dock = DockStyle.Fill, DecimalPlaces = 4, Minimum = 0.0001m, Maximum = 99999999.9999m, Value = 1m, ThousandsSeparator = true };
-            var nudCosto = new NumericUpDown { Dock = DockStyle.Fill, DecimalPlaces = 4, Minimum = 0m, Maximum = 999999m, Value = 0m, ThousandsSeparator = true };
-            var txtLote = new TextBox { Dock = DockStyle.Fill, MaxLength = 50, PlaceholderText = "Opcional" };
-            var dtpVencimiento = new DateTimePicker { Dock = DockStyle.Fill, Format = DateTimePickerFormat.Short, ShowCheckBox = true, Checked = false };
-            var txtNotas = new TextBox { Dock = DockStyle.Fill, MaxLength = 250, PlaceholderText = "Observaciones (opcional)" };
-            var botones = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = false };
-            var btnAceptar = new Button { Text = "✓ Agregar", Width = 115, Height = 34, BackColor = Color.FromArgb(8, 126, 164), ForeColor = Color.White, FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.OK };
-            var btnCancelar = new Button { Text = "✕ Cancelar", Width = 115, Height = 34, DialogResult = DialogResult.Cancel, FlatStyle = FlatStyle.Flat };
-            botones.Controls.Add(btnAceptar);
-            botones.Controls.Add(btnCancelar);
-
-            void AddRow(int row, string label, Control control)
-            {
-                layout.Controls.Add(new Label { Text = label, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft }, 0, row);
-                layout.Controls.Add(control, 1, row);
-            }
-            AddRow(0, "Ingrediente", cmbProducto);
-            AddRow(1, "Cantidad", nudCantidad);
-            AddRow(2, "Costo unitario (C$)", nudCosto);
-            AddRow(3, "Código de lote", txtLote);
-            AddRow(4, "Vencimiento", dtpVencimiento);
-            AddRow(5, "Observaciones", txtNotas);
-            layout.Controls.Add(botones, 0, 6);
-            layout.SetColumnSpan(botones, 2);
-            dialog.Controls.Add(layout);
-            dialog.AcceptButton = btnAceptar;
-            dialog.CancelButton = btnCancelar;
-
-            if (dialog.ShowDialog(this) != DialogResult.OK || cmbProducto.SelectedItem is not ProductoCompraDto producto)
-                return null;
-
-            decimal cantidad = nudCantidad.Value;
-            decimal costo = nudCosto.Value;
-            return new DetalleCompraCapturaDto
-            {
-                ProductId = producto.ProductId,
-                ProductCode = producto.ProductCode,
-                ProductName = producto.ProductName,
-                UnitName = producto.UnitName,
-                Quantity = cantidad,
-                UnitCost = costo,
-                Subtotal = Math.Round(cantidad * costo, 2, MidpointRounding.AwayFromZero),
-                ReceivedQuantity = 0m,
-                LotCode = string.IsNullOrWhiteSpace(txtLote.Text) ? null : txtLote.Text.Trim(),
-                ExpirationDate = dtpVencimiento.Checked ? DateOnly.FromDateTime(dtpVencimiento.Value) : null,
-                Notes = string.IsNullOrWhiteSpace(txtNotas.Text) ? null : txtNotas.Text.Trim()
-            };
+            return dialog.ShowDialog(this) == DialogResult.OK
+                ? dialog.Resultado
+                : null;
         }
 
         public void MostrarMensaje(string mensaje, bool esError = false)
