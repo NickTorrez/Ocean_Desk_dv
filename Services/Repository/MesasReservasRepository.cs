@@ -31,6 +31,21 @@ public sealed class MesasReservasRepository : IMesasReservasRepository
             .OrderBy(t => t.TableNumber).Select(MapearMesa).ToList();
     }
 
+    /// <summary>
+    /// Obtiene los nombres completos de los clientes activos
+    /// para utilizarlos en el autocompletado de reservas.
+    /// </summary>
+    public IReadOnlyList<string> ObtenerNombresClientesActivos()
+    {
+        return _context.Customers
+            .AsNoTracking()
+            .Where(c => c.IsActive)
+            .Select(c => (c.FirstName + " " + c.LastName).Trim())
+            .Distinct()
+            .OrderBy(nombre => nombre)
+            .ToList();
+    }
+
     public IReadOnlyList<ReservaDto> ObtenerReservas()
     {
         var db = _context;

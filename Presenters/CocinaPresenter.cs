@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
+using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.View.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,35 +24,32 @@ namespace Ocean_Desk_dv.Presenters
         private const string EstadoListo = "Ready";
         private const string EstadoEntregado = "Delivered";
         private const string EstadoCancelado = "Cancelled";
+
         private const string RolAdministrador = "Administrator";
         private const string RolPersonalCocina = "Kitchen Personnel";
 
         private readonly ICocinaView _view;
-        private readonly OceanDeskDbContext _context;
+        private readonly ICocinaRepository _repository;
         private readonly int? _usuarioId;
         private readonly string? _rolUsuario;
 
-        // Queue<T> representa el orden FIFO de las órdenes activas de cocina.
-        // Mantiene las órdenes Pending, InPreparation y Ready.
-        // No reemplaza la persistencia de SQL Server.
+        // Conserva el orden FIFO de los pedidos activos.
         private readonly Queue<int> _colaPedidosPendientes = new();
+
         private bool _disposed;
 
-        /// <summary>
-        /// Inicializa el Presenter de Cocina.
-        /// </summary>
-        /// <param name="view">Vista que implementa ICocinaView.</param>
-        /// <param name="context">Contexto de acceso a datos.</param>
-        /// <param name="usuarioId">Usuario autenticado. Puede ser null durante la etapa actual.</param>
-        /// <param name="rolUsuario">Rol del usuario autenticado. Puede ser null durante la etapa actual.</param>
         public CocinaPresenter(
             ICocinaView view,
-            OceanDeskDbContext context,
+            ICocinaRepository repository,
             int? usuarioId = null,
             string? rolUsuario = null)
         {
-            _view = view ?? throw new ArgumentNullException(nameof(view));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _view = view ??
+                throw new ArgumentNullException(nameof(view));
+
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
+
             _usuarioId = usuarioId;
             _rolUsuario = rolUsuario;
 
@@ -65,81 +64,77 @@ namespace Ocean_Desk_dv.Presenters
 
         #region Inicialización y consultas
 
-        /// <summary>
-        /// Realiza la primera carga del módulo.
-        /// </summary>
         public void Inicializar()
         {
             CargarPedidos();
         }
 
         /// <summary>
-        /// Consulta las órdenes activas de cocina y actualiza la Vista.
+        /// Consulta los pedidos activos y actualiza los indicadores.
+        /// Conserva la selección cuando el pedido continúa activo.
         /// </summary>
         public void CargarPedidos()
         {
             try
             {
-                int? pedidoSeleccionadoAntes = _view.PedidoIdSeleccionado;
+                int? pedidoSeleccionadoAntes =
+                    _view.PedidoIdSeleccionado;
 
-                var pedidos = _context.KitchenOrders
-                    .AsNoTracking()
-                    .Include(k => k.Sale)
-                        .ThenInclude(s => s.Table)
-                    .Where(k =>
-                        k.Status == EstadoPendiente ||
-                        k.Status == EstadoPreparacion ||
-                        k.Status == EstadoListo)
-                    .OrderBy(k => k.ReceptionDateTime)
-                    .Select(k => new CocinaPedidoResumen
+                List<CocinaPedidoResumen> pedidos = _repository
+                    .ObtenerPedidosActivos()
+                    .Select(p => new CocinaPedidoResumen
                     {
-                        KitchenOrderId = k.KitchenOrderId,
-                        SaleId = k.SaleId,
-                        Mesa = k.Sale.Table != null
-                            ? k.Sale.Table.TableNumber.ToString("00")
-                            : "N/A",
-                        TipoOrden = k.Sale.OrderType,
-                        Hora = k.ReceptionDateTime,
-                        Prioridad = k.Priority,
-                        Estado = k.Status
+                        KitchenOrderId = p.KitchenOrderId,
+                        SaleId = p.SaleId,
+                        Mesa = p.Mesa,
+                        TipoOrden = p.TipoOrden,
+                        Hora = p.Hora,
+                        Prioridad = p.Prioridad,
+                        Estado = p.Estado
                     })
                     .ToList();
 
                 SincronizarCola(pedidos);
 
                 _view.MostrarPedidos(pedidos);
+
                 _view.MostrarIndicadores(
                     pedidos.Count(p => p.Estado == EstadoPendiente),
                     pedidos.Count(p => p.Estado == EstadoPreparacion),
                     pedidos.Count(p => p.Estado == EstadoListo));
 
                 if (pedidoSeleccionadoAntes.HasValue &&
-                    pedidos.Any(p => p.KitchenOrderId == pedidoSeleccionadoAntes.Value))
+                    pedidos.Any(p =>
+                        p.KitchenOrderId == pedidoSeleccionadoAntes.Value))
                 {
-                    _view.SeleccionarPedido(pedidoSeleccionadoAntes.Value);
+                    _view.SeleccionarPedido(
+                        pedidoSeleccionadoAntes.Value);
                 }
                 else
                 {
-                    _view.MostrarDetallePedido(null, Array.Empty<CocinaPedidoDetalle>());
+                    _view.MostrarDetallePedido(
+                        null,
+                        Array.Empty<CocinaPedidoDetalle>());
                 }
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible cargar los pedidos de cocina.\n\n{ex.Message}",
+                    "No fue posible cargar los pedidos de cocina.\n\n" +
+                    ex.Message,
                     "Error al cargar pedidos",
                     true);
             }
         }
 
         /// <summary>
-        /// Sincroniza la cola FIFO con las órdenes activas de cocina.
-        /// Conserva el orden de llegada y mantiene dentro de la cola
-        /// las órdenes Pending, InPreparation y Ready.
+        /// Mantiene los pedidos activos en la cola, respetando el orden
+        /// ya establecido y añadiendo al final los pedidos nuevos.
         /// </summary>
-        private void SincronizarCola(IReadOnlyList<CocinaPedidoResumen> pedidos)
+        private void SincronizarCola(
+            IReadOnlyList<CocinaPedidoResumen> pedidos)
         {
-            var pedidosActivos = pedidos
+            List<int> pedidosActivos = pedidos
                 .Where(p =>
                     p.Estado == EstadoPendiente ||
                     p.Estado == EstadoPreparacion ||
@@ -148,69 +143,37 @@ namespace Ocean_Desk_dv.Presenters
                 .Select(p => p.KitchenOrderId)
                 .ToList();
 
-            // Conservamos únicamente los pedidos que siguen activos
-            // y respetamos el orden que ya tenía la cola.
-            var colaActual = _colaPedidosPendientes
+            List<int> colaActual = _colaPedidosPendientes
                 .Where(pedidosActivos.Contains)
                 .ToList();
 
-            // Agregamos al final únicamente los pedidos nuevos.
             foreach (int pedidoId in pedidosActivos)
             {
                 if (!colaActual.Contains(pedidoId))
-                {
                     colaActual.Add(pedidoId);
-                }
             }
 
             _colaPedidosPendientes.Clear();
 
             foreach (int pedidoId in colaActual)
-            {
                 _colaPedidosPendientes.Enqueue(pedidoId);
-            }
         }
 
-        /// <summary>
-        /// Indica si no existen pedidos activos en la cola.
-        /// </summary>
-        private bool ColaEstaVacia()
-        {
-            return _colaPedidosPendientes.Count == 0;
-        }
+        private bool ColaEstaVacia() =>
+            _colaPedidosPendientes.Count == 0;
 
-        /// <summary>
-        /// Obtiene el pedido que se encuentra al frente de la cola
-        /// sin retirarlo.
-        /// </summary>
-        private int? ObtenerPedidoFrente()
-        {
-            if (ColaEstaVacia())
-                return null;
+        private int? ObtenerPedidoFrente() =>
+            ColaEstaVacia()
+                ? null
+                : _colaPedidosPendientes.Peek();
 
-            return _colaPedidosPendientes.Peek();
-        }
+        private bool EsPedidoAlFrente(int pedidoId) =>
+            ObtenerPedidoFrente() == pedidoId;
 
-        /// <summary>
-        /// Comprueba si el pedido indicado se encuentra al frente de la cola.
-        /// </summary>
-        private bool EsPedidoAlFrente(int pedidoId)
-        {
-            int? pedidoFrente = ObtenerPedidoFrente();
-
-            return pedidoFrente.HasValue &&
-                   pedidoFrente.Value == pedidoId;
-        }
-
-        /// <summary>
-        /// Retira de la cola el pedido que se encuentra al frente.
-        /// </summary>
         private void DesencolarPedidoEntregado(int pedidoId)
         {
-            if (ColaEstaVacia())
-                return;
-
-            if (_colaPedidosPendientes.Peek() == pedidoId)
+            if (!ColaEstaVacia() &&
+                _colaPedidosPendientes.Peek() == pedidoId)
             {
                 _colaPedidosPendientes.Dequeue();
             }
@@ -220,70 +183,58 @@ namespace Ocean_Desk_dv.Presenters
 
         #region Selección y detalle
 
-        /// <summary>
-        /// Obtiene el detalle completo de la orden seleccionada.
-        /// </summary>
-        private void OnPedidoSeleccionado(object? sender, int pedidoId)
+        private void OnPedidoSeleccionado(
+            object? sender,
+            int pedidoId)
         {
             try
             {
-                var pedido = _context.KitchenOrders
-                    .AsNoTracking()
-                    .Include(k => k.Sale)
-                        .ThenInclude(s => s.Table)
-                    .Include(k => k.KitchenOrderDetails)
-                        .ThenInclude(d => d.SaleDetail)
-                            .ThenInclude(sd => sd.Product)
-                    .FirstOrDefault(k => k.KitchenOrderId == pedidoId);
+                CocinaPedidoCompletoDto? consulta =
+                    _repository.ObtenerPedido(pedidoId);
 
-                if (pedido == null)
+                if (consulta is null)
                 {
                     _view.MostrarMensaje(
                         "El pedido seleccionado ya no está disponible.",
                         "Pedido no encontrado",
                         true);
-
                     return;
                 }
 
-                var detalles = pedido.KitchenOrderDetails
-                    .OrderBy(d => d.KitchenOrderDetailId)
-                    .Select(d => new CocinaPedidoDetalle
-                    {
-                        Cantidad = d.Quantity,
+                CocinaPedidoSeleccionadoDto pedido =
+                    consulta.Pedido;
 
-                        Producto = d.SaleDetail.Product.ProductName,
-
-                        Observaciones = d.Notes
-                            ?? d.SaleDetail.Notes
-                            ?? string.Empty
-                    })
-                    .ToList();
+                List<CocinaPedidoDetalle> detalles =
+                    consulta.Detalles
+                        .Select(d => new CocinaPedidoDetalle
+                        {
+                            Cantidad = d.Cantidad,
+                            Producto = d.Producto,
+                            Observaciones = d.Observaciones
+                        })
+                        .ToList();
 
                 _view.MostrarDetallePedido(
                     new CocinaPedidoSeleccionado
                     {
                         KitchenOrderId = pedido.KitchenOrderId,
-
-                        Mesa = pedido.Sale.Table != null
-                            ? pedido.Sale.Table.TableNumber.ToString("00")
-                            : "N/A",
-
-                        TipoOrden = pedido.Sale.OrderType,
-                        Hora = pedido.ReceptionDateTime,
-                        Prioridad = pedido.Priority,
-                        Estado = pedido.Status
+                        Mesa = pedido.Mesa,
+                        TipoOrden = pedido.TipoOrden,
+                        Hora = pedido.Hora,
+                        Prioridad = pedido.Prioridad,
+                        Estado = pedido.Estado
                     },
                     detalles);
 
                 _view.ActualizarBotones(
-                    pedido.Status,
-                    PuedeCancelar(pedido.Status));
+                    pedido.Estado,
+                    PuedeCancelar(pedido.Estado));
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible cargar el detalle del pedido.\n\n{ex.Message}",
+                    "No fue posible cargar el detalle del pedido.\n\n" +
+                    ex.Message,
                     "Error de consulta",
                     true);
             }
@@ -294,10 +245,12 @@ namespace Ocean_Desk_dv.Presenters
         #region Cambios de estado
 
         /// <summary>
-        /// Cambia una orden Pending a InPreparation.
-        /// Implementación de Cola.
+        /// Solo permite iniciar la preparación del pedido que está
+        /// al frente de la cola FIFO.
         /// </summary>
-        private void OnIniciarPreparacionClicked(object? sender, EventArgs e)
+        private void OnIniciarPreparacionClicked(
+            object? sender,
+            EventArgs e)
         {
             int? pedidoId = _view.PedidoIdSeleccionado;
 
@@ -327,28 +280,35 @@ namespace Ocean_Desk_dv.Presenters
             if (pedidoFrente.Value != pedidoId.Value)
             {
                 _view.MostrarMensaje(
-                    $"La orden #{pedidoId.Value:000} no puede iniciar su preparación todavía.\n\n" +
-                    $"La siguiente orden en la cola es la #{pedidoFrente.Value:000}.",
+                    $"La orden #{pedidoId.Value:000} no puede iniciar " +
+                    "su preparación todavía.\n\n" +
+                    $"La siguiente orden en la cola es la " +
+                    $"#{pedidoFrente.Value:000}.",
                     "Orden fuera de turno",
                     true);
                 return;
             }
 
-            CambiarEstadoSeleccionado(EstadoPendiente,EstadoPreparacion);
+            CambiarEstadoSeleccionado(
+                EstadoPendiente,
+                EstadoPreparacion);
         }
 
-        /// <summary>
-        /// Cambia una orden InPreparation a Ready.
-        /// </summary>
-        private void OnMarcarListoClicked(object? sender, EventArgs e)
+        private void OnMarcarListoClicked(
+            object? sender,
+            EventArgs e)
         {
-            CambiarEstadoSeleccionado( EstadoPreparacion, EstadoListo);
+            CambiarEstadoSeleccionado(
+                EstadoPreparacion,
+                EstadoListo);
         }
 
         /// <summary>
-        /// Cambia una orden Ready a Delivered.
+        /// Solo permite entregar el pedido que ocupa el frente de la cola.
         /// </summary>
-        private void OnEntregarPedidoClicked(object? sender, EventArgs e)
+        private void OnEntregarPedidoClicked(
+            object? sender,
+            EventArgs e)
         {
             int? pedidoId = _view.PedidoIdSeleccionado;
 
@@ -358,7 +318,6 @@ namespace Ocean_Desk_dv.Presenters
                     "Seleccione un pedido para entregar.",
                     "Pedido requerido",
                     true);
-
                 return;
             }
 
@@ -372,32 +331,31 @@ namespace Ocean_Desk_dv.Presenters
                         "No existen pedidos en la cola de cocina.",
                         "Cola vacía",
                         true);
-
                     return;
                 }
 
                 _view.MostrarMensaje(
-                    $"La orden #{pedidoId.Value:000} no puede entregarse todavía.\n\n" +
+                    $"La orden #{pedidoId.Value:000} no puede entregarse " +
+                    "todavía.\n\n" +
                     $"La orden que ocupa el frente de la cola es " +
                     $"la #{pedidoFrente.Value:000}.",
                     "Orden fuera de turno",
                     true);
-
                 return;
             }
 
-            bool actualizado = CambiarEstadoSeleccionado( EstadoListo, EstadoEntregado);
+            bool actualizado = CambiarEstadoSeleccionado(
+                EstadoListo,
+                EstadoEntregado);
 
             if (actualizado)
-            {
                 DesencolarPedidoEntregado(pedidoId.Value);
-            }
         }
 
         /// <summary>
-        /// Valida y ejecuta una transición de estado.
-        /// Las fechas de preparación y listo se actualizan junto con el estado.
-        /// El trigger de base de datos existente se encarga de la auditoría automática.
+        /// Solicita al repositorio una transición de estado.
+        /// El repositorio valida el estado previo y actualiza las fechas
+        /// relacionadas con la preparación, finalización o entrega.
         /// </summary>
         private bool CambiarEstadoSeleccionado(
             string estadoEsperado,
@@ -411,65 +369,37 @@ namespace Ocean_Desk_dv.Presenters
                     "Seleccione un pedido.",
                     "Pedido requerido",
                     true);
-
                 return false;
             }
 
             try
             {
-                KitchenOrder? pedido = _context.KitchenOrders
-                    .FirstOrDefault(k => k.KitchenOrderId == pedidoId.Value);
+                ResultadoOperacionDto resultado =
+                    _repository.CambiarEstado(
+                        pedidoId.Value,
+                        estadoEsperado,
+                        nuevoEstado,
+                        DateTime.Now);
 
-                if (pedido == null)
+                if (!resultado.Exito)
                 {
                     _view.MostrarMensaje(
-                        "No se encontró el pedido seleccionado.",
-                        "Pedido no encontrado",
-                        true);
-
-                    return false;
-                }
-
-                if (pedido.Status != estadoEsperado)
-                {
-                    _view.MostrarMensaje(
-                        $"El pedido no puede pasar a '{nuevoEstado}' " +
-                        $"porque su estado actual es '{pedido.Status}'.",
+                        resultado.Mensaje,
                         "Cambio de estado no válido",
                         true);
-
                     return false;
                 }
 
-                pedido.Status = nuevoEstado;
-
-                if (nuevoEstado == EstadoPreparacion)
-                {
-                    pedido.PreparationStartDateTime = DateTime.Now;
-                }
-                else if (nuevoEstado == EstadoListo)
-                {
-                    pedido.ReadyDateTime = DateTime.Now;
-                }
-                else if (nuevoEstado == EstadoEntregado)
-                {
-                    pedido.DeliveredDateTime = DateTime.Now;
-                }
-
-                _context.SaveChanges();
-
                 CargarPedidos();
-
                 return true;
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"Ocurrió un error al cambiar el estado del pedido.\n\n" +
-                    $"{ex.Message}",
+                    "Ocurrió un error al cambiar el estado del pedido.\n\n" +
+                    ex.Message,
                     "Error",
                     true);
-
                 return false;
             }
         }
@@ -478,12 +408,9 @@ namespace Ocean_Desk_dv.Presenters
 
         #region Cancelación y permisos
 
-        /// <summary>
-        /// Cancela una orden sin eliminarla físicamente.
-        /// El motivo se conserva en Notes para mantenerlo asociado a la orden y
-        /// permitir que el trigger de auditoría registre el cambio de estado.
-        /// </summary>
-        private void OnCancelarPedidoClicked(object? sender, EventArgs e)
+        private void OnCancelarPedidoClicked(
+            object? sender,
+            EventArgs e)
         {
             int? pedidoId = _view.PedidoIdSeleccionado;
 
@@ -498,24 +425,29 @@ namespace Ocean_Desk_dv.Presenters
 
             try
             {
-                var pedido = _context.KitchenOrders
-                    .FirstOrDefault(k => k.KitchenOrderId == pedidoId.Value);
+                string? estadoActual =
+                    _repository.ObtenerEstadoPedido(pedidoId.Value);
 
-                if (pedido == null)
+                if (estadoActual is null)
                 {
                     _view.MostrarMensaje(
                         "El pedido seleccionado ya no existe.",
                         "Pedido no encontrado",
                         true);
+
                     CargarPedidos();
                     return;
                 }
 
-                if (!PuedeCancelar(pedido.Status))
+                if (!PuedeCancelar(estadoActual))
                 {
-                    string mensaje = pedido.Status == EstadoPreparacion && EsPersonalCocina()
-                        ? "Un pedido que ya está en preparación requiere intervención administrativa para ser cancelado."
-                        : "No tiene permisos para cancelar este pedido en su estado actual.";
+                    string mensaje =
+                        estadoActual == EstadoPreparacion &&
+                        EsPersonalCocina()
+                            ? "Un pedido que ya está en preparación requiere " +
+                              "intervención administrativa para ser cancelado."
+                            : "No tiene permisos para cancelar este pedido " +
+                              "en su estado actual.";
 
                     _view.MostrarMensaje(
                         mensaje,
@@ -524,89 +456,103 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
-                string? motivo = _view.SolicitarMotivoCancelacion();
+                string? motivo =
+                    _view.SolicitarMotivoCancelacion();
 
                 if (string.IsNullOrWhiteSpace(motivo))
                     return;
 
-                DialogResult confirmacion = _view.ConfirmarAccion(
-                    "Cancelar pedido",
-                    $"¿Está seguro de cancelar la orden #{pedido.KitchenOrderId:000}?\n\nMotivo: {motivo}");
+                DialogResult confirmacion =
+                    _view.ConfirmarAccion(
+                        "Cancelar pedido",
+                        $"¿Está seguro de cancelar la orden " +
+                        $"#{pedidoId.Value:000}?\n\nMotivo: {motivo}");
 
                 if (confirmacion != DialogResult.Yes)
                     return;
 
-                pedido.Status = EstadoCancelado;
-                pedido.Notes = AgregarMotivoCancelacion(pedido.Notes, motivo);
+                ResultadoOperacionDto resultado =
+                    _repository.CancelarPedido(
+                        pedidoId.Value,
+                        motivo,
+                        estadoActual);
 
-                _context.SaveChanges();
+                if (!resultado.Exito)
+                {
+                    _view.MostrarMensaje(
+                        resultado.Mensaje,
+                        "No se pudo cancelar el pedido",
+                        true);
+
+                    CargarPedidos();
+                    return;
+                }
+
                 CargarPedidos();
             }
             catch (DbUpdateException ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible cancelar el pedido.\n\n{ex.InnerException?.Message ?? ex.Message}",
+                    "No fue posible cancelar el pedido.\n\n" +
+                    (ex.InnerException?.Message ?? ex.Message),
                     "Error de base de datos",
                     true);
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"Ocurrió un error al cancelar el pedido.\n\n{ex.Message}",
+                    "Ocurrió un error al cancelar el pedido.\n\n" +
+                    ex.Message,
                     "Error",
                     true);
             }
         }
 
         /// <summary>
-        /// Administrator puede cancelar Pending e InPreparation.
-        /// Kitchen Personnel puede cancelar Pending únicamente.
+        /// Administrador: puede cancelar Pending e InPreparation.
+        /// Personal de cocina: solo puede cancelar Pending.
         /// </summary>
         private bool PuedeCancelar(string estado)
         {
             if (EsAdministrador())
-                return estado == EstadoPendiente || estado == EstadoPreparacion;
+            {
+                return estado == EstadoPendiente ||
+                       estado == EstadoPreparacion;
+            }
 
             if (EsPersonalCocina())
                 return estado == EstadoPendiente;
 
-            // Mientras la autenticación todavía no entrega un rol real,
-            // se bloquean las cancelaciones para evitar elevar privilegios.
+            // Sin rol autenticado, se bloquea la cancelación.
             return false;
         }
 
         private bool EsAdministrador() =>
-            string.Equals(_rolUsuario, RolAdministrador, StringComparison.OrdinalIgnoreCase);
+            string.Equals(
+                _rolUsuario,
+                RolAdministrador,
+                StringComparison.OrdinalIgnoreCase);
 
         private bool EsPersonalCocina() =>
-            string.Equals(_rolUsuario, RolPersonalCocina, StringComparison.OrdinalIgnoreCase);
-
-        private static string AgregarMotivoCancelacion(string? notasActuales, string motivo)
-        {
-            string texto = string.IsNullOrWhiteSpace(notasActuales)
-                ? string.Empty
-                : notasActuales.Trim();
-
-            string nuevaNota = $"[Cancellation reason: {motivo.Trim()}]";
-
-            if (texto.Contains(nuevaNota, StringComparison.OrdinalIgnoreCase))
-                return texto;
-
-            return string.IsNullOrWhiteSpace(texto)
-                ? nuevaNota
-                : $"{texto} {nuevaNota}";
-        }
+            string.Equals(
+                _rolUsuario,
+                RolPersonalCocina,
+                StringComparison.OrdinalIgnoreCase);
 
         #endregion
 
         #region Eventos generales
 
-        private void OnActualizarPedidosClicked(object? sender, EventArgs e)
+        private void OnActualizarPedidosClicked(
+            object? sender,
+            EventArgs e)
         {
             CargarPedidos();
         }
 
-        private void OnLimpiarClicked(object? sender, EventArgs e)
+        private void OnLimpiarClicked(
+            object? sender,
+            EventArgs e)
         {
             _view.LimpiarSeleccion();
         }
@@ -615,9 +561,6 @@ namespace Ocean_Desk_dv.Presenters
 
         #region Liberación de recursos
 
-        /// <summary>
-        /// Libera las suscripciones de eventos y el contexto de datos.
-        /// </summary>
         public void Dispose()
         {
             if (_disposed)
@@ -631,8 +574,9 @@ namespace Ocean_Desk_dv.Presenters
             _view.CancelarPedidoClicked -= OnCancelarPedidoClicked;
             _view.LimpiarClicked -= OnLimpiarClicked;
 
-            _context.Dispose();
+            _repository.Dispose();
             _disposed = true;
+
             GC.SuppressFinalize(this);
         }
 

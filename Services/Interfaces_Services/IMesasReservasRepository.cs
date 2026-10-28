@@ -7,6 +7,7 @@ public interface IMesasReservasRepository : IDisposable
     IReadOnlyList<MesaDto> ObtenerMesasActivas();
     IReadOnlyList<MesaDto> ObtenerMesasDisponibles(int? mesaActualNumero = null);
     IReadOnlyList<ReservaDto> ObtenerReservas();
+    IReadOnlyList<string> ObtenerNombresClientesActivos();
     ReservaOperacionDto? ObtenerReserva(int reservaId);
     ResultadoOperacionDto CrearReserva(ReservaGuardarDto solicitud);
     ResultadoOperacionDto ActualizarReserva(ReservaGuardarDto solicitud);

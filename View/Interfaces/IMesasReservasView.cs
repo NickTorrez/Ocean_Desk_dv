@@ -25,6 +25,8 @@ namespace Ocean_Desk_dv.View.Interfaces
         void MostrarMesas(List<TableRestaurant> mesas);
         void MostrarMesasParaReserva(List<TableRestaurant> mesas, int? mesaActualNumero);
         void MostrarReservas(List<ReservaPrueba> reservas);
+        void ConfigurarAutocompletadoClientes(
+    IReadOnlyList<string> nombresClientes);
         void CargarDatosReserva(ReservaPrueba reserva);
         void MostrarMensaje(string mensaje, MessageType tipo);
         void AbrirPanelNuevaReserva(bool edicion);

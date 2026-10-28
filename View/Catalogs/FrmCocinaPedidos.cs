@@ -28,7 +28,7 @@ namespace Ocean_Desk_dv.View.Catalogs
     /// </summary>
     public partial class FrmCocinaPedidos : Form, ICocinaView
     {
-        private readonly CocinaPresenter _presenter;
+        private CocinaPresenter? _presenter;
         //private readonly System.Windows.Forms.Timer _timerActualizacion;
         private bool _cargandoPedidos;
 
@@ -58,26 +58,23 @@ namespace Ocean_Desk_dv.View.Catalogs
 
             ConfigurarEventos();
 
-            // El Presenter crea y administra su propio contexto de datos.
-            _presenter = new CocinaPresenter(
-                this,
-                new OceanDeskDbContext(),
-                usuarioId,
-                rolUsuario);
-
-            // Actualización periódica para mantener Cocina sincronizada con las órdenes
-            // creadas desde Punto de Venta. La base de datos continúa siendo la fuente
-            // persistente; el Timer solamente solicita una nueva consulta.
-
-            /*_timerActualizacion = new System.Windows.Forms.Timer
-            {
-                Interval = 1500
-            };
-            _timerActualizacion.Tick += TimerActualizacion_Tick;
-            _timerActualizacion.Start();*/
-
+            
             FormClosed += FrmCocinaPedidos_FormClosed;
+        }
 
+        /// <summary>
+        /// Vincula el Presenter e inicializa la carga de pedidos.
+        /// </summary>
+        public void VincularPresenter(CocinaPresenter presenter)
+        {
+            if (presenter is null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter is not null)
+                throw new InvalidOperationException(
+                    "El Presenter de Cocina ya fue asignado.");
+
+            _presenter = presenter;
             _presenter.Inicializar();
         }
 
@@ -535,10 +532,8 @@ namespace Ocean_Desk_dv.View.Catalogs
 
         private void FrmCocinaPedidos_FormClosed(object? sender, FormClosedEventArgs e)
         {
-            /*_timerActualizacion.Stop();
-            _timerActualizacion.Tick -= TimerActualizacion_Tick;
-            _timerActualizacion.Dispose();*/
-            _presenter.Dispose();
+            _presenter?.Dispose();
+            _presenter = null;
         }
 
         #endregion

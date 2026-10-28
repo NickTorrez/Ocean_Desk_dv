@@ -1,10 +1,12 @@
-﻿using Ocean_Desk_dv.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
+using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.View.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +16,12 @@ namespace Ocean_Desk_dv.Presenters
     public class PuntoVentaPresenter : IDisposable
     {
         private readonly IPuntoVentaView _view;
-        private readonly OceanDeskDbContext _context;
+        private readonly IPuntoVentaRepository _repository;
         private readonly int _usuarioId;
+        private bool _disposed;
 
         private static readonly Dictionary<string, string> PaymentMethods =
-            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            new(StringComparer.OrdinalIgnoreCase)
             {
                 { "Efectivo", "Cash" },
                 { "Tarjeta", "Card" },
@@ -27,52 +30,85 @@ namespace Ocean_Desk_dv.Presenters
 
         public PuntoVentaPresenter(
             IPuntoVentaView view,
-            OceanDeskDbContext context,
+            IPuntoVentaRepository repository,
             int usuarioId)
         {
-            _view = view ?? throw new ArgumentNullException(nameof(view));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _view = view ??
+                throw new ArgumentNullException(nameof(view));
+
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
+
+            if (usuarioId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(usuarioId));
+
             _usuarioId = usuarioId;
 
             _view.PagarYRegistrarOrden += RegistrarOrden;
             _view.GuardarNuevoCliente += RegistrarNuevoCliente;
             _view.ClienteSeleccionadoChanged += ClienteSeleccionado;
-
-            CargarDatosIniciales();
-        }
-
-        private void CargarDatosIniciales()
-        {
-            CargarCatalogo();
-            CargarClientes();
-            CargarMesasDisponibles();
         }
 
         /// <summary>
-        /// Carga los productos activos para mostrarlos en Punto de Venta.
-        /// Los productos no disponibles permanecen visibles, pero sus tarjetas
-        /// se muestran deshabilitadas para impedir que se agreguen al pedido.
+        /// Carga los datos iniciales del módulo.
         /// </summary>
+        public void Inicializar()
+        {
+            try
+            {
+                CargarCatalogo();
+                CargarClientes();
+                CargarMesasDisponibles();
+            }
+            catch (Exception ex)
+            {
+                _view.MostrarMensaje(
+                    "No fue posible inicializar el Punto de Venta.\n\n" +
+                    ex.Message,
+                    "Error de inicialización",
+                    true);
+            }
+        }
+
+        #region Carga de información
+
         private void CargarCatalogo()
         {
-            var productos = _context.Products
-            .AsNoTracking()
-            .Include(p => p.ProductCategory)
-            .Where(p => p.IsActive && p.ProductType == "FinishedProduct")
-            .OrderBy(p => p.ProductCategory.CategoryName)
-            .ThenBy(p => p.ProductName)
-            .ToList();
+            List<Product> productos = _repository
+                .ObtenerCatalogoDisponible()
+                .Select(p => new Product
+                {
+                    ProductId = p.ProductId,
+                    ProductCode = p.ProductCode,
+                    ProductName = p.ProductName,
+                    ProductType = "FinishedProduct",
+                    UnitPrice = p.UnitPrice,
+                    IsActive = p.IsActive,
+                    IsAvailable = p.IsAvailable,
+
+                    // Solo se utiliza para mostrar la categoría en la vista.
+                    ProductCategory = new ProductCategory
+                    {
+                        CategoryName = p.CategoryName
+                    }
+                })
+                .ToList();
 
             _view.MostrarProductos(productos);
         }
 
         private void CargarClientes()
         {
-            var clientes = _context.Customers
-                .AsNoTracking()
-                .Where(c => c.IsActive)
-                .OrderBy(c => c.FirstName)
-                .ThenBy(c => c.LastName)
+            List<Customer> clientes = _repository
+                .ObtenerClientesActivos()
+                .Select(c => new Customer
+                {
+                    CustomerId = c.CustomerId,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone,
+                    IsActive = true
+                })
                 .ToList();
 
             _view.MostrarClientes(clientes);
@@ -80,14 +116,24 @@ namespace Ocean_Desk_dv.Presenters
 
         private void CargarMesasDisponibles()
         {
-            var mesas = _context.TableRestaurants
-                .AsNoTracking()
-                .Where(t => t.IsActive && t.Status == "Available")
-                .OrderBy(t => t.TableNumber)
+            List<TableRestaurant> mesas = _repository
+                .ObtenerMesasDisponibles()
+                .Select(m => new TableRestaurant
+                {
+                    TableId = m.TableId,
+                    TableNumber = m.TableNumber,
+                    Capacity = checked((byte)m.Capacity),
+                    Status = m.Status,
+                    IsActive = m.IsActive
+                })
                 .ToList();
 
             _view.MostrarMesas(mesas);
         }
+
+        #endregion
+
+        #region Selección de cliente y reservas
 
         private void ClienteSeleccionado(object? sender, EventArgs e)
         {
@@ -100,28 +146,18 @@ namespace Ocean_Desk_dv.Presenters
 
                 int clienteId = _view.ClienteIdSeleccionado.Value;
 
-                DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+                ReservaOperacionDto? reserva =
+                    _repository.ObtenerReservaAtendidaCliente(
+                        clienteId,
+                        DateOnly.FromDateTime(DateTime.Today));
 
-                Reservation? reserva = _context.Reservations
-                    .AsNoTracking()
-                    .Where(r =>
-                        r.CustomerId == clienteId &&
-                        r.ReservationDate == hoy &&
-                        r.Status == "Attended" &&
-                        r.TableId.HasValue)
-                    .OrderBy(r => r.ReservationTime)
-                    .FirstOrDefault();
-
-                if (reserva == null)
+                if (reserva is null)
                     return;
 
-                TableRestaurant? mesa = _context.TableRestaurants
-                    .AsNoTracking()
-                    .FirstOrDefault(t =>
-                        t.TableId == reserva.TableId.Value &&
-                        t.IsActive);
-
-                if (mesa == null)
+                // La reserva puede conservar un TableId cuya mesa
+                // ya no esté activa. En ese caso no debe seleccionarse.
+                if (!reserva.TableId.HasValue ||
+                    !reserva.TableNumber.HasValue)
                 {
                     _view.MostrarMensaje(
                         "La reserva del cliente tiene una mesa que ya no está disponible.",
@@ -130,29 +166,39 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
-                _view.SeleccionarMesa(mesa.TableId);
+                _view.SeleccionarMesa(reserva.TableId.Value);
                 _view.BloquearMesa(true);
 
                 _view.MostrarMensaje(
-                    $"Reserva encontrada.\n\n" +
-                    $"Mesa asignada: {mesa.TableNumber:00}\n" +
-                    $"Hora de reserva: {reserva.ReservationTime:hh\\:mm}\n\n" +
-                    "La mesa ha sido seleccionada automáticamente y no puede modificarse.",
+                    "Reserva encontrada.\n\n" +
+                    $"Mesa asignada: {reserva.TableNumber.Value:00}\n" +
+                    $"Hora de reserva: " +
+                    $"{reserva.ReservationTime.ToString("HH:mm")}\n\n" +
+                    "La mesa ha sido seleccionada automáticamente " +
+                    "y no puede modificarse.",
                     "Reserva detectada");
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible verificar la reserva del cliente.\n\n{ex.Message}",
+                    "No fue posible verificar la reserva del cliente.\n\n" +
+                    ex.Message,
                     "Error",
                     true);
             }
         }
 
+        #endregion
+
+        #region Registro de clientes
+
         private void RegistrarNuevoCliente(object? sender, EventArgs e)
         {
-            string nombreCompleto = _view.NuevoClienteNombre.Trim();
-            string telefono = _view.NuevoClienteTelefono.Trim();
+            string nombreCompleto =
+                _view.NuevoClienteNombre.Trim();
+
+            string telefono =
+                _view.NuevoClienteTelefono.Trim();
 
             if (string.IsNullOrWhiteSpace(nombreCompleto))
             {
@@ -181,8 +227,9 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
-            var partes = nombreCompleto
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] partes = nombreCompleto.Split(
+                ' ',
+                StringSplitOptions.RemoveEmptyEntries);
 
             if (partes.Length < 2)
             {
@@ -193,142 +240,142 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
-            string firstName = partes[0];
-            string lastName = string.Join(" ", partes.Skip(1));
-
-            bool telefonoExiste = _context.Customers.Any(c =>
-                c.IsActive &&
-                c.Phone != null &&
-                c.Phone == telefono);
-
-            if (telefonoExiste)
-            {
-                _view.MostrarMensaje(
-                    "Ya existe un cliente activo registrado con ese teléfono.",
-                    "Cliente existente",
-                    true);
-                return;
-            }
+            string nombre = partes[0];
+            string apellido = string.Join(" ", partes.Skip(1));
 
             try
             {
-                var nuevoCliente = new Customer
+                if (_repository.ExisteTelefonoClienteActivo(telefono))
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Phone = telefono,
-                    IsActive = true,
-                    CreatedAt = DateTime.Now
-                };
+                    _view.MostrarMensaje(
+                        "Ya existe un cliente activo registrado con ese teléfono.",
+                        "Cliente existente",
+                        true);
+                    return;
+                }
 
-                _context.Customers.Add(nuevoCliente);
-                _context.SaveChanges();
+                ResultadoOperacionDto resultado =
+                    _repository.RegistrarCliente(
+                        nombre,
+                        apellido,
+                        telefono,
+                        out int clienteId);
+
+                if (!resultado.Exito)
+                {
+                    _view.MostrarMensaje(
+                        resultado.Mensaje,
+                        "No fue posible registrar el cliente",
+                        true);
+                    return;
+                }
 
                 CargarClientes();
-                _view.SeleccionarCliente(nuevoCliente.CustomerId);
+                _view.SeleccionarCliente(clienteId);
                 _view.CerrarPanelNuevoCliente();
 
                 _view.MostrarMensaje(
-                    $"El cliente {nuevoCliente.FirstName} {nuevoCliente.LastName} fue registrado correctamente.",
+                    resultado.Mensaje,
                     "Cliente registrado");
             }
             catch (DbUpdateException ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible guardar el cliente en la base de datos.\n\n{ex.InnerException?.Message ?? ex.Message}",
+                    "No fue posible guardar el cliente en la base de datos.\n\n" +
+                    (ex.InnerException?.Message ?? ex.Message),
                     "Error de base de datos",
                     true);
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"Ocurrió un error inesperado al registrar el cliente.\n\n{ex.Message}",
+                    "Ocurrió un error inesperado al registrar el cliente.\n\n" +
+                    ex.Message,
                     "Error",
                     true);
             }
         }
 
-        /// <summary>
-        /// Handles the event of registering a sale order, validating the input data, creating the sale, payment, and kitchen order records, and saving them to the database.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        #endregion
+
+        #region Registro de ventas
+
         private void RegistrarOrden(object? sender, EventArgs e)
         {
-            if (_usuarioId <= 0)
-            {
-                _view.MostrarMensaje(
-                    "No se ha identificado un usuario válido para registrar la venta.",
-                    "Usuario inválido",
-                    true);
-                return;
-            }
-
-            bool cajaAbierta = _context.CashRegisters.Any(c =>
-            c.OpeningUserId == _usuarioId &&
-            c.Status == "Open");
-
-            if (!cajaAbierta)
-            {
-                _view.MostrarMensaje(
-                    "No puede registrar la venta porque no existe una caja abierta para el usuario actual.\n\n" +
-                    "Realice la apertura de caja antes de continuar.",
-                    "Caja requerida",
-                    true);
-                return;
-            }
-
-            if (_view.DetallesVenta == null || _view.DetallesVenta.Count == 0)
-            {
-                _view.MostrarMensaje(
-                    "El pedido está vacío.",
-                    "Venta vacía",
-                    true);
-                return;
-            }
-
-            string tipoOrden = _view.TipoOrden.Trim();
-
-            if (tipoOrden != "Local" && tipoOrden != "Delivery")
-            {
-                _view.MostrarMensaje(
-                    "Seleccione un tipo de orden válido.",
-                    "Tipo de orden inválido",
-                    true);
-                return;
-            }
-
-            int? mesaId = _view.MesaIdSeleccionada;
-
-            if (tipoOrden == "Local" && !mesaId.HasValue)
-            {
-                _view.MostrarMensaje(
-                    "Seleccione una mesa para una orden local.",
-                    "Mesa requerida",
-                    true);
-                return;
-            }
-
-            if (tipoOrden == "Delivery")
-            {
-                mesaId = null;
-            }
-
-            string metodoPagoVista = _view.MetodoPago?.Trim() ?? string.Empty;
-
-            if (!PaymentMethods.TryGetValue(metodoPagoVista, out string metodoPagoBD))
-            {
-                _view.MostrarMensaje(
-                    "Seleccione un método de pago válido.",
-                    "Método de pago inválido",
-                    true);
-                return;
-            }
+            ResultadoVentaDto resultado;
 
             try
             {
-                var detalles = _view.DetallesVenta
-                    .Select(d => new PuntoVentaDetalle
+                if (_usuarioId <= 0)
+                {
+                    _view.MostrarMensaje(
+                        "No se ha identificado un usuario válido para registrar la venta.",
+                        "Usuario inválido",
+                        true);
+                    return;
+                }
+
+                if (!_repository.TieneCajaAbierta(_usuarioId))
+                {
+                    _view.MostrarMensaje(
+                        "No puede registrar la venta porque no existe una caja abierta " +
+                        "para el usuario actual.\n\n" +
+                        "Realice la apertura de caja antes de continuar.",
+                        "Caja requerida",
+                        true);
+                    return;
+                }
+
+                if (_view.DetallesVenta.Count == 0)
+                {
+                    _view.MostrarMensaje(
+                        "El pedido está vacío.",
+                        "Venta vacía",
+                        true);
+                    return;
+                }
+
+                string tipoOrden = _view.TipoOrden.Trim();
+
+                if (tipoOrden != "Local" && tipoOrden != "Delivery")
+                {
+                    _view.MostrarMensaje(
+                        "Seleccione un tipo de orden válido.",
+                        "Tipo de orden inválido",
+                        true);
+                    return;
+                }
+
+                int? mesaId = _view.MesaIdSeleccionada;
+
+                if (tipoOrden == "Local" && !mesaId.HasValue)
+                {
+                    _view.MostrarMensaje(
+                        "Seleccione una mesa para una orden local.",
+                        "Mesa requerida",
+                        true);
+                    return;
+                }
+
+                if (tipoOrden == "Delivery")
+                    mesaId = null;
+
+                string metodoPagoVista =
+                    _view.MetodoPago?.Trim() ?? string.Empty;
+
+                if (!PaymentMethods.TryGetValue(
+                    metodoPagoVista,
+                    out string metodoPagoBD))
+                {
+                    _view.MostrarMensaje(
+                        "Seleccione un método de pago válido.",
+                        "Método de pago inválido",
+                        true);
+                    return;
+                }
+
+                List<PuntoVentaDetalleDto> detalles = _view.DetallesVenta
+                    .Select(d => new PuntoVentaDetalleDto
                     {
                         ProductoId = d.ProductoId,
                         Cantidad = d.Cantidad,
@@ -336,7 +383,8 @@ namespace Ocean_Desk_dv.Presenters
                     })
                     .ToList();
 
-                if (detalles.Any(d => d.ProductoId <= 0 || d.Cantidad <= 0))
+                if (detalles.Any(d =>
+                    d.ProductoId <= 0 || d.Cantidad <= 0))
                 {
                     _view.MostrarMensaje(
                         "El pedido contiene productos o cantidades inválidas.",
@@ -345,210 +393,29 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
-                var productoIds = detalles.Select(d => d.ProductoId).ToList();
-
-                var productos = _context.Products
-                    .Include(p => p.ProductCategory)
-                    .Where(p => productoIds.Contains(p.ProductId))
-                    .ToList();
-
-                if (productos.Count != productoIds.Count)
+                if (detalles.Any(d => d.Observacion.Length > 255))
                 {
                     _view.MostrarMensaje(
-                        "Uno o más productos del pedido ya no existen en la base de datos.",
-                        "Producto no disponible",
+                        "Cada observación de producto debe tener 255 caracteres como máximo.",
+                        "Observación demasiado larga",
                         true);
                     return;
                 }
 
-                var productosNoDisponibles = productos
-                    .Where(p => !p.IsActive || !p.IsAvailable)
-                    .Select(p => p.ProductName)
-                    .ToList();
-
-                if (productosNoDisponibles.Any())
+                var solicitud = new SolicitudVentaDto
                 {
-                    _view.MostrarMensaje(
-                        "Los siguientes productos ya no están disponibles:\n\n" +
-                        string.Join("\n", productosNoDisponibles),
-                        "Producto no disponible",
-                        true);
-                    return;
-                }
-
-                if (_view.ClienteIdSeleccionado.HasValue)
-                {
-                    bool clienteValido = _context.Customers.Any(c =>
-                        c.CustomerId == _view.ClienteIdSeleccionado.Value &&
-                        c.IsActive);
-
-                    if (!clienteValido)
-                    {
-                        _view.MostrarMensaje(
-                            "El cliente seleccionado no está disponible.",
-                            "Cliente inválido",
-                            true);
-                        return;
-                    }
-                }
-
-                TableRestaurant? mesa = null;
-
-                if (mesaId.HasValue)
-                {
-                    mesa = _context.TableRestaurants
-                        .FirstOrDefault(t =>
-                            t.TableId == mesaId.Value &&
-                            t.IsActive);
-
-                    bool mesaPerteneceAReserva = false;
-
-                    if (_view.ClienteIdSeleccionado.HasValue &&
-                        mesaId.HasValue &&
-                        tipoOrden == "Local")
-                    {
-                        DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
-
-                        mesaPerteneceAReserva = _context.Reservations.Any(r =>
-                            r.CustomerId == _view.ClienteIdSeleccionado.Value &&
-                            r.TableId == mesaId.Value &&
-                            r.ReservationDate == hoy &&
-                            r.Status == "Attended");
-                    }
-
-                    if (mesa == null)
-                    {
-                        _view.MostrarMensaje(
-                            "La mesa seleccionada no existe o está inactiva.",
-                            "Mesa inválida",
-                            true);
-                        return;
-                    }
-
-                    if (mesa.Status != "Available" && !mesaPerteneceAReserva)
-                    {
-                        _view.MostrarMensaje(
-                            "La mesa seleccionada ya no está disponible.",
-                            "Mesa ocupada",
-                            true);
-                        CargarMesasDisponibles();
-                        return;
-                    }
-                }
-
-                decimal subtotal = 0m;
-                var saleDetails = new List<SaleDetail>();
-
-                foreach (var detalleVista in detalles)
-                {
-                    var producto = productos.First(p => p.ProductId == detalleVista.ProductoId);
-                    decimal subtotalLinea = producto.UnitPrice * detalleVista.Cantidad;
-
-                    var saleDetail = new SaleDetail
-                    {
-                        ProductId = producto.ProductId,
-                        Quantity = detalleVista.Cantidad,
-                        UnitPrice = producto.UnitPrice,
-                        Discount = 0m,
-                        Subtotal = subtotalLinea,
-                        Notes = string.IsNullOrWhiteSpace(detalleVista.Observacion) ? null : detalleVista.Observacion.Trim()
-                    };
-
-                    saleDetails.Add(saleDetail);
-                    subtotal += subtotalLinea;
-                }
-
-                decimal descuento = 0m;
-                CultureInfo cultura = CultureInfo.GetCultureInfo("es-NI");
-                decimal total = subtotal - descuento;
-
-                if (total <= 0)
-                {
-                    _view.MostrarMensaje(
-                        "El total de la venta debe ser mayor que cero.",
-                        "Total inválido",
-                        true);
-                    return;
-                }
-
-                using var transaction = _context.Database.BeginTransaction();
-
-                var nuevaVenta = new Sale
-                {
-                    SaleDateTime = DateTime.Now,
-                    UserId = _usuarioId,
-                    CustomerId = _view.ClienteIdSeleccionado,
-                    OrderType = tipoOrden,
-                    TableId = mesaId,
-                    Subtotal = subtotal,
-                    Discount = descuento,
-                    Total = total,
-                    Status = "Completed",
-                    Notes = null,
-                    SaleDetails = saleDetails
+                    UsuarioId = _usuarioId,
+                    ClienteId = _view.ClienteIdSeleccionado,
+                    MesaId = mesaId,
+                    TipoOrden = tipoOrden,
+                    MetodoPago = metodoPagoBD,
+                    Prioridad = _view.Prioridad,
+                    Detalles = detalles
                 };
 
-                var pago = new SalePayment
-                {
-                    Sale = nuevaVenta,
-                    PaymentMethod = metodoPagoBD,
-                    Amount = total,
-                    PaymentDateTime = DateTime.Now
-                };
-
-                string prioridadBD = _view.Prioridad switch
-                {
-                    "Alta" => "Urgent",
-                    _ => "Normal"
-                };
-
-                var ordenCocina = new KitchenOrder
-                {
-                    Sale = nuevaVenta,
-                    ReceptionDateTime = DateTime.Now,
-                    PreparationStartDateTime = null,
-                    ReadyDateTime = null,
-                    DeliveredDateTime = null,
-                    Status = "Pending",
-                    Priority = prioridadBD,
-                    Notes = "Orden enviada desde Punto de Venta"
-                };
-
-                foreach (var saleDetail in saleDetails)
-                {
-                    var cocinaDetalle = new KitchenOrderDetail
-                    {
-                        KitchenOrder = ordenCocina,
-                        SaleDetail = saleDetail,
-                        ProductId = saleDetail.ProductId,
-                        Quantity = saleDetail.Quantity,
-                        Notes = saleDetail.Notes
-                    };
-
-                    ordenCocina.KitchenOrderDetails.Add(cocinaDetalle);
-                }
-
-                _context.Sales.Add(nuevaVenta);
-                _context.SalePayments.Add(pago);
-                _context.KitchenOrders.Add(ordenCocina);
-
-                if (mesa != null)
-                {
-                    mesa.Status = "Occupied";
-                }
-
-                _context.SaveChanges();
-                transaction.Commit();
-
-                _view.MostrarMensaje(
-                    "La venta fue registrada correctamente.\n\n" +
-                    $"Total: C$ {total.ToString("N2", cultura)}\n" +
-                    $"Pago: {metodoPagoVista}\n" +
-                    "La orden fue enviada a Cocina.",
-                    "Venta registrada");
-
-                _view.LimpiarCarrito();
-                CargarMesasDisponibles();
+                // El repositorio valida los datos almacenados y registra
+                // la venta, el pago y la orden de cocina en una transacción.
+                resultado = _repository.RegistrarVenta(solicitud);
             }
             catch (DbUpdateException ex)
             {
@@ -557,6 +424,7 @@ namespace Ocean_Desk_dv.Presenters
                     (ex.InnerException?.Message ?? ex.Message),
                     "Error de base de datos",
                     true);
+                return;
             }
             catch (Exception ex)
             {
@@ -565,17 +433,75 @@ namespace Ocean_Desk_dv.Presenters
                     ex.Message,
                     "Error",
                     true);
+                return;
+            }
+
+            if (!resultado.Exito)
+            {
+                if (resultado.Titulo.Equals(
+                    "Mesa ocupada",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        CargarMesasDisponibles();
+                    }
+                    catch (Exception ex)
+                    {
+                        _view.MostrarMensaje(
+                            "No fue posible actualizar la lista de mesas.\n\n" +
+                            ex.Message,
+                            "Error",
+                            true);
+                    }
+                }
+
+                _view.MostrarMensaje(
+                    resultado.Mensaje,
+                    resultado.Titulo,
+                    resultado.EsError);
+                return;
+            }
+
+            CultureInfo cultura =
+                CultureInfo.GetCultureInfo("es-NI");
+
+            _view.MostrarMensaje(
+                "La venta fue registrada correctamente.\n\n" +
+                $"Total: C$ {resultado.Total.ToString("N2", cultura)}\n" +
+                $"Pago: {resultado.MetodoPago}\n" +
+                "La orden fue enviada a Cocina.",
+                resultado.Titulo);
+
+            _view.LimpiarCarrito();
+
+            try
+            {
+                CargarMesasDisponibles();
+            }
+            catch (Exception ex)
+            {
+                _view.MostrarMensaje(
+                    "La venta se registró correctamente, pero no fue posible " +
+                    "actualizar la lista de mesas.\n\n" + ex.Message,
+                    "Venta registrada",
+                    true);
             }
         }
 
-        /// <summary>
-        /// Disposes of the resources used by the presenter, unsubscribing from view events and disposing of the database context.
-        /// </summary>
+        #endregion
+
         public void Dispose()
         {
+            if (_disposed)
+                return;
+
             _view.PagarYRegistrarOrden -= RegistrarOrden;
             _view.GuardarNuevoCliente -= RegistrarNuevoCliente;
-            _context.Dispose();
+            _view.ClienteSeleccionadoChanged -= ClienteSeleccionado;
+
+            _repository.Dispose();
+            _disposed = true;
         }
     }
 }

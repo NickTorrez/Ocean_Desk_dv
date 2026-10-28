@@ -43,6 +43,9 @@ namespace Ocean_Desk_dv.Presenters
         {
             try
             {
+                _view.ConfigurarAutocompletadoClientes(
+           _repository.ObtenerNombresClientesActivos());
+
                 CargarMesas();
                 CargarReservas();
             }

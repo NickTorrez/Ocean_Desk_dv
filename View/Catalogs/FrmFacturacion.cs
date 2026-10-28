@@ -55,10 +55,42 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             dgvDetalleFactura.CellFormatting += dgvDetalleFactura_CellFormatting;
 
-            _presenter = new FacturacionPresenter(this);
-
             ActualizarEstadoBotones();
         }
+
+        /// <summary>
+        /// Vincula el Presenter e inicia la consulta de facturas.
+        /// </summary>
+        public void VincularPresenter(
+            FacturacionPresenter presenter)
+        {
+            if (presenter is null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter is not null)
+                throw new InvalidOperationException(
+                    "El Presenter de Facturación ya fue asignado.");
+
+            _presenter = presenter;
+            _presenter.Inicializar();
+        }
+
+        /// <summary>
+        /// Libera el Presenter y el documento de impresión al cerrar la vista.
+        /// </summary>
+        private void FrmFacturacion_FormClosed(
+            object? sender,
+            FormClosedEventArgs e)
+        {
+            _presenter?.Dispose();
+            _presenter = null;
+
+            _documentoImpresion.PrintPage -=
+                DocumentoImpresion_PrintPage;
+
+            _documentoImpresion.Dispose();
+        }
+
         #endregion
 
         #region Implementacion de IFacturacionView

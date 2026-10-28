@@ -78,7 +78,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         private readonly List<UcOrderItem> _orderItems = new List<UcOrderItem>();
-        private readonly int _usuarioId;
         private PuntoVentaPresenter? _presenter;
 
         #region Implementación de IPuntoVentaView
@@ -309,7 +308,6 @@ namespace Ocean_Desk_dv.UI.Catalogs
             if (usuarioId <= 0)
                 throw new ArgumentOutOfRangeException(nameof(usuarioId));
 
-            _usuarioId = usuarioId;
 
             InitializeComponent();
 
@@ -319,15 +317,26 @@ namespace Ocean_Desk_dv.UI.Catalogs
             ConfigurarMetodosPago();
             ConfigurarBotonesCategorias();
 
-            _presenter = new PuntoVentaPresenter(
-                this,
-                new OceanDeskDbContext(),
-                _usuarioId);
-
             ActualizarResumenPedido();
 
             FormClosed += FrmPuntoVenta_FormClosed;
 
+        }
+
+        /// <summary>
+        /// Asocia el Presenter e inicializa los datos del módulo.
+        /// </summary>
+        public void VincularPresenter(PuntoVentaPresenter presenter)
+        {
+            if (presenter is null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter is not null)
+                throw new InvalidOperationException(
+                    "El Presenter de Punto de Venta ya fue asignado.");
+
+            _presenter = presenter;
+            _presenter.Inicializar();
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
+using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.UI.Models;
 using Ocean_Desk_dv.View.Interfaces;
@@ -17,48 +19,46 @@ namespace Ocean_Desk_dv.Presenters
     /// Se encarga de consultar ventas/facturas, generar las facturas pendientes
     /// y procesar anulaciones mediante Entity Framework Core.
     /// </summary>
-    public class FacturacionPresenter
+    public class FacturacionPresenter : IDisposable
     {
         private readonly IFacturacionView _view;
+        private readonly IFacturacionRepository _repository;
+        private bool _disposed;
 
-        public FacturacionPresenter(IFacturacionView view)
+        public FacturacionPresenter(
+            IFacturacionView view,
+            IFacturacionRepository repository)
         {
-            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _view = view ??
+                throw new ArgumentNullException(nameof(view));
+
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
 
             _view.VerDetalleClicked += OnVerDetalleClicked;
             _view.AnularFacturaClicked += OnAnularFacturaClicked;
+        }
 
+        /// <summary>
+        /// Carga las facturas desde el repositorio.
+        /// La generación automática de facturas pendientes
+        /// se conserva en ObtenerFacturas().
+        /// </summary>
+        public void Inicializar()
+        {
             CargarFacturas();
         }
 
         /// <summary>
-        /// Consulta las facturas existentes y genera automáticamente las facturas
-        /// para las ventas completadas que todavía no poseen una factura.
+        /// Consulta y muestra las facturas registradas.
         /// </summary>
         public void CargarFacturas()
         {
             try
             {
-                GenerarFacturasPendientes();
-
-                using OceanDeskDbContext db = new OceanDeskDbContext();
-
-                List<Invoice> invoices = db.Invoices
-                    .AsNoTracking()
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.Customer)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.Table)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.SalePayments)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.SaleDetails)
-                            .ThenInclude(d => d.Product)
-                    .OrderByDescending(i => i.IssueDateTime)
-                    .ToList();
-
-                List<FacturaPrueba> facturas = invoices
-                    .Select(MapInvoice)
+                List<FacturaPrueba> facturas = _repository
+                    .ObtenerFacturas()
+                    .Select(MapearFactura)
                     .ToList();
 
                 _view.MostrarFacturas(facturas);
@@ -66,96 +66,22 @@ namespace Ocean_Desk_dv.Presenters
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible cargar las facturas.\n\nDetalle: {ex.Message}",
+                    "No fue posible cargar las facturas.\n\n" +
+                    $"Detalle: {ex.Message}",
                     "Error de facturación",
                     MessageType.Error);
             }
         }
 
         /// <summary>
-        /// Genera una factura para cada venta completada que todavía no tenga factura.
-        /// Esta operación se mantiene dentro del Presenter porque la vista actual
-        /// no cuenta con un botón independiente para "Generar factura".
+        /// Consulta el detalle de la factura seleccionada.
         /// </summary>
-        private void GenerarFacturasPendientes()
+        private void OnVerDetalleClicked(
+            object? sender,
+            EventArgs e)
         {
-            using OceanDeskDbContext db = new OceanDeskDbContext();
-
-            List<Sale> ventasPendientes = db.Sales
-                .Where(s =>
-                    s.Status == "Completed" &&
-                    !db.Invoices.Any(i => i.SaleId == s.SaleId))
-                .OrderBy(s => s.SaleId)
-                .ToList();
-
-            if (ventasPendientes.Count == 0)
-                return;
-
-            int siguienteNumero = ObtenerSiguienteNumeroFactura(db);
-
-            foreach (Sale venta in ventasPendientes)
-            {
-                Invoice factura = new Invoice
-                {
-                    SaleId = venta.SaleId,
-                    InvoiceNumber = GenerarNumeroFactura(siguienteNumero++),
-                    IssueDateTime = DateTime.Now,
-                    CustomerId = venta.CustomerId,
-                    Subtotal = venta.Subtotal,
-                    Discount = venta.Discount,
-                    Total = venta.Total,
-                    Status = "Issued"
-                };
-
-                db.Invoices.Add(factura);
-            }
-
-            db.SaveChanges();
-        }
-
-        /// <summary>
-        /// Obtiene el siguiente consecutivo numérico utilizado para InvoiceNumber.
-        /// </summary>
-        private int ObtenerSiguienteNumeroFactura(OceanDeskDbContext db)
-        {
-            List<string> numeros = db.Invoices
-                .AsNoTracking()
-                .Select(i => i.InvoiceNumber)
-                .ToList();
-
-            int maximo = 0;
-
-            foreach (string numero in numeros)
-            {
-                if (string.IsNullOrWhiteSpace(numero))
-                    continue;
-
-                string parteNumerica = new string(
-                    numero.Reverse()
-                        .TakeWhile(char.IsDigit)
-                        .Reverse()
-                        .ToArray());
-
-                if (int.TryParse(parteNumerica, out int valor) && valor > maximo)
-                {
-                    maximo = valor;
-                }
-            }
-
-            return maximo + 1;
-        }
-
-        private static string GenerarNumeroFactura(int numero)
-        {
-            return $"F001-{numero:0000}";
-        }
-
-        /// <summary>
-        /// Consulta y muestra el detalle completo de la factura seleccionada.
-        /// </summary>
-        private void OnVerDetalleClicked(object? sender, EventArgs e)
-        {
-            string numeroFactura = _view.NumeroFacturaSeleccionada;
+            string numeroFactura =
+                _view.NumeroFacturaSeleccionada;
 
             if (string.IsNullOrWhiteSpace(numeroFactura))
             {
@@ -168,22 +94,10 @@ namespace Ocean_Desk_dv.Presenters
 
             try
             {
-                using OceanDeskDbContext db = new OceanDeskDbContext();
+                FacturaDto? factura =
+                    _repository.ObtenerFactura(numeroFactura);
 
-                Invoice? invoice = db.Invoices
-                    .AsNoTracking()
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.Customer)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.Table)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.SalePayments)
-                    .Include(i => i.Sale)
-                        .ThenInclude(s => s.SaleDetails)
-                            .ThenInclude(d => d.Product)
-                    .FirstOrDefault(i => i.InvoiceNumber == numeroFactura);
-
-                if (invoice == null)
+                if (factura is null)
                 {
                     _view.MostrarMensaje(
                         "No se encontró la factura seleccionada en la base de datos.",
@@ -192,24 +106,28 @@ namespace Ocean_Desk_dv.Presenters
                     return;
                 }
 
-                _view.MostrarDetalleFactura(MapInvoice(invoice));
+                _view.MostrarDetalleFactura(
+                    MapearFactura(factura));
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible consultar el detalle.\n\nDetalle: {ex.Message}",
+                    "No fue posible consultar el detalle de la factura.\n\n" +
+                    $"Detalle: {ex.Message}",
                     "Error de facturación",
                     MessageType.Error);
             }
         }
 
         /// <summary>
-        /// Anula la factura seleccionada estableciendo el estado Voided
-        /// y registrando los datos de anulación.
+        /// Anula la factura seleccionada mediante el repositorio.
         /// </summary>
-        private void OnAnularFacturaClicked(object? sender, EventArgs e)
+        private void OnAnularFacturaClicked(
+            object? sender,
+            EventArgs e)
         {
-            string numeroFactura = _view.NumeroFacturaSeleccionada;
+            string numeroFactura =
+                _view.NumeroFacturaSeleccionada;
 
             if (string.IsNullOrWhiteSpace(numeroFactura))
             {
@@ -222,38 +140,23 @@ namespace Ocean_Desk_dv.Presenters
 
             try
             {
-                using OceanDeskDbContext db = new OceanDeskDbContext();
+                ResultadoOperacionDto resultado =
+                    _repository.AnularFactura(
+                        numeroFactura,
+                        _view.UsuarioId,
+                        DateTime.Now);
 
-                Invoice? invoice = db.Invoices
-                    .FirstOrDefault(i => i.InvoiceNumber == numeroFactura);
-
-                if (invoice == null)
+                if (!resultado.Exito)
                 {
                     _view.MostrarMensaje(
-                        "No se encontró la factura seleccionada en la base de datos.",
-                        "Factura no encontrada",
+                        resultado.Mensaje,
+                        "No se pudo anular la factura",
                         MessageType.Warning);
                     return;
                 }
-
-                if (invoice.Status == "Voided")
-                {
-                    _view.MostrarMensaje(
-                        "La factura seleccionada ya se encuentra anulada.",
-                        "Factura anulada",
-                        MessageType.Warning);
-                    return;
-                }
-
-                invoice.Status = "Voided";
-                invoice.CancellationDateTime = DateTime.Now;
-                invoice.CancellationReason = "Anulación realizada desde el módulo de Facturación.";
-                invoice.CancellationUserId = _view.UsuarioId;
-
-                db.SaveChanges();
 
                 _view.MostrarMensaje(
-                    $"La factura {invoice.InvoiceNumber} ha sido anulada correctamente.",
+                    resultado.Mensaje,
                     "Anulación realizada",
                     MessageType.Information);
 
@@ -262,90 +165,65 @@ namespace Ocean_Desk_dv.Presenters
             catch (DbUpdateException ex)
             {
                 _view.MostrarMensaje(
-                    $"No fue posible anular la factura.\n\nDetalle: {ex.InnerException?.Message ?? ex.Message}",
+                    "No fue posible anular la factura en la base de datos.\n\n" +
+                    (ex.InnerException?.Message ?? ex.Message),
                     "Error de base de datos",
                     MessageType.Error);
             }
             catch (Exception ex)
             {
                 _view.MostrarMensaje(
-                    $"Ocurrió un error inesperado.\n\nDetalle: {ex.Message}",
+                    "Ocurrió un error inesperado al anular la factura.\n\n" +
+                    $"Detalle: {ex.Message}",
                     "Error de facturación",
                     MessageType.Error);
             }
         }
 
-        private static FacturaPrueba MapInvoice(Invoice invoice)
+        /// <summary>
+        /// Adapta el DTO del repositorio al modelo utilizado por la vista.
+        /// </summary>
+        private static FacturaPrueba MapearFactura(
+            FacturaDto factura)
         {
-            Sale sale = invoice.Sale;
-
-            string cliente = sale.Customer == null
-                ? "Consumidor Final"
-                : $"{sale.Customer.FirstName} {sale.Customer.LastName}".Trim();
-
-            string metodoPago = sale.SalePayments
-                .OrderByDescending(p => p.PaymentDateTime)
-                .Select(p => TraducirMetodoPago(p.PaymentMethod))
-                .FirstOrDefault()
-                ?? "No registrado";
-
-            string estado = invoice.Status switch
-            {
-                "Voided" => "Anulada",
-                _ => "Pagada"
-            };
-
             return new FacturaPrueba
             {
-                NumeroFactura = invoice.InvoiceNumber,
-                Fecha = invoice.IssueDateTime,
-                Cliente = cliente,
-                TipoOrden = TraducirTipoOrden(sale.OrderType),
-                Mesa = sale.Table?.TableNumber,
-                Subtotal = invoice.Subtotal,
-                Descuento = invoice.Discount,
-                Total = invoice.Total,
-                MetodoPago = metodoPago,
-                Estado = estado,
-                Detalles = sale.SaleDetails
-                    .OrderBy(d => d.SaleDetailId)
-                    .Select(d => new DetalleFacturaPrueba
+                NumeroFactura = factura.NumeroFactura,
+                Fecha = factura.Fecha,
+                Cliente = factura.Cliente,
+                TipoOrden = factura.TipoOrden,
+                Mesa = factura.Mesa,
+                Subtotal = factura.Subtotal,
+                Descuento = factura.Descuento,
+                Total = factura.Total,
+                MetodoPago = factura.MetodoPago,
+                Estado = factura.Estado,
+
+                Detalles = factura.Detalles
+                    .Select(detalle => new DetalleFacturaPrueba
                     {
-                        Producto = d.Product?.ProductName ?? "Producto no disponible",
-                        Cantidad = ConvertirCantidad(d.Quantity),
-                        Precio = d.UnitPrice
+                        Producto = detalle.Producto,
+                        Cantidad = detalle.Cantidad,
+                        Precio = detalle.Precio
                     })
                     .ToList()
             };
         }
 
-        private static int ConvertirCantidad(decimal cantidad)
+        /// <summary>
+        /// Libera las suscripciones y el repositorio al cerrar el módulo.
+        /// </summary>
+        public void Dispose()
         {
-            if (cantidad <= 0)
-                return 0;
+            if (_disposed)
+                return;
 
-            return decimal.ToInt32(decimal.Round(cantidad, 0, MidpointRounding.AwayFromZero));
-        }
+            _view.VerDetalleClicked -= OnVerDetalleClicked;
+            _view.AnularFacturaClicked -= OnAnularFacturaClicked;
 
-        private static string TraducirMetodoPago(string metodoPago)
-        {
-            return metodoPago switch
-            {
-                "Cash" => "Efectivo",
-                "Card" => "Tarjeta",
-                "Transfer" => "Transferencia",
-                _ => metodoPago
-            };
-        }
+            _repository.Dispose();
 
-        private static string TraducirTipoOrden(string tipoOrden)
-        {
-            return tipoOrden switch
-            {
-                "Local" => "Local",
-                "Delivery" => "Delivery",
-                _ => tipoOrden
-            };
+            _disposed = true;
         }
     }
 }

@@ -19,7 +19,7 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
     {
         var db = _context;
         return db.Products.AsNoTracking().Include(p => p.ProductCategory)
-            .Where(p => p.IsActive && p.IsAvailable)
+            .Where(p => p.IsActive && p.ProductType == "FinishedProduct")
             .OrderBy(p => p.ProductCategory.CategoryName).ThenBy(p => p.ProductName)
             .Select(p => new ProductoVentaDto
             {
@@ -192,7 +192,7 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
             ReadyDateTime = null,
             DeliveredDateTime = null,
             Status = "Pending",
-            Priority = solicitud.Prioridad == "Alta" ? "High" : "Normal",
+            Priority = solicitud.Prioridad == "Alta" ? "Urgent" : "Normal",
             Notes = "Orden enviada desde Punto de Venta"
         };
         foreach (var saleDetail in saleDetails)

@@ -427,7 +427,19 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Punto de Venta";
             lblSubtitulo.Text = "Control y Toma de Ordenes";
 
+            // Crear la vista.
             FrmPuntoVenta ventas = new FrmPuntoVenta(_usuarioId);
+
+            // Crear el Presenter y entregarle el repositorio.
+            PuntoVentaPresenter presenter = new PuntoVentaPresenter(
+                ventas,
+                OceanDeskRepositoryFactory.CrearPuntoVentaRepository(),
+                _usuarioId);
+
+            // Asociar el Presenter e inicializar el módulo.
+            ventas.VincularPresenter(presenter);
+
+            // Mostrar la vista dentro del panel principal.
             AbrirFormularioEnPanel(ventas);
         }
         
@@ -438,7 +450,21 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Facturación";
             lblSubtitulo.Text = "Gestión y Consultas de Comprobantes";
 
-            FrmFacturacion facturacion = new FrmFacturacion(_usuarioId);
+            // Crear la vista.
+            FrmFacturacion facturacion =
+                new FrmFacturacion(_usuarioId);
+
+            // Crear el Presenter con su repositorio.
+            FacturacionPresenter presenter =
+                new FacturacionPresenter(
+                    facturacion,
+                    OceanDeskRepositoryFactory
+                        .CrearFacturacionRepository());
+
+            // Vincular las dependencias e inicializar el módulo.
+            facturacion.VincularPresenter(presenter);
+
+            // Mostrar la vista dentro del panel principal.
             AbrirFormularioEnPanel(facturacion);
         }
 
@@ -492,7 +518,21 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Control de Pedidos";
             lblSubtitulo.Text = "Gestión y seguimiento de pedidos en cocina";
 
+            // Crear la vista.
             FrmCocinaPedidos cocina = new FrmCocinaPedidos();
+
+            // Crear el Presenter con el repositorio existente.
+            // El rol permanece null porque el menú actual no lo proporciona.
+            CocinaPresenter presenter = new CocinaPresenter(
+                cocina,
+                OceanDeskRepositoryFactory.CrearCocinaRepository(),
+                _usuarioId,
+                null);
+
+            // Asociar las dependencias e inicializar los pedidos.
+            cocina.VincularPresenter(presenter);
+
+            // Mostrar el módulo dentro del panel principal.
             AbrirFormularioEnPanel(cocina);
         }
 

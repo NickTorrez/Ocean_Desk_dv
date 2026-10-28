@@ -284,6 +284,32 @@ namespace Ocean_Desk_dv.UI.Catalogs
         }
 
         /// <summary>
+        /// Configura las sugerencias de clientes registrados
+        /// para el cuadro de texto de una nueva reserva.
+        /// </summary>
+        public void ConfigurarAutocompletadoClientes(
+            IReadOnlyList<string> nombresClientes)
+        {
+            var sugerencias = new AutoCompleteStringCollection();
+
+            sugerencias.AddRange(
+                nombresClientes
+                    .Where(nombre =>
+                        !string.IsNullOrWhiteSpace(nombre))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray());
+
+            txtClienteReserva.AutoCompleteMode =
+                AutoCompleteMode.SuggestAppend;
+
+            txtClienteReserva.AutoCompleteSource =
+                AutoCompleteSource.CustomSource;
+
+            txtClienteReserva.AutoCompleteCustomSource =
+                sugerencias;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         private void AplicarFiltros()
