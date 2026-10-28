@@ -190,8 +190,8 @@
             // 
             // pnlContenidoReservas
             // 
-            pnlContenidoReservas.Controls.Add(pnlReservas);
             pnlContenidoReservas.Controls.Add(pnlNuevaReservaContainer);
+            pnlContenidoReservas.Controls.Add(pnlReservas);
             pnlContenidoReservas.Dock = DockStyle.Fill;
             pnlContenidoReservas.Location = new Point(0, 332);
             pnlContenidoReservas.Margin = new Padding(0);

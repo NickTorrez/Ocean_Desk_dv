@@ -427,10 +427,10 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Punto de Venta";
             lblSubtitulo.Text = "Control y Toma de Ordenes";
 
-            FrmPuntoVenta ventas = new FrmPuntoVenta();
+            FrmPuntoVenta ventas = new FrmPuntoVenta(_usuarioId);
             AbrirFormularioEnPanel(ventas);
         }
-
+        
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
             SeleccionarBoton(btnFacturacion);
@@ -470,7 +470,18 @@ namespace Ocean_Desk_dv.UI
             lblSeccion.Text = "Gestión de Mesas";
             lblSubtitulo.Text = "Disponibilidad y asignación de mesas";
 
+            // 1. Crear la vista.
             FrmMesasReservas mesas = new FrmMesasReservas();
+
+            // 2. Crear el Presenter con el repositorio correspondiente.
+            MesasReservasPresenter presenter = new MesasReservasPresenter(
+                mesas,
+                OceanDeskRepositoryFactory.CrearMesasReservasRepository());
+
+            // 3. Vincular el Presenter e inicializar el módulo.
+            mesas.VincularPresenter(presenter);
+
+            // 4. Mostrar la vista en el panel principal.
             AbrirFormularioEnPanel(mesas);
         }
 
@@ -668,9 +679,21 @@ namespace Ocean_Desk_dv.UI
             SeleccionarBoton(btnCaja);
 
             lblSeccion.Text = "Manejo de Caja";
-            lblSubtitulo.Text = "Entrada, salida y cierre diario de dinero";
+            lblSubtitulo.Text =
+                "Entrada, salida y cierre diario de dinero";
 
+            // 1. Crear la vista.
             FrmCaja caja = new FrmCaja(_usuarioId);
+
+            // 2. Crear el Presenter y entregarle el repositorio.
+            CajaPresenter presenter = new CajaPresenter(
+                caja,
+                OceanDeskRepositoryFactory.CrearCajaRepository());
+
+            // 3. Vincular el Presenter e inicializar el módulo.
+            caja.VincularPresenter(presenter);
+
+            // 4. Mostrar la vista en el panel principal.
             AbrirFormularioEnPanel(caja);
         }
 

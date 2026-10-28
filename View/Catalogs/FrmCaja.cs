@@ -50,10 +50,23 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             dgvMovimientosCaja.AutoGenerateColumns = false;
 
-            _presenter = new CajaPresenter(this);
-            _presenter.Inicializar();
-
             FormClosed += FrmCaja_FormClosed;
+        }
+
+        /// <summary>
+        /// Vincula el Presenter y carga la información inicial de Caja.
+        /// </summary>
+        public void VincularPresenter(CajaPresenter presenter)
+        {
+            if (presenter == null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter != null)
+                throw new InvalidOperationException(
+                    "El Presenter de Caja ya fue vinculado.");
+
+            _presenter = presenter;
+            _presenter.Inicializar();
         }
         #endregion
 

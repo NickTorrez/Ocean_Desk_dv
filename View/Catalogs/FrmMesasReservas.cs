@@ -18,7 +18,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
 {
     public partial class FrmMesasReservas : Form, IMesasReservasView
     {
-        private readonly MesasReservasPresenter _presenter;
+        private MesasReservasPresenter? _presenter;
         private readonly List<ReservaPrueba> _reservas = new();
 
         private UcMesaCard? _mesaSeleccionada;
@@ -93,7 +93,7 @@ namespace Ocean_Desk_dv.UI.Catalogs
         public event EventHandler LiberarMesaClicked = delegate { };
         #endregion
 
-        #region Constructor
+        #region Constructor      
         public FrmMesasReservas()
         {
             InitializeComponent();
@@ -104,10 +104,30 @@ namespace Ocean_Desk_dv.UI.Catalogs
             ConfigurarFiltroEstado();
             ConfigurarFiltroEstado();
 
-            _presenter = new MesasReservasPresenter(this);
+            // Liberar el Presenter y su repositorio cuando se cierre la vista.
+            FormClosed += (_, _) =>
+            {
+                _presenter?.Dispose();
+                _presenter = null;
+            };
+        }
 
+        /// <summary>
+        /// Vincula el Presenter creado desde FrmMainMenu e inicializa el módulo.
+        /// </summary>
+        public void VincularPresenter(MesasReservasPresenter presenter)
+        {
+            if (presenter == null)
+                throw new ArgumentNullException(nameof(presenter));
+
+            if (_presenter != null)
+                throw new InvalidOperationException(
+                    "El Presenter de Mesas y Reservas ya fue vinculado.");
+
+            _presenter = presenter;
             _presenter.Inicializar();
         }
+
         #endregion
 
         #region Configuración de Columnas y Filtros
