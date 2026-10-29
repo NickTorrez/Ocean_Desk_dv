@@ -644,15 +644,28 @@ namespace Ocean_Desk_dv.View.Catalogs
             _cargandoDatos = true;
             try
             {
+                var opciones = new List<ProveedorCompraDto>
+        {
+            new()
+            {
+                SupplierId = 0,
+                SupplierCode = string.Empty,
+                SupplierName = "Seleccione Proveedor...",
+                Phone = null
+            }
+        };
+                opciones.AddRange(proveedores);
+
                 cmbProveedorCompra.DataSource = null;
                 cmbProveedorCompra.DisplayMember = nameof(ProveedorCompraDto.SupplierName);
                 cmbProveedorCompra.ValueMember = nameof(ProveedorCompraDto.SupplierId);
-                cmbProveedorCompra.DataSource = proveedores.ToList();
-                // La lista está disponible, pero no seleccionar un proveedor
-                // automáticamente al abrir el módulo.
-                cmbProveedorCompra.SelectedIndex = -1;
+                cmbProveedorCompra.DataSource = opciones;
+                cmbProveedorCompra.SelectedIndex = 0;
             }
-            finally { _cargandoDatos = false; }
+            finally
+            {
+                _cargandoDatos = false;
+            }
         }
 
         public void MostrarCompras(IReadOnlyList<CompraResumenDto> compras)

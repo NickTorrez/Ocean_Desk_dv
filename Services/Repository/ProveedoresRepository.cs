@@ -30,7 +30,6 @@ public sealed class ProveedoresRepository : IProveedoresRepository
         if (!string.IsNullOrWhiteSpace(filtro))
         {
             string texto = filtro.Trim();
-
             consulta = consulta.Where(s =>
                 s.SupplierCode.Contains(texto) ||
                 s.SupplierName.Contains(texto) ||

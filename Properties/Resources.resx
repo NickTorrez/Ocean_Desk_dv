@@ -280,4 +280,25 @@
   <data name="senal-de-advertencia" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\senal-de-advertencia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Camarones_Al_Ajillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Camarones_Al_Ajillo.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coctel_ConchaNegra_Pescado_Camaron" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coctel_ConchaNegra_Pescado_Camaron.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coctel_Craken_Pescado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coctel_Craken_Pescado.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Entrada_Pescado_Camaron" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Entrada_Pescado_Camaron.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marisco_Craken_Camaron" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Marisco_Craken_Camaron.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marisco_Premium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Marisco_Premium.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pargo_Frito_Salsa_Mariscos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pargo_Frito_Salsa_Mariscos.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

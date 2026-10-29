@@ -339,7 +339,7 @@
             pnlProducts.Dock = DockStyle.Fill;
             pnlProducts.Location = new Point(0, 75);
             pnlProducts.Name = "pnlProducts";
-            pnlProducts.Padding = new Padding(15);
+            pnlProducts.Padding = new Padding(5);
             pnlProducts.Size = new Size(540, 755);
             pnlProducts.TabIndex = 1;
             // 
@@ -348,11 +348,11 @@
             flpProducts.AutoScroll = true;
             flpProducts.BackColor = Color.Transparent;
             flpProducts.Dock = DockStyle.Fill;
-            flpProducts.Location = new Point(15, 80);
+            flpProducts.Location = new Point(5, 70);
             flpProducts.Margin = new Padding(0);
             flpProducts.Name = "flpProducts";
             flpProducts.Padding = new Padding(5);
-            flpProducts.Size = new Size(510, 660);
+            flpProducts.Size = new Size(530, 680);
             flpProducts.TabIndex = 2;
             // 
             // pnlCategories
@@ -360,10 +360,10 @@
             pnlCategories.BackColor = Color.Transparent;
             pnlCategories.Controls.Add(tlpCategories);
             pnlCategories.Dock = DockStyle.Top;
-            pnlCategories.Location = new Point(15, 15);
+            pnlCategories.Location = new Point(5, 5);
             pnlCategories.Name = "pnlCategories";
             pnlCategories.Padding = new Padding(0, 5, 0, 5);
-            pnlCategories.Size = new Size(510, 65);
+            pnlCategories.Size = new Size(530, 65);
             pnlCategories.TabIndex = 1;
             // 
             // tlpCategories
@@ -386,7 +386,7 @@
             tlpCategories.Name = "tlpCategories";
             tlpCategories.RowCount = 1;
             tlpCategories.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpCategories.Size = new Size(510, 55);
+            tlpCategories.Size = new Size(530, 55);
             tlpCategories.TabIndex = 0;
             // 
             // btnCatTodos
@@ -401,7 +401,7 @@
             btnCatTodos.Location = new Point(4, 3);
             btnCatTodos.Margin = new Padding(4, 3, 4, 3);
             btnCatTodos.Name = "btnCatTodos";
-            btnCatTodos.Size = new Size(77, 49);
+            btnCatTodos.Size = new Size(80, 49);
             btnCatTodos.TabIndex = 5;
             btnCatTodos.TabStop = false;
             btnCatTodos.Text = "Todos";
@@ -416,10 +416,10 @@
             btnCatExtras.FlatStyle = FlatStyle.Flat;
             btnCatExtras.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatExtras.ForeColor = Color.White;
-            btnCatExtras.Location = new Point(429, 3);
+            btnCatExtras.Location = new Point(444, 3);
             btnCatExtras.Margin = new Padding(4, 3, 4, 3);
             btnCatExtras.Name = "btnCatExtras";
-            btnCatExtras.Size = new Size(77, 49);
+            btnCatExtras.Size = new Size(82, 49);
             btnCatExtras.TabIndex = 4;
             btnCatExtras.TabStop = false;
             btnCatExtras.Text = "Extras";
@@ -434,10 +434,10 @@
             btnCatBebidas.FlatStyle = FlatStyle.Flat;
             btnCatBebidas.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatBebidas.ForeColor = Color.White;
-            btnCatBebidas.Location = new Point(344, 3);
+            btnCatBebidas.Location = new Point(356, 3);
             btnCatBebidas.Margin = new Padding(4, 3, 4, 3);
             btnCatBebidas.Name = "btnCatBebidas";
-            btnCatBebidas.Size = new Size(77, 49);
+            btnCatBebidas.Size = new Size(80, 49);
             btnCatBebidas.TabIndex = 3;
             btnCatBebidas.TabStop = false;
             btnCatBebidas.Text = "Bebidas";
@@ -452,10 +452,10 @@
             btnCatEntradas.FlatStyle = FlatStyle.Flat;
             btnCatEntradas.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatEntradas.ForeColor = Color.White;
-            btnCatEntradas.Location = new Point(259, 3);
+            btnCatEntradas.Location = new Point(268, 3);
             btnCatEntradas.Margin = new Padding(4, 3, 4, 3);
             btnCatEntradas.Name = "btnCatEntradas";
-            btnCatEntradas.Size = new Size(77, 49);
+            btnCatEntradas.Size = new Size(80, 49);
             btnCatEntradas.TabIndex = 2;
             btnCatEntradas.TabStop = false;
             btnCatEntradas.Text = "Entradas";
@@ -470,10 +470,10 @@
             btnCatMariscos.FlatStyle = FlatStyle.Flat;
             btnCatMariscos.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatMariscos.ForeColor = Color.White;
-            btnCatMariscos.Location = new Point(174, 3);
+            btnCatMariscos.Location = new Point(180, 3);
             btnCatMariscos.Margin = new Padding(4, 3, 4, 3);
             btnCatMariscos.Name = "btnCatMariscos";
-            btnCatMariscos.Size = new Size(77, 49);
+            btnCatMariscos.Size = new Size(80, 49);
             btnCatMariscos.TabIndex = 1;
             btnCatMariscos.TabStop = false;
             btnCatMariscos.Text = "Mariscos";
@@ -488,10 +488,10 @@
             btnCatCeviche.FlatStyle = FlatStyle.Flat;
             btnCatCeviche.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCatCeviche.ForeColor = Color.White;
-            btnCatCeviche.Location = new Point(89, 3);
+            btnCatCeviche.Location = new Point(92, 3);
             btnCatCeviche.Margin = new Padding(4, 3, 4, 3);
             btnCatCeviche.Name = "btnCatCeviche";
-            btnCatCeviche.Size = new Size(77, 49);
+            btnCatCeviche.Size = new Size(80, 49);
             btnCatCeviche.TabIndex = 5;
             btnCatCeviche.TabStop = false;
             btnCatCeviche.Text = "Ceviches";
@@ -808,9 +808,9 @@
             // 
             pnlNuevoClienteContainer.Controls.Add(pnlNuevoCliente);
             pnlNuevoClienteContainer.Dock = DockStyle.Fill;
-            pnlNuevoClienteContainer.Location = new Point(0, 75);
+            pnlNuevoClienteContainer.Location = new Point(0, 0);
             pnlNuevoClienteContainer.Name = "pnlNuevoClienteContainer";
-            pnlNuevoClienteContainer.Size = new Size(540, 755);
+            pnlNuevoClienteContainer.Size = new Size(940, 830);
             pnlNuevoClienteContainer.TabIndex = 0;
             pnlNuevoClienteContainer.Visible = false;
             // 
@@ -828,7 +828,7 @@
             pnlNuevoCliente.Controls.Add(pnlNombreClienteInput);
             pnlNuevoCliente.Controls.Add(lblSubtituloNuevoCliente);
             pnlNuevoCliente.Controls.Add(lblTituloNuevoCliente);
-            pnlNuevoCliente.Location = new Point(25, 212);
+            pnlNuevoCliente.Location = new Point(225, 250);
             pnlNuevoCliente.Name = "pnlNuevoCliente";
             pnlNuevoCliente.Padding = new Padding(25, 20, 25, 20);
             pnlNuevoCliente.Size = new Size(490, 330);
@@ -1034,10 +1034,10 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
-            Controls.Add(pnlNuevoClienteContainer);
             Controls.Add(pnlProducts);
             Controls.Add(pnlOrder);
             Controls.Add(pnlTop);
+            Controls.Add(pnlNuevoClienteContainer);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmPuntoVenta";
             StartPosition = FormStartPosition.CenterScreen;

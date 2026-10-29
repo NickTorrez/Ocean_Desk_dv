@@ -131,7 +131,10 @@ namespace Ocean_Desk_dv.UI.Catalogs
 
             foreach (Product producto in productos)
             {
-                Image? imagen = ObtenerImagenProducto(producto.ProductCode);
+                Image imagen = ObtenerImagenProducto(
+                     producto.ProductCode,
+                     producto.ProductName,
+                     producto.ProductCategory?.CategoryName ?? string.Empty);
                 string categoria = producto.ProductCategory?.CategoryName ?? string.Empty;
 
                 AgregarProductoCard(
@@ -357,26 +360,149 @@ namespace Ocean_Desk_dv.UI.Catalogs
         /// </summary>
         /// <param name="codigoProducto"></param>
         /// <returns></returns>
-        private Image? ObtenerImagenProducto(string codigoProducto)
+
+        /// <summary>
+        /// Obtiene la imagen correspondiente a un producto.
+        /// Primero utiliza el nombre o el código del producto y,
+        /// como alternativa, la categoría.
+        /// </summary>
+        private Image ObtenerImagenProducto(
+            string? codigoProducto,
+            string? nombreProducto,
+            string? nombreCategoria)
         {
-            return codigoProducto switch
+            string codigo = (codigoProducto ?? string.Empty)
+                .Trim()
+                .ToUpperInvariant();
+
+            string nombre = NormalizarTextoImagen(nombreProducto);
+            string categoria = NormalizarTextoImagen(nombreCategoria);
+
+            // Imágenes identificadas por el nombre del producto.
+            if (nombre.Contains("ajillo"))
+                return Properties.Resources.Camarones_Al_Ajillo;
+
+            if (nombre.Contains("pargo"))
+                return Properties.Resources.Pargo_Frito_Salsa_Mariscos;
+
+            if (nombre.Contains("tostones") && nombre.Contains("queso"))
+                return Properties.Resources.Tostones_Queso;
+
+            if (nombre.Contains("tostones"))
+                return Properties.Resources.Tostones;
+
+            if (nombre.Contains("coca cola") ||
+                nombre.Contains("cocacola"))
+                return Properties.Resources.CocaCola;
+
+            if (nombre.Contains("limonada"))
+                return Properties.Resources.Limonada;
+
+            if (nombre.Contains("jamaica"))
+                return Properties.Resources.Jamaica;
+
+            if (nombre.Contains("naranja"))
+                return Properties.Resources.Naranja;
+
+            // Asociación de imágenes por código de producto.
+            Image? imagenPorCodigo = codigo switch
             {
+                // Productos originales.
                 "PRD-001" => Properties.Resources.Primer_Ceviche,
                 "PRD-002" => Properties.Resources.Coctel_Ceviche,
 
-                "CEV-001" => Properties.Resources.Ceviche_CamaronPescado,
-                "CEV-002" => Properties.Resources.Ceviche_CamaronPescado_ConchaNegra,
-                "CEV-003" => Properties.Resources.Ceviche_CamaronPescado_Calamar,
-                "CEV-004" => Properties.Resources.Ceviche_Full,
+                // Cinco productos nuevos.
+                "PRD-007" =>
+                    Properties.Resources.Coctel_ConchaNegra_Pescado_Camaron,
 
+                "PRD-008" =>
+                    Properties.Resources.Marisco_Craken_Camaron,
+
+                "PRD-009" =>
+                    Properties.Resources.Coctel_Craken_Pescado,
+
+                "PRD-010" =>
+                    Properties.Resources.Marisco_Premium,
+
+                "PRD-011" =>
+                    Properties.Resources.Entrada_Pescado_Camaron,
+
+                // Ceviches originales.
+                "CEV-001" =>
+                    Properties.Resources.Ceviche_CamaronPescado,
+
+                "CEV-002" =>
+                    Properties.Resources.Ceviche_CamaronPescado_ConchaNegra,
+
+                "CEV-003" =>
+                    Properties.Resources.Ceviche_CamaronPescado_Calamar,
+
+                "CEV-004" =>
+                    Properties.Resources.Ceviche_Full,
+
+                // Bebidas y entradas originales.
                 "BEB-001" => Properties.Resources.Naranja,
                 "BEB-002" => Properties.Resources.Jamaica,
-
                 "ENT-001" => Properties.Resources.Tostones_Queso,
 
                 _ => null
             };
+
+            if (imagenPorCodigo != null)
+                return imagenPorCodigo;
+
+            // Asociaciones alternativas para productos con otros códigos.
+            if (nombre.Contains("ceviche"))
+            {
+                if (nombre.Contains("concha negra"))
+                    return Properties.Resources.Ceviche_CamaronPescado_ConchaNegra;
+
+                if (nombre.Contains("calamar"))
+                    return Properties.Resources.Ceviche_CamaronPescado_Calamar;
+
+                if (nombre.Contains("camaron") &&
+                    nombre.Contains("pescado"))
+                    return Properties.Resources.Ceviche_CamaronPescado;
+
+                return Properties.Resources.Ceviche_Full;
+            }
+
+            // Imagen representativa según la categoría.
+            if (categoria.Contains("cevich"))
+                return Properties.Resources.Ceviche_Full;
+
+            if (categoria.Contains("marisco"))
+                return Properties.Resources.Marisco_Premium;
+
+            if (categoria.Contains("bebida"))
+                return Properties.Resources.CocaCola;
+
+            if (categoria.Contains("entrada") ||
+                categoria.Contains("snack"))
+                return Properties.Resources.Tostones;
+
+            // Imagen predeterminada para cualquier producto sin coincidencia.
+            return Properties.Resources.producto_default;
         }
+
+        /// <summary>
+        /// Normaliza el texto para facilitar la comparación de nombres
+        /// que contienen tildes o mayúsculas.
+        /// </summary>
+        private static string NormalizarTextoImagen(string? texto)
+        {
+            return (texto ?? string.Empty)
+                .Trim()
+                .ToLowerInvariant()
+                .Replace("á", "a")
+                .Replace("é", "e")
+                .Replace("í", "i")
+                .Replace("ó", "o")
+                .Replace("ú", "u")
+                .Replace("ü", "u")
+                .Replace("ñ", "n");
+        }
+
 
         /// <summary>
         /// Agrega un control UcProductoCard al panel de productos, representando un producto con su información relevante, como nombre, precio, categoría, imagen y disponibilidad. Además, se suscribe al evento ProductoAgregado del control para manejar la adición del producto al pedido.
