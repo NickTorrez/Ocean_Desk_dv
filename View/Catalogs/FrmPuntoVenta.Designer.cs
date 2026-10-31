@@ -808,9 +808,9 @@
             // 
             pnlNuevoClienteContainer.Controls.Add(pnlNuevoCliente);
             pnlNuevoClienteContainer.Dock = DockStyle.Fill;
-            pnlNuevoClienteContainer.Location = new Point(0, 0);
+            pnlNuevoClienteContainer.Location = new Point(0, 75);
             pnlNuevoClienteContainer.Name = "pnlNuevoClienteContainer";
-            pnlNuevoClienteContainer.Size = new Size(940, 830);
+            pnlNuevoClienteContainer.Size = new Size(540, 755);
             pnlNuevoClienteContainer.TabIndex = 0;
             pnlNuevoClienteContainer.Visible = false;
             // 
@@ -828,7 +828,7 @@
             pnlNuevoCliente.Controls.Add(pnlNombreClienteInput);
             pnlNuevoCliente.Controls.Add(lblSubtituloNuevoCliente);
             pnlNuevoCliente.Controls.Add(lblTituloNuevoCliente);
-            pnlNuevoCliente.Location = new Point(225, 250);
+            pnlNuevoCliente.Location = new Point(25, 212);
             pnlNuevoCliente.Name = "pnlNuevoCliente";
             pnlNuevoCliente.Padding = new Padding(25, 20, 25, 20);
             pnlNuevoCliente.Size = new Size(490, 330);
@@ -1034,10 +1034,10 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(940, 830);
+            Controls.Add(pnlNuevoClienteContainer);
             Controls.Add(pnlProducts);
             Controls.Add(pnlOrder);
             Controls.Add(pnlTop);
-            Controls.Add(pnlNuevoClienteContainer);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmPuntoVenta";
             StartPosition = FormStartPosition.CenterScreen;
