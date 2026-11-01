@@ -22,12 +22,11 @@ public static class OceanDeskRepositoryFactory
     /// <summary>
     /// Crea el repositorio de inventario con su propio contexto de base de datos.
     /// </summary>
-    public static IInventarioRepository CrearInventarioRepository() =>
-        new InventarioRepository(new OceanDeskDbContext());
+    public static IInventarioRepository CrearInventarioRepository() => new InventarioRepository(new OceanDeskDbContext());
 
-    public static IComprasRepository CrearComprasRepository() =>
-    new ComprasRepository(new OceanDeskDbContext());
+    public static IComprasRepository CrearComprasRepository() => new ComprasRepository(new OceanDeskDbContext());
 
-    public static IProveedoresRepository CrearProveedoresRepository() =>
-    new ProveedoresRepository(new OceanDeskDbContext());
+    public static IProveedoresRepository CrearProveedoresRepository() => new ProveedoresRepository(new OceanDeskDbContext());
+
+    public static IAuthenticationRepository CrearAuthenticationRepository() => new AuthenticationRepository(new OceanDeskDbContext());
 }
