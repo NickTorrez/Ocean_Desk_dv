@@ -31,6 +31,17 @@ public sealed class AuthenticationRepository : IAuthenticationRepository
             .SingleOrDefault(user => user.Username == username.Trim());
     }
 
+    public User? ObtenerUsuarioPorId(int userId)
+    {
+        if (userId <= 0)
+            return null;
+
+        return _context.Users
+            .Include(user => user.Role)
+                .ThenInclude(role => role.RoleModulePermissions)
+            .SingleOrDefault(user => user.UserId == userId);
+    }
+
     public void GuardarCambios()
     {
         _context.SaveChanges();

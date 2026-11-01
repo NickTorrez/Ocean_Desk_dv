@@ -26,6 +26,7 @@ namespace Ocean_Desk_dv.UI
         // Se creo el objeto Login para instanciar enviar la referencia del formulario de login al formulario principal
         private FrmLogin login;
         private readonly int _usuarioId;
+        private readonly UsuarioAutenticadoDto _usuarioAutenticado;
         private bool _permitirCerrarFormulario;
         private bool _cierreEnProceso;
 
@@ -53,18 +54,34 @@ namespace Ocean_Desk_dv.UI
         #endregion
 
         #region Constructor y Inicialización
-        public FrmMainMenu(FrmLogin login) : this(login, 1) { }
-        public FrmMainMenu(FrmLogin login, int usuarioId)
+        public FrmMainMenu(FrmLogin login, UsuarioAutenticadoDto usuario)
         {
-            if (login == null)
+            if (login is null)
                 throw new ArgumentNullException(nameof(login));
 
-            if (usuarioId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(usuarioId));
+            if (usuario is null)
+                throw new ArgumentNullException(nameof(usuario));
+
+            if (usuario.UserId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(usuario.UserId));
+
+            if (usuario.MustChangePassword)
+                throw new InvalidOperationException(
+                    "No se puede abrir el menú mientras exista un cambio obligatorio de contraseña.");
 
             InitializeComponent();
+
             this.login = login;
-            _usuarioId = usuarioId;
+
+            _usuarioAutenticado = usuario;
+            _usuarioId = usuario.UserId;
+
+            // Mostrar la identidad real en el encabezado.
+            lblUsuario.Text = usuario.NombreCompleto;
+            label1.Text = usuario.RoleName;
+
+            // Aplicar los permisos obtenidos desde SQL Server.
+            AplicarPermisosMenu();
 
             this.FormClosing += FrmMainMenu_FormClosing;
 
@@ -78,7 +95,7 @@ namespace Ocean_Desk_dv.UI
                 _tmrAlertasVencimiento.Dispose();
             };
 
-            // Inicializar el panel indicador para el botón activo
+            // Inicializar indicador del botón activo.
             indicadorActivo = new Panel();
 
             indicadorActivo.Width = 4;
@@ -89,8 +106,139 @@ namespace Ocean_Desk_dv.UI
             pnlMenu.Controls.Add(indicadorActivo);
             indicadorActivo.BringToFront();
 
-            //Iniciar Timer
             tmrReloj.Start();
+        }
+
+        /// <summary>
+        /// Comprueba si el usuario posee un permiso para un módulo.
+        /// </summary>
+        private bool TienePermisoModulo(
+            string moduleCode,
+            Func<PermisoModuloAutenticacionDto, bool> validarPermiso)
+        {
+            PermisoModuloAutenticacionDto? permiso =
+                _usuarioAutenticado.Permisos.FirstOrDefault(p =>
+                    string.Equals(
+                        p.ModuleCode,
+                        moduleCode,
+                        StringComparison.OrdinalIgnoreCase));
+
+            return permiso is not null && validarPermiso(permiso);
+        }
+
+        /// <summary>
+        /// Comprueba y comunica si el usuario puede acceder a un módulo.
+        /// </summary>
+        private bool ValidarAccesoModulo(
+            string moduleCode,
+            Func<PermisoModuloAutenticacionDto, bool> validarPermiso)
+        {
+            if (TienePermisoModulo(moduleCode, validarPermiso))
+                return true;
+
+            FrmMessageBox.Show(
+                "Su cuenta no dispone de los permisos necesarios para acceder a este módulo.",
+                "Acceso restringido",
+                MessageType.Warning);
+
+            return false;
+        }
+
+        /// <summary>
+        /// Oculta los módulos que el usuario no tiene autorizados para consultar.
+        /// </summary>
+        private void AplicarPermisosMenu()
+        {
+            pnlMenu.SuspendLayout();
+
+            try
+            {
+                btnUsuarios.Visible =
+                    TienePermisoModulo("USUARIOS", p => p.CanView);
+
+                btnClientes.Visible =
+                    TienePermisoModulo("CLIENTES", p => p.CanView);
+
+                btnProductos.Visible =
+                    TienePermisoModulo("PRODUCTOS", p => p.CanView);
+
+                btnInventario.Visible =
+                    TienePermisoModulo("INVENTARIO", p => p.CanView);
+
+                btnCompras.Visible =
+                    TienePermisoModulo("COMPRAS", p => p.CanView);
+
+                btnProveedores.Visible =
+                    TienePermisoModulo("PROVEEDORES", p => p.CanView);
+
+                // Punto de Venta registra operaciones.
+                // No basta con permitir solamente la consulta.
+                btnVentas.Visible =
+                    TienePermisoModulo(
+                        "PUNTO_VENTA",
+                        p => p.CanView && p.CanCreate);
+
+                btnFacturacion.Visible =
+                    TienePermisoModulo(
+                        "FACTURACION",
+                        p => p.CanView && p.CanCreate);
+
+                btnCaja.Visible =
+                    TienePermisoModulo(
+                        "CAJA",
+                        p => p.CanView && p.CanCreate);
+
+                btnMesas.Visible =
+                    TienePermisoModulo("MESAS_RESERVAS", p => p.CanView);
+
+                btnCocina.Visible =
+                    TienePermisoModulo(
+                        "COCINA_PEDIDOS",
+                        p => p.CanView && p.CanChangeStatus);
+
+                btnReportes.Visible =
+                    TienePermisoModulo("REPORTES", p => p.CanView);
+
+                btnBitacoras.Visible =
+                    TienePermisoModulo("AUDITORIA", p => p.CanView);
+
+                btnEmpleados.Visible =
+                    TienePermisoModulo("EMPLEADOS", p => p.CanView);
+
+                btnPromociones.Visible =
+                    TienePermisoModulo("PROMOCIONES", p => p.CanView);
+
+                btnFidelizacion.Visible =
+                    TienePermisoModulo("FIDELIZACION", p => p.CanView);
+
+                // Ocultar encabezados de las secciones que quedaron vacías.
+                lblSeguridad.Visible =
+                    btnUsuarios.Visible || btnBitacoras.Visible;
+
+                lblAdministracion.Visible =
+                    btnClientes.Visible ||
+                    btnFidelizacion.Visible ||
+                    btnPromociones.Visible;
+
+                lblGestion.Visible =
+                    btnProveedores.Visible || btnCompras.Visible;
+
+                lblInventario.Visible =
+                    btnInventario.Visible || btnProductos.Visible;
+
+                lblOperaciones.Visible =
+                    btnCocina.Visible ||
+                    btnMesas.Visible ||
+                    btnFacturacion.Visible ||
+                    btnVentas.Visible ||
+                    btnCaja.Visible ||
+                    btnEmpleados.Visible ||
+                    btnReportes.Visible;
+            }
+            finally
+            {
+                pnlMenu.ResumeLayout(true);
+            }
         }
 
         private void FrmMainMenu_Load(object sender, EventArgs e)
@@ -419,6 +567,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnVentas_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "PUNTO_VENTA",
+                p => p.CanView && p.CanCreate))
+                return;
+
             if (!ValidarCajaParaPuntoVenta())
                 return;
 
@@ -445,6 +598,10 @@ namespace Ocean_Desk_dv.UI
         
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "FACTURACION",
+                p => p.CanView && p.CanCreate))
+                return;
             SeleccionarBoton(btnFacturacion);
 
             lblSeccion.Text = "Facturación";
@@ -513,6 +670,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnCocina_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "COCINA_PEDIDOS",
+                p => p.CanView && p.CanChangeStatus))
+                return;
+
             SeleccionarBoton(btnCocina);
 
             lblSeccion.Text = "Control de Pedidos";
@@ -524,10 +686,10 @@ namespace Ocean_Desk_dv.UI
             // Crear el Presenter con el repositorio existente.
             // El rol permanece null porque el menú actual no lo proporciona.
             CocinaPresenter presenter = new CocinaPresenter(
-                cocina,
-                OceanDeskRepositoryFactory.CrearCocinaRepository(),
-                _usuarioId,
-                null);
+                 cocina,
+                 OceanDeskRepositoryFactory.CrearCocinaRepository(),
+                 _usuarioId,
+                 _usuarioAutenticado.RoleCode);
 
             // Asociar las dependencias e inicializar los pedidos.
             cocina.VincularPresenter(presenter);
@@ -716,6 +878,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnCaja_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "CAJA",
+                p => p.CanView && p.CanCreate))
+                return;
+
             SeleccionarBoton(btnCaja);
 
             lblSeccion.Text = "Manejo de Caja";

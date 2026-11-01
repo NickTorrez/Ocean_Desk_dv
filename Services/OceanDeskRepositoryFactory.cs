@@ -1,6 +1,7 @@
 ﻿using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.Services.Repository;
+using Ocean_Desk_dv.Services.Authentication;
 
 namespace Ocean_Desk_dv.Services;
 
@@ -23,10 +24,8 @@ public static class OceanDeskRepositoryFactory
     /// Crea el repositorio de inventario con su propio contexto de base de datos.
     /// </summary>
     public static IInventarioRepository CrearInventarioRepository() => new InventarioRepository(new OceanDeskDbContext());
-
     public static IComprasRepository CrearComprasRepository() => new ComprasRepository(new OceanDeskDbContext());
-
     public static IProveedoresRepository CrearProveedoresRepository() => new ProveedoresRepository(new OceanDeskDbContext());
-
     public static IAuthenticationRepository CrearAuthenticationRepository() => new AuthenticationRepository(new OceanDeskDbContext());
+    public static IAuthenticationService CrearAuthenticationService() => new AuthenticationService(CrearAuthenticationRepository());
 }

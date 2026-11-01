@@ -25,8 +25,9 @@ namespace Ocean_Desk_dv.Presenters
         private const string EstadoEntregado = "Delivered";
         private const string EstadoCancelado = "Cancelled";
 
-        private const string RolAdministrador = "Administrator";
-        private const string RolPersonalCocina = "Kitchen Personnel";
+        //Roles de usuario que pueden acceder al módulo de cocina y cambiar el estado de los pedidos.
+        private const string RolAdministrador = "ADMIN";
+        private const string RolPersonalCocina = "KITCHEN";
 
         private readonly ICocinaView _view;
         private readonly ICocinaRepository _repository;

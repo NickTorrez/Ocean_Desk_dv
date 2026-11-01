@@ -45,7 +45,9 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
         {
             return ResultadoAutenticacionDto.Bloqueado(
                 "La cuenta está bloqueada temporalmente. Intente nuevamente después de " +
-                user.LockoutEnd.Value.ToLocalTime().ToString("HH:mm") + ".",
+                DateTime.SpecifyKind(
+                    user.LockoutEnd.Value,
+                    DateTimeKind.Utc).ToLocalTime(),
                 user.LockoutEnd.Value);
         }
 
@@ -118,6 +120,89 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
             : "Autenticación correcta.";
 
         return ResultadoAutenticacionDto.Correcto(mensaje, usuarioAutenticado);
+    }
+
+    /// <summary>
+    /// Actualiza la contraseña inicial de un usuario autenticado.
+    /// Solo permite la operación cuando el usuario tiene pendiente
+    /// el cambio obligatorio de contraseña.
+    /// </summary>
+    public ResultadoOperacionDto CambiarContrasenaInicial(
+        int userId,
+        string nuevaContrasena,
+        string confirmacionContrasena)
+    {
+        if (userId <= 0)
+            return ResultadoOperacionDto.Fallido(
+                "El usuario indicado no es válido.");
+
+        if (string.IsNullOrWhiteSpace(nuevaContrasena))
+            return ResultadoOperacionDto.Fallido(
+                "Ingrese una nueva contraseña.");
+
+        if (!string.Equals(
+            nuevaContrasena,
+            confirmacionContrasena,
+            StringComparison.Ordinal))
+        {
+            return ResultadoOperacionDto.Fallido(
+                "Las contraseñas no coinciden.");
+        }
+
+        if (nuevaContrasena.Length < 12 ||
+            nuevaContrasena.Length > 128 ||
+            !nuevaContrasena.Any(char.IsUpper) ||
+            !nuevaContrasena.Any(char.IsLower) ||
+            !nuevaContrasena.Any(char.IsDigit) ||
+            !nuevaContrasena.Any(c => !char.IsLetterOrDigit(c)))
+        {
+            return ResultadoOperacionDto.Fallido(
+                "La contraseña debe tener entre 12 y 128 caracteres, " +
+                "incluyendo mayúsculas, minúsculas, números y símbolos.");
+        }
+
+        User? user = _repository.ObtenerUsuarioPorId(userId);
+
+        if (user is null || !user.IsActive ||
+            user.Role is null || !user.Role.IsActive)
+        {
+            return ResultadoOperacionDto.Fallido(
+                "La cuenta no está disponible.");
+        }
+
+        if (!user.MustChangePassword)
+        {
+            return ResultadoOperacionDto.Fallido(
+                "La cuenta no tiene pendiente un cambio obligatorio de contraseña.");
+        }
+
+        if (PasswordHasher.VerifyPassword(
+            nuevaContrasena,
+            user.PasswordHash))
+        {
+            return ResultadoOperacionDto.Fallido(
+                "La nueva contraseña debe ser diferente de la contraseña inicial.");
+        }
+
+        DateTime ahoraUtc = DateTime.UtcNow;
+
+        user.PasswordHash =
+            PasswordHasher.HashPassword(nuevaContrasena);
+
+        user.MustChangePassword = false;
+        user.PasswordChangedAt = ahoraUtc;
+        user.UpdatedAt = ahoraUtc;
+
+        user.FailedLoginAttempts = 0;
+        user.LockoutEnd = null;
+
+        user.PasswordResetTokenHash = null;
+        user.PasswordResetExpiresAt = null;
+
+        _repository.GuardarCambios();
+
+        return ResultadoOperacionDto.Correcto(
+            "La contraseña fue actualizada correctamente.");
     }
 
     public void Dispose()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ocean_Desk_dv.Models.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,14 +14,26 @@ namespace Ocean_Desk_dv.UI
 {
     public partial class FrmLoading : Form
     {
-        private int progreso = 0;
+        private int progreso;
 
-        private FrmLogin login;
+        private FrmLogin _login;
 
-        public FrmLoading(FrmLogin login)
+        private readonly UsuarioAutenticadoDto _usuarioAutenticado;
+
+        public FrmLoading(FrmLogin login, UsuarioAutenticadoDto usuarioAutenticado)
         {
             InitializeComponent();
-            this.login = login;
+
+            _login = login ??throw new ArgumentNullException(nameof(login));
+
+            _usuarioAutenticado = usuarioAutenticado ??
+                throw new ArgumentNullException(nameof(usuarioAutenticado));
+
+            if (_usuarioAutenticado.UserId <= 0)
+                throw new ArgumentException("La identidad del usuario no es válida.");
+
+            if (_usuarioAutenticado.MustChangePassword)
+                throw new InvalidOperationException("El usuario todavía debe cambiar su contraseña.");
         }
 
         private void FrmLoading_Load(object sender, EventArgs e)
@@ -83,10 +96,14 @@ namespace Ocean_Desk_dv.UI
         /// </summary>
         private void AbrirMenuPrincipal()
         {
-            FrmMainMenu menuPrincipal = new FrmMainMenu(login);
+            FrmMainMenu menuPrincipal = new FrmMainMenu(
+                _login,
+                _usuarioAutenticado);
+
             menuPrincipal.Show();
 
-            this.Hide();
+            // El formulario de carga ya no se necesita.
+            Close();
         }
 
         private void lblStatus_Click(object sender, EventArgs e)

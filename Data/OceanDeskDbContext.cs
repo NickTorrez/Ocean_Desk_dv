@@ -811,6 +811,8 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.LockoutEnd).HasPrecision(0);
             entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.FailedLoginAttempts).HasDefaultValue(0);
+            entity.Property(e => e.MustChangePassword).HasDefaultValue(false);
             entity.Property(e => e.PasswordResetExpiresAt).HasPrecision(0);
             entity.Property(e => e.PasswordResetTokenHash).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt).HasPrecision(0);

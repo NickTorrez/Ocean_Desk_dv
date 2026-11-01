@@ -14,8 +14,11 @@ public interface IAuthenticationRepository : IDisposable
     /// </summary>
     User? ObtenerUsuarioPorNombre(string username);
 
+    User? ObtenerUsuarioPorId(int userId);
+
     /// <summary>
     /// Persiste los cambios efectuados sobre el usuario consultado.
     /// </summary>
     void GuardarCambios();
+
 }
