@@ -58,6 +58,8 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<RoleModulePermission> RoleModulePermissions { get; set; }
+
     public virtual DbSet<Sale> Sales { get; set; }
 
     public virtual DbSet<SaleDetail> SaleDetails { get; set; }
@@ -73,6 +75,7 @@ public partial class OceanDeskDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         => optionsBuilder.UseSqlServer("Server=DESKTOP-444I7CB\\MSSQLSERVERSS;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -613,6 +616,28 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(80);
         });
 
+        modelBuilder.Entity<RoleModulePermission>(entity =>
+        {
+            entity.ToTable("RoleModulePermission");
+
+            entity.HasIndex(e => e.ModuleCode, "IX_RoleModulePermission_ModuleCode");
+
+            entity.HasIndex(e => new { e.RoleId, e.ModuleCode }, "UQ_RoleModulePermission_Role_Module").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.ModuleCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.RoleModulePermissions)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RoleModulePermission_Role");
+        });
+
         modelBuilder.Entity<Sale>(entity =>
         {
             entity.HasKey(e => e.SaleId).HasName("PK__Sale__1EE3C3FF6F479B23");
@@ -783,8 +808,11 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.LastLoginAt).HasPrecision(0);
             entity.Property(e => e.LastName).HasMaxLength(80);
+            entity.Property(e => e.LockoutEnd).HasPrecision(0);
             entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.PasswordResetExpiresAt).HasPrecision(0);
+            entity.Property(e => e.PasswordResetTokenHash).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt).HasPrecision(0);
             entity.Property(e => e.Username)
                 .HasMaxLength(50)

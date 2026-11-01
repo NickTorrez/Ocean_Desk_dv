@@ -29,6 +29,16 @@ public partial class User
 
     public DateTime? PasswordChangedAt { get; set; }
 
+    public int FailedLoginAttempts { get; set; }
+
+    public DateTime? LockoutEnd { get; set; }
+
+    public string? PasswordResetTokenHash { get; set; }
+
+    public DateTime? PasswordResetExpiresAt { get; set; }
+
+    public bool MustChangePassword { get; set; }
+
     public virtual ICollection<KitchenOrderHistory> KitchenOrderHistories { get; set; } = new List<KitchenOrderHistory>();
 
     public virtual Role Role { get; set; } = null!;

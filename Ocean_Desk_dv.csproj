@@ -50,4 +50,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\SQLite\" />
+  </ItemGroup>
+
 </Project>
