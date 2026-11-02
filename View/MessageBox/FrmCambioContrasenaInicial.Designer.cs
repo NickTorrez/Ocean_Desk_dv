@@ -150,7 +150,7 @@
             pnlContenido.Location = new Point(0, 88);
             pnlContenido.Name = "pnlContenido";
             pnlContenido.Padding = new Padding(20, 10, 20, 10);
-            pnlContenido.Size = new Size(550, 462);
+            pnlContenido.Size = new Size(550, 472);
             pnlContenido.TabIndex = 2;
             // 
             // pnlRequisitos
@@ -240,10 +240,11 @@
             // txtConfirmarContrasena
             // 
             txtConfirmarContrasena.BorderStyle = BorderStyle.None;
+            txtConfirmarContrasena.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtConfirmarContrasena.Location = new Point(21, 216);
             txtConfirmarContrasena.Name = "txtConfirmarContrasena";
             txtConfirmarContrasena.PlaceholderText = "Confirme la Nueva Contraseña...";
-            txtConfirmarContrasena.Size = new Size(474, 19);
+            txtConfirmarContrasena.Size = new Size(474, 21);
             txtConfirmarContrasena.TabIndex = 8;
             // 
             // lblConfirmarContrasena
@@ -281,10 +282,11 @@
             // txtNuevaContrasena
             // 
             txtNuevaContrasena.BorderStyle = BorderStyle.None;
+            txtNuevaContrasena.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtNuevaContrasena.Location = new Point(20, 131);
             txtNuevaContrasena.Name = "txtNuevaContrasena";
             txtNuevaContrasena.PlaceholderText = "Ingrese su Nueva Contraseña...";
-            txtNuevaContrasena.Size = new Size(474, 19);
+            txtNuevaContrasena.Size = new Size(474, 21);
             txtNuevaContrasena.TabIndex = 3;
             txtNuevaContrasena.UseSystemPasswordChar = true;
             // 
@@ -323,7 +325,7 @@
             pnlFooter.BackColor = Color.FromArgb(245, 247, 250);
             pnlFooter.Controls.Add(pnlButtons);
             pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 490);
+            pnlFooter.Location = new Point(0, 500);
             pnlFooter.Name = "pnlFooter";
             pnlFooter.Padding = new Padding(10, 10, 15, 10);
             pnlFooter.Size = new Size(550, 60);
@@ -376,7 +378,7 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(550, 550);
+            ClientSize = new Size(550, 560);
             Controls.Add(pnlFooter);
             Controls.Add(pnlContenido);
             Controls.Add(pnlHeader);

@@ -93,6 +93,16 @@ namespace Ocean_Desk_dv.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap browser_internet_safe_security_shield_web_website_icon_127033 {
+            get {
+                object obj = ResourceManager.GetObject("browser_internet_safe_security_shield_web_website_icon_127033", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap burbujas {
             get {
                 object obj = ResourceManager.GetObject("burbujas", resourceCulture);
@@ -386,6 +396,16 @@ namespace Ocean_Desk_dv.Properties {
         internal static System.Drawing.Bitmap magnifier {
             get {
                 object obj = ResourceManager.GetObject("magnifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mail_black_envelope_symbol_icon_icons_com_56519 {
+            get {
+                object obj = ResourceManager.GetObject("mail-black-envelope-symbol_icon-icons.com_56519", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
