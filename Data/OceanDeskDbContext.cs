@@ -800,9 +800,6 @@ public partial class OceanDeskDbContext : DbContext
                 .IsUnique()
                 .HasFilter("([Email] IS NOT NULL)");
 
-            entity.Property(e => e.CreatedAt)
-                .HasPrecision(0)
-                .HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.CreatedAt).HasPrecision(0).HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.Email).HasMaxLength(150);
             entity.Property(e => e.EmailVerifiedAt).HasPrecision(0);

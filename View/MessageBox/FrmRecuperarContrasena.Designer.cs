@@ -129,8 +129,8 @@
             // 
             // pnlContenido
             // 
-            pnlContenido.Controls.Add(pnlVerificarCodigo);
             pnlContenido.Controls.Add(pnlSolicitarCodigo);
+            pnlContenido.Controls.Add(pnlVerificarCodigo);
             pnlContenido.Dock = DockStyle.Fill;
             pnlContenido.Location = new Point(0, 88);
             pnlContenido.Name = "pnlContenido";
@@ -147,10 +147,10 @@
             pnlSolicitarCodigo.Controls.Add(lblCorreo);
             pnlSolicitarCodigo.Controls.Add(lblInstruccionCorreo);
             pnlSolicitarCodigo.Controls.Add(lblEtapaUno);
-            pnlSolicitarCodigo.Dock = DockStyle.Top;
+            pnlSolicitarCodigo.Dock = DockStyle.Fill;
             pnlSolicitarCodigo.Location = new Point(2, 2);
             pnlSolicitarCodigo.Name = "pnlSolicitarCodigo";
-            pnlSolicitarCodigo.Size = new Size(546, 217);
+            pnlSolicitarCodigo.Size = new Size(546, 458);
             pnlSolicitarCodigo.TabIndex = 0;
             // 
             // pnlVerificarCodigo
@@ -165,9 +165,9 @@
             pnlVerificarCodigo.Controls.Add(lblInstruccionCodigo);
             pnlVerificarCodigo.Controls.Add(lblEtapaDos);
             pnlVerificarCodigo.Dock = DockStyle.Fill;
-            pnlVerificarCodigo.Location = new Point(2, 219);
+            pnlVerificarCodigo.Location = new Point(2, 2);
             pnlVerificarCodigo.Name = "pnlVerificarCodigo";
-            pnlVerificarCodigo.Size = new Size(546, 241);
+            pnlVerificarCodigo.Size = new Size(546, 458);
             pnlVerificarCodigo.TabIndex = 1;
             pnlVerificarCodigo.Visible = false;
             // 
