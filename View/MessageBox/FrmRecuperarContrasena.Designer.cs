@@ -169,6 +169,7 @@
             pnlVerificarCodigo.Name = "pnlVerificarCodigo";
             pnlVerificarCodigo.Size = new Size(546, 241);
             pnlVerificarCodigo.TabIndex = 1;
+            pnlVerificarCodigo.Visible = false;
             // 
             // lblEtapaUno
             // 
@@ -204,6 +205,7 @@
             txtCorreo.BorderStyle = BorderStyle.None;
             txtCorreo.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtCorreo.Location = new Point(60, 129);
+            txtCorreo.MaxLength = 150;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.PlaceholderText = "Ingrese su Correo Eléctronico aqui...";
             txtCorreo.Size = new Size(460, 21);
@@ -277,6 +279,7 @@
             txtCodigo.BorderStyle = BorderStyle.None;
             txtCodigo.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtCodigo.Location = new Point(20, 115);
+            txtCodigo.MaxLength = 8;
             txtCodigo.Name = "txtCodigo";
             txtCodigo.PlaceholderText = "_ _ _ _ _ _ _ _";
             txtCodigo.Size = new Size(500, 29);

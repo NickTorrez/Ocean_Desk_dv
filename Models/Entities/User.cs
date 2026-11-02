@@ -19,6 +19,8 @@ public partial class User
 
     public string? Email { get; set; }
 
+    public DateTime? EmailVerifiedAt { get; set; }
+
     public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -31,11 +33,17 @@ public partial class User
 
     public int FailedLoginAttempts { get; set; }
 
+    public int PasswordResetFailedAttempts { get; set; }
+
     public DateTime? LockoutEnd { get; set; }
 
     public string? PasswordResetTokenHash { get; set; }
 
     public DateTime? PasswordResetExpiresAt { get; set; }
+
+    public DateTime? PasswordResetLastSentAt { get; set; }
+
+    public DateTime? PasswordResetBlockedUntil { get; set; }
 
     public bool MustChangePassword { get; set; }
 

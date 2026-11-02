@@ -803,7 +803,9 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.CreatedAt).HasPrecision(0).HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.Email).HasMaxLength(150);
+            entity.Property(e => e.EmailVerifiedAt).HasPrecision(0);
             entity.Property(e => e.FirstName).HasMaxLength(80);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.LastLoginAt).HasPrecision(0);
@@ -812,8 +814,11 @@ public partial class OceanDeskDbContext : DbContext
             entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.FailedLoginAttempts).HasDefaultValue(0);
+            entity.Property(e => e.PasswordResetFailedAttempts).HasDefaultValue(0);
             entity.Property(e => e.MustChangePassword).HasDefaultValue(false);
             entity.Property(e => e.PasswordResetExpiresAt).HasPrecision(0);
+            entity.Property(e => e.PasswordResetLastSentAt).HasPrecision(0);
+            entity.Property(e => e.PasswordResetBlockedUntil).HasPrecision(0);
             entity.Property(e => e.PasswordResetTokenHash).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt).HasPrecision(0);
             entity.Property(e => e.Username)
