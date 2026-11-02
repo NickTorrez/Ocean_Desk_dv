@@ -34,10 +34,6 @@
             lblSubtitulo = new Label();
             btnClose = new Button();
             pnlContenido = new Panel();
-            pnlFooter = new Panel();
-            pnlButtons = new Panel();
-            btnGuardar = new Button();
-            btnCancelar = new Button();
             pnlSolicitarCodigo = new Panel();
             pnlVerificarCodigo = new Panel();
             lblEtapaUno = new Label();
@@ -59,8 +55,6 @@
             pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picIcono).BeginInit();
             pnlContenido.SuspendLayout();
-            pnlFooter.SuspendLayout();
-            pnlButtons.SuspendLayout();
             pnlSolicitarCodigo.SuspendLayout();
             pnlVerificarCodigo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -141,61 +135,8 @@
             pnlContenido.Location = new Point(0, 88);
             pnlContenido.Name = "pnlContenido";
             pnlContenido.Padding = new Padding(2);
-            pnlContenido.Size = new Size(550, 472);
+            pnlContenido.Size = new Size(550, 462);
             pnlContenido.TabIndex = 3;
-            // 
-            // pnlFooter
-            // 
-            pnlFooter.BackColor = Color.FromArgb(245, 247, 250);
-            pnlFooter.Controls.Add(pnlButtons);
-            pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 560);
-            pnlFooter.Name = "pnlFooter";
-            pnlFooter.Padding = new Padding(10, 10, 15, 10);
-            pnlFooter.Size = new Size(550, 60);
-            pnlFooter.TabIndex = 4;
-            // 
-            // pnlButtons
-            // 
-            pnlButtons.Controls.Add(btnGuardar);
-            pnlButtons.Controls.Add(btnCancelar);
-            pnlButtons.Dock = DockStyle.Right;
-            pnlButtons.Location = new Point(184, 10);
-            pnlButtons.Name = "pnlButtons";
-            pnlButtons.Size = new Size(351, 40);
-            pnlButtons.TabIndex = 2;
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.BackColor = Color.FromArgb(8, 126, 164);
-            btnGuardar.Cursor = Cursors.Hand;
-            btnGuardar.Dock = DockStyle.Right;
-            btnGuardar.FlatAppearance.BorderSize = 0;
-            btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar.ForeColor = Color.White;
-            btnGuardar.Location = new Point(134, 0);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(217, 40);
-            btnGuardar.TabIndex = 0;
-            btnGuardar.Text = "✓ GUARDAR CONTRASEÑA";
-            btnGuardar.UseVisualStyleBackColor = false;
-            // 
-            // btnCancelar
-            // 
-            btnCancelar.BackColor = Color.Red;
-            btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.Dock = DockStyle.Left;
-            btnCancelar.FlatAppearance.BorderSize = 0;
-            btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.ForeColor = Color.White;
-            btnCancelar.Location = new Point(0, 0);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(115, 40);
-            btnCancelar.TabIndex = 1;
-            btnCancelar.Text = "✕ CANCELAR";
-            btnCancelar.UseVisualStyleBackColor = false;
             // 
             // pnlSolicitarCodigo
             // 
@@ -226,7 +167,7 @@
             pnlVerificarCodigo.Dock = DockStyle.Fill;
             pnlVerificarCodigo.Location = new Point(2, 219);
             pnlVerificarCodigo.Name = "pnlVerificarCodigo";
-            pnlVerificarCodigo.Size = new Size(546, 251);
+            pnlVerificarCodigo.Size = new Size(546, 241);
             pnlVerificarCodigo.TabIndex = 1;
             // 
             // lblEtapaUno
@@ -414,9 +355,8 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(550, 620);
+            ClientSize = new Size(550, 550);
             Controls.Add(pnlContenido);
-            Controls.Add(pnlFooter);
             Controls.Add(pnlHeader);
             Font = new Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.None;
@@ -426,8 +366,6 @@
             pnlHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picIcono).EndInit();
             pnlContenido.ResumeLayout(false);
-            pnlFooter.ResumeLayout(false);
-            pnlButtons.ResumeLayout(false);
             pnlSolicitarCodigo.ResumeLayout(false);
             pnlSolicitarCodigo.PerformLayout();
             pnlVerificarCodigo.ResumeLayout(false);
@@ -444,10 +382,6 @@
         private Label lblSubtitulo;
         private Button btnClose;
         private Panel pnlContenido;
-        private Panel pnlFooter;
-        private Panel pnlButtons;
-        private Button btnGuardar;
-        private Button btnCancelar;
         private Panel pnlVerificarCodigo;
         private Panel pnlSolicitarCodigo;
         private Label lblInstruccionCorreo;
