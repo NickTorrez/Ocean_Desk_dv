@@ -202,9 +202,6 @@ namespace Ocean_Desk_dv.UI
                 btnBitacoras.Visible =
                     TienePermisoModulo("AUDITORIA", p => p.CanView);
 
-                btnEmpleados.Visible =
-                    TienePermisoModulo("EMPLEADOS", p => p.CanView);
-
                 btnPromociones.Visible =
                     TienePermisoModulo("PROMOCIONES", p => p.CanView);
 
@@ -212,28 +209,34 @@ namespace Ocean_Desk_dv.UI
                     TienePermisoModulo("FIDELIZACION", p => p.CanView);
 
                 // Ocultar encabezados de las secciones que quedaron vacías.
+                // SEGURIDAD
                 lblSeguridad.Visible =
-                    btnUsuarios.Visible || btnBitacoras.Visible;
+                    btnUsuarios.Visible ||
+                    btnBitacoras.Visible;
 
+                // ADMINISTRACIÓN
                 lblAdministracion.Visible =
                     btnClientes.Visible ||
                     btnFidelizacion.Visible ||
                     btnPromociones.Visible;
 
+                // GESTIÓN
                 lblGestion.Visible =
-                    btnProveedores.Visible || btnCompras.Visible;
+                    btnProveedores.Visible ||
+                    btnCompras.Visible;
 
+                // INVENTARIO
                 lblInventario.Visible =
-                    btnInventario.Visible || btnProductos.Visible;
+                    btnInventario.Visible ||
+                    btnProductos.Visible;
 
+                // OPERACIONES
                 lblOperaciones.Visible =
                     btnCocina.Visible ||
                     btnMesas.Visible ||
                     btnFacturacion.Visible ||
                     btnVentas.Visible ||
-                    btnCaja.Visible ||
-                    btnEmpleados.Visible ||
-                    btnReportes.Visible;
+                    btnCaja.Visible;
             }
             finally
             {
@@ -639,11 +642,6 @@ namespace Ocean_Desk_dv.UI
 
             proveedores.VincularPresenter(presenter);
             AbrirFormularioEnPanel(proveedores);
-        }
-
-        private void btnEmpleados_Click(object sender, EventArgs e)
-        {
-            SeleccionarBoton(btnEmpleados);
         }
 
         private void btnMesas_Click(object sender, EventArgs e)

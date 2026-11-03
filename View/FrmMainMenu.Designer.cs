@@ -51,7 +51,6 @@
             btnVentas = new Button();
             btnCaja = new Button();
             lblOperaciones = new Label();
-            btnEmpleados = new Button();
             btnReportes = new Button();
             pnlBottom = new Panel();
             btnCerrarSesion = new Button();
@@ -111,16 +110,16 @@
             // 
             pnlMenu.AutoScroll = true;
             pnlMenu.BackColor = Color.Transparent;
+            pnlMenu.Controls.Add(btnUsuarios);
             pnlMenu.Controls.Add(btnBitacoras);
             pnlMenu.Controls.Add(lblSeguridad);
-            pnlMenu.Controls.Add(btnUsuarios);
             pnlMenu.Controls.Add(btnClientes);
-            pnlMenu.Controls.Add(lblAdministracion);
             pnlMenu.Controls.Add(btnFidelizacion);
             pnlMenu.Controls.Add(btnPromociones);
-            pnlMenu.Controls.Add(lblGestion);
+            pnlMenu.Controls.Add(lblAdministracion);
             pnlMenu.Controls.Add(btnProveedores);
             pnlMenu.Controls.Add(btnCompras);
+            pnlMenu.Controls.Add(lblGestion);
             pnlMenu.Controls.Add(btnInventario);
             pnlMenu.Controls.Add(btnProductos);
             pnlMenu.Controls.Add(lblInventario);
@@ -130,7 +129,6 @@
             pnlMenu.Controls.Add(btnVentas);
             pnlMenu.Controls.Add(btnCaja);
             pnlMenu.Controls.Add(lblOperaciones);
-            pnlMenu.Controls.Add(btnEmpleados);
             pnlMenu.Controls.Add(btnReportes);
             pnlMenu.Dock = DockStyle.Fill;
             pnlMenu.Location = new Point(0, 150);
@@ -149,10 +147,10 @@
             btnBitacoras.ForeColor = Color.White;
             btnBitacoras.Image = Properties.Resources.manual;
             btnBitacoras.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBitacoras.Location = new Point(8, 788);
+            btnBitacoras.Location = new Point(8, 743);
             btnBitacoras.Name = "btnBitacoras";
             btnBitacoras.Padding = new Padding(15, 0, 0, 0);
-            btnBitacoras.Size = new Size(243, 45);
+            btnBitacoras.Size = new Size(223, 45);
             btnBitacoras.TabIndex = 14;
             btnBitacoras.Text = "Auditoria";
             btnBitacoras.TextAlign = ContentAlignment.MiddleLeft;
@@ -167,10 +165,10 @@
             lblSeguridad.Dock = DockStyle.Top;
             lblSeguridad.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSeguridad.ForeColor = Color.White;
-            lblSeguridad.Location = new Point(8, 758);
+            lblSeguridad.Location = new Point(8, 713);
             lblSeguridad.Name = "lblSeguridad";
             lblSeguridad.Padding = new Padding(12, 0, 0, 0);
-            lblSeguridad.Size = new Size(243, 30);
+            lblSeguridad.Size = new Size(223, 30);
             lblSeguridad.TabIndex = 19;
             lblSeguridad.Text = "SEGURIDAD";
             lblSeguridad.TextAlign = ContentAlignment.MiddleCenter;
@@ -186,10 +184,10 @@
             btnUsuarios.ForeColor = Color.White;
             btnUsuarios.Image = Properties.Resources.group;
             btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.Location = new Point(8, 713);
+            btnUsuarios.Location = new Point(8, 788);
             btnUsuarios.Name = "btnUsuarios";
             btnUsuarios.Padding = new Padding(15, 0, 0, 0);
-            btnUsuarios.Size = new Size(243, 45);
+            btnUsuarios.Size = new Size(223, 45);
             btnUsuarios.TabIndex = 1;
             btnUsuarios.Text = "Usuarios";
             btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
@@ -213,7 +211,7 @@
             btnClientes.Location = new Point(8, 668);
             btnClientes.Name = "btnClientes";
             btnClientes.Padding = new Padding(15, 0, 0, 0);
-            btnClientes.Size = new Size(243, 45);
+            btnClientes.Size = new Size(223, 45);
             btnClientes.TabIndex = 2;
             btnClientes.Text = "Clientes";
             btnClientes.TextAlign = ContentAlignment.MiddleLeft;
@@ -228,10 +226,10 @@
             lblAdministracion.Dock = DockStyle.Top;
             lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblAdministracion.ForeColor = Color.White;
-            lblAdministracion.Location = new Point(8, 638);
+            lblAdministracion.Location = new Point(8, 548);
             lblAdministracion.Name = "lblAdministracion";
             lblAdministracion.Padding = new Padding(12, 0, 0, 0);
-            lblAdministracion.Size = new Size(243, 30);
+            lblAdministracion.Size = new Size(223, 30);
             lblAdministracion.TabIndex = 18;
             lblAdministracion.Text = "ADMINISTRACIÓN";
             lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
@@ -247,10 +245,10 @@
             btnFidelizacion.ForeColor = Color.White;
             btnFidelizacion.Image = Properties.Resources.loyalty_program;
             btnFidelizacion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnFidelizacion.Location = new Point(8, 593);
+            btnFidelizacion.Location = new Point(8, 623);
             btnFidelizacion.Name = "btnFidelizacion";
             btnFidelizacion.Padding = new Padding(15, 0, 0, 0);
-            btnFidelizacion.Size = new Size(243, 45);
+            btnFidelizacion.Size = new Size(223, 45);
             btnFidelizacion.TabIndex = 15;
             btnFidelizacion.Text = "Fidelización";
             btnFidelizacion.TextAlign = ContentAlignment.MiddleLeft;
@@ -271,10 +269,10 @@
             btnPromociones.ForeColor = Color.White;
             btnPromociones.Image = Properties.Resources.tag;
             btnPromociones.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPromociones.Location = new Point(8, 548);
+            btnPromociones.Location = new Point(8, 578);
             btnPromociones.Name = "btnPromociones";
             btnPromociones.Padding = new Padding(15, 0, 0, 0);
-            btnPromociones.Size = new Size(243, 45);
+            btnPromociones.Size = new Size(223, 45);
             btnPromociones.TabIndex = 15;
             btnPromociones.Text = "Promociones";
             btnPromociones.TextAlign = ContentAlignment.MiddleLeft;
@@ -289,10 +287,10 @@
             lblGestion.Dock = DockStyle.Top;
             lblGestion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblGestion.ForeColor = Color.White;
-            lblGestion.Location = new Point(8, 518);
+            lblGestion.Location = new Point(8, 428);
             lblGestion.Name = "lblGestion";
             lblGestion.Padding = new Padding(12, 0, 0, 0);
-            lblGestion.Size = new Size(243, 30);
+            lblGestion.Size = new Size(223, 30);
             lblGestion.TabIndex = 17;
             lblGestion.Text = "GESTIÓN";
             lblGestion.TextAlign = ContentAlignment.MiddleCenter;
@@ -308,10 +306,10 @@
             btnProveedores.ForeColor = Color.White;
             btnProveedores.Image = Properties.Resources.value_chain;
             btnProveedores.ImageAlign = ContentAlignment.MiddleLeft;
-            btnProveedores.Location = new Point(8, 473);
+            btnProveedores.Location = new Point(8, 503);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Padding = new Padding(15, 0, 0, 0);
-            btnProveedores.Size = new Size(243, 45);
+            btnProveedores.Size = new Size(223, 45);
             btnProveedores.TabIndex = 8;
             btnProveedores.Text = "Proveedores";
             btnProveedores.TextAlign = ContentAlignment.MiddleLeft;
@@ -332,10 +330,10 @@
             btnCompras.ForeColor = Color.White;
             btnCompras.Image = Properties.Resources.money_bag;
             btnCompras.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCompras.Location = new Point(8, 428);
+            btnCompras.Location = new Point(8, 458);
             btnCompras.Name = "btnCompras";
             btnCompras.Padding = new Padding(15, 0, 0, 0);
-            btnCompras.Size = new Size(243, 45);
+            btnCompras.Size = new Size(223, 45);
             btnCompras.TabIndex = 5;
             btnCompras.Text = "Compras";
             btnCompras.TextAlign = ContentAlignment.MiddleLeft;
@@ -359,7 +357,7 @@
             btnInventario.Location = new Point(8, 383);
             btnInventario.Name = "btnInventario";
             btnInventario.Padding = new Padding(15, 0, 0, 0);
-            btnInventario.Size = new Size(243, 45);
+            btnInventario.Size = new Size(223, 45);
             btnInventario.TabIndex = 4;
             btnInventario.Text = "Inventario";
             btnInventario.TextAlign = ContentAlignment.MiddleLeft;
@@ -383,7 +381,7 @@
             btnProductos.Location = new Point(8, 338);
             btnProductos.Name = "btnProductos";
             btnProductos.Padding = new Padding(15, 0, 0, 0);
-            btnProductos.Size = new Size(243, 45);
+            btnProductos.Size = new Size(223, 45);
             btnProductos.TabIndex = 3;
             btnProductos.Text = "Productos";
             btnProductos.TextAlign = ContentAlignment.MiddleLeft;
@@ -401,7 +399,7 @@
             lblInventario.Location = new Point(8, 308);
             lblInventario.Name = "lblInventario";
             lblInventario.Padding = new Padding(12, 0, 0, 0);
-            lblInventario.Size = new Size(243, 30);
+            lblInventario.Size = new Size(223, 30);
             lblInventario.TabIndex = 16;
             lblInventario.Text = "INVENTARIO";
             lblInventario.TextAlign = ContentAlignment.MiddleCenter;
@@ -419,7 +417,7 @@
             btnCocina.Location = new Point(8, 263);
             btnCocina.Name = "btnCocina";
             btnCocina.Padding = new Padding(15, 0, 0, 0);
-            btnCocina.Size = new Size(243, 45);
+            btnCocina.Size = new Size(223, 45);
             btnCocina.TabIndex = 12;
             btnCocina.Text = "Cocina y Pedidos";
             btnCocina.TextAlign = ContentAlignment.MiddleLeft;
@@ -442,7 +440,7 @@
             btnMesas.Location = new Point(8, 218);
             btnMesas.Name = "btnMesas";
             btnMesas.Padding = new Padding(15, 0, 0, 0);
-            btnMesas.Size = new Size(243, 45);
+            btnMesas.Size = new Size(223, 45);
             btnMesas.TabIndex = 12;
             btnMesas.Text = "Mesas y Reservas";
             btnMesas.TextAlign = ContentAlignment.MiddleLeft;
@@ -466,7 +464,7 @@
             btnFacturacion.Location = new Point(8, 173);
             btnFacturacion.Name = "btnFacturacion";
             btnFacturacion.Padding = new Padding(15, 0, 0, 0);
-            btnFacturacion.Size = new Size(243, 45);
+            btnFacturacion.Size = new Size(223, 45);
             btnFacturacion.TabIndex = 7;
             btnFacturacion.Text = "Facturación";
             btnFacturacion.TextAlign = ContentAlignment.MiddleLeft;
@@ -490,7 +488,7 @@
             btnVentas.Location = new Point(8, 128);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(15, 0, 0, 0);
-            btnVentas.Size = new Size(243, 45);
+            btnVentas.Size = new Size(223, 45);
             btnVentas.TabIndex = 6;
             btnVentas.Text = "Punto de Venta";
             btnVentas.TextAlign = ContentAlignment.MiddleLeft;
@@ -513,7 +511,7 @@
             btnCaja.Location = new Point(8, 83);
             btnCaja.Name = "btnCaja";
             btnCaja.Padding = new Padding(15, 0, 0, 0);
-            btnCaja.Size = new Size(243, 45);
+            btnCaja.Size = new Size(223, 45);
             btnCaja.TabIndex = 15;
             btnCaja.Text = "Caja";
             btnCaja.TextAlign = ContentAlignment.MiddleLeft;
@@ -531,31 +529,10 @@
             lblOperaciones.Location = new Point(8, 53);
             lblOperaciones.Name = "lblOperaciones";
             lblOperaciones.Padding = new Padding(12, 0, 0, 0);
-            lblOperaciones.Size = new Size(243, 30);
+            lblOperaciones.Size = new Size(223, 30);
             lblOperaciones.TabIndex = 0;
             lblOperaciones.Text = "OPERACIONES";
             lblOperaciones.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnEmpleados
-            // 
-            btnEmpleados.FlatAppearance.BorderSize = 0;
-            btnEmpleados.FlatStyle = FlatStyle.Flat;
-            btnEmpleados.Font = new Font("Century Gothic", 10.2F);
-            btnEmpleados.ForeColor = Color.White;
-            btnEmpleados.Image = Properties.Resources.manager;
-            btnEmpleados.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEmpleados.Location = new Point(25, 432);
-            btnEmpleados.Name = "btnEmpleados";
-            btnEmpleados.Padding = new Padding(15, 0, 0, 0);
-            btnEmpleados.Size = new Size(234, 45);
-            btnEmpleados.TabIndex = 11;
-            btnEmpleados.Text = "Empleados";
-            btnEmpleados.TextAlign = ContentAlignment.MiddleLeft;
-            btnEmpleados.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnEmpleados.UseVisualStyleBackColor = true;
-            btnEmpleados.Click += btnEmpleados_Click;
-            btnEmpleados.MouseEnter += Boton_MouseEnter;
-            btnEmpleados.MouseLeave += Boton_MouseLeave;
             // 
             // btnReportes
             // 
@@ -571,7 +548,7 @@
             btnReportes.Location = new Point(8, 8);
             btnReportes.Name = "btnReportes";
             btnReportes.Padding = new Padding(12, 0, 0, 0);
-            btnReportes.Size = new Size(243, 45);
+            btnReportes.Size = new Size(223, 45);
             btnReportes.TabIndex = 0;
             btnReportes.Text = "Reportes";
             btnReportes.TextAlign = ContentAlignment.MiddleLeft;
@@ -959,7 +936,6 @@
         private Button btnMesas;
         private Button btnUsuarios;
         private Button btnClientes;
-        private Button btnEmpleados;
         private Button btnProductos;
         private Button btnReportes;
         private Button btnInventario;

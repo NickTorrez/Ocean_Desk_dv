@@ -40,7 +40,6 @@ namespace Ocean_Desk_dv
         {
             // El diseñador ya conecta los eventos de los botones existentes.
             // Aquí conectamos únicamente los que todavía no están asociados.
-            lnkForgotPassword.LinkClicked += lnkForgotPassword_LinkClicked;
 
             chkRemember.CheckedChanged += chkRemember_CheckedChanged;
 
