@@ -224,8 +224,8 @@ public sealed class OfflineCustomerStore
                 Phone = customer.Phone,
                 PendienteSincronizacion = true,
                 TieneConflictoSincronizacion =
-                    customer.SyncStatus is LocalCustomerSyncStatus.Conflict or
-                        LocalCustomerSyncStatus.PermanentError
+                    customer.SyncStatus == LocalCustomerSyncStatus.Conflict ||
+                    customer.SyncStatus == LocalCustomerSyncStatus.PermanentError
             })
             .ToList();
     }

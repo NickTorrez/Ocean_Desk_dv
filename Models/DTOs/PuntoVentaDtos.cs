@@ -17,6 +17,8 @@ public sealed class ClienteVentaDto
     public string FirstName { get; init; } = string.Empty;
     public string LastName { get; init; } = string.Empty;
     public string? Phone { get; init; }
+    public bool PendienteSincronizacion { get; init; }
+    public bool TieneConflictoSincronizacion { get; init; }
 }
 
 public sealed class PuntoVentaDetalleDto

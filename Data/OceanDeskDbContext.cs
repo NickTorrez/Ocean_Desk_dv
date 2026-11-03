@@ -74,6 +74,8 @@ public partial class OceanDeskDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<OfflineSyncReceipt> OfflineSyncReceipts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
         => optionsBuilder.UseSqlServer("Server=DESKTOP-444I7CB\\MSSQLSERVERSS;Database=Ocean_Desk_DB;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -826,6 +828,32 @@ public partial class OceanDeskDbContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Role");
+        });
+
+        modelBuilder.Entity<OfflineSyncReceipt>(entity =>
+        {
+            entity.ToTable("OfflineSyncReceipt");
+
+            entity.HasKey(e => e.OperationId);
+
+            entity.Property(e => e.EntityType)
+                .HasMaxLength(64)
+                .IsUnicode(false)
+                .IsRequired();
+
+            entity.Property(e => e.ServerRecordId)
+                .HasMaxLength(64)
+                .IsRequired();
+
+            entity.Property(e => e.PayloadHash)
+                .HasMaxLength(64)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .IsRequired();
+
+            entity.Property(e => e.ProcessedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
         });
 
         OnModelCreatingPartial(modelBuilder);
