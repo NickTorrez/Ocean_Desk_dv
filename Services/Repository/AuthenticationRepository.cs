@@ -42,6 +42,21 @@ public sealed class AuthenticationRepository : IAuthenticationRepository
             .SingleOrDefault(user => user.UserId == userId);
     }
 
+    public User? ObtenerUsuarioPorCorreo(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return null;
+
+        // Ocean Desk almacena los correos en formato normalizado.
+        string correoNormalizado = email.Trim().ToLowerInvariant();
+
+        return _context.Users
+            .Include(user => user.Role)
+            .SingleOrDefault(user =>
+                user.Email == correoNormalizado);
+    }
+
+
     public void GuardarCambios()
     {
         _context.SaveChanges();

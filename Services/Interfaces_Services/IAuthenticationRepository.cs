@@ -14,7 +14,19 @@ public interface IAuthenticationRepository : IDisposable
     /// </summary>
     User? ObtenerUsuarioPorNombre(string username);
 
+    /// <summary>
+    /// Obtiene un usuario mediante su identificador.
+    /// </summary>
     User? ObtenerUsuarioPorId(int userId);
+
+    /// <summary>
+    /// Obtiene un usuario mediante su dirección de correo electrónico.
+    /// Incluye su rol y devuelve la entidad con seguimiento para
+    /// gestionar las operaciones de recuperación de contraseña.
+    /// </summary>
+    /// <param name="email">Correo electrónico registrado.</param>
+    /// <returns>Usuario encontrado o null si no existe.</returns>
+    User? ObtenerUsuarioPorCorreo(string email);
 
     /// <summary>
     /// Persiste los cambios efectuados sobre el usuario consultado.
