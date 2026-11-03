@@ -35,29 +35,29 @@
             btnClose = new Button();
             pnlContenido = new Panel();
             pnlSolicitarCodigo = new Panel();
-            pnlVerificarCodigo = new Panel();
-            lblEtapaUno = new Label();
-            lblInstruccionCorreo = new Label();
-            lblCorreo = new Label();
-            txtCorreo = new TextBox();
-            pnlLinea = new Panel();
-            pictureBox1 = new PictureBox();
             btnEnviarCodigo = new Button();
+            pictureBox1 = new PictureBox();
+            pnlLinea = new Panel();
+            txtCorreo = new TextBox();
+            lblCorreo = new Label();
+            lblInstruccionCorreo = new Label();
+            lblEtapaUno = new Label();
+            pnlVerificarCodigo = new Panel();
+            btnVolverCorreo = new Button();
+            btnReenviarCodigo = new Button();
+            btnVerificarCodigo = new Button();
+            lblMensajeCodigo = new Label();
+            lblLongitd = new Label();
+            txtCodigo = new TextBox();
             lblCodigo = new Label();
             lblInstruccionCodigo = new Label();
             lblEtapaDos = new Label();
-            txtCodigo = new TextBox();
-            lblLongitd = new Label();
-            lblMensajeCodigo = new Label();
-            btnVerificarCodigo = new Button();
-            btnReenviarCodigo = new Button();
-            btnVolverCorreo = new Button();
             pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picIcono).BeginInit();
             pnlContenido.SuspendLayout();
             pnlSolicitarCodigo.SuspendLayout();
-            pnlVerificarCodigo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pnlVerificarCodigo.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeader
@@ -129,8 +129,8 @@
             // 
             // pnlContenido
             // 
-            pnlContenido.Controls.Add(pnlSolicitarCodigo);
             pnlContenido.Controls.Add(pnlVerificarCodigo);
+            pnlContenido.Controls.Add(pnlSolicitarCodigo);
             pnlContenido.Dock = DockStyle.Fill;
             pnlContenido.Location = new Point(0, 88);
             pnlContenido.Name = "pnlContenido";
@@ -147,88 +147,11 @@
             pnlSolicitarCodigo.Controls.Add(lblCorreo);
             pnlSolicitarCodigo.Controls.Add(lblInstruccionCorreo);
             pnlSolicitarCodigo.Controls.Add(lblEtapaUno);
-            pnlSolicitarCodigo.Dock = DockStyle.Fill;
+            pnlSolicitarCodigo.Dock = DockStyle.Top;
             pnlSolicitarCodigo.Location = new Point(2, 2);
             pnlSolicitarCodigo.Name = "pnlSolicitarCodigo";
-            pnlSolicitarCodigo.Size = new Size(546, 458);
+            pnlSolicitarCodigo.Size = new Size(546, 224);
             pnlSolicitarCodigo.TabIndex = 0;
-            // 
-            // pnlVerificarCodigo
-            // 
-            pnlVerificarCodigo.Controls.Add(btnVolverCorreo);
-            pnlVerificarCodigo.Controls.Add(btnReenviarCodigo);
-            pnlVerificarCodigo.Controls.Add(btnVerificarCodigo);
-            pnlVerificarCodigo.Controls.Add(lblMensajeCodigo);
-            pnlVerificarCodigo.Controls.Add(lblLongitd);
-            pnlVerificarCodigo.Controls.Add(txtCodigo);
-            pnlVerificarCodigo.Controls.Add(lblCodigo);
-            pnlVerificarCodigo.Controls.Add(lblInstruccionCodigo);
-            pnlVerificarCodigo.Controls.Add(lblEtapaDos);
-            pnlVerificarCodigo.Dock = DockStyle.Fill;
-            pnlVerificarCodigo.Location = new Point(2, 2);
-            pnlVerificarCodigo.Name = "pnlVerificarCodigo";
-            pnlVerificarCodigo.Size = new Size(546, 458);
-            pnlVerificarCodigo.TabIndex = 1;
-            pnlVerificarCodigo.Visible = false;
-            // 
-            // lblEtapaUno
-            // 
-            lblEtapaUno.AutoSize = true;
-            lblEtapaUno.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEtapaUno.Location = new Point(10, 14);
-            lblEtapaUno.Name = "lblEtapaUno";
-            lblEtapaUno.Size = new Size(264, 23);
-            lblEtapaUno.TabIndex = 0;
-            lblEtapaUno.Text = "¿Olvidaste tu contraseña?";
-            // 
-            // lblInstruccionCorreo
-            // 
-            lblInstruccionCorreo.AutoSize = true;
-            lblInstruccionCorreo.Location = new Point(10, 47);
-            lblInstruccionCorreo.Name = "lblInstruccionCorreo";
-            lblInstruccionCorreo.Size = new Size(521, 40);
-            lblInstruccionCorreo.TabIndex = 1;
-            lblInstruccionCorreo.Text = "Introduce el correo electrónico asociado a tu cuenta. Te enviaremos \r\nun código de recuperación.";
-            // 
-            // lblCorreo
-            // 
-            lblCorreo.AutoSize = true;
-            lblCorreo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCorreo.Location = new Point(10, 101);
-            lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(148, 18);
-            lblCorreo.TabIndex = 2;
-            lblCorreo.Text = "Correo Electronico";
-            // 
-            // txtCorreo
-            // 
-            txtCorreo.BorderStyle = BorderStyle.None;
-            txtCorreo.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtCorreo.Location = new Point(60, 129);
-            txtCorreo.MaxLength = 150;
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.PlaceholderText = "Ingrese su Correo Eléctronico aqui...";
-            txtCorreo.Size = new Size(460, 21);
-            txtCorreo.TabIndex = 3;
-            // 
-            // pnlLinea
-            // 
-            pnlLinea.BackColor = Color.MidnightBlue;
-            pnlLinea.Location = new Point(60, 151);
-            pnlLinea.Name = "pnlLinea";
-            pnlLinea.Size = new Size(460, 2);
-            pnlLinea.TabIndex = 6;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.White;
-            pictureBox1.Image = Properties.Resources.mail_black_envelope_symbol_icon_icons_com_56519;
-            pictureBox1.Location = new Point(23, 125);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(32, 32);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 9;
-            pictureBox1.TabStop = false;
             // 
             // btnEnviarCodigo
             // 
@@ -244,6 +167,162 @@
             btnEnviarCodigo.TabIndex = 10;
             btnEnviarCodigo.Text = "➤ ENVIAR CÓDIGO";
             btnEnviarCodigo.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.White;
+            pictureBox1.Image = Properties.Resources.mail_black_envelope_symbol_icon_icons_com_56519;
+            pictureBox1.Location = new Point(23, 125);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(32, 32);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 9;
+            pictureBox1.TabStop = false;
+            // 
+            // pnlLinea
+            // 
+            pnlLinea.BackColor = Color.MidnightBlue;
+            pnlLinea.Location = new Point(60, 151);
+            pnlLinea.Name = "pnlLinea";
+            pnlLinea.Size = new Size(460, 2);
+            pnlLinea.TabIndex = 6;
+            // 
+            // txtCorreo
+            // 
+            txtCorreo.BorderStyle = BorderStyle.None;
+            txtCorreo.Font = new Font("Century Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCorreo.Location = new Point(60, 129);
+            txtCorreo.MaxLength = 150;
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.PlaceholderText = "Ingrese su Correo Eléctronico aqui...";
+            txtCorreo.Size = new Size(460, 21);
+            txtCorreo.TabIndex = 3;
+            // 
+            // lblCorreo
+            // 
+            lblCorreo.AutoSize = true;
+            lblCorreo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCorreo.Location = new Point(10, 101);
+            lblCorreo.Name = "lblCorreo";
+            lblCorreo.Size = new Size(148, 18);
+            lblCorreo.TabIndex = 2;
+            lblCorreo.Text = "Correo Electronico";
+            // 
+            // lblInstruccionCorreo
+            // 
+            lblInstruccionCorreo.AutoSize = true;
+            lblInstruccionCorreo.Location = new Point(10, 47);
+            lblInstruccionCorreo.Name = "lblInstruccionCorreo";
+            lblInstruccionCorreo.Size = new Size(521, 40);
+            lblInstruccionCorreo.TabIndex = 1;
+            lblInstruccionCorreo.Text = "Introduce el correo electrónico asociado a tu cuenta. Te enviaremos \r\nun código de recuperación.";
+            // 
+            // lblEtapaUno
+            // 
+            lblEtapaUno.AutoSize = true;
+            lblEtapaUno.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEtapaUno.Location = new Point(10, 14);
+            lblEtapaUno.Name = "lblEtapaUno";
+            lblEtapaUno.Size = new Size(264, 23);
+            lblEtapaUno.TabIndex = 0;
+            lblEtapaUno.Text = "¿Olvidaste tu contraseña?";
+            // 
+            // pnlVerificarCodigo
+            // 
+            pnlVerificarCodigo.Controls.Add(btnVolverCorreo);
+            pnlVerificarCodigo.Controls.Add(btnReenviarCodigo);
+            pnlVerificarCodigo.Controls.Add(btnVerificarCodigo);
+            pnlVerificarCodigo.Controls.Add(lblMensajeCodigo);
+            pnlVerificarCodigo.Controls.Add(lblLongitd);
+            pnlVerificarCodigo.Controls.Add(txtCodigo);
+            pnlVerificarCodigo.Controls.Add(lblCodigo);
+            pnlVerificarCodigo.Controls.Add(lblInstruccionCodigo);
+            pnlVerificarCodigo.Controls.Add(lblEtapaDos);
+            pnlVerificarCodigo.Dock = DockStyle.Fill;
+            pnlVerificarCodigo.Location = new Point(2, 226);
+            pnlVerificarCodigo.Name = "pnlVerificarCodigo";
+            pnlVerificarCodigo.Size = new Size(546, 234);
+            pnlVerificarCodigo.TabIndex = 1;
+            pnlVerificarCodigo.Visible = false;
+            // 
+            // btnVolverCorreo
+            // 
+            btnVolverCorreo.Cursor = Cursors.Hand;
+            btnVolverCorreo.FlatAppearance.BorderSize = 0;
+            btnVolverCorreo.FlatStyle = FlatStyle.Flat;
+            btnVolverCorreo.Font = new Font("Century Gothic", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnVolverCorreo.ForeColor = Color.Red;
+            btnVolverCorreo.Location = new Point(439, 187);
+            btnVolverCorreo.Name = "btnVolverCorreo";
+            btnVolverCorreo.Size = new Size(96, 40);
+            btnVolverCorreo.TabIndex = 13;
+            btnVolverCorreo.Text = "CANCELAR";
+            btnVolverCorreo.UseVisualStyleBackColor = true;
+            // 
+            // btnReenviarCodigo
+            // 
+            btnReenviarCodigo.Cursor = Cursors.Hand;
+            btnReenviarCodigo.FlatAppearance.BorderSize = 0;
+            btnReenviarCodigo.FlatStyle = FlatStyle.Flat;
+            btnReenviarCodigo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReenviarCodigo.ForeColor = Color.FromArgb(8, 31, 63);
+            btnReenviarCodigo.Location = new Point(336, 187);
+            btnReenviarCodigo.Name = "btnReenviarCodigo";
+            btnReenviarCodigo.Size = new Size(108, 40);
+            btnReenviarCodigo.TabIndex = 12;
+            btnReenviarCodigo.Text = "REENVIAR";
+            btnReenviarCodigo.UseVisualStyleBackColor = true;
+            // 
+            // btnVerificarCodigo
+            // 
+            btnVerificarCodigo.BackColor = Color.FromArgb(8, 126, 164);
+            btnVerificarCodigo.Cursor = Cursors.Hand;
+            btnVerificarCodigo.FlatAppearance.BorderSize = 0;
+            btnVerificarCodigo.FlatStyle = FlatStyle.Flat;
+            btnVerificarCodigo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnVerificarCodigo.ForeColor = Color.White;
+            btnVerificarCodigo.Location = new Point(10, 187);
+            btnVerificarCodigo.Name = "btnVerificarCodigo";
+            btnVerificarCodigo.Size = new Size(321, 40);
+            btnVerificarCodigo.TabIndex = 11;
+            btnVerificarCodigo.Text = "✔ VERIFICAR CÓDIGO";
+            btnVerificarCodigo.UseVisualStyleBackColor = false;
+            // 
+            // lblMensajeCodigo
+            // 
+            lblMensajeCodigo.AutoSize = true;
+            lblMensajeCodigo.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblMensajeCodigo.ForeColor = Color.Gray;
+            lblMensajeCodigo.Location = new Point(408, 155);
+            lblMensajeCodigo.Name = "lblMensajeCodigo";
+            lblMensajeCodigo.Size = new Size(123, 17);
+            lblMensajeCodigo.TabIndex = 8;
+            lblMensajeCodigo.Text = "Vigencia limitada";
+            lblMensajeCodigo.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblLongitd
+            // 
+            lblLongitd.AutoSize = true;
+            lblLongitd.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblLongitd.ForeColor = Color.Gray;
+            lblLongitd.Location = new Point(10, 156);
+            lblLongitd.Name = "lblLongitd";
+            lblLongitd.Size = new Size(137, 17);
+            lblLongitd.TabIndex = 7;
+            lblLongitd.Text = "Código de 8 dígitos";
+            lblLongitd.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.BorderStyle = BorderStyle.None;
+            txtCodigo.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCodigo.Location = new Point(20, 115);
+            txtCodigo.MaxLength = 8;
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.PlaceholderText = "_ _ _ _ _ _ _ _";
+            txtCodigo.Size = new Size(500, 29);
+            txtCodigo.TabIndex = 6;
+            txtCodigo.TextAlign = HorizontalAlignment.Center;
             // 
             // lblCodigo
             // 
@@ -274,85 +353,6 @@
             lblEtapaDos.TabIndex = 3;
             lblEtapaDos.Text = "Verifica tu identidad";
             // 
-            // txtCodigo
-            // 
-            txtCodigo.BorderStyle = BorderStyle.None;
-            txtCodigo.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtCodigo.Location = new Point(20, 115);
-            txtCodigo.MaxLength = 8;
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.PlaceholderText = "_ _ _ _ _ _ _ _";
-            txtCodigo.Size = new Size(500, 29);
-            txtCodigo.TabIndex = 6;
-            txtCodigo.TextAlign = HorizontalAlignment.Center;
-            // 
-            // lblLongitd
-            // 
-            lblLongitd.AutoSize = true;
-            lblLongitd.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblLongitd.ForeColor = Color.Gray;
-            lblLongitd.Location = new Point(10, 156);
-            lblLongitd.Name = "lblLongitd";
-            lblLongitd.Size = new Size(137, 17);
-            lblLongitd.TabIndex = 7;
-            lblLongitd.Text = "Código de 8 dígitos";
-            lblLongitd.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblMensajeCodigo
-            // 
-            lblMensajeCodigo.AutoSize = true;
-            lblMensajeCodigo.Font = new Font("Century Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMensajeCodigo.ForeColor = Color.Gray;
-            lblMensajeCodigo.Location = new Point(408, 155);
-            lblMensajeCodigo.Name = "lblMensajeCodigo";
-            lblMensajeCodigo.Size = new Size(123, 17);
-            lblMensajeCodigo.TabIndex = 8;
-            lblMensajeCodigo.Text = "Vigencia limitada";
-            lblMensajeCodigo.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // btnVerificarCodigo
-            // 
-            btnVerificarCodigo.BackColor = Color.FromArgb(8, 126, 164);
-            btnVerificarCodigo.Cursor = Cursors.Hand;
-            btnVerificarCodigo.FlatAppearance.BorderSize = 0;
-            btnVerificarCodigo.FlatStyle = FlatStyle.Flat;
-            btnVerificarCodigo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnVerificarCodigo.ForeColor = Color.White;
-            btnVerificarCodigo.Location = new Point(10, 187);
-            btnVerificarCodigo.Name = "btnVerificarCodigo";
-            btnVerificarCodigo.Size = new Size(321, 40);
-            btnVerificarCodigo.TabIndex = 11;
-            btnVerificarCodigo.Text = "✔ VERIFICAR CÓDIGO";
-            btnVerificarCodigo.UseVisualStyleBackColor = false;
-            // 
-            // btnReenviarCodigo
-            // 
-            btnReenviarCodigo.Cursor = Cursors.Hand;
-            btnReenviarCodigo.FlatAppearance.BorderSize = 0;
-            btnReenviarCodigo.FlatStyle = FlatStyle.Flat;
-            btnReenviarCodigo.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnReenviarCodigo.ForeColor = Color.FromArgb(8, 31, 63);
-            btnReenviarCodigo.Location = new Point(336, 187);
-            btnReenviarCodigo.Name = "btnReenviarCodigo";
-            btnReenviarCodigo.Size = new Size(108, 40);
-            btnReenviarCodigo.TabIndex = 12;
-            btnReenviarCodigo.Text = "REENVIAR";
-            btnReenviarCodigo.UseVisualStyleBackColor = true;
-            // 
-            // btnVolverCorreo
-            // 
-            btnVolverCorreo.Cursor = Cursors.Hand;
-            btnVolverCorreo.FlatAppearance.BorderSize = 0;
-            btnVolverCorreo.FlatStyle = FlatStyle.Flat;
-            btnVolverCorreo.Font = new Font("Century Gothic", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnVolverCorreo.ForeColor = Color.Red;
-            btnVolverCorreo.Location = new Point(439, 187);
-            btnVolverCorreo.Name = "btnVolverCorreo";
-            btnVolverCorreo.Size = new Size(96, 40);
-            btnVolverCorreo.TabIndex = 13;
-            btnVolverCorreo.Text = "CANCELAR";
-            btnVolverCorreo.UseVisualStyleBackColor = true;
-            // 
             // FrmRecuperarContrasena
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -371,9 +371,9 @@
             pnlContenido.ResumeLayout(false);
             pnlSolicitarCodigo.ResumeLayout(false);
             pnlSolicitarCodigo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlVerificarCodigo.ResumeLayout(false);
             pnlVerificarCodigo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
