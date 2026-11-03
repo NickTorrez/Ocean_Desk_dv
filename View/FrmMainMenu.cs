@@ -29,6 +29,7 @@ namespace Ocean_Desk_dv.UI
         private readonly UsuarioAutenticadoDto _usuarioAutenticado;
         private bool _permitirCerrarFormulario;
         private bool _cierreEnProceso;
+        private bool _reorganizandoMenu;
 
         // Ejecuta una revisión de vencimientos cada 45 minutos.
         private readonly System.Windows.Forms.Timer _tmrAlertasVencimiento =
@@ -70,6 +71,8 @@ namespace Ocean_Desk_dv.UI
                     "No se puede abrir el menú mientras exista un cambio obligatorio de contraseña.");
 
             InitializeComponent();
+
+            pnlMenu.Resize += (_, _) => ReorganizarMenu();
 
             this.login = login;
 
@@ -273,8 +276,188 @@ namespace Ocean_Desk_dv.UI
             {
                 pnlMenu.ResumeLayout(true);
             }
+
+            ReorganizarMenu();
         }
 
+
+        /// <summary>
+        /// Organiza dinámicamente los botones y encabezados del menú.
+        /// Los módulos ocultos no reservan espacio y las categorías
+        /// se muestran únicamente cuando contienen botones autorizados.
+        /// </summary>
+        private void ReorganizarMenu()
+        {
+            if (_reorganizandoMenu || pnlMenu.IsDisposed)
+                return;
+
+            _reorganizandoMenu = true;
+
+            pnlMenu.SuspendLayout();
+
+            try
+            {
+                // Volver al inicio para recalcular todas las posiciones.
+                pnlMenu.AutoScrollPosition = Point.Empty;
+
+                int x = pnlMenu.Padding.Left;
+
+                int ancho = Math.Max(
+                    100,
+                    pnlMenu.ClientSize.Width - pnlMenu.Padding.Horizontal);
+
+                int y = pnlMenu.Padding.Top;
+
+                const int alturaEncabezado = 30;
+                const int alturaBoton = 45;
+                const int espacioEntreCategorias = 5;
+
+                // Todos los controles dejan de depender del acoplamiento.
+                Control[] controlesMenu =
+                {
+                    lblOperaciones,
+                    btnReportes,
+                    btnCaja,
+                    btnVentas,
+                    btnFacturacion,
+                    btnMesas,
+                    btnCocina,
+
+                    lblInventario,
+                    btnProductos,
+                    btnInventario,
+
+                    lblGestion,
+                    btnCompras,
+                    btnProveedores,
+
+                    lblAdministracion,
+                    btnPromociones,
+                    btnFidelizacion,
+                    btnClientes,
+
+                    lblSeguridad,
+                    btnBitacoras,
+                    btnUsuarios
+                };
+
+                foreach (Control control in controlesMenu)
+                {
+                    control.Dock = DockStyle.None;
+                    control.Anchor =
+                        AnchorStyles.Top |
+                        AnchorStyles.Left |
+                        AnchorStyles.Right;
+                }
+
+                // Agrega una categoría y coloca debajo únicamente
+                // los botones que tienen permiso para mostrarse.
+                void AgregarCategoria(
+                    Label encabezado,
+                    params Button[] botones)
+                {
+                    Button[] botonesVisibles = botones
+                        .Where(boton => boton.Visible)
+                        .ToArray();
+
+                    encabezado.Visible = botonesVisibles.Length > 0;
+
+                    if (botonesVisibles.Length == 0)
+                        return;
+
+                    encabezado.AutoSize = false;
+
+                    encabezado.Location = new Point(x, y);
+
+                    encabezado.Size = new Size(
+                        ancho,
+                        alturaEncabezado);
+
+                    encabezado.BringToFront();
+
+                    y += alturaEncabezado;
+
+                    foreach (Button boton in botonesVisibles)
+                    {
+                        boton.Location = new Point(x, y);
+
+                        boton.Size = new Size(
+                            ancho,
+                            alturaBoton);
+
+                        y += alturaBoton;
+                    }
+
+                    y += espacioEntreCategorias;
+                }
+
+                // ORDEN VISUAL DEL MENÚ
+
+                AgregarCategoria(
+                    lblOperaciones,
+                    btnReportes,
+                    btnCaja,
+                    btnVentas,
+                    btnFacturacion,
+                    btnMesas,
+                    btnCocina);
+
+                AgregarCategoria(
+                    lblInventario,
+                    btnProductos,
+                    btnInventario);
+
+                AgregarCategoria(
+                    lblGestion,
+                    btnCompras,
+                    btnProveedores);
+
+                AgregarCategoria(
+                    lblAdministracion,
+                    btnPromociones,
+                    btnFidelizacion,
+                    btnClientes);
+
+                AgregarCategoria(
+                    lblSeguridad,
+                    btnBitacoras,
+                    btnUsuarios);
+
+                // Definir la altura necesaria para el desplazamiento.
+                pnlMenu.AutoScrollMinSize = new Size(
+                    0,
+                    y + pnlMenu.Padding.Bottom);
+
+                pnlMenu.PerformLayout();
+
+                // Ajustar los anchos teniendo en cuenta el área útil
+                // después de que WinForms muestre la barra de desplazamiento.
+                int anchoFinal = Math.Max(
+                    100,
+                    pnlMenu.ClientSize.Width - pnlMenu.Padding.Horizontal);
+
+                foreach (Control control in controlesMenu)
+                {
+                    if (control.Visible)
+                        control.Width = anchoFinal;
+                }
+
+                // Mantener el indicador del módulo seleccionado.
+                if (botonActivo != null &&
+                    botonActivo.Visible &&
+                    indicadorActivo != null)
+                {
+                    indicadorActivo.Height = botonActivo.Height;
+                    indicadorActivo.Top = botonActivo.Top;
+                }
+            }
+            finally
+            {
+                pnlMenu.ResumeLayout(true);
+
+                _reorganizandoMenu = false;
+            }
+        }
 
         private void FrmMainMenu_Load(object sender, EventArgs e)
         {

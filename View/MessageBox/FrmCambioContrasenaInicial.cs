@@ -49,6 +49,17 @@ namespace Ocean_Desk_dv.View.MessageBox
             PrepararCampos();
         }
 
+        private void ConfigurarMensajeNombreUsuario(string mensaje)
+        {
+            lblNombreUsuario.AutoSize = false;
+            lblNombreUsuario.Dock = DockStyle.Top;
+            lblNombreUsuario.Height = 40;
+            lblNombreUsuario.TextAlign = ContentAlignment.MiddleLeft;
+            lblNombreUsuario.AutoEllipsis = false;
+
+            lblNombreUsuario.Text = mensaje;
+        }
+
         /// <summary>
         /// Configura el formulario para el cambio obligatorio
         /// de una contraseña temporal.
@@ -73,8 +84,8 @@ namespace Ocean_Desk_dv.View.MessageBox
             lblSubtitulo.Text = "Ocean Desk · Configuración inicial";
             lblInstruccion.Text = "Establezca su contraseña personal";
 
-            lblNombreUsuario.Text =
-                $"Hola, {nombreCompleto}. Para continuar, debes reemplazar tu contraseña temporal.";
+            ConfigurarMensajeNombreUsuario(
+                $"Hola, {nombreCompleto}. Reemplaza tu contraseña temporal para continuar.");
 
             btnGuardar.Text = "GUARDAR CONTRASEÑA";
             btnCancelar.Text = "CANCELAR";
@@ -111,8 +122,8 @@ namespace Ocean_Desk_dv.View.MessageBox
             lblSubtitulo.Text = "Ocean Desk · Recuperación de cuenta";
             lblInstruccion.Text = "Establezca una nueva contraseña";
 
-            lblNombreUsuario.Text =
-                $"El código enviado a {_email} fue verificado. Ahora puedes establecer una nueva contraseña.";
+            ConfigurarMensajeNombreUsuario(
+                "Tu correo ha sido verificado. Ahora puedes establecer una nueva contraseña.");
 
             btnGuardar.Text = "RESTABLECER CONTRASEÑA";
             btnCancelar.Text = "CANCELAR";

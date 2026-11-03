@@ -32,16 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMainMenu));
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
+            btnUsuarios = new Button();
             btnBitacoras = new Button();
             lblSeguridad = new Label();
-            btnUsuarios = new Button();
             btnClientes = new Button();
-            lblAdministracion = new Label();
             btnFidelizacion = new Button();
             btnPromociones = new Button();
-            lblGestion = new Label();
+            lblAdministracion = new Label();
             btnProveedores = new Button();
             btnCompras = new Button();
+            lblGestion = new Label();
             btnInventario = new Button();
             btnProductos = new Button();
             lblInventario = new Label();
@@ -137,6 +137,30 @@
             pnlMenu.Size = new Size(260, 690);
             pnlMenu.TabIndex = 2;
             // 
+            // btnUsuarios
+            // 
+            btnUsuarios.BackColor = Color.Transparent;
+            btnUsuarios.Cursor = Cursors.Hand;
+            btnUsuarios.Dock = DockStyle.Top;
+            btnUsuarios.FlatAppearance.BorderSize = 0;
+            btnUsuarios.FlatStyle = FlatStyle.Flat;
+            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
+            btnUsuarios.ForeColor = Color.White;
+            btnUsuarios.Image = Properties.Resources.group;
+            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.Location = new Point(8, 788);
+            btnUsuarios.Name = "btnUsuarios";
+            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
+            btnUsuarios.Size = new Size(223, 45);
+            btnUsuarios.TabIndex = 1;
+            btnUsuarios.Text = "Usuarios";
+            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Click += btnUsuarios_Click;
+            btnUsuarios.MouseEnter += Boton_MouseEnter;
+            btnUsuarios.MouseLeave += Boton_MouseLeave;
+            // 
             // btnBitacoras
             // 
             btnBitacoras.Cursor = Cursors.Hand;
@@ -173,30 +197,6 @@
             lblSeguridad.Text = "SEGURIDAD";
             lblSeguridad.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnUsuarios
-            // 
-            btnUsuarios.BackColor = Color.Transparent;
-            btnUsuarios.Cursor = Cursors.Hand;
-            btnUsuarios.Dock = DockStyle.Top;
-            btnUsuarios.FlatAppearance.BorderSize = 0;
-            btnUsuarios.FlatStyle = FlatStyle.Flat;
-            btnUsuarios.Font = new Font("Century Gothic", 10.2F);
-            btnUsuarios.ForeColor = Color.White;
-            btnUsuarios.Image = Properties.Resources.group;
-            btnUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.Location = new Point(8, 788);
-            btnUsuarios.Name = "btnUsuarios";
-            btnUsuarios.Padding = new Padding(15, 0, 0, 0);
-            btnUsuarios.Size = new Size(223, 45);
-            btnUsuarios.TabIndex = 1;
-            btnUsuarios.Text = "Usuarios";
-            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
-            btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnUsuarios.UseVisualStyleBackColor = false;
-            btnUsuarios.Click += btnUsuarios_Click;
-            btnUsuarios.MouseEnter += Boton_MouseEnter;
-            btnUsuarios.MouseLeave += Boton_MouseLeave;
-            // 
             // btnClientes
             // 
             btnClientes.BackColor = Color.Transparent;
@@ -220,19 +220,6 @@
             btnClientes.Click += btnClientes_Click;
             btnClientes.MouseEnter += Boton_MouseEnter;
             btnClientes.MouseLeave += Boton_MouseLeave;
-            // 
-            // lblAdministracion
-            // 
-            lblAdministracion.Dock = DockStyle.Top;
-            lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAdministracion.ForeColor = Color.White;
-            lblAdministracion.Location = new Point(8, 548);
-            lblAdministracion.Name = "lblAdministracion";
-            lblAdministracion.Padding = new Padding(12, 0, 0, 0);
-            lblAdministracion.Size = new Size(223, 30);
-            lblAdministracion.TabIndex = 18;
-            lblAdministracion.Text = "ADMINISTRACIÓN";
-            lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnFidelizacion
             // 
@@ -282,18 +269,18 @@
             btnPromociones.MouseEnter += Boton_MouseEnter;
             btnPromociones.MouseLeave += Boton_MouseLeave;
             // 
-            // lblGestion
+            // lblAdministracion
             // 
-            lblGestion.Dock = DockStyle.Top;
-            lblGestion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblGestion.ForeColor = Color.White;
-            lblGestion.Location = new Point(8, 428);
-            lblGestion.Name = "lblGestion";
-            lblGestion.Padding = new Padding(12, 0, 0, 0);
-            lblGestion.Size = new Size(223, 30);
-            lblGestion.TabIndex = 17;
-            lblGestion.Text = "GESTIÓN";
-            lblGestion.TextAlign = ContentAlignment.MiddleCenter;
+            lblAdministracion.Dock = DockStyle.Top;
+            lblAdministracion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAdministracion.ForeColor = Color.White;
+            lblAdministracion.Location = new Point(8, 548);
+            lblAdministracion.Name = "lblAdministracion";
+            lblAdministracion.Padding = new Padding(12, 0, 0, 0);
+            lblAdministracion.Size = new Size(223, 30);
+            lblAdministracion.TabIndex = 18;
+            lblAdministracion.Text = "ADMINISTRACIÓN";
+            lblAdministracion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnProveedores
             // 
@@ -342,6 +329,19 @@
             btnCompras.Click += btnCompras_Click;
             btnCompras.MouseEnter += Boton_MouseEnter;
             btnCompras.MouseLeave += Boton_MouseLeave;
+            // 
+            // lblGestion
+            // 
+            lblGestion.Dock = DockStyle.Top;
+            lblGestion.Font = new Font("Century Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblGestion.ForeColor = Color.White;
+            lblGestion.Location = new Point(8, 428);
+            lblGestion.Name = "lblGestion";
+            lblGestion.Padding = new Padding(12, 0, 0, 0);
+            lblGestion.Size = new Size(223, 30);
+            lblGestion.TabIndex = 17;
+            lblGestion.Text = "GESTIÓN";
+            lblGestion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnInventario
             // 
