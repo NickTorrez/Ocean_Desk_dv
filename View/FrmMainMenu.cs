@@ -365,15 +365,41 @@ namespace Ocean_Desk_dv.UI
                     if (botonesVisibles.Length == 0)
                         return;
 
-                    encabezado.AutoSize = false;
+                    encabezado.SuspendLayout();
 
-                    encabezado.Location = new Point(x, y);
+                    try
+                    {
+                        encabezado.Dock = DockStyle.None;
+                        encabezado.AutoSize = false;
 
-                    encabezado.Size = new Size(
-                        ancho,
-                        alturaEncabezado);
+                        encabezado.Anchor =
+                            AnchorStyles.Top |
+                            AnchorStyles.Left |
+                            AnchorStyles.Right;
 
-                    encabezado.BringToFront();
+                        // Reforzar la representación visual.
+                        encabezado.ForeColor = Color.White;
+                        encabezado.BackColor = pnlSidebar.BackColor;
+                        encabezado.TextAlign = ContentAlignment.MiddleCenter;
+                        encabezado.Padding = new Padding(0);
+
+                        // Posición y dimensiones.
+                        encabezado.Location = new Point(x, y);
+
+                        encabezado.Size = new Size(
+                            ancho,
+                            alturaEncabezado);
+
+                        encabezado.Visible = true;
+
+                        // Garantizar que el encabezado quede
+                        // por delante de los demás controles.
+                        pnlMenu.Controls.SetChildIndex(encabezado, 0);
+                    }
+                    finally
+                    {
+                        encabezado.ResumeLayout(false);
+                    }
 
                     y += alturaEncabezado;
 
