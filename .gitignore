@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 *.zip
+OceanDeskLocal.db
+OceanDeskLocal.db-shm
+OceanDeskLocal.db-wal
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
