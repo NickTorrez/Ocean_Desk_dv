@@ -1,7 +1,8 @@
 ﻿using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Services.Authentication;
+using Ocean_Desk_dv.Services.Email;
 using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.Services.Repository;
-using Ocean_Desk_dv.Services.Authentication;
 
 namespace Ocean_Desk_dv.Services;
 
@@ -28,4 +29,17 @@ public static class OceanDeskRepositoryFactory
     public static IProveedoresRepository CrearProveedoresRepository() => new ProveedoresRepository(new OceanDeskDbContext());
     public static IAuthenticationRepository CrearAuthenticationRepository() => new AuthenticationRepository(new OceanDeskDbContext());
     public static IAuthenticationService CrearAuthenticationService() => new AuthenticationService(CrearAuthenticationRepository());
+
+    /// <summary>
+    /// Crea el servicio de recuperación con su repositorio y proveedor SMTP.
+    /// Las credenciales SMTP se leen desde variables de entorno.
+    /// </summary>
+    public static IPasswordRecoveryService CrearPasswordRecoveryService()
+    {
+        SmtpEmailOptions opcionesCorreo = SmtpEmailOptions.FromEnvironment();
+        IAuthenticationRepository repositorio = CrearAuthenticationRepository();
+        IEmailSender remitente = new SmtpEmailSender(opcionesCorreo);
+
+        return new PasswordRecoveryService(repositorio, remitente);
+    }
 }

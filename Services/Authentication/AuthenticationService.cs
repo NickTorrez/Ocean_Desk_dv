@@ -136,30 +136,12 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
             return ResultadoOperacionDto.Fallido(
                 "El usuario indicado no es válido.");
 
-        if (string.IsNullOrWhiteSpace(nuevaContrasena))
-            return ResultadoOperacionDto.Fallido(
-                "Ingrese una nueva contraseña.");
-
-        if (!string.Equals(
+        ResultadoOperacionDto validacion = PasswordPolicy.Validar(
             nuevaContrasena,
-            confirmacionContrasena,
-            StringComparison.Ordinal))
-        {
-            return ResultadoOperacionDto.Fallido(
-                "Las contraseñas no coinciden.");
-        }
+            confirmacionContrasena);
 
-        if (nuevaContrasena.Length < 12 ||
-            nuevaContrasena.Length > 128 ||
-            !nuevaContrasena.Any(char.IsUpper) ||
-            !nuevaContrasena.Any(char.IsLower) ||
-            !nuevaContrasena.Any(char.IsDigit) ||
-            !nuevaContrasena.Any(c => !char.IsLetterOrDigit(c)))
-        {
-            return ResultadoOperacionDto.Fallido(
-                "La contraseña debe tener entre 12 y 128 caracteres, " +
-                "incluyendo mayúsculas, minúsculas, números y símbolos.");
-        }
+        if (!validacion.Exito)
+            return validacion;
 
         User? user = _repository.ObtenerUsuarioPorId(userId);
 
@@ -186,9 +168,7 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
 
         DateTime ahoraUtc = DateTime.UtcNow;
 
-        user.PasswordHash =
-            PasswordHasher.HashPassword(nuevaContrasena);
-
+        user.PasswordHash = PasswordHasher.HashPassword(nuevaContrasena);
         user.MustChangePassword = false;
         user.PasswordChangedAt = ahoraUtc;
         user.UpdatedAt = ahoraUtc;
