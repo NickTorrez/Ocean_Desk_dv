@@ -178,6 +178,9 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
 
         user.PasswordResetTokenHash = null;
         user.PasswordResetExpiresAt = null;
+        user.PasswordResetFailedAttempts = 0;
+        user.PasswordResetLastSentAt = null;
+        user.PasswordResetBlockedUntil = null;
 
         _repository.GuardarCambios();
 
