@@ -35,6 +35,7 @@
             lblAppName = new Label();
             picLogo = new PictureBox();
             pnlLogin = new Panel();
+            pictureBox3 = new PictureBox();
             btnCancel = new Button();
             lblPassword = new Label();
             btnClose = new Button();
@@ -53,15 +54,14 @@
             btnShowPassword = new Button();
             pictureBox2 = new PictureBox();
             txtPassword = new TextBox();
-            pictureBox3 = new PictureBox();
             pnlBrand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlLogin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             pnlUsername.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // pnlBrand
@@ -143,6 +143,17 @@
             pnlLogin.Name = "pnlLogin";
             pnlLogin.Size = new Size(582, 553);
             pnlLogin.TabIndex = 1;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.Logo_para_Cevichería_ilustrado;
+            pictureBox3.Location = new Point(336, 37);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(85, 68);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 9;
+            pictureBox3.TabStop = false;
             // 
             // btnCancel
             // 
@@ -351,17 +362,6 @@
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
-            // pictureBox3
-            // 
-            pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.Image = Properties.Resources.Logo_para_Cevichería_ilustrado;
-            pictureBox3.Location = new Point(336, 37);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(85, 68);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 9;
-            pictureBox3.TabStop = false;
-            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -382,13 +382,13 @@
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             pnlLogin.ResumeLayout(false);
             pnlLogin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             pnlUsername.ResumeLayout(false);
             pnlUsername.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlPassword.ResumeLayout(false);
             pnlPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 

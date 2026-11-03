@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../OceanDeskBootstrap/OceanDeskBootstrap.csproj" Id="94ef5039-72b2-48d5-be84-bd10e8bd0536" />
   <Project Path="Ocean_Desk_dv.csproj" />
 </Solution>
