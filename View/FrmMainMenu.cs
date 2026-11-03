@@ -144,8 +144,10 @@ namespace Ocean_Desk_dv.UI
             return false;
         }
 
+
         /// <summary>
-        /// Oculta los módulos que el usuario no tiene autorizados para consultar.
+        /// Aplica los permisos recibidos desde SQL Server.
+        /// Los módulos no autorizados desaparecen del menú.
         /// </summary>
         private void AplicarPermisosMenu()
         {
@@ -153,26 +155,58 @@ namespace Ocean_Desk_dv.UI
 
             try
             {
+                // SEGURIDAD
                 btnUsuarios.Visible =
-                    TienePermisoModulo("USUARIOS", p => p.CanView);
+                    TienePermisoModulo(
+                        "USUARIOS",
+                        p => p.CanView);
 
+                btnBitacoras.Visible =
+                    TienePermisoModulo(
+                        "AUDITORIA",
+                        p => p.CanView);
+
+                // ADMINISTRACIÓN
                 btnClientes.Visible =
-                    TienePermisoModulo("CLIENTES", p => p.CanView);
+                    TienePermisoModulo(
+                        "CLIENTES",
+                        p => p.CanView);
 
-                btnProductos.Visible =
-                    TienePermisoModulo("PRODUCTOS", p => p.CanView);
+                btnPromociones.Visible =
+                    TienePermisoModulo(
+                        "PROMOCIONES",
+                        p => p.CanView);
 
-                btnInventario.Visible =
-                    TienePermisoModulo("INVENTARIO", p => p.CanView);
+                btnFidelizacion.Visible =
+                    TienePermisoModulo(
+                        "FIDELIZACION",
+                        p => p.CanView);
+
+                // GESTIÓN
+                btnProveedores.Visible =
+                    TienePermisoModulo(
+                        "PROVEEDORES",
+                        p => p.CanView);
 
                 btnCompras.Visible =
-                    TienePermisoModulo("COMPRAS", p => p.CanView);
+                    TienePermisoModulo(
+                        "COMPRAS",
+                        p => p.CanView);
 
-                btnProveedores.Visible =
-                    TienePermisoModulo("PROVEEDORES", p => p.CanView);
+                // INVENTARIO
+                btnProductos.Visible =
+                    TienePermisoModulo(
+                        "PRODUCTOS",
+                        p => p.CanView);
 
-                // Punto de Venta registra operaciones.
-                // No basta con permitir solamente la consulta.
+                btnInventario.Visible =
+                    TienePermisoModulo(
+                        "INVENTARIO",
+                        p => p.CanView);
+
+                // OPERACIONES
+                // Para operaciones que registran transacciones se exige
+                // consulta y creación.
                 btnVentas.Visible =
                     TienePermisoModulo(
                         "PUNTO_VENTA",
@@ -188,61 +222,59 @@ namespace Ocean_Desk_dv.UI
                         "CAJA",
                         p => p.CanView && p.CanCreate);
 
+                // El módulo de mesas requiere consulta para mostrarse.
+                // Los permisos de creación y edición se validan dentro
+                // de las operaciones del propio módulo.
                 btnMesas.Visible =
-                    TienePermisoModulo("MESAS_RESERVAS", p => p.CanView);
+                    TienePermisoModulo(
+                        "MESAS_RESERVAS",
+                        p => p.CanView);
 
+                // Cocina necesita consulta y capacidad para actualizar estados.
                 btnCocina.Visible =
                     TienePermisoModulo(
                         "COCINA_PEDIDOS",
                         p => p.CanView && p.CanChangeStatus);
 
                 btnReportes.Visible =
-                    TienePermisoModulo("REPORTES", p => p.CanView);
+                    TienePermisoModulo(
+                        "REPORTES",
+                        p => p.CanView);
 
-                btnBitacoras.Visible =
-                    TienePermisoModulo("AUDITORIA", p => p.CanView);
+                // Los encabezados solo aparecen cuando tienen
+                // al menos un módulo visible.
 
-                btnPromociones.Visible =
-                    TienePermisoModulo("PROMOCIONES", p => p.CanView);
-
-                btnFidelizacion.Visible =
-                    TienePermisoModulo("FIDELIZACION", p => p.CanView);
-
-                // Ocultar encabezados de las secciones que quedaron vacías.
-                // SEGURIDAD
                 lblSeguridad.Visible =
                     btnUsuarios.Visible ||
                     btnBitacoras.Visible;
 
-                // ADMINISTRACIÓN
                 lblAdministracion.Visible =
                     btnClientes.Visible ||
-                    btnFidelizacion.Visible ||
-                    btnPromociones.Visible;
+                    btnPromociones.Visible ||
+                    btnFidelizacion.Visible;
 
-                // GESTIÓN
                 lblGestion.Visible =
                     btnProveedores.Visible ||
                     btnCompras.Visible;
 
-                // INVENTARIO
                 lblInventario.Visible =
-                    btnInventario.Visible ||
-                    btnProductos.Visible;
+                    btnProductos.Visible ||
+                    btnInventario.Visible;
 
-                // OPERACIONES
                 lblOperaciones.Visible =
-                    btnCocina.Visible ||
-                    btnMesas.Visible ||
-                    btnFacturacion.Visible ||
                     btnVentas.Visible ||
-                    btnCaja.Visible;
+                    btnFacturacion.Visible ||
+                    btnCaja.Visible ||
+                    btnMesas.Visible ||
+                    btnCocina.Visible ||
+                    btnReportes.Visible;
             }
             finally
             {
                 pnlMenu.ResumeLayout(true);
             }
         }
+
 
         private void FrmMainMenu_Load(object sender, EventArgs e)
         {
@@ -502,16 +534,29 @@ namespace Ocean_Desk_dv.UI
 
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "USUARIOS",
+                p => p.CanView))
+                return;
             SeleccionarBoton(btnUsuarios);
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "CLIENTES",
+                p => p.CanView))
+                return;
             SeleccionarBoton(btnClientes);
         }
 
         private void btnProductos_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "PRODUCTOS",
+                p => p.CanView))
+                return;
+
             SeleccionarBoton(btnProductos);
 
             lblSeccion.Text = "Gestión de Productos";
@@ -530,6 +575,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "INVENTARIO",
+                p => p.CanView))
+                return;
+
             SeleccionarBoton(btnInventario);
 
             lblSeccion.Text = "Control de Inventario";
@@ -551,6 +601,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnCompras_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+               "COMPRAS",
+               p => p.CanView))
+                return;
+
             SeleccionarBoton(btnCompras);
 
             lblSeccion.Text = "Gestión de Compras";
@@ -630,6 +685,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnProveedores_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "PROVEEDORES",
+                p => p.CanView))
+                return;
+
             SeleccionarBoton(btnProveedores);
 
             lblSeccion.Text = "Gestión de Proveedores";
@@ -646,6 +706,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnMesas_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "MESAS_RESERVAS",
+                p => p.CanView))
+                return;
+
             SeleccionarBoton(btnMesas);
 
             lblSeccion.Text = "Gestión de Mesas";
@@ -698,6 +763,10 @@ namespace Ocean_Desk_dv.UI
 
         private void btnBitacoras_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "AUDITORIA",
+                p => p.CanView))
+                return;
             SeleccionarBoton(btnBitacoras);
         }
 
@@ -884,8 +953,7 @@ namespace Ocean_Desk_dv.UI
             SeleccionarBoton(btnCaja);
 
             lblSeccion.Text = "Manejo de Caja";
-            lblSubtitulo.Text =
-                "Entrada, salida y cierre diario de dinero";
+            lblSubtitulo.Text = "Entrada, salida y cierre diario de dinero";
 
             // 1. Crear la vista.
             FrmCaja caja = new FrmCaja(_usuarioId);
@@ -904,11 +972,21 @@ namespace Ocean_Desk_dv.UI
 
         private void btnPromociones_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+               "PROMOCIONES",
+               p => p.CanView))
+                return;
+
             SeleccionarBoton(btnPromociones);
         }
 
         private void btnFidelizacion_Click(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+               "FIDELIZACION",
+               p => p.CanView))
+                return;
+
             SeleccionarBoton(btnFidelizacion);
         }
 
@@ -966,6 +1044,11 @@ namespace Ocean_Desk_dv.UI
 
         private void btnReportes_Click_1(object sender, EventArgs e)
         {
+            if (!ValidarAccesoModulo(
+                "REPORTES",
+                p => p.CanView))
+                return;
+
             SeleccionarBoton(btnReportes);
 
             lblSeccion.Text = "Reportes";
