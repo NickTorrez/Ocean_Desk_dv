@@ -147,144 +147,139 @@ namespace Ocean_Desk_dv.UI
             return false;
         }
 
+        /// <summary>
+        /// Determina si un botón del menú debe mostrarse
+        /// según los permisos asignados al usuario autenticado.
+        /// No consulta la propiedad Visible del control.
+        /// </summary>
+        private bool TienePermisoParaBoton(Button boton)
+        {
+            return boton.Name switch
+            {
+                // SEGURIDAD
+                nameof(btnUsuarios) =>
+                    TienePermisoModulo("USUARIOS", p => p.CanView),
+
+                nameof(btnBitacoras) =>
+                    TienePermisoModulo("AUDITORIA", p => p.CanView),
+
+                // ADMINISTRACIÓN
+                nameof(btnClientes) =>
+                    TienePermisoModulo("CLIENTES", p => p.CanView),
+
+                nameof(btnPromociones) =>
+                    TienePermisoModulo("PROMOCIONES", p => p.CanView),
+
+                nameof(btnFidelizacion) =>
+                    TienePermisoModulo("FIDELIZACION", p => p.CanView),
+
+                // GESTIÓN
+                nameof(btnProveedores) =>
+                    TienePermisoModulo("PROVEEDORES", p => p.CanView),
+
+                nameof(btnCompras) =>
+                    TienePermisoModulo("COMPRAS", p => p.CanView),
+
+                // INVENTARIO
+                nameof(btnProductos) =>
+                    TienePermisoModulo("PRODUCTOS", p => p.CanView),
+
+                nameof(btnInventario) =>
+                    TienePermisoModulo("INVENTARIO", p => p.CanView),
+
+                // OPERACIONES
+                nameof(btnVentas) =>
+                    TienePermisoModulo(
+                        "PUNTO_VENTA",
+                        p => p.CanView && p.CanCreate),
+
+                nameof(btnFacturacion) =>
+                    TienePermisoModulo(
+                        "FACTURACION",
+                        p => p.CanView && p.CanCreate),
+
+                nameof(btnCaja) =>
+                    TienePermisoModulo(
+                        "CAJA",
+                        p => p.CanView && p.CanCreate),
+
+                nameof(btnMesas) =>
+                    TienePermisoModulo(
+                        "MESAS_RESERVAS",
+                        p => p.CanView),
+
+                nameof(btnCocina) =>
+                    TienePermisoModulo(
+                        "COCINA_PEDIDOS",
+                        p => p.CanView && p.CanChangeStatus),
+
+                nameof(btnReportes) =>
+                    TienePermisoModulo(
+                        "REPORTES",
+                        p => p.CanView),
+
+                _ => false
+            };
+        }
 
         /// <summary>
-        /// Aplica los permisos recibidos desde SQL Server.
-        /// Los módulos no autorizados desaparecen del menú.
+        /// Aplica los permisos del usuario a los botones del menú.
+        /// Después solicita la reorganización visual de las categorías.
         /// </summary>
         private void AplicarPermisosMenu()
         {
+            Button[] botonesMenu =
+            {
+                // SEGURIDAD
+                btnUsuarios,
+                btnBitacoras,
+
+                // ADMINISTRACIÓN
+                btnClientes,
+                btnPromociones,
+                btnFidelizacion,
+
+                // GESTIÓN
+                btnProveedores,
+                btnCompras,
+
+                // INVENTARIO
+                btnProductos,
+                btnInventario,
+
+                // OPERACIONES
+                btnVentas,
+                btnFacturacion,
+                btnCaja,
+                btnMesas,
+                btnCocina,
+                btnReportes
+            };
+
             pnlMenu.SuspendLayout();
 
             try
             {
-                // SEGURIDAD
-                btnUsuarios.Visible =
-                    TienePermisoModulo(
-                        "USUARIOS",
-                        p => p.CanView);
-
-                btnBitacoras.Visible =
-                    TienePermisoModulo(
-                        "AUDITORIA",
-                        p => p.CanView);
-
-                // ADMINISTRACIÓN
-                btnClientes.Visible =
-                    TienePermisoModulo(
-                        "CLIENTES",
-                        p => p.CanView);
-
-                btnPromociones.Visible =
-                    TienePermisoModulo(
-                        "PROMOCIONES",
-                        p => p.CanView);
-
-                btnFidelizacion.Visible =
-                    TienePermisoModulo(
-                        "FIDELIZACION",
-                        p => p.CanView);
-
-                // GESTIÓN
-                btnProveedores.Visible =
-                    TienePermisoModulo(
-                        "PROVEEDORES",
-                        p => p.CanView);
-
-                btnCompras.Visible =
-                    TienePermisoModulo(
-                        "COMPRAS",
-                        p => p.CanView);
-
-                // INVENTARIO
-                btnProductos.Visible =
-                    TienePermisoModulo(
-                        "PRODUCTOS",
-                        p => p.CanView);
-
-                btnInventario.Visible =
-                    TienePermisoModulo(
-                        "INVENTARIO",
-                        p => p.CanView);
-
-                // OPERACIONES
-                // Para operaciones que registran transacciones se exige
-                // consulta y creación.
-                btnVentas.Visible =
-                    TienePermisoModulo(
-                        "PUNTO_VENTA",
-                        p => p.CanView && p.CanCreate);
-
-                btnFacturacion.Visible =
-                    TienePermisoModulo(
-                        "FACTURACION",
-                        p => p.CanView && p.CanCreate);
-
-                btnCaja.Visible =
-                    TienePermisoModulo(
-                        "CAJA",
-                        p => p.CanView && p.CanCreate);
-
-                // El módulo de mesas requiere consulta para mostrarse.
-                // Los permisos de creación y edición se validan dentro
-                // de las operaciones del propio módulo.
-                btnMesas.Visible =
-                    TienePermisoModulo(
-                        "MESAS_RESERVAS",
-                        p => p.CanView);
-
-                // Cocina necesita consulta y capacidad para actualizar estados.
-                btnCocina.Visible =
-                    TienePermisoModulo(
-                        "COCINA_PEDIDOS",
-                        p => p.CanView && p.CanChangeStatus);
-
-                btnReportes.Visible =
-                    TienePermisoModulo(
-                        "REPORTES",
-                        p => p.CanView);
-
-                // Los encabezados solo aparecen cuando tienen
-                // al menos un módulo visible.
-
-                lblSeguridad.Visible =
-                    btnUsuarios.Visible ||
-                    btnBitacoras.Visible;
-
-                lblAdministracion.Visible =
-                    btnClientes.Visible ||
-                    btnPromociones.Visible ||
-                    btnFidelizacion.Visible;
-
-                lblGestion.Visible =
-                    btnProveedores.Visible ||
-                    btnCompras.Visible;
-
-                lblInventario.Visible =
-                    btnProductos.Visible ||
-                    btnInventario.Visible;
-
-                lblOperaciones.Visible =
-                    btnVentas.Visible ||
-                    btnFacturacion.Visible ||
-                    btnCaja.Visible ||
-                    btnMesas.Visible ||
-                    btnCocina.Visible ||
-                    btnReportes.Visible;
+                foreach (Button boton in botonesMenu)
+                {
+                    boton.Visible = TienePermisoParaBoton(boton);
+                }
             }
             finally
             {
-                pnlMenu.ResumeLayout(true);
+                pnlMenu.ResumeLayout(false);
             }
 
+            // Los encabezados y posiciones se calculan
+            // independientemente de la visibilidad efectiva.
             ReorganizarMenu();
         }
 
 
         /// <summary>
         /// Organiza dinámicamente los botones y encabezados del menú.
-        /// Los módulos ocultos no reservan espacio y las categorías
-        /// se muestran únicamente cuando contienen botones autorizados.
+        /// La distribución se determina directamente mediante los permisos,
+        /// sin depender de la propiedad Visible de los controles.
         /// </summary>
         private void ReorganizarMenu()
         {
@@ -297,7 +292,7 @@ namespace Ocean_Desk_dv.UI
 
             try
             {
-                // Volver al inicio para recalcular todas las posiciones.
+                // Restablecer la posición del desplazamiento.
                 pnlMenu.AutoScrollPosition = Point.Empty;
 
                 int x = pnlMenu.Padding.Left;
@@ -312,9 +307,10 @@ namespace Ocean_Desk_dv.UI
                 const int alturaBoton = 45;
                 const int espacioEntreCategorias = 5;
 
-                // Todos los controles dejan de depender del acoplamiento.
+                // Controles que participan en la distribución.
                 Control[] controlesMenu =
                 {
+                    // OPERACIONES
                     lblOperaciones,
                     btnReportes,
                     btnCaja,
@@ -323,87 +319,84 @@ namespace Ocean_Desk_dv.UI
                     btnMesas,
                     btnCocina,
 
+                    // INVENTARIO
                     lblInventario,
                     btnProductos,
                     btnInventario,
 
+                    // GESTIÓN
                     lblGestion,
                     btnCompras,
                     btnProveedores,
 
+                    // ADMINISTRACIÓN
                     lblAdministracion,
                     btnPromociones,
                     btnFidelizacion,
                     btnClientes,
 
+                    // SEGURIDAD
                     lblSeguridad,
                     btnBitacoras,
                     btnUsuarios
                 };
 
+                // Desactivar el acoplamiento automático.
                 foreach (Control control in controlesMenu)
                 {
                     control.Dock = DockStyle.None;
+
                     control.Anchor =
                         AnchorStyles.Top |
                         AnchorStyles.Left |
                         AnchorStyles.Right;
                 }
 
-                // Agrega una categoría y coloca debajo únicamente
-                // los botones que tienen permiso para mostrarse.
+                // Construye una categoría según los permisos del usuario.
                 void AgregarCategoria(
                     Label encabezado,
                     params Button[] botones)
                 {
-                    Button[] botonesVisibles = botones
-                        .Where(boton => boton.Visible)
+                    // IMPORTANTE:
+                    // No consultar boton.Visible.
+                    // La autorización se obtiene directamente desde SQL.
+                    Button[] botonesPermitidos = botones
+                        .Where(TienePermisoParaBoton)
                         .ToArray();
 
-                    encabezado.Visible = botonesVisibles.Length > 0;
+                    encabezado.Visible = botonesPermitidos.Length > 0;
 
-                    if (botonesVisibles.Length == 0)
+                    // No reservar espacio para categorías sin permisos.
+                    if (botonesPermitidos.Length == 0)
                         return;
 
-                    encabezado.SuspendLayout();
+                    // Configuración visual del encabezado.
+                    encabezado.Dock = DockStyle.None;
+                    encabezado.AutoSize = false;
 
-                    try
-                    {
-                        encabezado.Dock = DockStyle.None;
-                        encabezado.AutoSize = false;
+                    encabezado.Anchor =
+                        AnchorStyles.Top |
+                        AnchorStyles.Left |
+                        AnchorStyles.Right;
 
-                        encabezado.Anchor =
-                            AnchorStyles.Top |
-                            AnchorStyles.Left |
-                            AnchorStyles.Right;
+                    encabezado.ForeColor = Color.White;
+                    encabezado.BackColor = pnlSidebar.BackColor;
 
-                        // Reforzar la representación visual.
-                        encabezado.ForeColor = Color.White;
-                        encabezado.BackColor = pnlSidebar.BackColor;
-                        encabezado.TextAlign = ContentAlignment.MiddleCenter;
-                        encabezado.Padding = new Padding(0);
+                    encabezado.TextAlign = ContentAlignment.MiddleCenter;
+                    encabezado.Padding = Padding.Empty;
 
-                        // Posición y dimensiones.
-                        encabezado.Location = new Point(x, y);
+                    encabezado.Location = new Point(x, y);
 
-                        encabezado.Size = new Size(
-                            ancho,
-                            alturaEncabezado);
+                    encabezado.Size = new Size(
+                        ancho,
+                        alturaEncabezado);
 
-                        encabezado.Visible = true;
-
-                        // Garantizar que el encabezado quede
-                        // por delante de los demás controles.
-                        pnlMenu.Controls.SetChildIndex(encabezado, 0);
-                    }
-                    finally
-                    {
-                        encabezado.ResumeLayout(false);
-                    }
+                    encabezado.Visible = true;
 
                     y += alturaEncabezado;
 
-                    foreach (Button boton in botonesVisibles)
+                    // Posicionar exclusivamente los botones autorizados.
+                    foreach (Button boton in botonesPermitidos)
                     {
                         boton.Location = new Point(x, y);
 
@@ -414,6 +407,7 @@ namespace Ocean_Desk_dv.UI
                         y += alturaBoton;
                     }
 
+                    // Separación entre categorías.
                     y += espacioEntreCategorias;
                 }
 
@@ -449,28 +443,27 @@ namespace Ocean_Desk_dv.UI
                     btnBitacoras,
                     btnUsuarios);
 
-                // Definir la altura necesaria para el desplazamiento.
+                // Establecer el espacio necesario para el desplazamiento.
                 pnlMenu.AutoScrollMinSize = new Size(
                     0,
                     y + pnlMenu.Padding.Bottom);
 
                 pnlMenu.PerformLayout();
 
-                // Ajustar los anchos teniendo en cuenta el área útil
-                // después de que WinForms muestre la barra de desplazamiento.
+                // Actualizar el ancho de todos los controles,
+                // sin consultar su visibilidad efectiva.
                 int anchoFinal = Math.Max(
                     100,
                     pnlMenu.ClientSize.Width - pnlMenu.Padding.Horizontal);
 
                 foreach (Control control in controlesMenu)
                 {
-                    if (control.Visible)
-                        control.Width = anchoFinal;
+                    control.Width = anchoFinal;
                 }
 
-                // Mantener el indicador del módulo seleccionado.
+                // Mantener correctamente el indicador del botón seleccionado.
                 if (botonActivo != null &&
-                    botonActivo.Visible &&
+                    TienePermisoParaBoton(botonActivo) &&
                     indicadorActivo != null)
                 {
                     indicadorActivo.Height = botonActivo.Height;
