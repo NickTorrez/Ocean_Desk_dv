@@ -204,6 +204,7 @@
             lnkForgotPassword.TabIndex = 6;
             lnkForgotPassword.TabStop = true;
             lnkForgotPassword.Text = "¿Olvidaste tu contraseña?";
+            lnkForgotPassword.LinkClicked += lnkForgotPassword_LinkClicked;
             // 
             // lblUsername
             // 
