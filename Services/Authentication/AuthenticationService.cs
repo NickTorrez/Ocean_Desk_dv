@@ -3,6 +3,8 @@ using System.Linq;
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
 using Ocean_Desk_dv.Services.Interfaces_Services;
+using System.Diagnostics;
+using Ocean_Desk_dv.Services.Offline;
 
 namespace Ocean_Desk_dv.Services.Authentication;
 
@@ -16,24 +18,57 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
     private const int MinutosBloqueo = 15;
 
     private readonly IAuthenticationRepository _repository;
+    private readonly OfflineAuthenticationStore _offlineAuthenticationStore;
 
-    public AuthenticationService(IAuthenticationRepository repository)
+    public AuthenticationService(
+    IAuthenticationRepository repository,
+    OfflineAuthenticationStore? offlineAuthenticationStore = null)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _repository = repository ??
+            throw new ArgumentNullException(nameof(repository));
+
+        _offlineAuthenticationStore = offlineAuthenticationStore ??
+            new OfflineAuthenticationStore();
     }
 
-    public ResultadoAutenticacionDto Autenticar(string username, string password)
+    public ResultadoAutenticacionDto Autenticar(
+    string username,
+    string password)
     {
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrWhiteSpace(username) ||
+            string.IsNullOrEmpty(password))
         {
             return ResultadoAutenticacionDto.Fallido(
                 "Ingrese su nombre de usuario y contraseña.");
         }
 
-        User? user = _repository.ObtenerUsuarioPorNombre(username.Trim());
+        try
+        {
+            return AutenticarEnLinea(username, password);
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            Debug.WriteLine(
+                $"SQL Server no disponible. Intentando autenticación offline: {ex}");
 
-        // Mensaje genérico para no revelar si el usuario existe o está desactivado.
-        if (user is null || !user.IsActive || user.Role is null || !user.Role.IsActive)
+            return _offlineAuthenticationStore.AutenticarOffline(
+                username,
+                password);
+        }
+    }
+
+    private ResultadoAutenticacionDto AutenticarEnLinea(
+    string username,
+    string password)
+    {
+        User? user = _repository.ObtenerUsuarioPorNombre(
+            username.Trim());
+
+        if (user is null ||
+            !user.IsActive ||
+            user.Role is null ||
+            !user.Role.IsActive)
         {
             return ResultadoAutenticacionDto.Fallido(
                 "Usuario o contraseña incorrectos, o cuenta no disponible.");
@@ -41,7 +76,8 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
 
         DateTime ahoraUtc = DateTime.UtcNow;
 
-        if (user.LockoutEnd.HasValue && user.LockoutEnd.Value > ahoraUtc)
+        if (user.LockoutEnd.HasValue &&
+            user.LockoutEnd.Value > ahoraUtc)
         {
             return ResultadoAutenticacionDto.Bloqueado(
                 "La cuenta está bloqueada temporalmente. Intente nuevamente después de " +
@@ -51,21 +87,25 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
                 user.LockoutEnd.Value);
         }
 
-        // Si el periodo de bloqueo ya terminó, se reinicia el contador antes de validar.
-        if (user.LockoutEnd.HasValue && user.LockoutEnd.Value <= ahoraUtc)
+        if (user.LockoutEnd.HasValue &&
+            user.LockoutEnd.Value <= ahoraUtc)
         {
             user.FailedLoginAttempts = 0;
             user.LockoutEnd = null;
         }
 
-        if (!PasswordHasher.VerifyPassword(password, user.PasswordHash))
+        if (!PasswordHasher.VerifyPassword(
+            password,
+            user.PasswordHash))
         {
-            user.FailedLoginAttempts = Math.Max(0, user.FailedLoginAttempts) + 1;
+            user.FailedLoginAttempts =
+                Math.Max(0, user.FailedLoginAttempts) + 1;
 
             if (user.FailedLoginAttempts >= MaximoIntentosFallidos)
             {
                 user.LockoutEnd = ahoraUtc.AddMinutes(MinutosBloqueo);
                 user.UpdatedAt = ahoraUtc;
+
                 _repository.GuardarCambios();
 
                 return ResultadoAutenticacionDto.Bloqueado(
@@ -77,16 +117,18 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
             user.UpdatedAt = ahoraUtc;
             _repository.GuardarCambios();
 
-            int intentosRestantes = MaximoIntentosFallidos - user.FailedLoginAttempts;
+            int intentosRestantes =
+                MaximoIntentosFallidos - user.FailedLoginAttempts;
+
             return ResultadoAutenticacionDto.Fallido(
                 $"Usuario o contraseña incorrectos. Intentos restantes: {intentosRestantes}.");
         }
 
-        // Credenciales correctas: restablecer el contador y registrar el acceso.
         user.FailedLoginAttempts = 0;
         user.LockoutEnd = null;
         user.LastLoginAt = ahoraUtc;
         user.UpdatedAt = ahoraUtc;
+
         _repository.GuardarCambios();
 
         var permisos = user.Role.RoleModulePermissions
@@ -107,19 +149,42 @@ public sealed class AuthenticationService : IAuthenticationService, IDisposable
         {
             UserId = user.UserId,
             Username = user.Username,
-            NombreCompleto = $"{user.FirstName} {user.LastName}".Trim(),
+            NombreCompleto =
+                $"{user.FirstName} {user.LastName}".Trim(),
             RoleId = user.RoleId,
             RoleCode = user.Role.RoleCode,
             RoleName = user.Role.RoleName,
             MustChangePassword = user.MustChangePassword,
+            EsSesionOffline = false,
             Permisos = permisos
         };
+
+        // Solo se almacena una autorización offline cuando el usuario
+        // ya completó cualquier cambio obligatorio de contraseña.
+        if (!user.MustChangePassword)
+        {
+            try
+            {
+                _offlineAuthenticationStore.GuardarCredencialOffline(
+                    user,
+                    usuarioAutenticado);
+            }
+            catch (Exception cacheException)
+            {
+                // Un fallo al guardar la credencial local no debe
+                // impedir una autenticación online exitosa.
+                Debug.WriteLine(
+                    $"No fue posible almacenar la autorización offline: {cacheException}");
+            }
+        }
 
         string mensaje = user.MustChangePassword
             ? "Autenticación correcta. Debe cambiar su contraseña para continuar."
             : "Autenticación correcta.";
 
-        return ResultadoAutenticacionDto.Correcto(mensaje, usuarioAutenticado);
+        return ResultadoAutenticacionDto.Correcto(
+            mensaje,
+            usuarioAutenticado);
     }
 
     /// <summary>

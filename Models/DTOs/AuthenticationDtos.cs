@@ -30,6 +30,11 @@ public sealed class UsuarioAutenticadoDto
     public string RoleCode { get; init; } = string.Empty;
     public string RoleName { get; init; } = string.Empty;
     public bool MustChangePassword { get; init; }
+    /// <summary>
+    /// Indica que la sesión fue validada utilizando la autorización
+    /// local protegida y no mediante una consulta actual a SQL Server.
+    /// </summary>
+    public bool EsSesionOffline { get; init; }
     public IReadOnlyList<PermisoModuloAutenticacionDto> Permisos { get; init; }
         = Array.Empty<PermisoModuloAutenticacionDto>();
 }
