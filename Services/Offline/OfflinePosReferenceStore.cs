@@ -117,7 +117,7 @@ namespace Ocean_Desk_dv.Services.Offline
                 {
                     ServerTableId = mesa.TableId,
                     TableNumber = mesa.TableNumber,
-                    Capacity = mesa.Capacity,
+                    Capacity = checked((byte)mesa.Capacity),
                     Status = mesa.Status,
                     IsActive = mesa.IsActive,
                     CachedAtUtc = ahoraUtc
