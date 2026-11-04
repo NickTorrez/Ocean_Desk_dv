@@ -19,6 +19,27 @@ public sealed class OfflineCustomerStore
     }
 
     /// <summary>
+    /// Comprueba si existe un cliente activo con el teléfono indicado
+    /// dentro de la base de datos local.
+    /// </summary>
+    public bool ExisteTelefonoActivoLocal(string telefono)
+    {
+        if (string.IsNullOrWhiteSpace(telefono))
+            return false;
+
+        string telefonoNormalizado = telefono.Trim();
+
+        using var context =
+            OceanDeskLocalDbContextFactory.CreateContext();
+
+        return context.LocalCustomers
+            .AsNoTracking()
+            .Any(customer =>
+                customer.IsActive &&
+                customer.Phone == telefonoNormalizado);
+    }
+
+    /// <summary>
     /// Guarda un cliente local y devuelve un identificador temporal negativo.
     /// Los identificadores SQL Server son positivos; así evitamos colisiones.
     /// </summary>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
+using Ocean_Desk_dv.Services.Offline;
 using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Models.Entities;
 using Ocean_Desk_dv.Services.Interfaces_Services;
@@ -9,10 +10,17 @@ namespace Ocean_Desk_dv.Services.Repository;
 public sealed class PuntoVentaRepository : IPuntoVentaRepository
 {
     private readonly OceanDeskDbContext _context;
+    private readonly OfflineCustomerStore _offlineCustomerStore;
 
-    public PuntoVentaRepository(OceanDeskDbContext context)
+    public PuntoVentaRepository(
+    OceanDeskDbContext context,
+    OfflineCustomerStore? offlineCustomerStore = null)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _context = context ??
+            throw new ArgumentNullException(nameof(context));
+
+        _offlineCustomerStore = offlineCustomerStore ??
+            new OfflineCustomerStore();
     }
 
     public IReadOnlyList<ProductoVentaDto> ObtenerCatalogoDisponible()
@@ -35,11 +43,50 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
 
     public IReadOnlyList<ClienteVentaDto> ObtenerClientesActivos()
     {
-        var db = _context;
-        return db.Customers.AsNoTracking().Where(c => c.IsActive)
-            .OrderBy(c => c.FirstName).ThenBy(c => c.LastName)
-            .Select(c => new ClienteVentaDto { CustomerId = c.CustomerId, FirstName = c.FirstName, LastName = c.LastName, Phone = c.Phone })
-            .ToList();
+        try
+        {
+            var clientesServidor = _context.Customers
+                .AsNoTracking()
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.FirstName)
+                .ThenBy(c => c.LastName)
+                .Select(c => new ClienteVentaDto
+                {
+                    CustomerId = c.CustomerId,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone
+                })
+                .ToList();
+
+            try
+            {
+                // Actualizar la caché local con los clientes
+                // recuperados desde SQL Server.
+                _offlineCustomerStore.ActualizarCacheDesdeServidor(
+                    clientesServidor);
+
+                // Incluir también los clientes que todavía
+                // esperan sincronización.
+                return _offlineCustomerStore.ObtenerClientesLocales();
+            }
+            catch (Exception cacheException)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"No fue posible actualizar la caché local: {cacheException}");
+
+                // SQL Server sigue disponible.
+                // Se devuelven sus datos aunque falle la caché.
+                return clientesServidor;
+            }
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            // Si SQL Server no está disponible,
+            // consultar los clientes almacenados localmente.
+            return _offlineCustomerStore.ObtenerClientesLocales();
+        }
     }
 
     public IReadOnlyList<MesaDto> ObtenerMesasDisponibles()
@@ -76,28 +123,88 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
 
     public bool ExisteTelefonoClienteActivo(string telefono)
     {
-        var db = _context;
-        return db.Customers.Any(c => c.IsActive && c.Phone != null && c.Phone == telefono);
+        try
+        {
+            return _context.Customers.Any(c =>
+                c.IsActive &&
+                c.Phone != null &&
+                c.Phone == telefono);
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            // Si SQL Server falla, comprobar la caché local.
+            return _offlineCustomerStore.ExisteTelefonoActivoLocal(
+                telefono);
+        }
     }
 
-    public ResultadoOperacionDto RegistrarCliente(string nombre, string apellido, string telefono, out int clienteId)
+    public ResultadoOperacionDto RegistrarCliente(
+    string nombre,
+    string apellido,
+    string telefono,
+    out int clienteId)
     {
         clienteId = 0;
-        var db = _context;
-        if (db.Customers.Any(c => c.IsActive && c.Phone != null && c.Phone == telefono))
-            return ResultadoOperacionDto.Fallido("Ya existe un cliente activo registrado con ese teléfono.");
-        var cliente = new Customer
+
+        try
         {
-            FirstName = nombre.Trim(),
-            LastName = apellido.Trim(),
-            Phone = telefono.Trim(),
-            IsActive = true,
-            CreatedAt = DateTime.Now
-        };
-        db.Customers.Add(cliente);
-        db.SaveChanges();
-        clienteId = cliente.CustomerId;
-        return ResultadoOperacionDto.Correcto($"El cliente {cliente.FirstName} {cliente.LastName} fue registrado correctamente.");
+            // Comprobar duplicados en SQL Server.
+            bool existeCliente = _context.Customers.Any(c =>
+                c.IsActive &&
+                c.Phone != null &&
+                c.Phone == telefono);
+
+            if (existeCliente)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    "Ya existe un cliente activo registrado con ese teléfono.");
+            }
+
+            var cliente = new Customer
+            {
+                FirstName = nombre.Trim(),
+                LastName = apellido.Trim(),
+                Phone = telefono.Trim(),
+                IsActive = true,
+                CreatedAt = DateTime.Now
+            };
+
+            _context.Customers.Add(cliente);
+            _context.SaveChanges();
+
+            clienteId = cliente.CustomerId;
+
+            return ResultadoOperacionDto.Correcto(
+                $"El cliente {cliente.FirstName} {cliente.LastName} " +
+                "fue registrado correctamente.");
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            // Limpiar cualquier entidad que haya quedado
+            // pendiente de guardado en el contexto de SQL Server.
+            _context.ChangeTracker.Clear();
+
+            try
+            {
+                // Registrar el cliente en SQLite.
+                // El ID devuelto será negativo y temporal.
+                clienteId = _offlineCustomerStore.RegistrarClienteLocal(
+                    nombre,
+                    apellido,
+                    telefono);
+
+                return ResultadoOperacionDto.Correcto(
+                    $"El cliente {nombre} {apellido} fue guardado localmente. " +
+                    "Su información queda pendiente de sincronización con SQL Server.");
+            }
+            catch (InvalidOperationException localException)
+            {
+                return ResultadoOperacionDto.Fallido(
+                    localException.Message);
+            }
+        }
     }
 
     public bool TieneCajaAbierta(int usuarioId)
