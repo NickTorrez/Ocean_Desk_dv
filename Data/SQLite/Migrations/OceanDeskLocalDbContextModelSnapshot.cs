@@ -17,6 +17,142 @@ namespace Ocean_Desk_dv.Data.SQLite.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.30");
 
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalCashMovement", b =>
+                {
+                    b.Property<int>("LocalCashMovementId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Concept")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastSyncError")
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LocalCashRegisterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("MovementDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MovementType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ServerCashMovementId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SyncStatus")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SynchronizedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LocalCashMovementId");
+
+                    b.HasIndex("ServerCashMovementId")
+                        .IsUnique()
+                        .HasFilter("\"ServerCashMovementId\" IS NOT NULL");
+
+                    b.HasIndex("LocalCashRegisterId", "MovementDateTime");
+
+                    b.ToTable("LocalCashMovement", (string)null);
+                });
+
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalCashRegister", b =>
+                {
+                    b.Property<int>("LocalCashRegisterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("ActualCash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CachedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ClosingDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ClosingUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("Difference")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("ExpectedCash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastSyncError")
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("OpeningAmount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OpeningDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OpeningUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ServerCashRegisterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SyncStatus")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SynchronizedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LocalCashRegisterId");
+
+                    b.HasIndex("ServerCashRegisterId")
+                        .IsUnique()
+                        .HasFilter("\"ServerCashRegisterId\" IS NOT NULL");
+
+                    b.HasIndex("OpeningUserId", "Status", "CachedAtUtc");
+
+                    b.ToTable("LocalCashRegister", (string)null);
+                });
+
             modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalCustomer", b =>
                 {
                     b.Property<int>("LocalCustomerId")
@@ -200,6 +336,20 @@ namespace Ocean_Desk_dv.Data.SQLite.Migrations
                     b.HasIndex("Status", "NextAttemptAtUtc", "CreatedAtUtc");
 
                     b.ToTable("OfflineOperation", (string)null);
+                });
+
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalCashMovement", b =>
+                {
+                    b.HasOne("Ocean_Desk_dv.Data.SQLite.Entities.LocalCashRegister", null)
+                        .WithMany("Movements")
+                        .HasForeignKey("LocalCashRegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalCashRegister", b =>
+                {
+                    b.Navigation("Movements");
                 });
 #pragma warning restore 612, 618
         }

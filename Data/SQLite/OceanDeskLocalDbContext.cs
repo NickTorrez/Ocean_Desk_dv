@@ -28,6 +28,12 @@ public sealed class OceanDeskLocalDbContext : DbContext
     public DbSet<LocalRestaurantTable> LocalRestaurantTables =>
         Set<LocalRestaurantTable>();
 
+    public DbSet<LocalCashRegister> LocalCashRegisters =>
+    Set<LocalCashRegister>();
+
+    public DbSet<LocalCashMovement> LocalCashMovements =>
+        Set<LocalCashMovement>();
+
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder)
     {
@@ -147,5 +153,93 @@ public sealed class OceanDeskLocalDbContext : DbContext
             entity.HasIndex(e => e.TableNumber)
                 .IsUnique();
         });
+
+
+        modelBuilder.Entity<LocalCashRegister>(entity =>
+        {
+            entity.ToTable("LocalCashRegister");
+
+            entity.HasKey(e => e.LocalCashRegisterId);
+
+            entity.Property(e => e.LocalCashRegisterId)
+                .ValueGeneratedOnAdd();
+
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsRequired();
+
+            entity.Property(e => e.Origin)
+                .HasConversion<string>()
+                .HasMaxLength(24)
+                .IsRequired();
+
+            entity.Property(e => e.SyncStatus)
+                .HasConversion<string>()
+                .HasMaxLength(24)
+                .IsRequired();
+
+            entity.Property(e => e.LastSyncError)
+                .HasMaxLength(2000);
+
+            entity.HasIndex(e => e.ServerCashRegisterId)
+                .IsUnique()
+                .HasFilter("\"ServerCashRegisterId\" IS NOT NULL");
+
+            entity.HasIndex(e => new
+            {
+                e.OpeningUserId,
+                e.Status,
+                e.CachedAtUtc
+            });
+
+            entity.HasMany(e => e.Movements)
+                .WithOne()
+                .HasForeignKey(m => m.LocalCashRegisterId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<LocalCashMovement>(entity =>
+        {
+            entity.ToTable("LocalCashMovement");
+
+            entity.HasKey(e => e.LocalCashMovementId);
+
+            entity.Property(e => e.MovementType)
+                .HasMaxLength(20)
+                .IsRequired();
+
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(30)
+                .IsRequired();
+
+            entity.Property(e => e.Concept)
+                .HasMaxLength(250)
+                .IsRequired();
+
+            entity.Property(e => e.Reference)
+                .HasMaxLength(100);
+
+            entity.Property(e => e.Notes)
+                .HasMaxLength(500);
+
+            entity.Property(e => e.SyncStatus)
+                .HasConversion<string>()
+                .HasMaxLength(24)
+                .IsRequired();
+
+            entity.Property(e => e.LastSyncError)
+                .HasMaxLength(2000);
+
+            entity.HasIndex(e => e.ServerCashMovementId)
+                .IsUnique()
+                .HasFilter("\"ServerCashMovementId\" IS NOT NULL");
+
+            entity.HasIndex(e => new
+            {
+                e.LocalCashRegisterId,
+                e.MovementDateTime
+            });
+        });
+
     }
 }
