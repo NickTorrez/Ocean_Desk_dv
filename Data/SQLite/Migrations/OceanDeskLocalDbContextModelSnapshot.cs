@@ -74,6 +74,78 @@ namespace Ocean_Desk_dv.Data.SQLite.Migrations
                     b.ToTable("LocalCustomer", (string)null);
                 });
 
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalProduct", b =>
+                {
+                    b.Property<int>("ServerProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CachedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductCode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ServerProductId");
+
+                    b.HasIndex("ProductCode")
+                        .IsUnique();
+
+                    b.ToTable("LocalProduct", (string)null);
+                });
+
+            modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.LocalRestaurantTable", b =>
+                {
+                    b.Property<int>("ServerTableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CachedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte>("Capacity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TableNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ServerTableId");
+
+                    b.HasIndex("TableNumber")
+                        .IsUnique();
+
+                    b.ToTable("LocalRestaurantTable", (string)null);
+                });
+
             modelBuilder.Entity("Ocean_Desk_dv.Data.SQLite.Entities.OfflineOperation", b =>
                 {
                     b.Property<Guid>("OperationId")
