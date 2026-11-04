@@ -602,6 +602,11 @@ namespace Ocean_Desk_dv.UI
 
         private bool ValidarCajaParaSalir()
         {
+            // Una sesión offline no puede consultar el estado actual
+            // de la caja en SQL Server. Se permite cerrar la sesión.
+            if (_usuarioAutenticado.EsSesionOffline)
+                return true;
+
             if (!TieneCajaAbierta())
                 return true;
 
