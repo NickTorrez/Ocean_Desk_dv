@@ -717,20 +717,30 @@ namespace Ocean_Desk_dv.UI
         /// <param name="e"></param>
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
+            // Primero validar que la sesión pueda finalizar.
             if (!ValidarCajaParaSalir())
                 return;
 
-            // Detener las alertas antes de ocultar este menú.
+            // Detener las alertas antes de finalizar esta instancia.
             _tmrAlertasVencimiento.Stop();
 
-            // Libera la vista actual antes de regresar al inicio de sesión.
-            CerrarFormularioActivo();
+            // Limpiar las credenciales visuales del login.
+            login.LimpiarCampos();
 
-            login.LimpiarCampos(); // Llamar al método LimpiarCampos() del formulario de login para limpiar los campos de usuario y contraseña
+            // La validación ya fue superada.
+            // Evitar una segunda consulta a SQL Server durante FormClosing.
+            _permitirCerrarFormulario = true;
 
-            this.Hide();
+            // Cerrar y liberar definitivamente este menú.
+            // El evento FormClosing liberará también el formulario activo.
+            this.Close();
 
-            login.Show();
+            // Regresar al formulario de autenticación.
+            if (!login.IsDisposed)
+            {
+                login.Show();
+                login.Activate();
+            }
         }
 
         /// <summary>
