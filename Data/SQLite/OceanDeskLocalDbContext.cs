@@ -23,6 +23,11 @@ public sealed class OceanDeskLocalDbContext : DbContext
 
     public DbSet<OfflineOperation> OfflineOperations => Set<OfflineOperation>();
 
+    public DbSet<LocalProduct> LocalProducts => Set<LocalProduct>();
+
+    public DbSet<LocalRestaurantTable> LocalRestaurantTables =>
+        Set<LocalRestaurantTable>();
+
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder)
     {
@@ -105,6 +110,42 @@ public sealed class OceanDeskLocalDbContext : DbContext
                 e.EntityType,
                 e.LocalRecordId
             });
+        });
+
+        modelBuilder.Entity<LocalProduct>(entity =>
+        {
+            entity.ToTable("LocalProduct");
+
+            entity.HasKey(e => e.ServerProductId);
+
+            entity.Property(e => e.ProductCode)
+                .HasMaxLength(30)
+                .IsRequired();
+
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.HasIndex(e => e.ProductCode)
+                .IsUnique();
+        });
+
+        modelBuilder.Entity<LocalRestaurantTable>(entity =>
+        {
+            entity.ToTable("LocalRestaurantTable");
+
+            entity.HasKey(e => e.ServerTableId);
+
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsRequired();
+
+            entity.HasIndex(e => e.TableNumber)
+                .IsUnique();
         });
     }
 }
