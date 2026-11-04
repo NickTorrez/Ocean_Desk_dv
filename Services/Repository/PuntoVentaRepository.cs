@@ -11,34 +11,67 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
 {
     private readonly OceanDeskDbContext _context;
     private readonly OfflineCustomerStore _offlineCustomerStore;
+    private readonly OfflinePosReferenceStore _offlinePosReferenceStore;
 
     public PuntoVentaRepository(
     OceanDeskDbContext context,
-    OfflineCustomerStore? offlineCustomerStore = null)
+    OfflineCustomerStore? offlineCustomerStore = null,
+    OfflinePosReferenceStore? offlinePosReferenceStore = null)
     {
         _context = context ??
             throw new ArgumentNullException(nameof(context));
 
         _offlineCustomerStore = offlineCustomerStore ??
             new OfflineCustomerStore();
+
+        _offlinePosReferenceStore = offlinePosReferenceStore ??
+            new OfflinePosReferenceStore();
     }
 
     public IReadOnlyList<ProductoVentaDto> ObtenerCatalogoDisponible()
     {
-        var db = _context;
-        return db.Products.AsNoTracking().Include(p => p.ProductCategory)
-            .Where(p => p.IsActive && p.ProductType == "FinishedProduct")
-            .OrderBy(p => p.ProductCategory.CategoryName).ThenBy(p => p.ProductName)
-            .Select(p => new ProductoVentaDto
+        try
+        {
+            var productosServidor = _context.Products
+                .AsNoTracking()
+                .Include(p => p.ProductCategory)
+                .Where(p =>
+                    p.IsActive &&
+                    p.ProductType == "FinishedProduct")
+                .OrderBy(p => p.ProductCategory.CategoryName)
+                .ThenBy(p => p.ProductName)
+                .Select(p => new ProductoVentaDto
+                {
+                    ProductId = p.ProductId,
+                    ProductCode = p.ProductCode,
+                    ProductName = p.ProductName,
+                    UnitPrice = p.UnitPrice,
+                    IsAvailable = p.IsAvailable,
+                    IsActive = p.IsActive,
+                    CategoryName = p.ProductCategory.CategoryName
+                })
+                .ToList();
+
+            try
             {
-                ProductId = p.ProductId,
-                ProductCode = p.ProductCode,
-                ProductName = p.ProductName,
-                UnitPrice = p.UnitPrice,
-                IsAvailable = p.IsAvailable,
-                IsActive = p.IsActive,
-                CategoryName = p.ProductCategory.CategoryName
-            }).ToList();
+                _offlinePosReferenceStore.ActualizarCatalogoDesdeServidor(
+                    productosServidor);
+
+                return _offlinePosReferenceStore.ObtenerCatalogoLocal();
+            }
+            catch (Exception cacheException)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"No fue posible actualizar la caché de productos: {cacheException}");
+
+                return productosServidor;
+            }
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            return _offlinePosReferenceStore.ObtenerCatalogoLocal();
+        }
     }
 
     public IReadOnlyList<ClienteVentaDto> ObtenerClientesActivos()
@@ -91,11 +124,49 @@ public sealed class PuntoVentaRepository : IPuntoVentaRepository
 
     public IReadOnlyList<MesaDto> ObtenerMesasDisponibles()
     {
-        var db = _context;
-        return db.TableRestaurants.AsNoTracking().Where(t => t.IsActive && t.Status == "Available")
-            .OrderBy(t => t.TableNumber)
-            .Select(t => new MesaDto { TableId = t.TableId, TableNumber = t.TableNumber, Capacity = t.Capacity, Status = t.Status, IsActive = t.IsActive })
-            .ToList();
+        try
+        {
+            // Consultamos todas las mesas activas para conservar
+            // su estado, incluso si están ocupadas.
+            var mesasServidor = _context.TableRestaurants
+                .AsNoTracking()
+                .Where(t => t.IsActive)
+                .OrderBy(t => t.TableNumber)
+                .Select(t => new MesaDto
+                {
+                    TableId = t.TableId,
+                    TableNumber = t.TableNumber,
+                    Capacity = t.Capacity,
+                    Status = t.Status,
+                    IsActive = t.IsActive
+                })
+                .ToList();
+
+            try
+            {
+                _offlinePosReferenceStore.ActualizarMesasDesdeServidor(
+                    mesasServidor);
+
+                return _offlinePosReferenceStore
+                    .ObtenerMesasDisponiblesLocales();
+            }
+            catch (Exception cacheException)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"No fue posible actualizar la caché de mesas: {cacheException}");
+
+                // Si SQLite falla, conservamos el funcionamiento online.
+                return mesasServidor
+                    .Where(mesa => mesa.Status == "Available")
+                    .ToList();
+            }
+        }
+        catch (Exception ex) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(ex))
+        {
+            return _offlinePosReferenceStore
+                .ObtenerMesasDisponiblesLocales();
+        }
     }
 
     public ReservaOperacionDto? ObtenerReservaAtendidaCliente(int clienteId, DateOnly fecha)
