@@ -570,11 +570,10 @@ namespace Ocean_Desk_dv.UI
         {
             try
             {
-                using var context = new OceanDeskDbContext();
+                using var repositorio =
+                    OceanDeskRepositoryFactory.CrearCajaRepository();
 
-                return context.CashRegisters.Any(c =>
-                    c.OpeningUserId == _usuarioId &&
-                    c.Status == "Open");
+                return repositorio.TieneCajaAbiertaParaUsuario(_usuarioId);
             }
             catch (Exception ex)
             {

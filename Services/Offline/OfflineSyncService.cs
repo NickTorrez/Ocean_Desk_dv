@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.Data.SQLite;
 using Ocean_Desk_dv.Data.SQLite.Entities;
@@ -13,9 +13,9 @@ using Ocean_Desk_dv.Models.Entities;
 namespace Ocean_Desk_dv.Services.Offline;
 
 /// <summary>
-/// Procesa la cola local. En esta primera etapa solo sincroniza
-/// la creación de clientes. Las demás operaciones se agregan mediante
-/// handlers específicos para cada agregado de negocio.
+/// Procesa la cola local de Ocean Desk. En esta etapa sincroniza clientes,
+/// apertura de caja, movimientos manuales, ventas y cierre de caja.
+/// Las operaciones financieras se procesan mediante OfflineFinancialSyncProcessor.
 /// </summary>
 public sealed class OfflineSyncService : IOfflineSyncService
 {
@@ -24,6 +24,7 @@ public sealed class OfflineSyncService : IOfflineSyncService
         TimeSpan.FromMinutes(5);
 
     private readonly SemaphoreSlim _gate = new(1, 1);
+    private readonly OfflineFinancialSyncProcessor _financialProcessor = new();
     private bool _disposed;
 
     public async Task<OfflineSyncResult> SincronizarPendientesAsync(
@@ -47,12 +48,14 @@ public sealed class OfflineSyncService : IOfflineSyncService
         {
             LocalDatabaseInitializer.Initialize();
 
+            // Reconstruye operaciones de caja que ya estaban almacenadas
+            // antes de que existieran los handlers de sincronización.
+            _financialProcessor.PrepararOperacionesPendientes();
+
             await RecuperarOperacionesAbandonadasAsync(cancellationToken);
 
             List<Guid> operationIds;
-
-            using (var context =
-                   OceanDeskLocalDbContextFactory.CreateContext())
+            using (var context = OceanDeskLocalDbContextFactory.CreateContext())
             {
                 DateTime ahoraUtc = DateTime.UtcNow;
 
@@ -62,8 +65,14 @@ public sealed class OfflineSyncService : IOfflineSyncService
                         (operation.Status == OfflineOperationStatus.Pending ||
                          operation.Status == OfflineOperationStatus.Retry) &&
                         (!operation.NextAttemptAtUtc.HasValue ||
-                         operation.NextAttemptAtUtc <= ahoraUtc))
+                         operation.NextAttemptAtUtc <= ahoraUtc) &&
+                        ((operation.EntityType == "Customer" && operation.Action == "Create") ||
+                         (operation.EntityType == "CashRegister" &&
+                             (operation.Action == "Create" || operation.Action == "Close")) ||
+                         (operation.EntityType == "CashMovement" && operation.Action == "Create") ||
+                         (operation.EntityType == "Sale" && operation.Action == "Create")))
                     .OrderBy(operation => operation.CreatedAtUtc)
+                    .ThenBy(operation => operation.OperationId)
                     .Select(operation => operation.OperationId)
                     .Take(LoteMaximo)
                     .ToListAsync(cancellationToken);
@@ -73,21 +82,18 @@ public sealed class OfflineSyncService : IOfflineSyncService
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                ProcessResult result =
-                    await ProcesarOperacionAsync(
-                        operationId,
-                        cancellationToken);
+                ProcessResult result = await ProcesarOperacionAsync(
+                    operationId,
+                    cancellationToken);
 
                 switch (result)
                 {
                     case ProcessResult.Synchronized:
                         synchronized++;
                         break;
-
                     case ProcessResult.Conflict:
                         conflicts++;
                         break;
-
                     case ProcessResult.Failed:
                         failed++;
                         break;
@@ -95,9 +101,7 @@ public sealed class OfflineSyncService : IOfflineSyncService
             }
 
             int pending;
-
-            using (var context =
-                   OceanDeskLocalDbContextFactory.CreateContext())
+            using (var context = OceanDeskLocalDbContextFactory.CreateContext())
             {
                 pending = await context.OfflineOperations.CountAsync(
                     operation =>
@@ -127,90 +131,81 @@ public sealed class OfflineSyncService : IOfflineSyncService
         Guid operationId,
         CancellationToken cancellationToken)
     {
-        using var localContext =
-            OceanDeskLocalDbContextFactory.CreateContext();
-
+        using var localContext = OceanDeskLocalDbContextFactory.CreateContext();
         DateTime inicioIntentoUtc = DateTime.UtcNow;
 
-        // Reclamo atómico: dos instancias de Ocean Desk no deben procesar
-        // simultáneamente la misma operación local.
-        int operacionesReclamadas =
-            await localContext.OfflineOperations
-                .Where(item =>
-                    item.OperationId == operationId &&
-                    (item.Status == OfflineOperationStatus.Pending ||
-                     item.Status == OfflineOperationStatus.Retry))
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(
-                        item => item.Status,
-                        OfflineOperationStatus.Processing)
-                    .SetProperty(
-                        item => item.AttemptCount,
-                        item => item.AttemptCount + 1)
-                    .SetProperty(
-                        item => item.LastAttemptAtUtc,
-                        inicioIntentoUtc)
-                    .SetProperty(
-                        item => item.NextAttemptAtUtc,
-                        (DateTime?)null)
-                    .SetProperty(
-                        item => item.LastError,
-                        (string?)null),
-                    cancellationToken);
+        // Reclamo atómico: dos procesos de Ocean Desk no deben ejecutar
+        // simultáneamente la misma operación.
+        int operacionesReclamadas = await localContext.OfflineOperations
+            .Where(item =>
+                item.OperationId == operationId &&
+                (item.Status == OfflineOperationStatus.Pending ||
+                 item.Status == OfflineOperationStatus.Retry))
+            .ExecuteUpdateAsync(setters => setters
+                .SetProperty(item => item.Status, OfflineOperationStatus.Processing)
+                .SetProperty(item => item.AttemptCount, item => item.AttemptCount + 1)
+                .SetProperty(item => item.LastAttemptAtUtc, inicioIntentoUtc)
+                .SetProperty(item => item.NextAttemptAtUtc, (DateTime?)null)
+                .SetProperty(item => item.LastError, (string?)null),
+                cancellationToken);
 
         if (operacionesReclamadas == 0)
             return ProcessResult.Skipped;
 
-        OfflineOperation? operation =
-            await localContext.OfflineOperations
-                .SingleOrDefaultAsync(
-                    item => item.OperationId == operationId,
-                    cancellationToken);
+        OfflineOperation? operation = await localContext.OfflineOperations
+            .SingleOrDefaultAsync(item => item.OperationId == operationId, cancellationToken);
 
         if (operation is null)
             return ProcessResult.Failed;
 
         try
         {
-            if (!string.Equals(
-                    operation.EntityType,
-                    "Customer",
-                    StringComparison.OrdinalIgnoreCase) ||
-                !string.Equals(
-                    operation.Action,
-                    "Create",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                throw new NotSupportedException(
-                    $"La operación '{operation.EntityType}/{operation.Action}' " +
-                    "todavía no tiene un proceso de sincronización implementado.");
-            }
+            await using var localTransaction =
+                await localContext.Database.BeginTransactionAsync(cancellationToken);
 
-            int serverCustomerId =
-                await SincronizarClienteEnServidorAsync(
+            if (operation.EntityType == "Customer" && operation.Action == "Create")
+            {
+                int serverCustomerId = await SincronizarClienteEnServidorAsync(
                     operation,
                     cancellationToken);
 
-            await using var localTransaction =
-                await localContext.Database.BeginTransactionAsync(
-                    cancellationToken);
-
-            LocalCustomer? localCustomer =
-                await localContext.LocalCustomers.SingleOrDefaultAsync(
-                    customer =>
+                LocalCustomer? localCustomer = await localContext.LocalCustomers
+                    .SingleOrDefaultAsync(customer =>
                         customer.LocalCustomerId == operation.LocalRecordId,
-                    cancellationToken);
+                        cancellationToken);
 
-            if (localCustomer is null)
-            {
-                throw new InvalidOperationException(
-                    "La operación existe, pero no se encontró el cliente local asociado.");
+                if (localCustomer is null)
+                {
+                    throw new InvalidOperationException(
+                        "La operación existe, pero no se encontró el cliente local asociado.");
+                }
+
+                if (localCustomer.ServerCustomerId.HasValue &&
+                    localCustomer.ServerCustomerId.Value != serverCustomerId)
+                {
+                    throw new OfflineSyncConflictException(
+                        "El cliente local ya está vinculado a un identificador diferente de SQL Server.");
+                }
+
+                localCustomer.ServerCustomerId = serverCustomerId;
+                localCustomer.SyncStatus = LocalCustomerSyncStatus.Synchronized;
+                localCustomer.SynchronizedAtUtc = DateTime.UtcNow;
+                localCustomer.LastSyncError = null;
             }
-
-            localCustomer.ServerCustomerId = serverCustomerId;
-            localCustomer.SyncStatus = LocalCustomerSyncStatus.Synchronized;
-            localCustomer.SynchronizedAtUtc = DateTime.UtcNow;
-            localCustomer.LastSyncError = null;
+            else if (OfflineFinancialSyncProcessor.EsOperacionSoportada(operation))
+            {
+                await _financialProcessor.ProcesarAsync(
+                    localContext,
+                    operation,
+                    cancellationToken);
+            }
+            else
+            {
+                // Las operaciones que todavía no tienen handler se dejan
+                // fuera del lote; no se marcan como error permanente.
+                throw new NotSupportedException(
+                    $"La operación '{operation.EntityType}/{operation.Action}' no tiene handler implementado.");
+            }
 
             operation.Status = OfflineOperationStatus.Synchronized;
             operation.SynchronizedAtUtc = DateTime.UtcNow;
@@ -221,37 +216,31 @@ public sealed class OfflineSyncService : IOfflineSyncService
 
             return ProcessResult.Synchronized;
         }
-        catch (OfflineSyncConflictException ex)
+        catch (OfflineSyncConflictException exception)
         {
             await MarcarConflictoAsync(
-                localContext,
-                operation,
-                ex.Message,
-                cancellationToken);
-
+                localContext, operation, exception.Message, cancellationToken);
             return ProcessResult.Conflict;
         }
-        catch (Exception ex) when (
-            SqlServerConnectionFailureDetector.IsConnectionFailure(ex) ||
-            SqlServerConnectionFailureDetector.IsMissingReceiptTable(ex) ||
-            EsErrorSQLiteReintentable(ex))
+        catch (OfflineSyncDeferredException exception)
         {
             await ProgramarReintentoAsync(
-                localContext,
-                operation,
-                ex.Message,
-                cancellationToken);
-
+                localContext, operation, exception.Message, cancellationToken);
             return ProcessResult.Failed;
         }
-        catch (Exception ex)
+        catch (Exception exception) when (
+            SqlServerConnectionFailureDetector.IsConnectionFailure(exception) ||
+            SqlServerConnectionFailureDetector.IsMissingReceiptTable(exception) ||
+            EsErrorSQLiteReintentable(exception))
+        {
+            await ProgramarReintentoAsync(
+                localContext, operation, exception.Message, cancellationToken);
+            return ProcessResult.Failed;
+        }
+        catch (Exception exception)
         {
             await MarcarErrorPermanenteAsync(
-                localContext,
-                operation,
-                ex.Message,
-                cancellationToken);
-
+                localContext, operation, exception.Message, cancellationToken);
             return ProcessResult.Failed;
         }
     }
@@ -261,18 +250,16 @@ public sealed class OfflineSyncService : IOfflineSyncService
         CancellationToken cancellationToken)
     {
         OfflineCustomerStore.CustomerCreatePayload? payload;
-
         try
         {
             payload = JsonSerializer.Deserialize<
-                OfflineCustomerStore.CustomerCreatePayload>(
-                operation.PayloadJson);
+                OfflineCustomerStore.CustomerCreatePayload>(operation.PayloadJson);
         }
-        catch (JsonException ex)
+        catch (JsonException exception)
         {
             throw new InvalidOperationException(
                 "El contenido local de la operación no es un JSON válido.",
-                ex);
+                exception);
         }
 
         if (payload is null ||
@@ -285,63 +272,43 @@ public sealed class OfflineSyncService : IOfflineSyncService
         }
 
         string payloadHash = CalcularHash(operation.PayloadJson);
-
         using var serverContext = new OceanDeskDbContext();
+        await using var transaction = await serverContext.Database.BeginTransactionAsync(
+            IsolationLevel.Serializable, cancellationToken);
 
-        await using var transaction =
-            await serverContext.Database.BeginTransactionAsync(
-                IsolationLevel.Serializable,
+        OfflineSyncReceipt? receipt = await serverContext.OfflineSyncReceipts
+            .SingleOrDefaultAsync(item =>
+                item.OperationId == operation.OperationId,
                 cancellationToken);
-
-        OfflineSyncReceipt? receipt =
-            await serverContext.OfflineSyncReceipts
-                .SingleOrDefaultAsync(
-                    item => item.OperationId == operation.OperationId,
-                    cancellationToken);
 
         if (receipt is not null)
         {
-            if (!string.Equals(
-                    receipt.EntityType,
-                    "Customer",
-                    StringComparison.Ordinal) ||
-                !string.Equals(
-                    receipt.PayloadHash,
-                    payloadHash,
-                    StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(receipt.EntityType, "Customer", StringComparison.Ordinal) ||
+                !string.Equals(receipt.PayloadHash, payloadHash, StringComparison.OrdinalIgnoreCase))
             {
                 throw new OfflineSyncConflictException(
-                    "El identificador de operación ya existe en el servidor, " +
-                    "pero su contenido no coincide con el registro local.");
+                    "El identificador de operación ya existe en SQL Server, pero su contenido no coincide con el registro local.");
             }
 
-            if (!int.TryParse(
-                    receipt.ServerRecordId,
-                    NumberStyles.None,
-                    CultureInfo.InvariantCulture,
-                    out int idExistente) ||
-                idExistente <= 0)
+            if (!int.TryParse(receipt.ServerRecordId, NumberStyles.None,
+                    CultureInfo.InvariantCulture, out int existingId) || existingId <= 0)
             {
                 throw new InvalidOperationException(
                     "El comprobante de sincronización contiene un ID de cliente inválido.");
             }
 
             await transaction.CommitAsync(cancellationToken);
-            return idExistente;
+            return existingId;
         }
 
-        bool telefonoYaRegistrado =
-            await serverContext.Customers.AnyAsync(
-                customer =>
-                    customer.IsActive &&
-                    customer.Phone == payload.Phone,
-                cancellationToken);
+        bool phoneAlreadyRegistered = await serverContext.Customers.AnyAsync(
+            customer => customer.IsActive && customer.Phone == payload.Phone,
+            cancellationToken);
 
-        if (telefonoYaRegistrado)
+        if (phoneAlreadyRegistered)
         {
             throw new OfflineSyncConflictException(
-                "No se sincronizó el cliente porque ese teléfono ya existe " +
-                "en SQL Server. Revise el registro antes de continuar.");
+                "No se sincronizó el cliente porque ese teléfono ya existe en SQL Server. Revise el registro antes de continuar.");
         }
 
         var customer = new Customer
@@ -350,9 +317,7 @@ public sealed class OfflineSyncService : IOfflineSyncService
             LastName = payload.LastName.Trim(),
             Phone = payload.Phone.Trim(),
             IsActive = true,
-            CreatedAt = DateTime.SpecifyKind(
-                payload.CreatedAtUtc,
-                DateTimeKind.Utc).ToLocalTime()
+            CreatedAt = DateTime.SpecifyKind(payload.CreatedAtUtc, DateTimeKind.Utc).ToLocalTime()
         };
 
         serverContext.Customers.Add(customer);
@@ -362,15 +327,11 @@ public sealed class OfflineSyncService : IOfflineSyncService
         {
             OperationId = operation.OperationId,
             EntityType = "Customer",
-            ServerRecordId = customer.CustomerId.ToString(
-                CultureInfo.InvariantCulture),
+            ServerRecordId = customer.CustomerId.ToString(CultureInfo.InvariantCulture),
             PayloadHash = payloadHash,
             ProcessedAtUtc = DateTime.UtcNow
         });
 
-        // El cliente y su comprobante se confirman en la misma transacción.
-        // Si la aplicación se cierra después del COMMIT y antes de actualizar
-        // SQLite, el siguiente intento encontrará el comprobante y no duplicará.
         await serverContext.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
 
@@ -380,18 +341,15 @@ public sealed class OfflineSyncService : IOfflineSyncService
     private static async Task RecuperarOperacionesAbandonadasAsync(
         CancellationToken cancellationToken)
     {
-        using var context =
-            OceanDeskLocalDbContextFactory.CreateContext();
-
+        using var context = OceanDeskLocalDbContextFactory.CreateContext();
         DateTime limite = DateTime.UtcNow - TiempoMaximoEnProceso;
 
-        List<OfflineOperation> abandonadas =
-            await context.OfflineOperations
-                .Where(operation =>
-                    operation.Status == OfflineOperationStatus.Processing &&
-                    operation.LastAttemptAtUtc.HasValue &&
-                    operation.LastAttemptAtUtc < limite)
-                .ToListAsync(cancellationToken);
+        List<OfflineOperation> abandonadas = await context.OfflineOperations
+            .Where(operation =>
+                operation.Status == OfflineOperationStatus.Processing &&
+                operation.LastAttemptAtUtc.HasValue &&
+                operation.LastAttemptAtUtc < limite)
+            .ToListAsync(cancellationToken);
 
         foreach (OfflineOperation operation in abandonadas)
         {
@@ -414,15 +372,23 @@ public sealed class OfflineSyncService : IOfflineSyncService
         operation.Status = OfflineOperationStatus.Conflict;
         operation.LastError = LimitarError(error);
 
-        LocalCustomer? customer =
-            await context.LocalCustomers.SingleOrDefaultAsync(
-                item => item.LocalCustomerId == operation.LocalRecordId,
-                cancellationToken);
-
-        if (customer is not null)
+        if (operation.EntityType == "Customer")
         {
-            customer.SyncStatus = LocalCustomerSyncStatus.Conflict;
-            customer.LastSyncError = LimitarError(error);
+            LocalCustomer? customer = await context.LocalCustomers
+                .SingleOrDefaultAsync(item =>
+                    item.LocalCustomerId == operation.LocalRecordId,
+                    cancellationToken);
+
+            if (customer is not null)
+            {
+                customer.SyncStatus = LocalCustomerSyncStatus.Conflict;
+                customer.LastSyncError = LimitarError(error);
+            }
+        }
+        else
+        {
+            OfflineFinancialSyncProcessor.MarcarRegistroLocalConError(
+                context, operation, error, conflicto: true);
         }
 
         await context.SaveChangesAsync(cancellationToken);
@@ -434,12 +400,11 @@ public sealed class OfflineSyncService : IOfflineSyncService
         string error,
         CancellationToken cancellationToken)
     {
-        int exponente = Math.Min(operation.AttemptCount, 8);
-        double segundos = Math.Min(900, 5 * Math.Pow(2, exponente));
+        int exponent = Math.Min(operation.AttemptCount, 8);
+        double seconds = Math.Min(900, 5 * Math.Pow(2, exponent));
 
         operation.Status = OfflineOperationStatus.Retry;
-        operation.NextAttemptAtUtc =
-            DateTime.UtcNow.AddSeconds(segundos);
+        operation.NextAttemptAtUtc = DateTime.UtcNow.AddSeconds(seconds);
         operation.LastError = LimitarError(error);
 
         await context.SaveChangesAsync(cancellationToken);
@@ -454,25 +419,28 @@ public sealed class OfflineSyncService : IOfflineSyncService
         operation.Status = OfflineOperationStatus.PermanentError;
         operation.LastError = LimitarError(error);
 
-        LocalCustomer? customer =
-            await context.LocalCustomers.SingleOrDefaultAsync(
-                item => item.LocalCustomerId == operation.LocalRecordId,
-                cancellationToken);
-
-        if (customer is not null)
+        if (operation.EntityType == "Customer")
         {
-            customer.SyncStatus = LocalCustomerSyncStatus.PermanentError;
-            customer.LastSyncError = LimitarError(error);
+            LocalCustomer? customer = await context.LocalCustomers
+                .SingleOrDefaultAsync(item =>
+                    item.LocalCustomerId == operation.LocalRecordId,
+                    cancellationToken);
+
+            if (customer is not null)
+            {
+                customer.SyncStatus = LocalCustomerSyncStatus.PermanentError;
+                customer.LastSyncError = LimitarError(error);
+            }
+        }
+        else
+        {
+            OfflineFinancialSyncProcessor.MarcarRegistroLocalConError(
+                context, operation, error, conflicto: false);
         }
 
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    /// <summary>
-    /// Los bloqueos de SQLite y algunos errores temporales de E/S pueden
-    /// ocurrir mientras otra operación usa el archivo local. Se reintentan:
-    /// el comprobante remoto hace segura la repetición si SQL Server ya confirmó.
-    /// </summary>
     private static bool EsErrorSQLiteReintentable(Exception exception)
     {
         for (Exception? current = exception;
@@ -501,9 +469,7 @@ public sealed class OfflineSyncService : IOfflineSyncService
         if (string.IsNullOrWhiteSpace(error))
             return "Error sin descripción.";
 
-        return error.Length <= 2000
-            ? error
-            : error[..2000];
+        return error.Length <= 2000 ? error : error[..2000];
     }
 
     private void ThrowIfDisposed()
@@ -517,9 +483,8 @@ public sealed class OfflineSyncService : IOfflineSyncService
         if (_disposed)
             return;
 
-        // No se elimina el semáforo aquí: el formulario puede cerrarse
-        // mientras una sincronización asíncrona todavía lo está utilizando.
-        // El objeto será liberado por el GC cuando termine esa operación.
+        // No se elimina el semáforo: una sincronización asíncrona podría
+        // seguir utilizándolo mientras se cierra un formulario.
         _disposed = true;
         GC.SuppressFinalize(this);
     }

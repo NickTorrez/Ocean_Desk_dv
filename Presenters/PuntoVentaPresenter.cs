@@ -463,14 +463,19 @@ namespace Ocean_Desk_dv.Presenters
                 return;
             }
 
-            CultureInfo cultura =
-                CultureInfo.GetCultureInfo("es-NI");
+            CultureInfo cultura = CultureInfo.GetCultureInfo("es-NI");
+
+            bool ventaOffline = resultado.SaleId is < 0;
+
+            string mensajeEstado = ventaOffline
+                ? "La venta quedó guardada localmente y pendiente de sincronización. " +
+                  "La orden de cocina también se conservó en este dispositivo."
+                : "La venta fue registrada correctamente. La orden fue enviada a Cocina.";
 
             _view.MostrarMensaje(
-                "La venta fue registrada correctamente.\n\n" +
+                $"{mensajeEstado}\n\n" +
                 $"Total: C$ {resultado.Total.ToString("N2", cultura)}\n" +
-                $"Pago: {resultado.MetodoPago}\n" +
-                "La orden fue enviada a Cocina.",
+                $"Pago: {resultado.MetodoPago}",
                 resultado.Titulo);
 
             _view.LimpiarCarrito();
