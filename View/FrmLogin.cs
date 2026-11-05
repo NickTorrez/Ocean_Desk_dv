@@ -2,6 +2,7 @@ using Ocean_Desk_dv.Models.DTOs;
 using Ocean_Desk_dv.Services;
 using Ocean_Desk_dv.Services.Interfaces_Services;
 using Ocean_Desk_dv.UI;
+using Ocean_Desk_dv.Services.Offline;
 using Ocean_Desk_dv.UI.MessageBox;
 using Ocean_Desk_dv.View.MessageBox;
 using System;
@@ -23,6 +24,21 @@ namespace Ocean_Desk_dv
         private bool _procesandoLogin;
         private bool _cargandoPreferencias;
 
+        // Ejecuta la sincronización cada 60 segundos mientras
+        // el formulario de login permanece visible.
+        private readonly System.Windows.Forms.Timer _tmrSincronizacionOffline =
+            new() { Interval = 60 * 1000 };
+
+        // Servicio responsable de procesar las operaciones pendientes.
+        private readonly IOfflineSyncService _offlineSyncService =
+            new OfflineSyncService();
+
+        // Permite cancelar una sincronización al abandonar el login.
+        private CancellationTokenSource? _sincronizacionCancellation;
+
+        // Evita que dos sincronizaciones se ejecuten simultáneamente.
+        private bool _sincronizacionEnProceso;
+
         private const string CarpetaPreferencias = "OceanDesk";
         private const string ArchivoUsuarioRecordado = "remembered-user.txt";
 
@@ -43,9 +59,152 @@ namespace Ocean_Desk_dv
 
             chkRemember.CheckedChanged += chkRemember_CheckedChanged;
 
+            // Eventos del sincronizador offline.
+            _tmrSincronizacionOffline.Tick +=
+                TmrSincronizacionOffline_Tick;
+
+            Shown += FrmLogin_Shown;
+            VisibleChanged += FrmLogin_VisibleChanged;
+            FormClosed += FrmLogin_FormClosed;
+
             AcceptButton = btnLogin;
         }
 
+        /// <summary>
+        /// Inicia la sincronización al mostrar el login.
+        /// </summary>
+        private void FrmLogin_Shown(object? sender, EventArgs e)
+        {
+            IniciarSincronizacionOffline();
+        }
+
+        /// <summary>
+        /// Controla el ciclo de sincronización según la visibilidad
+        /// del formulario de login.
+        /// </summary>
+        private void FrmLogin_VisibleChanged(object? sender, EventArgs e)
+        {
+            if (Visible)
+                IniciarSincronizacionOffline();
+            else
+                DetenerSincronizacionOffline();
+        }
+
+        /// <summary>
+        /// Inicia el timer y realiza un intento inmediato.
+        /// </summary>
+        private void IniciarSincronizacionOffline()
+        {
+            if (!Visible ||
+                IsDisposed ||
+                _procesandoLogin ||
+                _tmrSincronizacionOffline.Enabled)
+            {
+                return;
+            }
+
+            _tmrSincronizacionOffline.Start();
+
+            _ = EjecutarSincronizacionOfflineAsync();
+        }
+
+        /// <summary>
+        /// Detiene el timer y cancela la operación en curso.
+        /// </summary>
+        private void DetenerSincronizacionOffline()
+        {
+            _tmrSincronizacionOffline.Stop();
+
+            _sincronizacionCancellation?.Cancel();
+        }
+
+        /// <summary>
+        /// Evento periódico del temporizador.
+        /// </summary>
+        private async void TmrSincronizacionOffline_Tick(
+            object? sender,
+            EventArgs e)
+        {
+            await EjecutarSincronizacionOfflineAsync();
+        }
+
+        /// <summary>
+        /// Ejecuta el servicio de sincronización de manera asíncrona.
+        /// </summary>
+        private async Task EjecutarSincronizacionOfflineAsync()
+        {
+            if (_sincronizacionEnProceso ||
+                !Visible ||
+                IsDisposed ||
+                _procesandoLogin)
+            {
+                return;
+            }
+
+            _sincronizacionEnProceso = true;
+
+            using var cancellation = new CancellationTokenSource();
+
+            _sincronizacionCancellation = cancellation;
+
+            try
+            {
+                OfflineSyncResult resultado =
+                    await _offlineSyncService.SincronizarPendientesAsync(
+                        cancellation.Token);
+
+                if (!resultado.AlreadyRunning &&
+                    (resultado.Synchronized > 0 ||
+                     resultado.Conflicts > 0 ||
+                     resultado.Failed > 0))
+                {
+                    Debug.WriteLine(
+                        "Ocean Desk - sincronización offline: " +
+                        $"Sincronizadas={resultado.Synchronized}, " +
+                        $"Conflictos={resultado.Conflicts}, " +
+                        $"Fallidas={resultado.Failed}, " +
+                        $"Pendientes={resultado.Pending}.");
+                }
+            }
+            catch (OperationCanceledException)
+                when (cancellation.IsCancellationRequested)
+            {
+                // El login se ocultó porque comenzó una sesión
+                // o se cerró la aplicación.
+            }
+            catch (Exception ex)
+            {
+                // Un fallo de sincronización nunca debe impedir
+                // el inicio de sesión.
+                Debug.WriteLine(
+                    $"Ocean Desk - error de sincronización offline: {ex}");
+            }
+            finally
+            {
+                if (ReferenceEquals(
+                    _sincronizacionCancellation,
+                    cancellation))
+                {
+                    _sincronizacionCancellation = null;
+                }
+
+                _sincronizacionEnProceso = false;
+            }
+        }
+
+        /// <summary>
+        /// Libera los recursos del sincronizador al cerrar el login.
+        /// </summary>
+        private void FrmLogin_FormClosed(
+            object? sender,
+            FormClosedEventArgs e)
+        {
+            DetenerSincronizacionOffline();
+
+            _offlineSyncService.Dispose();
+
+            _tmrSincronizacionOffline.Dispose();
+        }
         #endregion
 
         #region Botones y eventos

@@ -1,14 +1,15 @@
-using System.Data;
-using System.Globalization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Ocean_Desk_dv.Data;
 using Ocean_Desk_dv.Data.SQLite;
 using Ocean_Desk_dv.Data.SQLite.Entities;
 using Ocean_Desk_dv.Models.Entities;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 
 namespace Ocean_Desk_dv.Services.Offline;
 
@@ -54,6 +55,50 @@ public sealed class OfflineSyncService : IOfflineSyncService
 
             await RecuperarOperacionesAbandonadasAsync(cancellationToken);
 
+            // Comprobar una sola vez si SQL Server está disponible.
+            bool servidorDisponible;
+
+            try
+            {
+                using var serverProbe = new OceanDeskDbContext();
+
+                servidorDisponible =
+                    await serverProbe.Database.CanConnectAsync(
+                        cancellationToken);
+            }
+            catch (OperationCanceledException)
+                when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(
+                    $"Ocean Desk - SQL Server no disponible: {exception.Message}");
+
+                servidorDisponible = false;
+            }
+
+            if (!servidorDisponible)
+            {
+                using var localContext =
+                    OceanDeskLocalDbContextFactory.CreateContext();
+
+                int pendientes = await localContext.OfflineOperations.CountAsync(
+                    operation =>
+                        operation.Status == OfflineOperationStatus.Pending ||
+                        operation.Status == OfflineOperationStatus.Processing ||
+                        operation.Status == OfflineOperationStatus.Retry ||
+                        operation.Status == OfflineOperationStatus.Conflict ||
+                        operation.Status == OfflineOperationStatus.PermanentError,
+                    cancellationToken);
+
+                return new OfflineSyncResult
+                {
+                    Pending = pendientes
+                };
+            }
+
             List<Guid> operationIds;
             using (var context = OceanDeskLocalDbContextFactory.CreateContext())
             {
@@ -98,6 +143,11 @@ public sealed class OfflineSyncService : IOfflineSyncService
                         failed++;
                         break;
                 }
+
+                // Detener el lote si una operación falla o entra en conflicto.
+                // Las operaciones posteriores pueden depender de ella.
+                if (result is ProcessResult.Failed or ProcessResult.Conflict)
+                    break;
             }
 
             int pending;
@@ -216,16 +266,46 @@ public sealed class OfflineSyncService : IOfflineSyncService
 
             return ProcessResult.Synchronized;
         }
+        catch (OperationCanceledException)
+            when (cancellationToken.IsCancellationRequested)
+        {
+            // Limpiar el seguimiento local antes de recuperar
+            // la operación pendiente.
+            localContext.ChangeTracker.Clear();
+
+            OfflineOperation? operacionCancelada =
+                await localContext.OfflineOperations.SingleOrDefaultAsync(
+                    item => item.OperationId == operationId,
+                    CancellationToken.None);
+
+            if (operacionCancelada is not null)
+            {
+                operacionCancelada.Status =
+                    OfflineOperationStatus.Retry;
+
+                operacionCancelada.NextAttemptAtUtc =
+                    DateTime.UtcNow;
+
+                operacionCancelada.LastError =
+                    "La sincronización se interrumpió al cambiar de pantalla. " +
+                    "Se reintentará automáticamente.";
+
+                await localContext.SaveChangesAsync(
+                    CancellationToken.None);
+            }
+
+            return ProcessResult.Failed;
+        }
         catch (OfflineSyncConflictException exception)
         {
             await MarcarConflictoAsync(
-                localContext, operation, exception.Message, cancellationToken);
+                localContext, operation, exception.Message, CancellationToken.None);
             return ProcessResult.Conflict;
         }
         catch (OfflineSyncDeferredException exception)
         {
             await ProgramarReintentoAsync(
-                localContext, operation, exception.Message, cancellationToken);
+                localContext, operation, exception.Message, CancellationToken.None);
             return ProcessResult.Failed;
         }
         catch (Exception exception) when (
@@ -234,13 +314,13 @@ public sealed class OfflineSyncService : IOfflineSyncService
             EsErrorSQLiteReintentable(exception))
         {
             await ProgramarReintentoAsync(
-                localContext, operation, exception.Message, cancellationToken);
+                localContext, operation, exception.Message, CancellationToken.None);
             return ProcessResult.Failed;
         }
         catch (Exception exception)
         {
             await MarcarErrorPermanenteAsync(
-                localContext, operation, exception.Message, cancellationToken);
+                localContext, operation, exception.Message, CancellationToken.None);
             return ProcessResult.Failed;
         }
     }
