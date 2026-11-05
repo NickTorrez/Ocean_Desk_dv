@@ -224,8 +224,9 @@ public sealed class OfflineFinancialSyncProcessor
 
             if (existeCajaAbierta)
             {
-                throw new OfflineSyncConflictException(
-                    "No se puede sincronizar la apertura provisional porque SQL Server ya contiene otra caja abierta.");
+                throw new OfflineSyncDeferredException(
+                    "SQL Server tiene otra caja abierta. " +
+                    "La apertura local se reintentará cuando esté disponible.");
             }
 
             var cajaServidor = new CashRegister

@@ -27,7 +27,7 @@ namespace Ocean_Desk_dv
         // Ejecuta la sincronización cada 60 segundos mientras
         // el formulario de login permanece visible.
         private readonly System.Windows.Forms.Timer _tmrSincronizacionOffline =
-            new() { Interval = 60 * 1000 };
+            new() { Interval = 15 * 1000 };
 
         // Servicio responsable de procesar las operaciones pendientes.
         private readonly IOfflineSyncService _offlineSyncService =
@@ -86,8 +86,6 @@ namespace Ocean_Desk_dv
         {
             if (Visible)
                 IniciarSincronizacionOffline();
-            else
-                DetenerSincronizacionOffline();
         }
 
         /// <summary>
@@ -134,7 +132,6 @@ namespace Ocean_Desk_dv
         private async Task EjecutarSincronizacionOfflineAsync()
         {
             if (_sincronizacionEnProceso ||
-                !Visible ||
                 IsDisposed ||
                 _procesandoLogin)
             {
